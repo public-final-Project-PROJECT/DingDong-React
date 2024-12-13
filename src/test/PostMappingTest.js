@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { fetchFromAPI } from "./utils/api";
+import { fetchFromAPI } from "../utils/api";
 
-const FetchTest = () => 
+const PostMappingTest = () => 
 {
     const [test, setTest] = useState("");
     const [responseData, setResponseData] = useState(null);
@@ -31,7 +31,7 @@ const FetchTest = () =>
         <div>
             <h1>API Test</h1>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="testInput">Test Input:</label>
+                <label htmlFor="testInput">Test Input: </label>
                 <input
                     id="testInput"
                     type="text"
@@ -58,4 +58,4 @@ const FetchTest = () =>
     );
 };
 
-export default FetchTest;
+export default PostMappingTest;

@@ -1,13 +1,14 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import FetchTest from "./FetchTest";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import TestMain from "./test/TestMain";
+import PostMappingTest from "./test/PostMappingTest";
 
 function App() 
 {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Navigate to="/test" />} />
-                <Route path="test" element={<FetchTest />} />
+                <Route path="/" element={<TestMain />} />
+                <Route path="/postmappingtest" element={<PostMappingTest />} />
             </Routes>
         </BrowserRouter>
     );
