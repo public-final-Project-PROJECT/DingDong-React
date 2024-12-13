@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { fetchFromAPI } from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 const PostMappingTest = () => 
 {
     const [test, setTest] = useState("");
     const [responseData, setResponseData] = useState(null);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => 
     {
@@ -29,7 +31,7 @@ const PostMappingTest = () =>
 
     return (
         <div>
-            <h1>API Test</h1>
+            <h1>PostMappingTest</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="testInput">Test Input: </label>
                 <input
@@ -54,6 +56,7 @@ const PostMappingTest = () =>
                     <pre>{JSON.stringify(responseData, null, 2)}</pre>
                 </div>
             )}
+            <button onClick={() => navigate("/")}>Main</button>
         </div>
     );
 };
