@@ -6,7 +6,7 @@ const GoogleLoginTest = () => {
   const [user, setUser] = useState(null);
 
   const handleLogin = () => {
-    window.open(BASE_URL + "/oauth2/authorization/google", "Google Login", "width=500, height=600, scrollbars=yes, resizable=yes");
+    window.open(BASE_URL + "login/oauth2/authorization/google", "Google Login", "width=500, height=600, scrollbars=yes, resizable=yes");
   };
 
   useEffect(() => {
