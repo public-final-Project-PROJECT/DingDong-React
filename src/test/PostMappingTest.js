@@ -18,7 +18,7 @@ const PostMappingTest = () =>
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json", },
-                body: JSON.stringify({ input: test }), 
+                body: JSON.stringify({ input: test }),
             });
             setResponseData(response); 
             console.log("Response:", response);
