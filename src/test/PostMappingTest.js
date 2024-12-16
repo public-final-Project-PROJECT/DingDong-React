@@ -1,30 +1,29 @@
 import { useState } from "react";
-import { fetchFromAPI } from "../utils/api";
+import { fetchFromAPI } from "../utils/api"; // Ensure this path matches your project structure
 import { useNavigate } from "react-router-dom";
 
-const PostMappingTest = () => 
-{
-    const [test, setTest] = useState("");
-    const [responseData, setResponseData] = useState(null);
-    const [error, setError] = useState(null);
+const PostMappingTest = () => {
+    const [test, setTest] = useState(""); // Input value state
+    const [responseData, setResponseData] = useState(null); // API response data state
+    const [error, setError] = useState(null); // Error state
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => 
-    {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetchFromAPI("/api/test", 
-            {
+            // Send POST request using fetchFromAPI
+            const response = await fetchFromAPI("/api/test", {
                 method: "POST",
-                headers: { "Content-Type": "application/json", },
-                body: JSON.stringify({ input: test }),
+                headers: { "Content-Type": "application/json" },
+                body: { input: test }, // Axios handles object-to-JSON conversion automatically
             });
-            setResponseData(response); 
+
+            setResponseData(response); // Save response to state
             console.log("Response:", response);
-            setError(null); 
+            setError(null); // Clear any existing errors
         } catch (err) {
-            setError(err.message); 
+            setError(err.message); // Handle errors
             console.error("Error fetching data:", err);
         }
     };
@@ -38,11 +37,12 @@ const PostMappingTest = () =>
                     id="testInput"
                     type="text"
                     value={test}
-                    onChange={(e) => setTest(e.target.value)}
+                    onChange={(e) => setTest(e.target.value)} // Update state with input value
                 />
                 <button type="submit">Submit</button>
             </form>
 
+            {/* Display error messages */}
             {error && (
                 <div style={{ color: "red" }}>
                     <h2>Error:</h2>
@@ -50,12 +50,15 @@ const PostMappingTest = () =>
                 </div>
             )}
 
+            {/* Display response data */}
             {responseData && (
                 <div>
                     <h2>Response Data:</h2>
                     <pre>{JSON.stringify(responseData, null, 2)}</pre>
                 </div>
             )}
+
+            {/* Navigate back to main page */}
             <button onClick={() => navigate("/")}>Main</button>
         </div>
     );
