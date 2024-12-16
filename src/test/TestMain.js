@@ -13,12 +13,18 @@ const TestMain = () =>
     {
         navigate("/oauth2/authorization/google");
     }
+    const nav3 = () => {
+        navigate("/MainPage");
+    }
+
 
     return (
         <>
             <button onClick={nav}>PostMappingTest</button>
             <br/>
             <button onClick={nav2}>GoogleLoginTest</button>
+            <br/>
+            <button onClick={nav3}>mainpage</button>
 
         </>
     )
