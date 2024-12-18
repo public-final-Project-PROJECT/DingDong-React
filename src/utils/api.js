@@ -1,33 +1,36 @@
-import axios from "axios";
+export const BASE_URL = "http://localhost:3013";
 
-export const BASE_URL = "https://localhost:3013";
-
-export const fetchFromAPI = async (endpoint, options = {}) => {
+export const fetchFromAPI = async (endpoint, options = {}) => 
+{
     const controller = new AbortController();
     const { signal } = controller;
-
-    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5-second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 5000); 
 
     try {
-        const response = await axios({
-            url: `${BASE_URL}${endpoint}`,
-            method: options.method || "GET", // Default to GET method
-            data: options.body || {}, // Request body for POST, PUT, etc.
-            headers: options.headers || {}, // Request headers
-            signal: signal, // Attach signal for aborting requests
-        });
-
-        return response.data; // Axios automatically parses JSON responses
-    } catch (error) {
-        if (axios.isCancel(error)) {
-            throw new Error("Request timed out");
-        } else if (error.response) {
-            const errorMessage = `API Error: ${error.response.status} ${error.response.statusText}`;
+        const res = await fetch(`${BASE_URL}${endpoint}`, { ...options, signal });
+        
+        if (!res.ok) 
+        {
+            const errorMessage = `API Error: ${res.status} ${res.statusText}`;
             throw new Error(errorMessage);
-        } else {
-            throw error;
         }
+
+        const contentType = res.headers.get("Content-Type");
+        if (contentType && contentType.includes("application/json")) 
+        {
+            return await res.json();
+        } 
+        else 
+        {
+            return await res.text();
+        }
+    } catch (error) {
+        if (error.name === "AbortError") 
+        {
+            throw new Error("Request timed out");
+        }
+        throw error;
     } finally {
-        clearTimeout(timeoutId); // Clear the timeout
+        clearTimeout(timeoutId); 
     }
 };
