@@ -131,7 +131,7 @@ const QRCodeGenerator = ({ creatorInfo }) =>
             ))}
             <button onClick={addStudent}>학생 추가</button>
             <button onClick={handleGenerate}>코드 생성</button>
-            <button onClick={handlePrint}>코드 인쇄</button>
+            <button onClick={handlePrint} disabled={students.every((student) => !student.qrCode)}>코드 인쇄</button>
 
             <div
                 ref={contentRef} // 프린트하고 싶은 div에 추가 
