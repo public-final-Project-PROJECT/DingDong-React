@@ -45,7 +45,7 @@ const QRCodeGenerator = ({ creatorInfo }) =>
             const dataToEncrypt = 
             {
                 student: { student_num: student.num, student_name: student.name },
-                creator: creatorInfo,
+                // creator: creatorInfo,
                 school: schoolData,
                 year: today.getFullYear(),
             };
