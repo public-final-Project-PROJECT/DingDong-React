@@ -43,7 +43,8 @@
 
 
 import React, { useState, useEffect } from "react";
-import '../asset/css/Timer.css';
+import SmallTimer from "./SmallTimer"; // 작은 타이머 컴포넌트
+import "../asset/css/Timer.css";
 
 const Timer = () => {
     const [time, setTime] = useState(2400);
@@ -85,13 +86,13 @@ const Timer = () => {
         setIsRunning(true);
     };
 
-    // const handleSetTime = () => {
-    //     const newTime = inputTime * 60;
-    //     setTime(newTime);
-    //     localStorage.setItem("countdown-time", newTime);
-    //     setIsRunning(false);
-    //     setIsComplete(false);
-    // };
+    const handleSetTime = () => {
+        const newTime = inputTime * 60;
+        setTime(newTime);
+        localStorage.setItem("countdown-time", newTime);
+        setIsRunning(false);
+        setIsComplete(false);
+    };
 
     const handleReset = () => {
         setInputTime(1);
@@ -99,20 +100,12 @@ const Timer = () => {
         setIsComplete(false);
     };
 
-    const formatTime = (time) => {
-        const minutes = String(Math.floor(time / 60)).padStart(2, "0");
-        const seconds = String(time % 60).padStart(2, "0");
-        return `${minutes}:${seconds}`;
-    };
-
     return (
         <>
-            <div
-                className={`small-timer ${time === 0 ? "complete" : ""}`}
-            >
-                <span>{formatTime(time)}</span>
-            </div>
+            {/* 오른쪽 상단 고정된 타이머 */}
+            <SmallTimer time={time} isComplete={time === 0} />
 
+            {/* 메인 타이머 UI */}
             <div className="center-container">
                 {isComplete ? (
                     <>
@@ -123,7 +116,9 @@ const Timer = () => {
                     <>
                         <h1>Timer</h1>
                         <h2 style={{ color: time === 0 ? "red" : "#000" }}>
-                            {formatTime(time)}
+                            {`${String(Math.floor(time / 60)).padStart(2, "0")}:${String(
+                                time % 60
+                            ).padStart(2, "0")}`}
                         </h2>
                         <div className="input-container">
                             <input
@@ -134,9 +129,9 @@ const Timer = () => {
                                 className="input"
                             />
                             <span>분</span>
-                            {/* <button onClick={handleSetTime} style={{ marginLeft: "10px" }}>
+                            <button onClick={handleSetTime} style={{ marginLeft: "10px" }}>
                                 준비
-                            </button> */}
+                            </button>
                         </div>
                         <button onClick={handleStart} disabled={isRunning || time === 0}>
                             시작
