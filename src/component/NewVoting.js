@@ -5,8 +5,6 @@ import {faXmark,faClockRotateLeft,faCalendar,faUser,faLock, faCheckDouble} from 
 import axios from "axios";
 
 
-
-
 const Voting = ({newVotingModal,setNewVotingModal}) => {
 
   const [dateShow, setDateShow] = useState(false); // 날짜 입력 창 show
@@ -21,6 +19,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
   const [inputItems, setInputItems] = useState([{ id: 0, voteOption: "" }]); // 투표 항목
   const [classId, setClassId] = useState();  // 학급 id
   let arr = [];
+
 
   // 투표 항목 추가
   const addInput = () => {
@@ -82,7 +81,6 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
    
     try {
       await send(); // API 호출
-      // updateVotingList(); // 부모 컴포넌트의 상태 업데이트
       resetModalState(); // 상태 초기화
       // setModalShow(false); // 모달 닫기
       alert("투표가 생성되었습니다!");
