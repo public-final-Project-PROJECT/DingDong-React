@@ -31,7 +31,7 @@
 
 import React, { useState, useEffect } from "react";
 
-const CountdownTimer = () => {
+const Timer = () => {
     const [time, setTime] = useState(2400); // 타이머 시간 (초 단위)
     const [isRunning, setIsRunning] = useState(false); // 타이머 상태 (시작/중지)
     const [inputTime, setInputTime] = useState(40); // 입력 시간 (분 단위)
@@ -178,4 +178,5 @@ const styles = {
     },
 };
 
-export default CountdownTimer;
+
+export default Timer;

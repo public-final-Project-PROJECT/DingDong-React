@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import TestMain from "./test/TestMain";
 import PostMappingTest from "./test/PostMappingTest";
-import GoogleLoginTest from "./test/GoogleLoginTest";
 import Layout from "./layout/Layout";
 import Main from "./page/Main";
 import Notice from "./page/Notice";
@@ -13,15 +12,13 @@ import Seat from "./page/Seat.js";
 import RandomPicker from "./page/RandomPicker.js";
 import Voting from "./page/Voting.js";
 
-{/* */}
 function App() 
 {
     return (
         <BrowserRouter>
             <Routes>
                 {/* <Route path="/" element={<Main />} /> */}
-                {/* <Route path="/postmappingtest" element={<PostMappingTest />} />
-                <Route path="/oauth2/authorization/google" element={<GoogleLoginTest />} /> */}
+                {/* <Route path="/postmappingtest" element={<PostMappingTest />} /> */}
 
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
