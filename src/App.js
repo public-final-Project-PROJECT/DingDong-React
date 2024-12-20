@@ -28,12 +28,7 @@ function App()
                 
          
 
-                {/* <Route path="/" element={<Main />} /> */}
-
-                <Route path="/postmappingtest" element={<PostMappingTest />} />
-                
-
-                {/* <Route path="/postmappingtest" element={<PostMappingTest />} /> */}
+              
 
 
                 <Route path="/" element={<Layout/>}>

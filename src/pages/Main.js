@@ -1,5 +1,7 @@
 import Neis from "@my-school.info/neis-api";
 import React, { useState, useEffect } from 'react';
+import Calendar from "./Calendar";
+import "../asset/css/Calendar.css";
 
 const Main = () => {
   const [responseData, setResponseData] = useState(null);
@@ -9,7 +11,9 @@ const Main = () => {
 
   const API_KEY = process.env.REACT_APP_FETCH_NEIS_KEY;
   
+
   useEffect(() => {
+   
     const neis = new Neis({ 
       KEY: API_KEY, 
       Type: "json" 
@@ -36,6 +40,7 @@ const Main = () => {
 
   return (
     <>
+      <Calendar/>
       <form onSubmit={(e) => e.preventDefault()}> {/* 버튼 클릭 시 페이지 리로드 방지 */}
         <label htmlFor="testInput">Test Input:</label>
         <button type="submit">Submit</button>
