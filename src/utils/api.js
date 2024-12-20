@@ -4,11 +4,11 @@ export const fetchFromAPI = async (endpoint, options = {}) =>
 {
     const controller = new AbortController();
     const { signal } = controller;
-    const timeoutId = setTimeout(() => controller.abort(), 5000); 
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     try {
         const res = await fetch(`${BASE_URL}${endpoint}`, { ...options, signal });
-        
+
         if (!res.ok) 
         {
             const errorMessage = `API Error: ${res.status} ${res.statusText}`;
@@ -25,12 +25,12 @@ export const fetchFromAPI = async (endpoint, options = {}) =>
             return await res.text();
         }
     } catch (error) {
-        if (error.name === "AbortError") 
+        if (error.name === "AbortError")
         {
             throw new Error("Request timed out");
         }
         throw error;
     } finally {
-        clearTimeout(timeoutId); 
+        clearTimeout(timeoutId);
     }
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactModal from "react-modal";
-import '../assest/css/Seat.css'; 
+import '../asset/css/Seat.css'; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
 
