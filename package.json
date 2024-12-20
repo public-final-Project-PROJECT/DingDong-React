@@ -16,6 +16,8 @@
     "cra-template": "1.2.0",
     "crypto-js": "^4.2.0",
     "http-proxy-middleware": "^3.0.3",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "modal": "^0.2.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",

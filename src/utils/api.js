@@ -11,7 +11,7 @@ export const fetchFromAPI = async (endpoint, options = {}) =>
 
         if (!res.ok) 
         {
-            const errorMessage = `API Error: ${res.status} ${res.statusText}`;
+            const errorMessage = await getErrorMessage(res);
             throw new Error(errorMessage);
         }
 
@@ -25,7 +25,7 @@ export const fetchFromAPI = async (endpoint, options = {}) =>
             return await res.text();
         }
     } catch (error) {
-        if (error.name === "AbortError")
+        if (error.name === "AbortError") 
         {
             throw new Error("Request timed out");
         }
@@ -33,4 +33,16 @@ export const fetchFromAPI = async (endpoint, options = {}) =>
     } finally {
         clearTimeout(timeoutId);
     }
+};
+
+const getErrorMessage = async (res) => 
+{
+    const contentType = res.headers.get("Content-Type");
+    if (contentType && contentType.includes("application/json")) 
+    {
+        const errorData = await res.json();
+        return `API Error: ${res.status} ${res.statusText} - ${errorData.message || "Unknown error"}`;
+    }
+
+    return `API Error: ${res.status} ${res.statusText}`;
 };
