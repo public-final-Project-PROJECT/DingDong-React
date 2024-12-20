@@ -1,7 +1,19 @@
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 
 const Calendar = () => {
+   
+
     return (
-        <p>캘린더 페이지</p>
-    )
+
+
+        <FullCalendar 
+          plugins={[ dayGridPlugin ]}
+          initialView="dayGridMonth"
+        />
+      )
+
 }
 export default Calendar;
+
+

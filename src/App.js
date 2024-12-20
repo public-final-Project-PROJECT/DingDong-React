@@ -30,8 +30,8 @@ function App()
          
 
                 {/* <Route path="/" element={<Main />} /> */}
-                {/* <Route path="/postmappingtest" element={<PostMappingTest />} />
-                <Route path="/oauth2/authorization/google" element={<GoogleLoginTest />} /> */}
+                <Route path="/postmappingtest" element={<PostMappingTest />} />
+                <Route path="/oauth2/authorization/google" element={<GoogleLoginTest />} /> 
 
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
