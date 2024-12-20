@@ -1,0 +1,37 @@
+/* Timer.css */
+
+
+/* 오른쪽 상단 타이머 */
+.small-timer {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    padding: 10px 25px; /* 크기 증가 */
+    border-radius: 10px;
+    font-size: 40px; /* 크기 증가 */
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+    background-color: #000; /* 기본 배경색 */
+}
+
+.small-timer.complete {
+    background-color: red; /* 타이머 완료 배경색 */
+}
+
+/* 중앙 컨테이너 */
+.center-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* 입력 컨테이너 */
+.input-container {
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 */
+.input {
+    width: 50px;
+    text-align: center;
+}
