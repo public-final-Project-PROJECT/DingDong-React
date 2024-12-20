@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:3013";
+export const BASE_URL = process.env.REACT_APP_FETCH_SERVER_URL;
 
 export const fetchFromAPI = async (endpoint, options = {}) => 
 {
