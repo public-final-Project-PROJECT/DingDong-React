@@ -52,7 +52,7 @@ const TopHeader = () => {
         <button className="Notice" onClick={onClickHandler}>공지사항</button>
         <button className="Attendance" onClick={onClickHandler}>출석부</button>
         <button className="Students" onClick={onClickHandler}>학생정보</button>
-        <button className="Calendar " onClick={onClickHandler}>캘린더</button>
+        <button className="Calendar" onClick={onClickHandler}>캘린더</button>
         <button  onClick={toggleFunctions}>편의기능</button>
       </div>
 
