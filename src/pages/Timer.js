@@ -27,7 +27,7 @@
  *  - 확인 버튼 클릭 시 타이머 초기화된 후 설정화면으로 돌아감 [구현]
  *
  *  am 06:33
- *  - 타이머 크기 증가
+ *  - 타이머 크기 증가 [구현]
  *
  *
  * am 10:07
@@ -38,37 +38,42 @@
  *  - 편의기능 안에서의 이동, 새로고침은 가능하나 헤더의 다른 페이지 클릭 시 고정 타이머가 사라짐
  *  - 타이머 페이지에서 계속 작동함
  *  (동작: 사람이나 생명체의 움직임 , 작동: 기계류의 움직임)
+ *
+ *
+ * 12월 22일 pm 07:11
+ *  - 메인 타이머 UI 에 원형 프로그레스(?) 추가 [구현]
+ *  - 시간 감소 시각화 [구현]
+ *  - 진행 상태 업데이트 [구현]
+ *  - 부드럽게 동글한 애니메이션 효과 추가 [구현]
+ *
+ * pm 07:32
+ * [문제]: 1) 메인 타이머가 왼쪽으로 치우치는 현상 발생
+ *
+ * pm 08:43
+ *  - 메인 타이머 중앙으로 배치 [구현]
+ *  - 사용자가 시간을 설정 시 원형 테두리가 타이머가 감소할 때마다 조정되며, 이 값이 줄어들수록 원형 테두리도 줄어듬 [구현]
+ *  -
  **/
 
 
 
 import React, { useState, useEffect } from "react";
-import SmallTimer from "./SmallTimer"; // 작은 타이머 컴포넌트
 import "../asset/css/Timer.css";
 
 const Timer = () => {
-    const [time, setTime] = useState(2400);
+    const [time, setTime] = useState(2400);  // 기본 시간 (40분)
     const [isRunning, setIsRunning] = useState(false);
     const [inputTime, setInputTime] = useState(40);
     const [isComplete, setIsComplete] = useState(false);
 
-    useEffect(() => {
-        const storedTime = localStorage.getItem("countdown-time");
-        const storedRunning = localStorage.getItem("countdown-running");
-
-        if (storedTime) setTime(parseInt(storedTime, 10));
-        if (storedRunning === "true") setIsRunning(true);
-    }, []);
+    const radius = 50;  // 원의 반지름
+    const circumference = 2 * Math.PI * radius;  // 원 둘레
 
     useEffect(() => {
         let timer;
         if (isRunning && time > 0) {
             timer = setInterval(() => {
-                setTime((prevTime) => {
-                    const newTime = prevTime - 1;
-                    localStorage.setItem("countdown-time", newTime);
-                    return newTime;
-                });
+                setTime((prevTime) => prevTime - 1);
             }, 1000);
         } else if (time === 0) {
             setIsComplete(true);
@@ -78,10 +83,6 @@ const Timer = () => {
         return () => clearInterval(timer);
     }, [isRunning, time]);
 
-    useEffect(() => {
-        localStorage.setItem("countdown-running", isRunning);
-    }, [isRunning]);
-
     const handleStart = () => {
         setIsRunning(true);
     };
@@ -89,7 +90,6 @@ const Timer = () => {
     const handleSetTime = () => {
         const newTime = inputTime * 60;
         setTime(newTime);
-        localStorage.setItem("countdown-time", newTime);
         setIsRunning(false);
         setIsComplete(false);
     };
@@ -100,26 +100,49 @@ const Timer = () => {
         setIsComplete(false);
     };
 
+    // 남은 시간에 맞는 dashoffset 계산
+    const strokeDashoffset = circumference - (time / (inputTime * 60)) * circumference;
+
     return (
         <>
-            {/* 오른쪽 상단 고정된 타이머 */}
-            <SmallTimer time={time} isComplete={time === 0} />
-
-            {/* 메인 타이머 UI */}
             <div className="center-container">
                 {isComplete ? (
                     <>
-                        <h1 style={{ color: "red" }}>타이머 시작</h1>
-                        <button onClick={handleReset}>확인</button>
+                        <h1 style={{ color: "red" }}>타이머 완료!</h1>
+                        <button onClick={handleReset}>리셋</button>
                     </>
                 ) : (
                     <>
-                        <h1>Timer</h1>
-                        <h2 style={{ color: time === 0 ? "red" : "#000" }}>
-                            {`${String(Math.floor(time / 60)).padStart(2, "0")}:${String(
-                                time % 60
-                            ).padStart(2, "0")}`}
-                        </h2>
+                        <h1>타이머</h1>
+                        <div className="circle-timer">
+                            <svg width="120" height="120" viewBox="0 0 120 120">
+                                <circle
+                                    cx="60"
+                                    cy="60"
+                                    r={radius}
+                                    stroke="lightgray"
+                                    strokeWidth="8"
+                                    fill="none"
+                                />
+                                <circle
+                                    cx="60"
+                                    cy="60"
+                                    r={radius}
+                                    stroke="blue"
+                                    strokeWidth="8"
+                                    fill="none"
+                                    strokeDasharray={circumference}
+                                    strokeDashoffset={strokeDashoffset}
+                                    strokeLinecap="round"
+                                    style={{
+                                        transition: isRunning ? "stroke-dashoffset 1s linear" : "none", // 타이머가 실행 중일 때만 애니메이션 적용
+                                    }}
+                                />
+                            </svg>
+                        </div>
+                        <h2>{`${String(Math.floor(time / 60)).padStart(2, "0")}:${String(
+                            time % 60
+                        ).padStart(2, "0")}`}</h2>
                         <div className="input-container">
                             <input
                                 type="number"
