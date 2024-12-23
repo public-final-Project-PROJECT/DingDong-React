@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from 'react'; 
+import React, { useState, useRef, useEffect, use } from 'react'; 
 import ReactModal from "react-modal"; 
 import '../asset/css/Seat.css'; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
@@ -18,31 +18,32 @@ const SeatArrangement = () => {
     const [detailButtonShow, setDetailButtonShow] = useState(false); // 상세 기능 버튼 상태
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
     const classId = 1;
+    const [studentsId, setStudentsId] = useState([]);
     
     // 학생 데이터 (학생 ID 추가)
     const [studentsSeat, setStudentsSeat] = useState([
-        { index: 1, studentName: "최서연", studentId: 101 },
-        { index: 2, studentName: "유재석", studentId: 102 },
-        { index: 3, studentName: "정준하", studentId: 103 },
-        { index: 4, studentName: "박명수", studentId: 104 },
-        { index: 5, studentName: "유재석", studentId: 102 },
-        { index: 6, studentName: "박명수", studentId: 104 },
-        { index: 7, studentName: "학생이름", studentId: 105 },
-        { index: 8, studentName: "이름", studentId: 106 },
-        { index: 9, studentName: "정준하", studentId: 103 },
-        { index: 10, studentName: "정준하", studentId: 103 },
-        { index: 11, studentName: "정준하", studentId: 103 },
-        { index: 12, studentName: "정준하", studentId: 103 }
+        { index: 1, studentName: "최서연"},
+        { index: 2, studentName: "유재석"},
+        { index: 3, studentName: "정준하"},
+        { index: 4, studentName: "박명수" },
+        { index: 5, studentName: "유재석"},
+        { index: 6, studentName: "박명수"},
+        { index: 7, studentName: "학생이름"},
+        { index: 8, studentName: "이름"},
+        { index: 9, studentName: "정준하" },
+        { index: 10, studentName: "정준하"},
+        { index: 11, studentName: "정준하"},
+        { index: 12, studentName: "정준하" }
     ]);
     
     const [afterSeat, setAfterSeat] = useState([{ index: "", studentsSeat: "" }]);
 
    
     useEffect(()=> {
-        seatTable();
+        // seatTable();
     })
 
-    // 기존 좌석표 불러오는 API
+    // 1.기존 좌석표 불러오는 API
     function seatTable() {
         try{
              axios.post({
@@ -51,9 +52,29 @@ const SeatArrangement = () => {
                 }).then(function (response){
                     console.log(response);
                     console.log(response.data);
+                    // 이제 response 를 받은 행/열 그대로 좌석에 배치해야함
+                    // setStudentsSeat(responsiveFontSizes.data);
+                    setStudentsId(response.data.studentId);
+                    // 학생 이름 조회해오는 api
+                    studentNameSend(studentsId);
                 })
         }catch(e){
             console.log(err => "기존 좌석 불러오는 API error : " + err)
+        }
+    }
+
+    // 2. 학생 이름 조회 API
+    function studentNameSend(){
+        try{
+            axios.post({
+                url:'http://localhost:3031/api/seat/findStudentsName',
+                body:{ studentsId:studentsId }
+            }).then(function (response){
+                console.log(response.data);
+            })
+
+        }catch(e){
+            console.log(err => "학생 이름 조회 API error : " + err)
         }
     }
 
@@ -118,6 +139,8 @@ const SeatArrangement = () => {
         });
         setCreatedSeats(updatedSeats);
     };
+
+
 
     // 좌석 저장 요청
     const saveSeatHandler = () => {

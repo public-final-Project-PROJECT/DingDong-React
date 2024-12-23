@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import "../asset/css/TopHeader.css"; 
 import { useNavigate } from 'react-router-dom';
 import GoogleLoginButton from './GoogleLoginButton';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const TopHeader = () => {
+  const clientId = process.env.REACT_APP_OAUTH2_GOOGLE_CLIENT_ID;
   const [show, setShow] = useState(false); // 편의기능 detail 버튼 show
   const navigator = useNavigate();
 
@@ -55,7 +57,9 @@ const TopHeader = () => {
         <button className="Students" onClick={onClickHandler}>학생정보</button>
         <button className="Calendar" onClick={onClickHandler}>캘린더</button>
         <button  onClick={toggleFunctions}>편의기능</button>
-        <GoogleLoginButton/>
+        <GoogleOAuthProvider clientId={clientId}>
+          <GoogleLoginButton/>
+        </GoogleOAuthProvider>
       </div>
 
       {show && (
