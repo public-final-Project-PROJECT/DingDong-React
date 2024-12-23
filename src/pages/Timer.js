@@ -52,38 +52,83 @@
  * pm 08:43
  *  - 메인 타이머 중앙으로 배치 [구현]
  *  - 사용자가 시간을 설정 시 원형 테두리가 타이머가 감소할 때마다 조정되며, 이 값이 줄어들수록 원형 테두리도 줄어듬 [구현]
+ * 
+ * 12월 23일 pm 04:51
+ *  - 시각화 타이머 크기 증가 [구현]
+ *  - 원형 타이머 안에 감소되는 시간 삽입 [구현]
+ * 
+ * [문제]: 원형 타이머 안에 보여지는 감소 시간 세로로 배치됨 [미해결] (이상함)
+ * 
+ * 
  **/
-
-
 
 import React, { useState, useEffect } from "react";
 import "../asset/css/Timer.css";
 
 const Timer = () => {
-    const [time, setTime] = useState(2400);  // 기본 시간 (40분)
+    const radius = 100; // 원의 반지름 (크기 조절)
+    const circumference = 2 * Math.PI * radius; // 원 둘레
+
+    const [time, setTime] = useState(2400); // 기본 시간 (40분)
     const [isRunning, setIsRunning] = useState(false);
-    const [inputTime, setInputTime] = useState(40);
+    const [inputTime, setInputTime] = useState(40); // 초기 입력 시간
     const [isComplete, setIsComplete] = useState(false);
 
-    const radius = 50;  // 원의 반지름
-    const circumference = 2 * Math.PI * radius;  // 원 둘레
+    useEffect(() => {
+        const savedTime = localStorage.getItem("timerTime");
+        const savedRunning = localStorage.getItem("timerRunning");
+        const lastUpdated = localStorage.getItem("lastUpdated");
+        const savedInputTime = localStorage.getItem("inputTime");
+
+        if (savedTime && lastUpdated) {
+            const elapsed = Math.floor((Date.now() - Number(lastUpdated)) / 1000);
+            const remainingTime = Math.max(0, parseInt(savedTime, 10) - elapsed);
+
+            setTime(remainingTime);
+            if (savedInputTime) {
+                setInputTime(parseInt(savedInputTime, 10) / 60);
+            }
+
+            if (remainingTime === 0) {
+                setIsComplete(true);
+                localStorage.removeItem("timerRunning");
+            } else if (savedRunning === "true") {
+                setIsRunning(true);
+            }
+        }
+    }, []);
 
     useEffect(() => {
         let timer;
         if (isRunning && time > 0) {
             timer = setInterval(() => {
-                setTime((prevTime) => prevTime - 1);
+                setTime((prevTime) => {
+                    const newTime = prevTime - 1;
+                    localStorage.setItem("timerTime", newTime);
+                    localStorage.setItem("lastUpdated", Date.now().toString());
+                    return newTime;
+                });
             }, 1000);
         } else if (time === 0) {
             setIsComplete(true);
             setIsRunning(false);
+            localStorage.removeItem("timerRunning");
         }
 
         return () => clearInterval(timer);
     }, [isRunning, time]);
 
+    useEffect(() => {
+        localStorage.setItem("timerRunning", isRunning.toString());
+    }, [isRunning]);
+
+    useEffect(() => {
+        localStorage.setItem("inputTime", (inputTime * 60).toString());
+    }, [inputTime]);
+
     const handleStart = () => {
         setIsRunning(true);
+        setIsComplete(false);
     };
 
     const handleSetTime = () => {
@@ -91,78 +136,198 @@ const Timer = () => {
         setTime(newTime);
         setIsRunning(false);
         setIsComplete(false);
+        localStorage.setItem("timerTime", newTime);
+        localStorage.removeItem("lastUpdated");
     };
 
     const handleReset = () => {
-        setInputTime(1);
-        setTime(60);
+        const defaultTime = 2400; // 초기 시간
+        setTime(defaultTime);
+        setIsRunning(false);
         setIsComplete(false);
+        localStorage.setItem("timerTime", defaultTime);
+        localStorage.setItem("timerRunning", "false");
+        localStorage.removeItem("lastUpdated");
     };
 
-    // 남은 시간에 맞는 dashoffset 계산
     const strokeDashoffset = circumference - (time / (inputTime * 60)) * circumference;
 
     return (
-        <>
-            <div className="center-container">
-                {isComplete ? (
-                    <>
-                        <h1 style={{ color: "red" }}>타이머 완료</h1>
-                        <button onClick={handleReset}>준비</button>
-                    </>
-                ) : (
-                    <>
-                        <h1>타이머</h1>
-                        <div className="circle-timer">
-                            <svg width="120" height="120" viewBox="0 0 120 120">
-                                <circle
-                                    cx="60"
-                                    cy="60"
-                                    r={radius}
-                                    stroke="lightgray"
-                                    strokeWidth="8"
-                                    fill="none"
-                                />
-                                <circle
-                                    cx="60"
-                                    cy="60"
-                                    r={radius}
-                                    stroke="blue"
-                                    strokeWidth="8"
-                                    fill="none"
-                                    strokeDasharray={circumference}
-                                    strokeDashoffset={strokeDashoffset}
-                                    strokeLinecap="round"
-                                    style={{
-                                        transition: isRunning ? "stroke-dashoffset 1s linear" : "none", // 타이머가 실행 중일 때만 애니메이션 적용
-                                    }}
-                                />
-                            </svg>
-                        </div>
-                        <h2>{`${String(Math.floor(time / 60)).padStart(2, "0")}:${String(
-                            time % 60
-                        ).padStart(2, "0")}`}</h2>
-                        <div className="input-container">
-                            <input
-                                type="number"
-                                value={inputTime}
-                                onChange={(e) => setInputTime(e.target.value)}
-                                min="1"
-                                className="input"
-                            />
-                            <span>분</span>
-                            <button onClick={handleSetTime} style={{ marginLeft: "10px" }}>
-                                준비
-                            </button>
-                        </div>
-                        <button onClick={handleStart} disabled={isRunning || time === 0}>
-                            시작
+        <div className="center-container">
+            {isComplete ? (
+                <>
+                    <h1 style={{ color: "red" }}>타이머 완료</h1>
+                    <button onClick={handleReset}>리셋</button>
+                </>
+            ) : (
+                <>
+                    <h1>타이머</h1>
+                    <div className="circle-timer">
+
+                    <svg width="250" height="250" viewBox="0 0 250 250">
+                        <circle
+                            cx="125"
+                            cy="125"
+                            r={radius}
+                            stroke="lightgray"
+                            strokeWidth="10"
+                            fill="none"
+                        />
+                        <circle
+                            cx="125"
+                            cy="125"
+                            r={radius}
+                            stroke="blue"
+                            strokeWidth="10"
+                            fill="none"
+                            strokeDasharray={circumference}
+                            strokeDashoffset={strokeDashoffset}
+                            strokeLinecap="round"
+                        style={{
+                            transition: isRunning ? "stroke-dashoffset 1s linear" : "none",
+                            }}
+                        />
+                        <text
+                            x="50%" // 숫자를 원형의 정확한 중앙에 배치하기 위해 SVG 뷰포트의 중앙값(50%) 사용
+                            y="50%" // 숫자를 원형의 정확한 중앙에 배치하기 위해 SVG 뷰포트의 중앙값(50%) 사용
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                            fontSize="32"
+                            fontWeight="bold"
+                            fill="black"
+                            >
+                            {`${String(Math.floor(time / 60)).padStart(2, "0")}:${String(time % 60).padStart(2, "0")}`}
+                        </text>
+                    </svg>
+
+                    </div>
+                    <div className="input-container">
+                        <input
+                            type="number"
+                            value={inputTime}
+                            onChange={(e) => setInputTime(e.target.value)}
+                            min="1"
+                            className="input"
+                        />
+                        <span>분</span>
+                        <button onClick={handleSetTime} style={{ marginLeft: "10px" }}>
+                            준비
                         </button>
-                    </>
-                )}
-            </div>
-        </>
+                    </div>
+                    <button onClick={handleStart} disabled={isRunning || time === 0}>
+                        시작
+                    </button>
+                </>
+            )}
+        </div>
     );
 };
 
 export default Timer;
+
+
+
+
+// import React from "react";
+// import "../asset/css/Timer.css";
+
+// const Timer = ({
+//     time,
+//     setTime,
+//     isRunning,
+//     setIsRunning,
+//     isComplete,
+//     setIsComplete,
+// }) => {
+//     const [inputTime, setInputTime] = useState(40); // 입력 시간 (분)
+
+//     const radius = 50; // 원형 타이머 반지름
+//     const circumference = 2 * Math.PI * radius;
+
+//     const handleStart = () => {
+//         setIsRunning(true);
+//     };
+
+//     const handleSetTime = () => {
+//         const newTime = inputTime * 60;
+//         setTime(newTime);
+//         setIsComplete(false);
+//     };
+
+//     const handleReset = () => {
+//         setTime(60);
+//         setIsComplete(false);
+//         setInputTime(1);
+//     };
+
+//     const strokeDashoffset =
+//         circumference - (time / (inputTime * 60)) * circumference;
+
+//     return (
+//         <div className="center-container">
+//             {isComplete ? (
+//                 <>
+//                     <h1 style={{ color: "red" }}>타이머 완료</h1>
+//                     <button onClick={handleReset}>리셋</button>
+//                 </>
+//             ) : (
+//                 <>
+//                     <h1>메인 타이머</h1>
+//                     <div className="circle-timer">
+//                         <svg width="120" height="120" viewBox="0 0 120 120">
+//                             <circle
+//                                 cx="60"
+//                                 cy="60"
+//                                 r={radius}
+//                                 stroke="lightgray"
+//                                 strokeWidth="8"
+//                                 fill="none"
+//                             />
+//                             <circle
+//                                 cx="60"
+//                                 cy="60"
+//                                 r={radius}
+//                                 stroke="blue"
+//                                 strokeWidth="8"
+//                                 fill="none"
+//                                 strokeDasharray={circumference}
+//                                 strokeDashoffset={strokeDashoffset}
+//                                 strokeLinecap="round"
+//                                 style={{
+//                                     transition: isRunning
+//                                         ? "stroke-dashoffset 1s linear"
+//                                         : "none",
+//                                 }}
+//                             />
+//                         </svg>
+//                         <div className="timer-text">
+//                             {`${String(Math.floor(time / 60)).padStart(
+//                                 2,
+//                                 "0"
+//                             )}:${String(time % 60).padStart(2, "0")}`}
+//                         </div>
+//                     </div>
+//                     <div className="input-container">
+//                         <input
+//                             type="number"
+//                             value={inputTime}
+//                             onChange={(e) => setInputTime(e.target.value)}
+//                             min="1"
+//                             className="input"
+//                         />
+//                         <span>분</span>
+//                         <button onClick={handleSetTime} style={{ marginLeft: "10px" }}>
+//                             준비
+//                         </button>
+//                     </div>
+//                     <button onClick={handleStart} disabled={isRunning || time === 0}>
+//                         시작
+//                     </button>
+//                 </>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default Timer;
+

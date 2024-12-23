@@ -7,7 +7,7 @@ const Layout = () => {
         <>
         <TopHeader/>
         <Outlet/>
-        {/*<SmallTimer/>*/}
+        <SmallTimer/>
         </>
     )
 }
