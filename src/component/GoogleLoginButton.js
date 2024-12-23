@@ -44,7 +44,15 @@ const GoogleLoginButton = () =>
             ) : (
                 <div>
                     <button onClick={() => navigate("/profile")}>
-                        <img src={profile.picture} alt="profile" />
+                        <img
+                            src={profile.picture}
+                            alt="profile"
+                            style={{
+                                borderRadius: "50%",  
+                                width: "32px",        
+                                height: "32px",      
+                            }}
+                        />
                     </button>
                 </div>
             )}

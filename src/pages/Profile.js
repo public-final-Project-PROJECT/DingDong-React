@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { fetchFromAPI } from "../utils/api";
 import { fetchSchoolInfo } from "../utils/fetchSchoolInfo";
 
-const schoolNames = {};
-
 const Profile = () => 
 {
     const [profile, setProfile] = useState(getStoredProfile);
@@ -15,11 +13,28 @@ const Profile = () =>
 
     useEffect(() => 
     {
+        fetchSchoolName();
+    }, [profile]);
+
+    const fetchSchoolName = async () => 
+    {
         if (profile?.email) 
         {
-            setSchoolName(schoolNames[profile.email] || '');
+            try {
+                const data = await fetchFromAPI(`/user/get/school/${profile.email}`, 
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                });
+                if (data?.schoolName) 
+                {
+                    setSchoolName(data.schoolName);
+                }
+            } catch (err) {
+                console.error("Error fetching school name:", err);
+            }
         }
-    }, [profile]);
+    };
 
     const handleLogout = () => 
     {
@@ -31,8 +46,7 @@ const Profile = () =>
 
     const withdrawAlert = () => 
     {
-        const confirmMessage = window.confirm("정말 탈퇴하시겠습니까?\n탈퇴 후 모든 정보가 삭제되며 복구할 수 없습니다.");
-        if (confirmMessage) 
+        if (window.confirm("정말 탈퇴하시겠습니까?\n탈퇴 후 모든 정보가 삭제되며 복구할 수 없습니다.")) 
         {
             handleWithdraw();
             alert("회원탈퇴가 완료되었습니다.");
@@ -46,7 +60,6 @@ const Profile = () =>
             {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: profile.email }),
             });
             handleLogout();
         } catch (err) {
@@ -58,16 +71,17 @@ const Profile = () =>
     {
         if (!schoolName.trim()) 
         {
-            alert('유효한 학교명을 입력해주세요.');
+            alert("유효한 학교명을 입력해주세요.");
             return;
         }
 
         const schoolData = await fetchSchoolInfo(schoolName);
         if (!schoolData) 
         {
-            alert('학교 정보를 가져올 수 없습니다.');
+            alert("학교 정보를 가져올 수 없습니다.");
             return;
         }
+
         if (profile?.email) 
         {
             try {
@@ -80,19 +94,19 @@ const Profile = () =>
                         schoolName: schoolName,
                     }),
                 });
-                schoolNames[profile.email] = schoolName;
                 alert("학교 이름이 저장되었습니다.");
             } catch (err) {
-                console.error("Error during fetch:", err);
+                console.error("Error during save:", err);
             }
         }
     };
 
     const resetSchoolName = async () => 
     {
-        const confirmMessage = window.confirm("저장된 정보를 초기화합니다.");
-        setSchoolName('');
-        if (profile?.email && confirmMessage) 
+        if (!window.confirm("저장된 정보를 초기화합니다.")) return;
+
+        setSchoolName("");
+        if (profile?.email) 
         {
             try {
                 await fetchFromAPI("/user/add/school", 
@@ -101,14 +115,12 @@ const Profile = () =>
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         email: profile.email,
-                        schoolName: null,
+                        schoolName: "RESET",
                     }),
                 });
-                
-                delete schoolNames[profile.email];
                 alert("초기화를 완료했습니다.");
             } catch (err) {
-                console.error("Error during login:", err);
+                console.error("Error during reset:", err);
             }
         }
     };
@@ -137,11 +149,13 @@ const Profile = () =>
                 <h3>학급 목록</h3>
                 <h5>
                     학급은 최대 2개까지 생성하실 수 있으며, 생성일자로부터 2년 후의 3월
-                    1일에 자동으로 삭제됩니다.<br/>
+                    1일에 자동으로 삭제됩니다.
+                    <br />
+                    예) 2024년 2월 15일 생성 → 2026년 3월 1일 자동 삭제
+                    <br /><br />
                     삭제된 이후의 학급은 확인할 수 없으니 중요한 정보는 미리 백업해주세요.
                 </h5>
-                {/* DB에서 teacher_id와 일치하는 학급 리스트, 생성 버튼 컴포넌트로 불러오기 */}
-                {/* 년도, 학년, 반, 별명, 삭제버튼 순으로 표시 */}
+                {/* 학급 목록 로직 컴포넌트로 분리 예정 */}
             </div>
             <button onClick={handleLogout}>로그아웃</button>
             <button onClick={withdrawAlert}>회원탈퇴</button>
