@@ -1,60 +1,55 @@
-
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+import interactionPlugin from '@fullcalendar/interaction';
 import { useState, useEffect } from 'react';
+import CalendarModal from './CalenderModal';
 
 const Calendar = () => {
   const [test, setTest] = useState(0);
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null); // 선택된 날짜 상태
-  const [selectedRange, setSelectedRange] = useState(null); // 선택된 날짜 범위 관리
+  const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
+  const [dragging, setDragging] = useState(false); // 드래그 상태 관리
   const [events, setEvents] = useState([
     { id: '1', title: 'Event 1', start: '2024-12-25' },
     { id: '2', title: 'Event 2', start: '2024-12-31' },
   ]);
-
+  const [eventDescription, setEventDescription] = useState(''); // 텍스트 입력 상태
+  const [currentRange, setCurrentRange] = useState({
+    start: null,
+    end: null,
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 여부
+  const [selectedEvent, setSelectedEvent] = useState(null); // 클릭된 이벤트 정보
   useEffect(() => {
-    // 드래그 가능한 요소 초기화
-    const draggableElement = document.getElementById('draggable');
-    if (draggableElement) {
-      new Draggable(draggableElement, {
-        eventData: { title: 'Dragged Event' }, // 드래그 시 전달할 이벤트 데이터
+    if (selectedRange || currentRange) {
+      const { start, end, color } = selectedRange;
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+        console.log(startDate);
+      // 모든 날짜 셀 가져오기
+      const allDayCells = document.querySelectorAll('.fc-daygrid-day');
+
+    
+
+      allDayCells.forEach((cell) => {
+        const cellDate = cell.getAttribute('data-date');
+        const cellDateObj = new Date(cellDate);
+        cell.style.backgroundColor = color ; // 선택된 날짜 배경색
+        // 선택된 날짜 범위에 속하는 셀에 색상 적용
+        if (cellDateObj >= startDate && cellDateObj < endDate) {
+            cell.style.backgroundColor = color ; // 선택된 날짜 배경색
+          console.log(selectedRange);
+        } else {
+          cell.style.backgroundColor = ''; // 나머지 날짜 색상 초기화
+        }
       });
+      
     }
-  }, []);
-  const handleDateSelect = (selectInfo) => {
-    const calendarApi = selectInfo.view.calendar;
-    calendarApi.unselect(); // 선택 해제
+  }, [selectedRange]); // selectedRange가 변경될 때마다 실행
 
-    // 선택된 날짜 범위
-    const startDate = selectInfo.startStr;
-    const endDate = selectInfo.endStr;
-    // 선택된 날짜 범위를 상태로 저장
-    setSelectedRange({
-      start: startDate,
-      end: endDate,
-    });
-
-    // 선택된 날짜 범위의 배경 색상 변경
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    // 각 날짜를 확인하여 배경색 변경
-    const allDayCells = document.querySelectorAll('.fc-daygrid-day');
-    allDayCells.forEach((cell) => {
-      const cellDate = cell.getAttribute('data-date');
-      const cellDateObj = new Date(cellDate);
-
-      if (cellDateObj >= start && cellDateObj < end) {
-        cell.style.backgroundColor = '#ffeb3b'; // 선택된 날짜에 색상 적용
-      } else {
-        cell.style.backgroundColor = ''; // 나머지 날짜 색상 초기화
-      }
-    });
-  };
-// 값 가져오기
+  // 값 가져오기
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -72,67 +67,93 @@ const Calendar = () => {
       console.error('Error fetching data:', err);
     }
   }
-    //클릭한타일
-    const handleDateClick = (clickInfo) => {
-        // 클릭한 날짜의 배경 색상 변경
-        if (clickInfo.dragged) return;
 
-        if (selectedDate) {
-          selectedDate.style.backgroundColor = ''; // 이전에 클릭한 날짜의 색상 원래대로 돌리기
-        }
+  // 날짜 클릭 처리
+  const handleDateClick = (clickInfo) => {
+    // 클릭한 날짜의 배경 색상 변경
+    if (clickInfo.dragged) return;
+
     
-        // 새로운 클릭된 날짜 색상 변경
-        clickInfo.dayEl.style.backgroundColor = '#f0ad4e'; // 클릭한 날짜 배경색 변경
-        setSelectedDate(clickInfo.dayEl); // 선택된 날짜 상태 업데이트
-      }
+        
+        clickInfo.dayEl.style.backgroundColor = '#fdc882'; 
+        
+        setSelectedDate(clickInfo.dayEl); 
+        
+        
+    
+    
+  }
 
   const handleEventClick = (clickInfo) => {
-    // 클릭된 이벤트의 제목을 수정하는 프로세스
-    const updatedTitle = prompt('Edit event title:', clickInfo.event.title);
 
-    if (updatedTitle) {
-      clickInfo.event.setProp('title', updatedTitle); // 이벤트의 제목을 수정
+    
+    // // 클릭된 이벤트의 제목을 수정하는 프로세스
+    // const updatedTitle = prompt('Edit event title:', clickInfo.event.title);
+
+    // if (updatedTitle) {
+    //   clickInfo.event.setProp('title', updatedTitle); // 이벤트의 제목을 수정
+    // }
+    setIsModalOpen(true); // 모달 열기
+    setSelectedEvent(clickInfo.event);
+       
+
+  }
+
+  const handleDateSelect = (selectInfo) => {
+    const calendarApi = selectInfo.view.calendar;
+    calendarApi.unselect(); // 선택 해제
+
+    const startDate = selectInfo.startStr;
+    const endDate = selectInfo.endStr;
+
+    // 선택된 날짜 범위를 상태로 저장
+    setSelectedRange({
+      start: startDate,
+      end: endDate,
+      color: '#f0ad4e'
+    });
+    if(selectedRange.start == selectInfo.startStr){
+        setSelectedRange({color: ""}); // 범위 초기화
     }
-}
-    useEffect(() => {
-        if (selectedRange) {
-          const start = new Date(selectedRange.start);
-          const end = new Date(selectedRange.end);
-    
-          // 모든 날짜 셀 가져오기
-          const allDayCells = document.querySelectorAll('.fc-daygrid-day');
-          allDayCells.forEach((cell) => {
-            const cellDate = new Date(cell.getAttribute('data-date'));
-    
-            // 선택된 날짜 범위에 속하는 셀에 색상 적용
-            if (cellDate >= start && cellDate < end) {
-              cell.style.backgroundColor = '#ffeb3b'; // 선택된 날짜 배경색
-            } else {
-              cell.style.backgroundColor = ''; // 선택되지 않은 날짜 초기화
-            }
-          });
-        }
-      }, [selectedRange]);
-    
+  };
 
-  
- const handleEventDrop = (info) => {
-    // 드래그 후 이벤트 위치 변경 처리
-    const updatedEvents = events.map(event => 
-      event.title === info.event.title
-        ? { ...event, date: info.event.startStr } // 새로운 날짜로 업데이트
-        : event
-    );
-    setEvents(updatedEvents);
+  const handleDescriptionChange = (e) => {
+    setEventDescription(e.target.value); // 텍스트 입력 값 변경
+  };
+
+  // 이벤트 생성 처리 (예: 범위에 텍스트 추가) //여기에 추가하면될듯
+  const handleCreateEvent = () => {
+    if (selectedRange && eventDescription) {
+      const newEvent = {
+        id: `${events.length + 1}`,
+        title: eventDescription,
+        start: selectedRange.start,
+        end: selectedRange.end,
+      };
+
+      setEvents([...events, newEvent]); // 이벤트 목록에 추가
+      setEventDescription(''); // 텍스트 입력 필드 초기화
+      setSelectedRange({color: ""}); // 범위 초기화
+    }
+  };
+
+  const handleDateChange = (info) => {
+    const start = info.view.currentStart; // 새로운 뷰의 시작 날짜
+    const end = info.view.currentEnd; // 새로운 뷰의 끝 날짜
+
+    // 상태 업데이트
+    setSelectedRange(prevRange => ({ ...prevRange }))
+
+    console.log('Current Range:', start, 'to', end); // 현재 날짜 범위 로그 찍기
+
+ 
   };
 
   
 
-
   return (
     <>
       <div className="inner">
-       
         <form onSubmit={handleSubmit}>
           <label htmlFor="testInput">Test Input: </label>
           <input
@@ -144,7 +165,6 @@ const Calendar = () => {
           <button type="submit">Submit</button>
         </form>
 
-        
         {error && (
           <div style={{ color: 'red' }}>
             <h2>Error:</h2>
@@ -159,13 +179,21 @@ const Calendar = () => {
           </div>
         )}
 
-       
-        <div
-          id="draggable" >
-          Drag me!1321312
-        </div>
-
-        
+        {/* 선택된 날짜 범위에 텍스트 입력 필드 표시 */}
+        {selectedRange && (
+          <div>
+            <label>
+              Event Description:
+              <input
+                type="text"
+                value={eventDescription}
+                onChange={handleDescriptionChange}
+                placeholder="Enter event description"
+              />
+            </label>
+            <button onClick={handleCreateEvent}>Create Event</button>
+          </div>
+        )}
 
         <div className="full-calendar-container">
           <FullCalendar
@@ -173,29 +201,33 @@ const Calendar = () => {
             initialView="dayGridMonth"
             dateClick={handleDateClick} // 날짜 클릭 시 색상 변경
             selectable={true}
-            select={handleDateSelect} 
-             //eventDrop={handleEventDrop}
+            select={handleDateSelect}
             editable={true}
             events={events}
             eventClick={handleEventClick} // 이벤트 클릭 시 수정
-            droppable={true} 
-            eventDrop={handleEventDrop}
-           // selectOverlap={false}
+            droppable={true}
+            datesSet={handleDateChange}
+            
             
             eventContent={(eventInfo) => {
-                return (
-                  <div>
-                    <strong>{eventInfo.event.title}</strong> 
-                  </div>
-                );
-              }}
+              return (
+                <div>
+                  <strong>{eventInfo.event.title}</strong>
+                </div>
+              );
+            }}
           />
-          {console.log()}
         </div>
+        {isModalOpen && (
+                <CalendarModal
+                  event={selectedEvent}
+                  onClose={setIsModalOpen} // 모달 닫기
+                />
+              )}
+
       </div>
     </>
   );
 };
 
 export default Calendar;
-

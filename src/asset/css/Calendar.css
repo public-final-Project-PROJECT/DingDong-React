@@ -16,6 +16,10 @@
     /*footer*/
     --footerHeight: 100px;
 }
+a {
+   color: #db9a3e;
+   text-decoration: none; 
+}
 body {
     color: var(--black);
     font-family: "Noto Sans KR", sans-serif;

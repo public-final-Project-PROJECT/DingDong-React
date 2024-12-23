@@ -22,8 +22,7 @@ function App()
             <Routes>
 
 
-                <Route path="/" element={<TestMain />} />
-                <Route path="/postmappingtest" element={<PostMappingTest />} />
+               
                 
          
 
