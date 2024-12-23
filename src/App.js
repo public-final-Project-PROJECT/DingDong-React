@@ -1,7 +1,11 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+
+
+
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 // import TestMain from "./test/TestMain";
-// import PostMappingTest from "./test/PostMappingTest";
+import PostMappingTest from "./test/PostMappingTest";
 import Layout from "./layout/Layout";
 import Main from "./pages/Main";
 import Notice from "./pages/Notice";
@@ -13,6 +17,8 @@ import Seat from "./pages/Seat.js";
 import RandomPicker from "./pages/RandomPicker.js";
 import Voting from "./pages/Voting.js";
 import QRCodeGenerator from "./pages/QRCodeGenerator.js";
+import Login from "./pages/Login.js";
+import NoticeDetail from "./pages/NoticeDetail.js";
 
 
 function App() 
@@ -20,6 +26,7 @@ function App()
     return (
         <BrowserRouter>
             <Routes>
+
 
 
                
@@ -32,10 +39,17 @@ function App()
                 {/* <Route path="/" element={<Main />} /> */}
                 {/* <Route path="/postmappingtest" element={<PostMappingTest />} /> */}
 
+                <Route path="/login" element={<Outlet />} >
+                    <Route index element={<Login/>}/>
+                </Route>
+                <Route path="/postmappingtest" element={<PostMappingTest />} />
+
+
 
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
-                    <Route path="Notice" element={<Notice/>}/>                      {/* 공지사항 */}
+                    <Route path="Notice" element={<Notice/>}/>    
+                    <Route path="/:id" element={<NoticeDetail />} />                    {/* 공지사항 */}
                       <Route path="Attendance" element={<Attendance/>}/>            {/* 출석부  */} 
                     <Route path="Students" element={<Students/>}/>                  {/* 학생정보  */}    
                     <Route path="Calendar" element={<Calendar/>}/>                  {/* 캘린더 */}

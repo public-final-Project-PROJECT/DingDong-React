@@ -1,10 +1,13 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Neis from "@my-school.info/neis-api";
-import React, { useState, useEffect } from 'react';
+import  { useState } from 'react';
 import Calendar from "./Calendar";
 import "../asset/css/Calendar.css";
 
 const Main = () => {
+
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
   const [date,setDate] = useState("20241130");
@@ -56,4 +59,5 @@ const Main = () => {
 };
 
 export default Main;
+
 
