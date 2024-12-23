@@ -107,8 +107,8 @@ const Timer = () => {
             <div className="center-container">
                 {isComplete ? (
                     <>
-                        <h1 style={{ color: "red" }}>타이머 완료!</h1>
-                        <button onClick={handleReset}>리셋</button>
+                        <h1 style={{ color: "red" }}>타이머 완료</h1>
+                        <button onClick={handleReset}>준비</button>
                     </>
                 ) : (
                     <>
