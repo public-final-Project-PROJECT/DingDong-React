@@ -1,3 +1,4 @@
+
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
@@ -197,3 +198,4 @@ const Calendar = () => {
 };
 
 export default Calendar;
+

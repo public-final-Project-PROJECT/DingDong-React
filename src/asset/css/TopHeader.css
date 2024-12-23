@@ -22,7 +22,7 @@ button {
   background-color: #f0f0f0;
   transition: background-color 0.3s ease;
   flex-grow: 1; 
-  max-width: 120px; 
+  max-width: 160px; 
 }
 
 button:hover {

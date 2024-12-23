@@ -1,9 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import TestMain from "./test/TestMain";
-import PostMappingTest from "./test/PostMappingTest";
-
-
+// import TestMain from "./test/TestMain";
+// import PostMappingTest from "./test/PostMappingTest";
 import Layout from "./layout/Layout";
 import Main from "./pages/Main";
 import Notice from "./pages/Notice";
@@ -23,12 +21,17 @@ function App()
         <BrowserRouter>
             <Routes>
 
+
                 <Route path="/" element={<TestMain />} />
                 <Route path="/postmappingtest" element={<PostMappingTest />} />
                 
          
 
               
+
+
+                {/* <Route path="/" element={<Main />} /> */}
+                {/* <Route path="/postmappingtest" element={<PostMappingTest />} /> */}
 
 
                 <Route path="/" element={<Layout/>}>
