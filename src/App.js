@@ -13,6 +13,7 @@ import Voting from "./pages/Voting.js";
 import QRCodeGenerator from "./pages/QRCodeGenerator.js";
 import Login from "./pages/Login.js";
 import Profile from "./pages/Profile.js";
+import NoticeDetail from "./pages/NoticeDetail.js";
 
 function App() 
 {
@@ -26,7 +27,8 @@ function App()
 
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
-                    <Route path="Notice" element={<Notice/>}/>                      {/* 공지사항 */}
+                    <Route path="Notice" element={<Notice/>}/>    
+                    <Route path="/:id" element={<NoticeDetail />} />                    {/* 공지사항 */}
                       <Route path="Attendance" element={<Attendance/>}/>            {/* 출석부  */} 
                     <Route path="Students" element={<Students/>}/>                  {/* 학생정보  */}    
                     <Route path="Calendar" element={<Calendar/>}/>                  {/* 캘린더 */}
