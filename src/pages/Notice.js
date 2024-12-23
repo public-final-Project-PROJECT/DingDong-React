@@ -1,37 +1,25 @@
 import React, { useEffect, useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 const Notice = () => {
     const [notices, setNotices] = useState([]);  
 
-    // useEffect(() => {
-    //     axios.get("http://localhost:3013/notice/view")  
-    //         .then(response => {
-    //             setNotices(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error("Error fetching notices:", error);
-    //         });
-    // }, []); 
     useEffect(() => {
-        fetch("http://localhost:3013/notice/hello")
+        axios.get("http://localhost:3013/notice/view")  
             .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
+                setNotices(response.data);
             })
-            .then(data => {
-                setNotices(data);
-            })
+
+
             .catch(error => {
                 console.error("Error fetching notices:", error);
             });
     }, []); 
-
+   
     return (
         <div>
-            {/* <h1>공지사항 페이지</h1>
+
+            <h1>공지사항 페이지</h1>
             {notices.length === 0 ? (
                 <p>공지사항이 없습니다.</p>
             ) : (
@@ -44,8 +32,7 @@ const Notice = () => {
                         </li>
                     ))}
                 </ul>
-            )} */}
-            <p>{notices}</p>
+            )}
         </div>
     );
 };
