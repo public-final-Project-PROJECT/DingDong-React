@@ -60,13 +60,14 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
           classId: classId,  // 학급 id
           votingName: title, // 제목
           detail: detail, // 설명
-          inputDate:votingEnd? votingEnd : null, // 마감기한(날짜 or null)
+          votingEnd:votingEnd? votingEnd : null, // 마감일자
           contents: arr, // 투표 항목들 
           anonymousVote: anonymousVote,  // 비밀 투표 여부
           doubleVote: doubleVote // 중복 투표 가능 여부 
         },
  
       );
+      return response;
       
     } catch (error) {
       console.error("투표 생성 api error:", error.response || error.message);
@@ -215,7 +216,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 </Radio>
                 <br/>
                 <Radio name="endDate" value="false" defaultChecked>
-                <label><FontAwesomeIcon icon={faUser} /> 사용자 별도 지정</label>
+                <FontAwesomeIcon icon={faUser} /> 사용자 별도 지정
                 <h5 style={{color:"gray"}}>  선생님이 종료버튼을 눌러야 종료됩니다.</h5>
                 </Radio>
               </RadioGroup>

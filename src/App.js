@@ -1,27 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import TestMain from "./test/TestMain";
-import PostMappingTest from "./test/PostMappingTest";
-import GoogleLoginTest from "./test/GoogleLoginTest";
+// import TestMain from "./test/TestMain";
+// import PostMappingTest from "./test/PostMappingTest";
 import Layout from "./layout/Layout";
-import Main from "./page/Main";
-import Notice from "./page/Notice";
-import Attendance from "./page/Attendance.js";
-import Calendar from "./page/Calendar.js";
-import Students from "./page/Students.js";
-import Timer from "./page/Timer.js";
-import Seat from "./page/Seat.js";
-import RandomPicker from "./page/RandomPicker.js";
-import Voting from "./page/Voting.js";
+import Main from "./pages/Main";
+import Notice from "./pages/Notice";
+import Attendance from "./pages/Attendance.js";
+import Calendar from "./pages/Calendar.js";
+import Students from "./pages/Students.js";
+import Timer from "./pages/Timer.js";
+import Seat from "./pages/Seat.js";
+import RandomPicker from "./pages/RandomPicker.js";
+import Voting from "./pages/Voting.js";
+import QRCodeGenerator from "./pages/QRCodeGenerator.js";
 
-{/* */}
 function App() 
 {
     return (
         <BrowserRouter>
             <Routes>
                 {/* <Route path="/" element={<Main />} /> */}
-                {/* <Route path="/postmappingtest" element={<PostMappingTest />} />
-                <Route path="/oauth2/authorization/google" element={<GoogleLoginTest />} /> */}
+                {/* <Route path="/postmappingtest" element={<PostMappingTest />} /> */}
 
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
@@ -34,6 +32,7 @@ function App()
                     <Route path="Seat" element={<Seat/>}/>                          {/* 좌석표*/}
                     <Route path="RandomPicker" element={<RandomPicker/>}/>          {/* 발표자 뽑기 */}
                     <Route path="voting" element={<Voting/>}/>                      {/* 학급 투표*/}
+                    <Route path="qrcode" element={<QRCodeGenerator/>}/>
                 </Route>
             
             </Routes>
