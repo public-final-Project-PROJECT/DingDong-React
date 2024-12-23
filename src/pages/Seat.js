@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react'; 
 import ReactModal from "react-modal"; 
 import '../asset/css/Seat.css'; 
@@ -16,6 +17,7 @@ const SeatArrangement = () => {
     const [createdSeats, setCreatedSeats] = useState([]); // 생성된 좌석 상태
     const [detailButtonShow, setDetailButtonShow] = useState(false); // 상세 기능 버튼 상태
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
+    const classId = 1;
     
     // 학생 데이터 (학생 ID 추가)
     const [studentsSeat, setStudentsSeat] = useState([
@@ -35,21 +37,25 @@ const SeatArrangement = () => {
     
     const [afterSeat, setAfterSeat] = useState([{ index: "", studentsSeat: "" }]);
 
-    useEffect= () => {
-       // seatTable(); // 기존 좌석표 불러오기 
+   
+    useEffect(()=> {
+        seatTable();
+    })
+
+    // 기존 좌석표 불러오는 API
+    function seatTable() {
+        try{
+             axios.post({
+                url: 'http://localhost:3013/api/seat/findAllSeat',
+                params: { classId: 1 },
+                }).then(function (response){
+                    console.log(response);
+                    console.log(response.data);
+                })
+        }catch(e){
+            console.log(err => "기존 좌석 불러오는 API error : " + err)
+        }
     }
-
-    // // 기존 좌석표 불러오는 API
-    // const seatTable = async() => {
-    //     try{
-    //         const response = await axios.post(
-    //             'api/seat/findAllSeat'
-    //         )
-    //     }catch(e){
-    //         console.log("기존 좌석 불러오는 API error : " + error.message)
-    //     }
-
-    // }
 
     const handleMouseDown = (index) => {
         setIsDragging(true);
@@ -199,7 +205,7 @@ const SeatArrangement = () => {
 
             {detailButtonShow && (
                 <>
-                    <button>설정</button>
+                <button>설정</button>
                 </>
             )}
 

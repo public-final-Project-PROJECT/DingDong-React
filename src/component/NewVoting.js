@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faXmark,faClockRotateLeft,faCalendar,faUser,faLock, faCheckDouble} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-
+import html2canvas from "html2canvas";
 
 const Voting = ({newVotingModal,setNewVotingModal}) => {
 
@@ -111,6 +111,21 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
       {children}
     </label>
   );
+
+  const onClickDownloadButton = () => {
+    const target = document.getElementById("download");
+    if (!target) {
+      return alert("사진 저장에 실패했습니다.");
+    }
+    html2canvas(target).then((canvas) => {
+      const link = document.createElement("a");
+      document.body.appendChild(link);
+      link.href = canvas.toDataURL("image/png");
+      link.download = "Haru4cut.png"; // 다운로드 이미지 파일 이름
+      link.click();
+      document.body.removeChild(link);
+    });
+  };
   
 
   return (
