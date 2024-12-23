@@ -3,14 +3,17 @@ import { QRCodeCanvas } from 'qrcode.react';
 import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
 import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
+import { getStoredProfile } from '../utils/localStorage';
 
-const QRCodeGenerator = ({ creatorInfo }) => 
+const QRCodeGenerator = () => 
 {
     const [students, setStudents] = useState([{ num: '', name: '' }]);
     const [schoolName, setSchoolName] = useState('');
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
     const today = new Date();
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
+    const [profile, setProfile] = useState(getStoredProfile);
+    
 
     const handleGenerate = async () => 
     {
@@ -45,7 +48,7 @@ const QRCodeGenerator = ({ creatorInfo }) =>
             const dataToEncrypt = 
             {
                 student: { student_num: student.num, student_name: student.name },
-                // creator: creatorInfo,
+                teacher: { teacher_name: profile.name, teacher_email: profile.email },
                 school: schoolData,
                 year: today.getFullYear(),
             };
@@ -156,10 +159,10 @@ const QRCodeGenerator = ({ creatorInfo }) =>
                         {/* json 데이터 확인용 암호화되지 않은 QR 코드 */}
                         {/* {student.originalQRCode && (
                             <div>
-                                {/* <h5>Original Data QR Code</h5>
+                                <h5>Original Data QR Code</h5>
                                 <QRCodeCanvas value={student.originalQRCode} />
                             </div>
-                        )} */}
+                        )}  */}
                     </div>
                 ))}
             </div>
