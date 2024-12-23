@@ -20,10 +20,9 @@ const NoticeDetail = ()=>{
     },[]);
 
 
-    //수정
+    //수정n
     const noticeUpdate = async (id)=>{
-
-        alert("수정모드로 가기~");
+        navigate(`/notice/update/${id}`)
     }
 
     //삭제
@@ -33,6 +32,7 @@ const NoticeDetail = ()=>{
         if(isConfirmed){
           try {
             alert("공지사항이 삭제 되었습니다");
+        
             
           } catch (error) {
             console.error("삭제 오류",error)

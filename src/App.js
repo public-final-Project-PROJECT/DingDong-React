@@ -14,6 +14,7 @@ import Voting from "./pages/Voting.js";
 import QRCodeGenerator from "./pages/QRCodeGenerator.js";
 import Login from "./pages/Login.js";
 import NoticeDetail from "./pages/NoticeDetail.js";
+import NoticeUpdate from "./pages/NoticeRegister.js";
 
 function App() 
 {
@@ -29,7 +30,8 @@ function App()
                     <Route index element={<Main/>}/>                                {/* 메인*/}
                     <Route path="Notice" element={<Notice/>}/>    
                     <Route path="/:id" element={<NoticeDetail />} />                    {/* 공지사항 */}
-                      <Route path="Attendance" element={<Attendance/>}/>            {/* 출석부  */} 
+                    <Route path="/notice/update/:id" element={<NoticeUpdate/>} />
+                    <Route path="Attendance" element={<Attendance/>}/>            {/* 출석부  */} 
                     <Route path="Students" element={<Students/>}/>                  {/* 학생정보  */}    
                     <Route path="Calendar" element={<Calendar/>}/>                  {/* 캘린더 */}
 
