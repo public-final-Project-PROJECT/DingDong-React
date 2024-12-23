@@ -10,6 +10,7 @@
     --darkBorderColor: #495057;
     --darkBgBlack: #212529;
     --placeholder: #cdcdcd;
+    --fc-event-border-color: #fdc882;
     /*header*/
     --headerHeight: 4rem;
     /*footer*/
@@ -30,20 +31,26 @@ body {
     margin: 0 auto;
 }
 .full-calendar-container {
-    width: 100%;
+    width: 60%;
     
     display: flex;
     justify-content: center; /* Centers the calendar horizontally */
     align-items: center; /* Centers the calendar vertically */
     
   }
-  
+  .fc-h-event .fc-event-main {
+    color: #252525;
+}
   .fc {
     height: 650px;
     width: 100%;
     
   }
-  
+  .fc-h-event {
+    /* background-color: var(--fc-event-bg-color); */
+    border: 1px solid var(--fc-event-border-color);
+    display: block;
+}
 
   .fc .fc-toolbar.fc-header-toolbar {
     margin: 0;
@@ -56,6 +63,7 @@ body {
     color: black;
     border-radius: 20px 20px 0px 0px;
   }
+  
   
   .fc .fc-button-primary {
     background-color: transparent;
@@ -85,7 +93,10 @@ body {
     outline: 0;
     box-shadow: none !important;
   }
-  
+  .fc-day-selected {
+    background-color: #f0ad4e !important; /* 선택된 날짜의 배경색을 강제로 변경 */
+    border-radius: 5px; /* 부드러운 경계선 */
+  }
   .fc-theme-standard th {
     height: 32px;
     padding-top: 3.5px;
