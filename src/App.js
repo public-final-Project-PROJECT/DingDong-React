@@ -16,6 +16,9 @@ import Profile from "./pages/Profile.js";
 import NoticeDetail from "./pages/NoticeDetail.js";
 import ClassMaker from "./pages/ClassMaker.js";
 
+import NoticeInsert from "./pages/NoticeRegister.js";
+import NoticeUpdate from "./pages/NoticeUpdate.js";
+
 function App() 
 {
     return (
@@ -31,7 +34,9 @@ function App()
                     <Route index element={<Main/>}/>                                {/* 메인*/}
                     <Route path="Notice" element={<Notice/>}/>    
                     <Route path="/:id" element={<NoticeDetail />} />                    {/* 공지사항 */}
-                      <Route path="Attendance" element={<Attendance/>}/>            {/* 출석부  */} 
+                    <Route path="notice/update/:id" element={<NoticeUpdate/>} />
+                    <Route path="notice/register" element={<NoticeInsert/>} />
+                    <Route path="Attendance" element={<Attendance/>}/>            {/* 출석부  */} 
                     <Route path="Students" element={<Students/>}/>                  {/* 학생정보  */}    
                     <Route path="Calendar" element={<Calendar/>}/>                  {/* 캘린더 */}
 
