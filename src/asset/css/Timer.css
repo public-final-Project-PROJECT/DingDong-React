@@ -1,0 +1,25 @@
+/* Timer.css */
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.circle-timer {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 60px;
+    text-align: center;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}

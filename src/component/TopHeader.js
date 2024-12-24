@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../asset/css/TopHeader.css"; 
 import { useNavigate } from 'react-router-dom';
 import GoogleLoginButton from './GoogleLoginButton';
@@ -69,6 +69,7 @@ const TopHeader = () => {
           <button className="Voting" onClick={onClickHandler}>학급 투표</button>
         </div>
       )}
+      
     </div>
   );
 };
