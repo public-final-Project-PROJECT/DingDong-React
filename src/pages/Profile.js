@@ -4,35 +4,52 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchFromAPI } from "../utils/api";
 import { fetchSchoolInfo } from "../utils/fetchSchoolInfo";
+import ClassMaker from "./ClassMaker";
+import ClassList from "./ClassList";
 
 const Profile = () => 
 {
     const [profile, setProfile] = useState(getStoredProfile);
     const [schoolName, setSchoolName] = useState('');
+    const [fetched, setFetched] = useState(false);
     const navigate = useNavigate();
+    const [teacherId, setTeacherId] = useState(0);
 
     useEffect(() => 
     {
         fetchSchoolName();
-    }, [profile]);
+        fetchTeacherId();
+    }, []);
+
+    const fetchTeacherId = async () => 
+    {
+        try {
+            const data = await fetchFromAPI(`/user/${profile?.email}`, 
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            setTeacherId(data);
+        } catch (err) {
+            console.error("Error fetching teacher ID: ", err);
+        }
+    };
 
     const fetchSchoolName = async () => 
     {
-        if (profile?.email) 
-        {
-            try {
-                const data = await fetchFromAPI(`/user/get/school/${profile.email}`, 
-                {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" },
-                });
-                if (data?.schoolName) 
-                {
-                    setSchoolName(data.schoolName);
-                }
-            } catch (err) {
-                console.error("Error fetching school name:", err);
+        try {
+            const data = await fetchFromAPI(`/user/get/school/${profile?.email}`, 
+            {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            if (data?.schoolName) 
+            {
+                setSchoolName(data.schoolName);
+                setFetched(true);
             }
+        } catch (err) {
+            console.error("Error fetching school name:", err);
         }
     };
 
@@ -59,12 +76,21 @@ const Profile = () =>
     const handleWithdraw = async () => 
     {
         try {
+            await fetchFromAPI(`/class/delete/${teacherId}`,
+            {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
             await fetchFromAPI(`/user/withdraw/${profile.email}`, 
             {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
             });
-            handleLogout();
+
+            googleLogout();
+            setProfile(null);
+            clearProfileFromStorage();
+            navigate("/login");
         } catch (err) {
             console.error("Error during withdrawal:", err);
         }
@@ -98,6 +124,7 @@ const Profile = () =>
                     }),
                 });
                 alert("학교 이름이 저장되었습니다.");
+                navigate(0);
             } catch (err) {
                 console.error("Error during save:", err);
             }
@@ -121,7 +148,9 @@ const Profile = () =>
                         schoolName: "RESET",
                     }),
                 });
+                setFetched(false);
                 alert("초기화를 완료했습니다.");
+                navigate(0);
             } catch (err) {
                 console.error("Error during reset:", err);
             }
@@ -130,10 +159,7 @@ const Profile = () =>
 
     return (
         <div>
-            <button onClick={() => navigate("/postmappingtest")}>Fetch 테스트</button>
             <div>
-                <h3>이름: {profile?.name}</h3>
-                <h3>이메일: {profile?.email}</h3>
                 <div>
                     <label htmlFor="schoolName">재직중인 학교: </label>
                     <input
@@ -147,19 +173,11 @@ const Profile = () =>
                     <button onClick={resetSchoolName}>초기화</button>
                 </div>
                 <h5>
-                    근무중인 학교 설정 시 학급 생성은 선택하신 학교로만 가능함에 유의해주세요.
+                    {fetched ? null : "재직중인 학교 설정 시 학급 생성은 선택하신 학교로만 가능함에 유의해주세요."}
                 </h5>
-                <h3>학급 목록</h3>
-                <h5>
-                    학급은 최대 2개까지 생성하실 수 있으며, 생성일자로부터 2년 후의 3월
-                    1일에 자동으로 삭제됩니다.
-                    <br />
-                    예) 2024년 2월 15일 생성 → 2026년 3월 1일 자동 삭제
-                    <br /><br />
-                    삭제된 이후의 학급은 확인할 수 없으니 중요한 정보는 미리 백업해주세요.
-                </h5>
-                {/* 학급 목록 로직 컴포넌트로 분리 예정 */}
-            </div>
+                <ClassList/>
+                <button onClick={() => navigate("/classmaker")}>학급 생성</button>
+                </div>
             <button onClick={handleLogout}>로그아웃</button>
             <button onClick={withdrawAlert}>회원탈퇴</button>
         </div>

@@ -14,6 +14,7 @@ import QRCodeGenerator from "./pages/QRCodeGenerator.js";
 import Login from "./pages/Login.js";
 import Profile from "./pages/Profile.js";
 import NoticeDetail from "./pages/NoticeDetail.js";
+import ClassMaker from "./pages/ClassMaker.js";
 
 function App() 
 {
@@ -24,6 +25,7 @@ function App()
                     <Route index element={<Login/>}/>
                 </Route>
                 <Route path="/postmappingtest" element={<PostMappingTest />} />
+                <Route path="/classmaker" element={<ClassMaker />} />
 
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
