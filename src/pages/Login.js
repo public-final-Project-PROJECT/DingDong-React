@@ -16,10 +16,13 @@ const Login = () => {
     }, [savedProfile, navigate]);
 
     return (
-        <div className="Login">
+        <div>
+            <h1 className="logo">대충 이 쯤에<br/>로고가 있으면<br/>좋을 것 같다.<br/>아님 말고</h1>
+            <div className="Login">
             <GoogleOAuthProvider clientId={clientId}>
                 <GoogleLoginButton />
             </GoogleOAuthProvider>
+            </div>
         </div>
     );
 };

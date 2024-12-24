@@ -1,51 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
+import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
 import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
-import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
-import { getStoredProfile } from '../utils/localStorage';
-import { fetchFromAPI } from '../utils/api';
+import { useUserData } from '../hooks/useUserData'; 
 
 const QRCodeGenerator = () => 
 {
+    const { profile, schoolName, setSchoolName, isSchoolNameEditable, fetchSchoolName } = useUserData();
     const [students, setStudents] = useState([{ num: '', name: '' }]);
-    const [schoolName, setSchoolName] = useState('');
-    const [isSchoolNameEditable, setIsSchoolNameEditable] = useState(true);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
     const today = new Date();
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
-    const [profile, setProfile] = useState(getStoredProfile);
-
-    useEffect(() => 
-    {
-        fetchSchoolName();
-    }, [profile]);
-
-    const fetchSchoolName = async () => 
-    {
-        if (profile?.email) 
-        {
-            try {
-                const data = await fetchFromAPI(`/user/get/school/${profile.email}`, 
-                {
-                    method: "GET", 
-                    headers: { "Content-Type": "application/json" },
-                });
-                if (data?.schoolName) 
-                {
-                    setSchoolName(data.schoolName);
-                    setIsSchoolNameEditable(false);
-                } 
-                else
-                {
-                    setSchoolName('');
-                    setIsSchoolNameEditable(true);
-                }
-            } catch (err) {
-                console.error("Error fetching school name:", err);
-            }
-        }
-    };
 
     const handleGenerate = async () => 
     {
@@ -86,14 +52,18 @@ const QRCodeGenerator = () =>
             };
 
             return {
-                original: JSON.stringify(dataToEncrypt), 
-                encrypted: encryptData(dataToEncrypt, secretKey)
+                original: JSON.stringify(dataToEncrypt),
+                encrypted: encryptData(dataToEncrypt, secretKey),
             };
         });
 
-        setStudents((prev) => prev.map((student, idx) => ({
-            ...student, qrCode: qrCodes[idx]?.encrypted, originalQRCode: qrCodes[idx]?.original,
-        })));
+        setStudents((prev) =>
+            prev.map((student, idx) => ({
+                ...student,
+                qrCode: qrCodes[idx]?.encrypted,
+                originalQRCode: qrCodes[idx]?.original,
+            }))
+        );
     };
 
     const handleStudentChange = (index, field, value) => 
@@ -117,26 +87,32 @@ const QRCodeGenerator = () =>
     };
 
     // 프린트 버튼 동작
-    const handlePrint = useReactToPrint({ contentRef });
+    const handlePrint = useReactToPrint({ content: () => contentRef.current });
 
     return (
         <div>
             <h2>학생용 QR 코드 생성</h2>
 
-            { isSchoolNameEditable ? (<div>
-                <label htmlFor="schoolName">학교 이름: </label>
-                <input
-                    id="schoolName"
-                    type="text"
-                    value={schoolName}
-                    onChange={(e) => setSchoolName(e.target.value)}
-                    placeholder="학교 이름을 입력해주세요."
-                />
-            </div>) : (<div>
-                학교 이름: {schoolName}
-                <br/>
-                <h5 style={{ color: 'red' }}>근무 중인 학교가 설정되어 있습니다. 학교 이름을 수정할 수 없습니다.</h5>
-            </div>)}
+            {isSchoolNameEditable ? (
+                <div>
+                    <label htmlFor="schoolName">학교 이름: </label>
+                    <input
+                        id="schoolName"
+                        type="text"
+                        value={schoolName}
+                        onChange={(e) => setSchoolName(e.target.value)}
+                        placeholder="학교 이름을 입력해주세요."
+                    />
+                </div>
+            ) : (
+                <div>
+                    학교 이름: {schoolName}
+                    <br />
+                    <h5 style={{ color: 'red' }}>
+                        근무 중인 학교가 설정되어 있습니다. 학교 이름을 수정할 수 없습니다.
+                    </h5>
+                </div>
+            )}
 
             <h3>학생 정보 입력</h3>
             {students.map((student, index) => (
@@ -166,10 +142,12 @@ const QRCodeGenerator = () =>
             ))}
             <button onClick={addStudent}>학생 추가</button>
             <button onClick={handleGenerate}>코드 생성</button>
-            <button onClick={handlePrint} disabled={students.every((student) => !student.qrCode)}>코드 인쇄</button>
+            <button onClick={handlePrint} disabled={students.every((student) => !student.qrCode)}>
+                코드 인쇄
+            </button>
 
             <div
-                ref={contentRef} // 프린트하고 싶은 div에 추가 
+                ref={contentRef} // 프린트하고 싶은 div에 추가
                 style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',

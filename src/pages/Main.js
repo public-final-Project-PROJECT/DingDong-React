@@ -50,7 +50,7 @@ const Main = () => {
     useEffect(() => {
         const fetchTeacherId = async () => {
             try {
-                const data = await fetchFromAPI(`/user/${profile.email}`, {
+                const data = await fetchFromAPI(`/user/${profile?.email}`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 });

@@ -9,7 +9,7 @@ export const useUserData = () => {
     const [isSchoolNameEditable, setIsSchoolNameEditable] = useState(true);
     const [classCount, setClassCount] = useState(0);
     const [classList, setClassList] = useState([]);
-    const email = profile.email;
+    const email = profile?.email;
 
     useEffect(() => {
         if (profile?.email) {
