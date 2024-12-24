@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import "../asset/css/TopHeader.css"; 
 import { useNavigate } from 'react-router-dom';
 import GoogleLoginButton from './GoogleLoginButton';
+import SmallTimer from '../pages/SmallTimer';
 
 const TopHeader = () => {
   const [show, setShow] = useState(false); // 편의기능 detail 버튼 show
