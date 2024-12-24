@@ -4,7 +4,6 @@ import { getStoredProfile } from "../utils/localStorage";
 import { fetchFromAPI } from "../utils/api";
 
 import Neis from "@my-school.info/neis-api";
-import  { useState } from 'react';
 import Calendar from "./Calendar";
 import "../asset/css/Calendar.css";
 
@@ -44,9 +43,9 @@ const Main = () => {
 
     }, []);
 
-
     const [teacherId, setTeacherId] = useState(0);
     const [profile] = useState(getStoredProfile);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchTeacherId = async () => {

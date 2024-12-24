@@ -1,80 +1,44 @@
-import { useEffect, useState } from "react";
-import { getStoredProfile } from "../utils/localStorage";
-import { fetchFromAPI } from "../utils/api";
+import { useUserData } from "../hooks/useUserData";
 
-const ClassList = () =>
-{
-    const [profile] = useState(getStoredProfile);
-    const [teacherId, setTeacherId] = useState(0);
-    const [classCount, setClassCount] = useState(0);
-    const [list, setList] = useState([]);
-
-    useEffect(() => 
-    {
-        const initializeData = async () => 
-        {
-            await fetchTeacherId();
-        };
-        initializeData();
-    }, []);
-
-    useEffect(() => 
-    {
-        if (teacherId > 0) 
-        {
-            fetchClassCount();
-            fetchClass();
-        }
-    }, [teacherId]);
-
-    const fetchTeacherId = async () => 
-    {
-        try {
-            const data = await fetchFromAPI(`/user/${profile.email}`, 
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            setTeacherId(data);
-        } catch (err) {
-            console.error("Error fetching teacher ID: ", err);
-        }
-    };
-
-    const fetchClassCount = async () => 
-    {
-        try {
-            const data = await fetchFromAPI(`/class/count/${teacherId}`, 
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            setClassCount(data >= 0 ? data : 0);
-        } catch (err) {
-            console.error("Error fetching class count: ", err);
-        }
-    };
-
-    const fetchClass = async () => 
-    {
-        try {
-            const data = await fetchFromAPI(`/class/teacher/${teacherId}`, 
-            {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            setList(data);
-            console.log(data);
-        } catch (err) {
-            console.error("Error fetching class: ", err);
-        }
-    };
+const ClassList = () => {
+    const {
+        schoolName,
+        classList,
+    } = useUserData();
 
     return (
         <div>
-            {/* data 보여주기 */}
+            <h1>학급 목록</h1>
+            {classList.length > 0 ? (
+                <table border="1" style={{ width: "100%", textAlign: "left" }}>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>학교 이름</th>
+                            <th>학년</th>
+                            <th>반</th>
+                            <th>학급 별명</th>
+                            <th>선생님</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {classList.map((classItem, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{classItem.schoolName}</td>
+                                <td>{classItem.grade}</td>
+                                <td>{classItem.classNo}</td>
+                                <td>{classItem.classNickname}</td>
+                                <td>{classItem.id.name}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            ) : (
+                <p>생성된 학급이 없습니다.</p>
+            )}
         </div>
     );
-}
+};
 
 export default ClassList;
