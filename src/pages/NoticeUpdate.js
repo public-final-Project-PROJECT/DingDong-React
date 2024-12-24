@@ -80,7 +80,7 @@ const NoticeUpdate = () => {
                 },
             });
             alert("공지사항이 수정되었습니다.");
-            navigate(`/notice/${id}`);  // 수정 후 상세 페이지로 이동
+            navigate(`/${id}`);  // 수정 후 상세 페이지로 이동
         } catch (error) {
             console.error("Error updating notice:", error);
             alert("수정에 실패했습니다.");
