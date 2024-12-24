@@ -31,11 +31,11 @@
  *
  *
  * am 10:07
- *  - 리액트 페이지 헤더 라인에 타이머 같이 배치 [미구현]
+ *  - 리액트 페이지 헤더 라인에 타이머 같이 배치 [구현]
  *
  * pm 03:44
  * [변수 발생]
- *  - 편의기능 안에서의 이동, 새로고침은 가능하나 헤더의 다른 페이지 클릭 시 고정 타이머가 사라짐
+ *  - 편의기능 안에서의 이동, 새로고침은 가능하나 헤더의 다른 페이지 클릭 시 고정 타이머가 사라짐 [해결]
  *  - 타이머 페이지에서 계속 작동함
  *  (동작: 사람이나 생명체의 움직임 , 작동: 기계류의 움직임)
  *
@@ -59,6 +59,8 @@
  * 
  * [문제]: 원형 타이머 안에 보여지는 감소 시간 세로로 배치됨 [해결] (이상했음)
  * 
+ * 12월 24일 pm 03:29
+ * [문제]: 원형 타이머가 오른쪽부터 시작됨 [해결(각도를 애초에 지정하면 안 되는 것,,)]
  * 
  **/
 
@@ -192,9 +194,10 @@ const Timer = () => {
                                 stroke="blue"
                                 strokeWidth="10"
                                 fill="none"
-                                strokeDasharray={circumference}
-                                strokeDashoffset={strokeDashoffset}
+                                strokeDasharray={circumference} // 원형의 둘레
+                                strokeDashoffset={circumference - (time / (inputTime * 60)) * circumference}
                                 strokeLinecap="round"
+                                transform="rotate(-90 125 125)"
                                 style={{
                                     transition: isRunning ? "stroke-dashoffset 1s linear" : "none",
                                 }}
@@ -207,6 +210,7 @@ const Timer = () => {
                                 fontSize="32"
                                 fontWeight="bold"
                                 fill="black"
+                                transform="rotate(125, 125)"
                             >
                                 {`${String(Math.floor(time / 60)).padStart(2, "0")}:${String(time % 60).padStart(2, "0")}`}
                             </text>

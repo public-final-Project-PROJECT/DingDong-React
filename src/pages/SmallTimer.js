@@ -10,7 +10,11 @@
  *  [문제]: Layout 에 SmallTimer 삽입 시 고정 타이머 나타나지 않음 [해결]
  * 
  * 12월 24일 am 09:47
- *  [문제]: Layout 에 SmallTimer 삽입 시 고정 타이머가 유지되긴하나 숫자가 나오지 않음 [미해결]
+ *  [문제]: Layout 에 SmallTimer 삽입 시 고정 타이머가 유지되긴하나 숫자가 나오지 않음 [해결]
+ *          -> Layout 에 그냥 때려넣어서 안됐던 건에 대하여.
+ * pm 02:55
+ *  [문제]: 모든 페이지에 잘 나오는데 페이지 이동 시 메인 타이머가 보이지 않을 때와 같이 타이머가 멈춤
+ *          편의기능 > 타이머에 다시 들어가면 감소된 시간만큼 줄어있음 [해결 中] (이상해,,)
  * 
  * */
 
@@ -23,7 +27,9 @@ const SmallTimer = () => {
 
     const { time, isComplete } = useContext(TimerContext);
 
-    // console.log("SmallTimer Props : ", {time, isComplete});
+    // console.log("SmallTimer Props Time : ", time);
+    // console.log("SmallTimer Props isComplete : ", isComplete);
+
 
     const formatTime = (time) => {
         const minutes = String(Math.floor(time / 60)).padStart(2, "0");
