@@ -48,7 +48,7 @@ const CalendarModal =({event,onClose})=> {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    console.log("왜?");
+    
 
     return (
       <>
