@@ -1,3 +1,7 @@
+
+
+
+
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import PostMappingTest from "./test/PostMappingTest";
 import Layout from "./layout/Layout";
@@ -19,16 +23,32 @@ import ClassMaker from "./pages/ClassMaker.js";
 import NoticeInsert from "./pages/NoticeRegister.js";
 import NoticeUpdate from "./pages/NoticeUpdate.js";
 
+
 function App() 
 {
     return (
         <BrowserRouter>
             <Routes>
+
+
+
+               
+                
+         
+
+              
+
+
+                {/* <Route path="/" element={<Main />} /> */}
+                {/* <Route path="/postmappingtest" element={<PostMappingTest />} /> */}
+
                 <Route path="/login" element={<Outlet />} >
                     <Route index element={<Login/>}/>
                 </Route>
                 <Route path="/postmappingtest" element={<PostMappingTest />} />
                 <Route path="/classmaker" element={<ClassMaker />} />
+
+
 
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
@@ -49,6 +69,7 @@ function App()
 
                 </Route>
             
+
             </Routes>
         </BrowserRouter>
     );

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import ReactModal from "react-modal";
 import '../asset/css/Seat.css'; 
@@ -126,3 +127,4 @@ const SeatArrangement = () => {
 
 // db 에 인덱스 번호랑 같이 박아야 함. 
 export default SeatArrangement;
+

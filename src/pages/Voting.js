@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import NewVoting from "../component/NewVoting";
 
@@ -13,6 +14,7 @@ const Voting = () => {
         <button onClick={()=> setNewVotingModal(true)}> + 새 투표 </button>
         {newVotingModal && <NewVoting setNewVotingModal={setNewVotingModal} newVotingModal={newVotingModal}/>}
         </>
+
     )
 }
 export default Voting;
