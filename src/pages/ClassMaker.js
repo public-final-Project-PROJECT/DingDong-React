@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { googleLogout } from "@react-oauth/google";
 import { useUserData } from "../hooks/useUserData";
-import { clearProfileFromStorage } from "../utils/localStorage";
 import { InputField } from "../component/InputField";
 import { DropdownField } from "../component/DropdownField";
 import { SchoolNameDisplay } from "../component/SchoolNameDisplay";
@@ -10,7 +8,7 @@ import { fetchFromAPI } from "../utils/api";
 
 const ClassMaker = () => 
 {
-    const { email, schoolName, classCount, isSchoolNameEditable, setSchoolName, fetchClassCount } = useUserData();
+    const { email, schoolName, classCount, isSchoolNameEditable, setSchoolName, fetchClassCount, Logout } = useUserData();
     const navigate = useNavigate();
 
     const [grade, setGrade] = useState("");
@@ -49,18 +47,20 @@ const ClassMaker = () =>
         }
     };
 
-    const submitWarn = () => 
+    const submitConfirm = () => 
     {
-        const confirmationMessage = `
-            학급은 최대 2개까지 생성하실 수 있으며,
-            생성일자로부터 2년 후의 3월 1일에 자동으로 삭제됩니다.
+        // 일부러 왼쪽으로 붙인 것
+        const confirmationMessage = 
+`학급은 최대 2개까지 생성하실 수 있으며,
+생성일자로부터 2년 후의 3월 1일에 자동으로 삭제됩니다.
 
-            예시)
-            1) 2023년 2월 15일 생성 → 2025년 3월 1일 자동 삭제
-            2) 2024년 8월 15일 생성 → 2026년 3월 1일 자동 삭제
+예시)
+1) 2023년 2월 15일 생성 → 2025년 3월 1일 자동 삭제
+2) 2024년 8월 15일 생성 → 2026년 3월 1일 자동 삭제
 
-            삭제된 이후의 학급은 확인할 수 없으며, 복구할 수 없습니다.
-            학급을 생성하시겠습니까?`;
+학교, 학년, 반은 생성 후 변경할 수 없습니다.
+학급을 생성하시겠습니까?`;
+
         if (window.confirm(confirmationMessage)) 
         {
             handleSubmit();
@@ -71,9 +71,7 @@ const ClassMaker = () =>
     {
         if (window.confirm("로그아웃 하시겠습니까?")) 
         {
-            googleLogout();
-            clearProfileFromStorage();
-            navigate("/login");
+            Logout();
         }
     };
 
@@ -82,7 +80,7 @@ const ClassMaker = () =>
             <h2>학급 생성</h2>
             {!classCount && (
                 <div>
-                    <h5>학급 생성 후 이용하실 수 있습니다.</h5>
+                    <p>입력하신 정보로 학급을 생성합니다.</p>
                 </div>
             )}
             <form onSubmit={(e) => e.preventDefault()}>
@@ -112,7 +110,7 @@ const ClassMaker = () =>
                     value={classNickname}
                     onChange={(e) => setClassNickname(e.target.value)}
                 />
-                <button onClick={submitWarn}>학급 생성</button>
+                <button onClick={submitConfirm}>학급 생성</button>
                 <button onClick={() => navigate(-1)}>뒤로가기</button>
                 {!classCount && <button onClick={handleLogout}>로그아웃</button>}
             </form>

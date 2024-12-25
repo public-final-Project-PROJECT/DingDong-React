@@ -13,9 +13,9 @@ export const SchoolNameDisplay = ({ isEditable, schoolName, onChange }) => (
     ) : (
         <div>
             학교 이름: {schoolName}
-            <h5 style={{ color: 'red' }}>
+            <p style={{ color: 'red' }}>
                 재직중인 학교가 설정되어 있습니다. 학교 이름을 수정할 수 없습니다.
-            </h5>
+            </p>
         </div>
     )
 );

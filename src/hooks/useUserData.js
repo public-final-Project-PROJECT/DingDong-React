@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { fetchFromAPI } from "../utils/api";
-import { getStoredProfile } from "../utils/localStorage";
+import { clearProfileFromStorage, getStoredProfile } from "../utils/localStorage";
+import { useNavigate } from "react-router-dom";
+import { googleLogout } from "@react-oauth/google";
 
-export const useUserData = () => {
+export const useUserData = () => 
+{
     const [profile, setProfile] = useState(getStoredProfile);
     const [teacherId, setTeacherId] = useState(0);
     const [schoolName, setSchoolName] = useState("");
@@ -10,21 +13,27 @@ export const useUserData = () => {
     const [classCount, setClassCount] = useState(0);
     const [classList, setClassList] = useState([]);
     const email = profile?.email;
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (profile?.email) {
+    useEffect(() => 
+    {
+        if (profile?.email) 
+        {
             fetchUserData(profile.email);
         }
     }, [profile]);
 
-    useEffect(() => {
-        if (teacherId > 0) {
+    useEffect(() => 
+    {
+        if (teacherId > 0) 
+        {
             fetchClassCount();
             fetchClassList();
         }
     }, [teacherId]);
 
-    const fetchUserData = async (email) => {
+    const fetchUserData = async (email) => 
+    {
         try {
             await fetchTeacherId(email);
             await fetchSchoolName(email);
@@ -33,25 +42,33 @@ export const useUserData = () => {
         }
     };
 
-    const fetchTeacherId = async (email) => {
+    // 선생님 테이블 pk 가져오기
+    const fetchTeacherId = async (email) => 
+    {
         try {
-            const data = await fetchFromAPI(`/user/${email}`);
-            setTeacherId(data);
+            const response = await fetchFromAPI(`/user/${email}`);
+            setTeacherId(response);
         } catch (error) {
             console.error("Error fetching teacher ID:", error);
         }
     };
 
-    const fetchSchoolName = async (email) => {
+    // 선생님 테이블 school_name column 가져오기
+    const fetchSchoolName = async (email) => 
+    {
         try {
-            const response = await fetchFromAPI(`/user/get/school/${email}`, {
+            const response = await fetchFromAPI(`/user/get/school/${email}`, 
+            {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
-            if (response.status === 404) {
+            if (response.status === 404) 
+            {
                 setSchoolName("");
                 setIsSchoolNameEditable(true);
-            } else if (response?.schoolName) {
+            } 
+            else if (response?.schoolName) 
+            {
                 setSchoolName(response.schoolName);
                 setIsSchoolNameEditable(false);
             }
@@ -60,37 +77,54 @@ export const useUserData = () => {
         }
     };
 
-    const fetchClassCount = async () => {
+    const fetchClassCount = async () => 
+    {
         try {
-            const data = await fetchFromAPI(`/class/count/${teacherId}`, {
+            const response = await fetchFromAPI(`/class/count/${teacherId}`, 
+            {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
-            setClassCount(data >= 0 ? data : 0);
+            setClassCount(response > 0 ? response : 0);
         } catch (error) {
             console.error("Error fetching class count:", error);
         }
     };
 
-    const fetchClassList = async () => {
+    const fetchClassList = async () => 
+    {
         try {
-            const data = await fetchFromAPI(`/class/teacher/${teacherId}`);
-            setClassList(data);
+            const response = await fetchFromAPI(`/class/teacher/${teacherId}`);
+            setClassList(response);
         } catch (error) {
             console.error("Error fetching class list:", error);
         }
+    };
+
+    // 로그아웃
+    // if (window.confirm(message)) 
+    // {
+    //      Logout();
+    // }
+    const Logout = () => 
+    {
+        googleLogout();
+        clearProfileFromStorage();
+        navigate("/login");
     };
 
     return {
         profile,
         setProfile,
         email,
+        fetchUserData,
         teacherId,
         schoolName,
         setSchoolName,
         isSchoolNameEditable,
         classCount,
         classList,
-        fetchClassCount
+        fetchClassCount,
+        Logout
     };
 };
