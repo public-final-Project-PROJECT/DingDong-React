@@ -1,108 +1,104 @@
 import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-const NoticeInsert = () => {
-    const [notice, setNotice] = useState({
+const NoticeUpdate = () => {
+    const { id } = useParams();  // URL에서 동적으로 id를 받음
+    const navigate = useNavigate();
+
+    const [updateNotice, setUpdateNotice] = useState({
         noticeTitle: "",
         noticeCategory: "가정통신문", // 기본값 설정
         noticeContent: "",
-        noticeImg: null,
-        noticeFile: null,
+        noticeImg: null,  // 이미지 상태 추가
+        noticeFile: null, // 파일 상태 추가
     });
-    const classId = "1";
-    const navigate = useNavigate();
 
     const categories = ["가정통신문", "알림장", "학교생활"];
+    
+    useEffect(() => {
+        // 공지사항 데이터를 불러옴
+        axios.get(`http://localhost:3013/api/notice/detail/${id}`)
+            .then(response => {
+                const { noticeTitle, noticeCategory, noticeContent, noticeImg, noticeFile } = response.data[0]; 
+                setUpdateNotice({
+                    noticeTitle,
+                    noticeCategory,
+                    noticeContent,
+                    noticeImg,
+                    noticeFile
+                });
+            })
+            .catch(error => {
+                console.error("Error fetching notice:", error);
+            });
+    }, [id]);
 
-    // 폼에서 입력값을 처리
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setNotice((prevNotice) => ({
-            ...prevNotice,
+        setUpdateNotice((prevState) => ({
+            ...prevState,
             [name]: value,
         }));
     };
 
-    // 파일 입력 처리
     const handleFileChange = (e) => {
         const { name, files } = e.target;
-        setNotice((prevNotice) => ({
-            ...prevNotice,
+        setUpdateNotice((prevState) => ({
+            ...prevState,
             [name]: files[0],
         }));
     };
 
-    // 이미지 미리보기
-    const handleImagePreview = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setNotice((prevNotice) => ({
-                ...prevNotice,
-                noticeImg: file,  // 이미지 파일 객체로 저장
-            }));
-        }
-    };
-
-    // submit 처리
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!notice.noticeTitle.trim()) {
+        if (!updateNotice.noticeTitle.trim()) {
             alert("제목을 입력해주세요.");
             return;
         }
-        if (!notice.noticeCategory.trim()) {
+        if (!updateNotice.noticeCategory.trim()) {
             alert("카테고리를 선택해주세요.");
             return;
         }
-        if (!notice.noticeContent.trim()) {
+        if (!updateNotice.noticeContent.trim()) {
             alert("내용을 입력해주세요.");
             return;
         }
 
         const formData = new FormData();
-        formData.append("noticeTitle", notice.noticeTitle);
-        formData.append("noticeCategory", notice.noticeCategory);
-        formData.append("noticeContent", notice.noticeContent);
-        formData.append("classId", classId);
-
-        // 이미지와 파일이 선택된 경우만 추가
-        if (notice.noticeImg) {
-            formData.append("noticeImg", notice.noticeImg);  // 파일 객체로 전송
-        }
-        if (notice.noticeFile) {
-            formData.append("noticeFile", notice.noticeFile);
-        }
+        formData.append("noticeTitle", updateNotice.noticeTitle);
+        formData.append("noticeCategory", updateNotice.noticeCategory);
+        formData.append("noticeContent", updateNotice.noticeContent);
+        formData.append("noticeImg", updateNotice.noticeImg);
+        formData.append("noticeFile", updateNotice.noticeFile);
 
         try {
-            await axios.post(
-                `http://localhost:3013/api/notice/insert`,
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-            alert("공지사항이 등록되었습니다.");
-            navigate("/notice");
+            // 수정된 공지사항 데이터를 서버에 PUT 요청으로 전송
+            await axios.post(`http://localhost:3013/api/notice/update/${id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            alert("공지사항이 수정되었습니다.");
+            navigate(`/notice/${id}`);  // 수정 후 상세 페이지로 이동
         } catch (error) {
-            console.error("등록 오류:", error);
-            alert("등록에 실패했습니다.");
+            console.error("Error updating notice:", error);
+            alert("수정에 실패했습니다.");
         }
     };
 
     return (
         <div>
-            <h1>공지사항 작성</h1>
+            <h1>공지사항 수정</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="noticeTitle">제목:</label>
+                    
                     <input
                         type="text"
                         id="noticeTitle"
                         name="noticeTitle"
-                        value={notice.noticeTitle}
+                        value={updateNotice.noticeTitle}
                         onChange={handleChange}
                     />
                 </div>
@@ -111,7 +107,7 @@ const NoticeInsert = () => {
                     <select
                         id="noticeCategory"
                         name="noticeCategory"
-                        value={notice.noticeCategory}
+                        value={updateNotice.noticeCategory}
                         onChange={handleChange}
                     >
                         {categories.map((category, index) => (
@@ -126,18 +122,9 @@ const NoticeInsert = () => {
                     <textarea
                         id="noticeContent"
                         name="noticeContent"
-                        value={notice.noticeContent}
+                        value={updateNotice.noticeContent}
                         onChange={handleChange}
                     />
-                    {notice.noticeImg && (
-                        <div>
-                            <img
-                                src={URL.createObjectURL(notice.noticeImg)}
-                                alt="미리보기"
-                                style={{ maxWidth: "100%", marginTop: "10px" }}
-                            />
-                        </div>
-                    )}
                 </div>
                 <div>
                     <label htmlFor="noticeImg">이미지:</label>
@@ -145,7 +132,7 @@ const NoticeInsert = () => {
                         type="file"
                         id="noticeImg"
                         name="noticeImg"
-                        onChange={handleImagePreview}
+                        onChange={handleFileChange}
                     />
                 </div>
                 <div>
@@ -157,10 +144,10 @@ const NoticeInsert = () => {
                         onChange={handleFileChange}
                     />
                 </div>
-                <button type="submit">등록하기</button>
+                <button type="submit">수정하기</button>
             </form>
         </div>
     );
 };
 
-export default NoticeInsert;
+export default NoticeUpdate;

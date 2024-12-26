@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaRegSmile } from 'react-icons/fa'; 
+//import { FaRegSmile } from 'react-icons/fa'; 
 import { FaPlus } from 'react-icons/fa'; 
 
 
@@ -25,13 +25,17 @@ const Notice = () => {
 
     const noticeDetail = (noticeId)=>{
         console.log(noticeId);
-        navigate(`/${noticeId}`)
+        navigate(`/${noticeId}`); 
+    }
+//NoticeUpdate
+    const Register = ()=>{
+        navigate("/notice/register")
     }
    
     return (
         <div>
 
-            <h1>공지사항 페이지</h1>  <button ><FaPlus/> 작성하기</button>
+            <h1>공지사항 페이지</h1>  <button onClick={Register}><FaPlus/> 작성하기</button>
             {notices.length === 0 ? (
                 <p>공지사항이 없습니다.</p>
             ) : (
@@ -42,7 +46,9 @@ const Notice = () => {
                             <small>{notice.noticeCategory}</small>
                             <h2>{notice.noticeTitle}</h2>
                             <p>{notice.noticeContent}</p>
-                            <small>{new Date(notice.createdAt).toLocaleString()}</small>
+                            <small>
+                                {new Date(notice.updatedAt || notice.createdAt).toLocaleString()}
+                            </small>
                         </li>
                     ))}
                 </ul>
