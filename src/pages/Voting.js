@@ -4,6 +4,7 @@ import NewVoting from "../component/NewVoting";
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faUsers,faCheckToSlot,faCheck,faPenToSquare} from "@fortawesome/free-solid-svg-icons";
+import '../asset/css/Voting.css';
 
 
 const Voting = () => {
@@ -23,35 +24,48 @@ const Voting = () => {
     const toggleProfileModal = (id) => {
       setActiveProfile((prev) => (prev === id ? null : id)); 
     };
-    const classId = 1;
-    const studentId = 3;
+      const classId = 1;
+      const studentId = 3;
 
-            useEffect(() => {
-              handler();
-            })
+          useEffect(() => {
+            // 투표 데이터와 항목 데이터를 처음 로드
+            const fetchInitialData = async () => {
+                try {
+                    const votingResponse = await Send();
+                    if (votingResponse && votingResponse.length > 0) {
+                        const allContents = {};
+                        for (const vote of votingResponse) {
+                            const contents = await contentsSend(vote.id);
+                            allContents[vote.id] = contents;
+                            const userVoteContents = await userVoteSend(vote.id);
+                            if (userVoteContents) {
+                                setUserVotes((prev) => ({
+                                    ...prev,
+                                    [vote.id]: { contentsId: userVoteContents[1], voteId: userVoteContents[0] },
+                                }));
+                                await optionSend(vote.id);
+                            }
+                        }
+                        setContentsData(allContents);
+                    }
+                } catch (error) {
+                    console.error("Error fetching initial data:", error);
+                }
+            };
+            fetchInitialData();
+        }, []);
 
-
-            // useEffect(() => {
-            //     const totals = {};
-            //     Object.keys(voteResults).forEach((voteId) => {
-            //       totals[voteId] = Object.values(voteResults[voteId] || {}).reduce((acc, count) => acc + count, 0);
-            //     });
-            //   }, [voteResults]);
-    
-            // const updateVotingList = async () => {
-            //     await  Send(); // 투표 목록 다시 불러오기
-            //     await contentsSend();
-            //       };
       
           // 1. \투표 list 조회 요청
           const Send = async () => {
               try {
-                const response = await axios({
-                  url: `/api/voting/findVoting`,
-                  body: { classId: classId },
-                  method: "post",
-                });
+                const response = await axios.post(
+                  `http://localhost:3013/api/voting/findVoting`,
+                   { classId: 1 }
+                );
+                console.log(response)
                 console.log(response.data);
+                console.log(response.data[0].vote);
                 setVotingData(response.data);
                
                 return response.data;
@@ -64,11 +78,12 @@ const Voting = () => {
           const contentsSend = async (votingId) => {
               try {
              
-              const response = await axios({
-                  url: `/api/voting/findContents`,
-                  body: { votingId: votingId },
-                  method: 'post',
-              });
+              const response = await axios.post(
+                  `http://localhost:3013/api/voting/findContents`,
+                   { votingId: votingId },
+                 
+              );
+              console.log(response.data);
               return response.data;
               } catch (error) {
               console.error(`vote contents 데이터 오류  ${votingId}:`, error);
@@ -79,14 +94,14 @@ const Voting = () => {
          //  3. 해당 학생이 투표 한 항목 정보 조회 
           const userVoteSend = async (voteId) => {
               try {
-              const response = await axios({
-                  url: `/api/voting/findUserVoting`,
-                  params: { votingId: voteId, studentId: studentId },
-                  method: 'post',
-              });
+              const response = await axios.post(
+                  `http://localhost:3013/api/voting/findUserVoting`,
+                 { votingId: voteId, studentId: studentId },
+              );
               console.log(response);
                   // 투표 아이디와 해당 유저의 id 를 보냄-> 투표 항목 중 해당 유저 id 가 있는지 확인 후 반환
                   if (response.data && response.data.length > 0) {
+                      console.log(response.data);
                       return response.data;
                     } else{
                       console.log("요청 오류");
@@ -132,11 +147,10 @@ const Voting = () => {
       
           // (투표 후) 사용자 투표 항목 저장 요청
           function userVote(voteId) {
-              axios({
-              url: `/api/voting/uservoteinsert`,
-              method: 'post',
-              body: { votingId: voteId, contentsId: state, studentId: studentId }, // 투표 고유 id, 투표 항목 id, 사용자id
-              }).then(function (response) {
+              axios.post(
+               `http://localhost:3013/api/voting/uservoteinsert`,
+              { votingId: voteId, contentsId: state, studentId: 1 }, // 투표 고유 id, 투표 항목 id, 사용자id
+              ).then(function (response) {
                   console.log(response);
               });
           }
@@ -146,7 +160,7 @@ const Voting = () => {
           const optionSend = async (voteId) => {                
             try {             
                 const response = await axios({                 
-                    url: `/api/voting/VoteOptionUsers`,                               
+                    url: `http://localhost:3013/api/voting/VoteOptionUsers`,                               
                     method: 'post',                 
                     body: { votingId: voteId , studentId: studentId},             
                 });             
@@ -178,7 +192,7 @@ const Voting = () => {
             
             if(result){
             axios({
-            url: `/api/voting/isVoteUpdate`,
+            url: `http://localhost:3031/api/voting/isVoteUpdate`,
             method: 'post',
             body: { votingId: voteId }, // 투표 고유 id
             }).then(function (response) {
@@ -217,11 +231,11 @@ const Voting = () => {
           const voteButton = document.querySelector(`#vote-button-${voteId}`);
           voteButton.disabled = true; 
       
-          // userVote(voteId); 
+           userVote(voteId); 
           localStorage.setItem('userVote_' + voteId, JSON.stringify({ voteId, contentId: selected.value }));
           
-          // handler(voteId);
-          // optionSend(voteId); 
+           handler(voteId);
+           optionSend(voteId); 
       
           alert("투표가 완료되었습니다!"); 
       }
@@ -294,7 +308,8 @@ const Voting = () => {
                 <span className="vote-detail">{vote.votingDetail}</span>
                 <div className="separator"></div>
                 <ul>
-                {Array.isArray(contentsData[vote.id]) && contentsData[vote.id].length > 0 ? (
+
+            {Array.isArray(contentsData[vote.id]) && contentsData[vote.id].length > 0 ? (
                 <form onSubmit={(e) => handleSubmittt(e, vote.id)}>
                 {contentsData[vote.id].map((content, idx) => {
                 const isVoted = userVotes[vote.id]?.contentsId === content.id;
