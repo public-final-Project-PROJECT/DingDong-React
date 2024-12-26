@@ -4,14 +4,17 @@ import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
 import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
 import { useUserData } from '../hooks/useUserData'; 
+import { SchoolNameDisplay } from '../component/SchoolNameDisplay';
+import { useLocation } from 'react-router-dom';
 
 const QRCodeGenerator = () => 
 {
-    const { profile, schoolName, setSchoolName, isSchoolNameEditable, fetchSchoolName } = useUserData();
+    const { profile, schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
     const [students, setStudents] = useState([{ num: '', name: '' }]);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
-    const today = new Date();
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
+    const location = useLocation();
+    const { classData } = location.state || {};
 
     const handleGenerate = async () => 
     {
@@ -46,9 +49,9 @@ const QRCodeGenerator = () =>
             const dataToEncrypt = 
             {
                 student: { student_num: student.num, student_name: student.name },
-                teacher: { teacher_name: profile.name, teacher_email: profile.email },
-                school: schoolData,
-                year: today.getFullYear()
+                teacher_name: profile.name,
+                school: { school_info: schoolData, grade: classData.grade, class: classData.classNo},
+                year: new Date(classData.classCreated).getFullYear()
             };
 
             return {
@@ -92,28 +95,18 @@ const QRCodeGenerator = () =>
     return (
         <div>
             <h2>학생용 QR 코드 생성</h2>
-
-            {isSchoolNameEditable ? (
+            {classData ? (
                 <div>
-                    <label htmlFor="schoolName">학교 이름: </label>
-                    <input
-                        id="schoolName"
-                        type="text"
-                        value={schoolName}
-                        onChange={(e) => setSchoolName(e.target.value)}
-                        placeholder="학교 이름을 입력해주세요."
-                    />
+                    <p>학급 정보: {classData.schoolName} {classData.grade}학년 {classData.classNo}반</p>
+                    <p>학급 이름: {classData.classNickname}</p>
                 </div>
             ) : (
-                <div>
-                    학교 이름: {schoolName}
-                    <br />
-                    <h5 style={{ color: 'red' }}>
-                        근무 중인 학교가 설정되어 있습니다. 학교 이름을 수정할 수 없습니다.
-                    </h5>
-                </div>
-            )}
-
+                <SchoolNameDisplay
+                    isEditable={isSchoolNameEditable}
+                    schoolName={schoolName}
+                    onChange={(e) => setSchoolName(e.target.value)}
+                />
+            )}             
             <h3>학생 정보 입력</h3>
             {students.map((student, index) => (
                 <div key={index} style={{ marginBottom: '10px' }}>

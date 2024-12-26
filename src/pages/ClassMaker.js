@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../hooks/useUserData";
 import { InputField } from "../component/InputField";
@@ -15,14 +15,22 @@ const ClassMaker = () =>
     const [classNo, setClassNo] = useState("");
     const [classNickname, setClassNickname] = useState("");
 
+    useEffect(() => 
+    {
+        const delayCheck = setTimeout(() =>
+        {
+            if (classCount === 2) 
+            {
+                alert("학급은 최대 2개까지 생성할 수 있습니다.");
+                navigate("/profile");
+            }
+        }, 70);
+    
+        return () => clearTimeout(delayCheck);
+    }, [classCount, navigate]);
+
     const handleSubmit = async () => 
     {
-        if (classCount >= 2) 
-        {
-            alert("학급은 최대 2개까지 생성할 수 있습니다.");
-            return;
-        }
-
         const isNumeric = /^[1-9]+$/;
         if (!isNumeric.test(grade) || !isNumeric.test(classNo)) 
         {
@@ -105,7 +113,7 @@ const ClassMaker = () =>
                 />
                 <InputField
                     id="classNickname"
-                    label="별명:"
+                    label="학급 이름(선택):"
                     type="text"
                     value={classNickname}
                     onChange={(e) => setClassNickname(e.target.value)}

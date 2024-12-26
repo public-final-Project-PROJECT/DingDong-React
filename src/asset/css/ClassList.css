@@ -17,7 +17,7 @@
 }
 
 .cell {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     gap: 4px;
 }
@@ -84,27 +84,28 @@
 
 .button-save-icon,
 .button-cancel-icon {
-    width: 0px;
+    width: 24px;
     height: 24px;
     padding: 0;
     border: none;
     font-size: 16px;
     cursor: pointer;
     border-radius: 4px;
+    margin: 0px 2px;
 }
 
 .button-save-icon {
     background-color: #28a745;
+    box-shadow: 0px 0px 0px 1px #28a745;
     color: white;
 }
 
 .button-cancel-icon {
     background-color: transparent;
-    border: 1px solid #6c757d;
+    box-shadow: 0px 0px 0px 1px;
     color: #6c757d;
 }
 
 .button-cancel-icon:hover {
     color: red;
-    border-color: red;
 }
