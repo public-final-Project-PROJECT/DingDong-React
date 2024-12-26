@@ -265,7 +265,7 @@ const Voting = () => {
                         <button  className="votingButton2" onClick={() => endHandler(vote.id)}>종료</button>
                     )} */}
                     <div className="vote-name-container">
-                        {isEnded && daysRemaining == 0 ? 
+                        {isEnded && daysRemaining === 0 ? 
                         <p style={{color:"red"}}><strong>오늘 마감되는 투표입니다 !</strong></p>
                         :
                         (

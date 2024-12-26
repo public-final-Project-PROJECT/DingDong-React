@@ -18,13 +18,13 @@ const QRCodeGenerator = () =>
 
     const handleGenerate = async () => 
     {
-        if (!schoolName.trim()) 
+        if (!classData.schoolName.trim()) 
         {
             alert('유효한 학교명을 입력해주세요.');
             return;
         }
 
-        const schoolData = await fetchSchoolInfo(schoolName);
+        const schoolData = await fetchSchoolInfo(classData.schoolName);
         if (!schoolData) 
         {
             alert('학교 정보를 가져올 수 없습니다.');

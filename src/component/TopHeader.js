@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import "../asset/css/TopHeader.css"; 
 import { useNavigate } from 'react-router-dom';
 import GoogleLoginButton from './GoogleLoginButton';
@@ -10,7 +10,6 @@ const TopHeader = () => {
   const clientId = process.env.REACT_APP_OAUTH2_GOOGLE_CLIENT_ID;
 
   const onClickHandler = (e) => {
-    console.log(e.target.className);
     setShow(false);
 
     switch(e.target.className) {
