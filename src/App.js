@@ -22,6 +22,7 @@ import ClassMaker from "./pages/ClassMaker.js";
 
 import NoticeInsert from "./pages/NoticeRegister.js";
 import NoticeUpdate from "./pages/NoticeUpdate.js";
+import StudentDetail from "./pages/StudentDetail.js";
 
 
 function App() 
@@ -57,9 +58,9 @@ function App()
                     <Route path="notice/update/:id" element={<NoticeUpdate/>} />
                     <Route path="notice/register" element={<NoticeInsert/>} />
                     <Route path="Attendance" element={<Attendance/>}/>            {/* 출석부  */} 
-                    <Route path="Students" element={<Students/>}/>                  {/* 학생정보  */}    
+                    <Route path="Students" element={<Students/>}/>      
+                    <Route path="Students/:id" element={<StudentDetail/>}/>                  {/* 학생정보  */}    
                     <Route path="Calendar" element={<Calendar/>}/>                  {/* 캘린더 */}
-
                     <Route path="Timer" element={<Timer/>}/>                        {/* 타이머 */}
                     <Route path="Seat" element={<Seat/>}/>                          {/* 좌석표*/}
                     <Route path="RandomPicker" element={<RandomPicker/>}/>          {/* 발표자 뽑기 */}
