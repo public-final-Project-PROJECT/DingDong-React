@@ -67,7 +67,6 @@ const Timer = () => {
         setIsRunning(false);
         setIsComplete(false);
         localStorage.setItem("timerTime", "0");
-        localStorage.setItem("timerRunning", "false");
         localStorage.removeItem("lastUpdated");
     };
 

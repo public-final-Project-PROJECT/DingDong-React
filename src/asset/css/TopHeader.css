@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-evenly; 
   width: 100%; 
-  padding: 10px 0; 
+  padding: 10px 0;
 }
 
 
@@ -19,26 +19,35 @@
   margin-top: 10px;
   width: 100%;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 
 
 .convenience-buttons {
   display: flex;
-  flex-direction: column; 
-  gap: 4px; 
+  flex-direction: column;
+  gap: 4px;
   align-items: flex-start;
-  padding-left: 20px; 
-  max-width: 200px; 
+  padding-left: 20px;
+  max-width: 200px;
 }
 
 
 .convenience-buttons button {
   width: 100%; 
   padding: 10px;
-  background-color: #dcdcdc; 
+  background-color: #dcdcdc;
+  border: none;
+  background-color: #9bbc83;
+  height: 50px;
+  width: 150px;
+  color: #000;
+  font-size: 15px;
+  margin-left: 330px;
 }
 
 .convenience-buttons button:hover {
-  background-color: #c0c0c0; 
+  background-color: #c0c0c0;
+  color: white;
+  font-weight: bold;
 }
