@@ -5,10 +5,9 @@ import GoogleLoginButton from './GoogleLoginButton';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const TopHeader = () => {
-  const clientId = process.env.REACT_APP_OAUTH2_GOOGLE_CLIENT_ID;
   const [show, setShow] = useState(false); // 편의기능 detail 버튼 show
   const navigator = useNavigate();
-
+  const clientId = process.env.REACT_APP_OAUTH2_GOOGLE_CLIENT_ID;
 
   const onClickHandler = (e) => {
     console.log(e.target.className);
@@ -58,7 +57,7 @@ const TopHeader = () => {
         <button className="Calendar" onClick={onClickHandler}>캘린더</button>
         <button  onClick={toggleFunctions}>편의기능</button>
         <GoogleOAuthProvider clientId={clientId}>
-          <GoogleLoginButton/>
+            <GoogleLoginButton />
         </GoogleOAuthProvider>
       </div>
 
