@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const NoticeInsert = () => {
+const NoticeInsert = ({ closeModal }) => {  // closeModal prop 추가
     const [notice, setNotice] = useState({
         noticeTitle: "",
         noticeCategory: "가정통신문", // 기본값 설정
@@ -85,7 +85,7 @@ const NoticeInsert = () => {
                 }
             );
             alert("공지사항이 등록되었습니다.");
-            navigate("/notice");
+            closeModal();  // Modal close after successful submission
         } catch (error) {
             console.error("등록 오류:", error);
             alert("등록에 실패했습니다.");
@@ -158,6 +158,10 @@ const NoticeInsert = () => {
                     />
                 </div>
                 <button type="submit">등록하기</button>
+                {/* 닫기 버튼 추가 */}
+                <button type="button" onClick={closeModal} style={{ marginLeft: "10px" }}>
+                    닫기
+                </button>
             </form>
         </div>
     );
