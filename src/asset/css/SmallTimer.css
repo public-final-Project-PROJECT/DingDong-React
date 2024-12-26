@@ -1,0 +1,22 @@
+/* 고정 타이머 css */
+
+.small-timer.complete {
+    color: #ffffff;
+    font-size: 1.2rem;
+    background-color: red;
+
+}
+
+.small-timer {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    padding: 5px 10px; /* 크기 증가 */
+    border-radius: 10px;
+    font-size: 1.2rem; /* 크기 증가 */
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+    background-color: #000; /* 기본 배경색 */
+}
+

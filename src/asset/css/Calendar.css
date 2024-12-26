@@ -1,0 +1,147 @@
+
+:root {
+    /*색상 정의*/
+    --black: #222;
+    --point: #FF7F27;
+    --borderColor: #DEE2E6;
+    --beige: #FAEFDD; /*rgb(250,239,221)*/
+    --darkGray: #343A40;
+    --gray: #6C757D;
+    --darkBorderColor: #495057;
+    --darkBgBlack: #212529;
+    --placeholder: #cdcdcd;
+    --fc-event-border-color: #fdc882;
+    /*header*/
+    --headerHeight: 4rem;
+    /*footer*/
+    --footerHeight: 100px;
+}
+a {
+   color: #db9a3e;
+   text-decoration: none; 
+}
+body {
+    color: var(--black);
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.inner {
+    width: calc(1920px - 160px * 2); /* 좌우 각각 160px 여유 공간 */
+    max-width: 1600px; /* 최대 너비 설정 */
+    padding: 0 20px; /* 내부 패딩 */
+    margin: 0 auto;
+}
+.full-calendar-container {
+    width: 60%;
+    
+    display: flex;
+    justify-content: center; /* Centers the calendar horizontally */
+    align-items: center; /* Centers the calendar vertically */
+    
+  }
+  .fc-h-event .fc-event-main {
+    color: #252525;
+}
+  .fc {
+    height: 650px;
+    width: 100%;
+    
+  }
+  .fc-h-event {
+    /* background-color: var(--fc-event-bg-color); */
+    border: 1px solid var(--fc-event-border-color);
+    display: block;
+}
+
+  .fc .fc-toolbar.fc-header-toolbar {
+    margin: 0;
+    padding: 0 40px;
+    background-color: #FFEFB0;
+    height: 63px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 29px;
+    color: black;
+    border-radius: 20px 20px 0px 0px;
+  }
+  
+  
+  .fc .fc-button-primary {
+    background-color: transparent;
+    color: black;
+    border: none;
+  
+    span {
+      font-weight: 500;
+      font-size: 28px;
+    }
+    :active {
+        outline: 0;
+        box-shadow: none !important;
+    }
+    :focus {
+      border: none;
+      outline: none; /* 포커스 시 outline 제거 */
+      outline: 0 !important;
+      box-shadow: none !important;
+    }
+    :hover {
+      color: black;
+      background-color: transparent;
+    }
+  }
+  .fc-button:active, .fc-button:focus {
+    outline: 0;
+    box-shadow: none !important;
+  }
+  .fc-day-selected {
+    background-color: #f0ad4e !important; /* 선택된 날짜의 배경색을 강제로 변경 */
+    border-radius: 5px; /* 부드러운 경계선 */
+  }
+  .fc-theme-standard th {
+    height: 32px;
+    padding-top: 3.5px;
+    background: #e5edff;
+    border: 1px solid #dddee0;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #7b7b7b;
+  }
+  
+  .fc .fc-daygrid-day.fc-day-today {
+    background-color: #fff8bd;
+    color: #356eff;
+  }
+  
+  .fc .fc-daygrid-day-frame {
+    padding: 10px;
+  }
+  
+  .fc .fc-daygrid-day-top {
+    flex-direction: row;
+    margin-bottom: 3px;
+  }
+  
+  .fc-event {
+    cursor: pointer;
+    padding: 5px 8px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    background-color: transparent; /* 기본 배경 제거 */
+    outline: none; /* 기본 포커스 아웃라인 제거 */
+  }
+  
+  .fc-event:active {
+    background-color: transparent; /* 클릭 후 배경을 투명하게 설정 */
+  }
+  
+  .fc-event:focus {
+    background-color: transparent; /* 포커스 시 배경을 투명하게 설정 */
+  }
+  

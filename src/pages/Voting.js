@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import NewVoting from "../component/NewVoting";
 import axios from 'axios';
@@ -10,7 +11,7 @@ const Voting = () => {
     const [newVotingModal, setNewVotingModal] = useState(false); // 투표 만들기 모달
     const [idVoteState, setIdVoteState] = useState(false);
     const [activeProfile, setActiveProfile] = useState(null);
-    const [votingData, setVotingData] = useState([]);
+    const [votingData, setVotingData] = useState([]); // 투표 기본 정보 요청 response 담음
     const [contentsData, setContentsData] = useState({});
     const [modalShow, setModalShow] = useState(false);
     const [rere, setRere] = useState(false);
@@ -22,151 +23,147 @@ const Voting = () => {
     const toggleProfileModal = (id) => {
       setActiveProfile((prev) => (prev === id ? null : id)); 
     };
+    const classId = 1;
+    const studentId = 3;
+
+            useEffect(() => {
+              handler();
+            })
 
 
-    useEffect(() => {
-        const totals = {};
-        Object.keys(voteResults).forEach((voteId) => {
-          totals[voteId] = Object.values(voteResults[voteId] || {}).reduce((acc, count) => acc + count, 0);
-        });
-      }, [voteResults]);
-      
-
-      
-          
+            // useEffect(() => {
+            //     const totals = {};
+            //     Object.keys(voteResults).forEach((voteId) => {
+            //       totals[voteId] = Object.values(voteResults[voteId] || {}).reduce((acc, count) => acc + count, 0);
+            //     });
+            //   }, [voteResults]);
+    
             // const updateVotingList = async () => {
             //     await  Send(); // 투표 목록 다시 불러오기
             //     await contentsSend();
             //       };
       
-          // 1. 프로젝트에 귀속된 투표 list 조회 요청
-        //   const Send = async () => {
-        //       try {
-        //         const token = localStorage.getItem("token");
-        //         const response = await axios({
-        //           url: `${API_URL}/api/user/projects/findVoting`,
-        //           headers: { Authorization: `Bearer ${token}` },
-        //           params: { projectId: projectData.id },
-        //           method: "post",
-        //         });
-        //         setVotingData(response.data);
-        //         VotingBySend(response.data);
+          // 1. \투표 list 조회 요청
+          const Send = async () => {
+              try {
+                const response = await axios({
+                  url: `/api/voting/findVoting`,
+                  body: { classId: classId },
+                  method: "post",
+                });
+                console.log(response.data);
+                setVotingData(response.data);
                
-        //         return response.data;
-        //       } catch (error) {
-        //         console.error("Voting error:", error);
-        //       }
-        //     };
+                return response.data;
+              } catch (error) {
+                console.error("Voting error:", error);
+              }
+            };
       
-        //    // 2. 프로젝트에 귀속된 투표들의 각각 항목 조회 요청
-        //   const contentsSend = async (votingId) => {
-        //       try {
-        //       const token = localStorage.getItem('token');
-        //       const response = await axios({
-        //           url: `${API_URL}/api/user/projects/findContents`,
-        //           headers: { 'Authorization': `Bearer ${token}` },
-        //           params: { votingId: votingId },
-        //           method: 'post',
-        //       });
-        //       return response.data;
-        //       } catch (error) {
-        //       console.error(`vote contents 데이터 오류  ${votingId}:`, error);
-        //       return [];
-        //       }
-        //   };
+           // 2. 투표들의 각각 항목 조회 요청
+          const contentsSend = async (votingId) => {
+              try {
+             
+              const response = await axios({
+                  url: `/api/voting/findContents`,
+                  body: { votingId: votingId },
+                  method: 'post',
+              });
+              return response.data;
+              } catch (error) {
+              console.error(`vote contents 데이터 오류  ${votingId}:`, error);
+              return [];
+              }
+          };
       
-        //  //  3. user가 투표 한 항목 정보 조회 
-        //   const userVoteSend = async (voteId) => {
-        //       try {
-        //       const token = localStorage.getItem('token');
-        //       const response = await axios({
-        //           url: `${API_URL}/api/user/projects/findUserVoting`,
-        //           headers: { 'Authorization': `Bearer ${token}` },
-        //           params: { votingId: voteId, userId: userId },
-        //           method: 'post',
-        //       });
-        //       console.log(response);
-        //           // 투표 아이디와 해당 유저의 id 를 보냄-> 투표 항목 중 해당 유저 id 가 있는지 확인 후 반환
-        //           if (response.data && response.data.length > 0) {
-        //               return response.data;
-        //             } else{
-        //               console.log("요청 오류");
-        //               return null;
-        //             }
-        //       } catch (error) {
-        //       console.error(`vote_record 데이터 오류 ${voteId}:`, error);
-        //       return null;  
-        //       }
-        //   };
+         //  3. 해당 학생이 투표 한 항목 정보 조회 
+          const userVoteSend = async (voteId) => {
+              try {
+              const response = await axios({
+                  url: `/api/voting/findUserVoting`,
+                  params: { votingId: voteId, studentId: studentId },
+                  method: 'post',
+              });
+              console.log(response);
+                  // 투표 아이디와 해당 유저의 id 를 보냄-> 투표 항목 중 해당 유저 id 가 있는지 확인 후 반환
+                  if (response.data && response.data.length > 0) {
+                      return response.data;
+                    } else{
+                      console.log("요청 오류");
+                      return null;
+                    }
+              } catch (error) {
+              console.error(`vote_record 데이터 오류 ${voteId}:`, error);
+              return null;  
+              }
+          };
       
    
           
       
-        //   // 각 투표 별 정보 조회 handler(1. 기본 투표 정보  2.투표 항목 )
-        //   const handler = async () => {
-        //   const votingResponse = await Send(); // 1
+          // 각 투표 별 정보 조회 handler(1. 기본 투표 정보  2.투표 항목 )
+          const handler = async () => {
+
+              const votingResponse = await Send(); // 1
        
       
-        //       if (votingResponse && votingResponse.length > 0) {
-        //       const allContents = {};
+              if (votingResponse && votingResponse.length > 0) {
+              const allContents = {};
       
-        //       for (const vote of votingResponse) {
-        //           const contents = await contentsSend(vote.id); // 2
+              for (const vote of votingResponse) {
+                  const contents = await contentsSend(vote.id); // 2
                  
-        //           allContents[vote.id] = contents;
-        //           const userVoteContents = await userVoteSend(vote.id); // 3(유저의 투표한 정보 불러오기) // 투표 별
+                  allContents[vote.id] = contents;
+                  const userVoteContents = await userVoteSend(vote.id); 
+                  // 3(유저의 투표한 정보 불러오기) // 투표 별
                  
-        //       if (userVoteContents !== null) {
-        //           // 만약 투표를 한 유저면,
-        //         setUserVotes(prev => ({
-        //           ...prev,
-        //           [vote.id]: {contentsId:userVoteContents[1], voteId:userVoteContents[0] }
-        //         }));
-        //         await optionSend(vote.id); 
-        //       }   
-        //     }
-        //       setContentsData(allContents);
-        //       }
-        //   };
+              if (userVoteContents !== null) {
+                  // 만약 투표를 한 유저면,
+                setUserVotes(prev => ({
+                  ...prev,
+                  [vote.id]: {contentsId:userVoteContents[1], voteId:userVoteContents[0] }
+                }));
+                await optionSend(vote.id); 
+              }   
+            }
+              setContentsData(allContents);
+              }
+          };
       
-        //   // (투표 후) 사용자 투표 항목 저장 요청
-        //   function userVote(voteId) {
-        //       const token = localStorage.getItem('token');
-        //       axios({
-        //       url: `${API_URL}/api/user/projects/uservoteinsert`,
-        //       headers: { 'Authorization': `Bearer ${token}` },
-        //       method: 'post',
-        //       params: { votingId: voteId, contentsId: state, userId: userId }, // 투표 고유 id, 투표 항목 id, 사용자id
-        //       }).then(function (response) {
-        //           console.log(response);
-        //       });
-        //   }
+          // (투표 후) 사용자 투표 항목 저장 요청
+          function userVote(voteId) {
+              axios({
+              url: `/api/voting/uservoteinsert`,
+              method: 'post',
+              body: { votingId: voteId, contentsId: state, studentId: studentId }, // 투표 고유 id, 투표 항목 id, 사용자id
+              }).then(function (response) {
+                  console.log(response);
+              });
+          }
 
       
-        //   // (투표 후) 항목들에 대한 유저들의 투표 정보들
-        //   const optionSend = async (voteId) => {         
-        //     const token = localStorage.getItem('token');         
-        //     try {             
-        //         const response = await axios({                 
-        //             url: `${API_URL}/api/user/projects/VoteOptionUsers`,                 
-        //             headers: { 'Authorization': `Bearer ${token}` },                 
-        //             method: 'post',                 
-        //             params: { votingId: voteId , projectId:projectData.id},             
-        //         });             
-        //         const voteCounts = response.data.reduce((acc, item) => {
-        //           acc[item.contentsId] = item.userCount;
-        //           return acc;
-        //         }, {});
+          // (투표 후) 항목들에 대한 유저들의 투표 정보들
+          const optionSend = async (voteId) => {                
+            try {             
+                const response = await axios({                 
+                    url: `/api/voting/VoteOptionUsers`,                               
+                    method: 'post',                 
+                    body: { votingId: voteId , studentId: studentId},             
+                });             
+                const voteCounts = response.data.reduce((acc, item) => {
+                  acc[item.contentsId] = item.userCount;
+                  return acc;
+                }, {});
             
-        //         setVoteResults((prev) => ({
-        //           ...prev,
-        //           [voteId]: voteCounts,
-        //         }));
+                setVoteResults((prev) => ({
+                  ...prev,
+                  [voteId]: voteCounts,
+                }));
             
-        //       } catch (error) {
-        //         console.error(` ${voteId}:`, error);
-        //       }
-        //     };
+              } catch (error) {
+                console.error(` ${voteId}:`, error);
+              }
+            };
       
           
           const modalHandler = () => {
@@ -175,27 +172,25 @@ const Voting = () => {
           
           }
       
-        //  // 투표 종료 handler(idVote 값 false 로 변경)
-        //   function endHandler(voteId){ 
-        //     let result = window.confirm("투표를 종료하시겠습니까?");
+         // 투표 종료 handler(idVote 값 false 로 변경)
+          function endHandler(voteId){ 
+            let result = window.confirm("투표를 종료하시겠습니까?");
             
-        //     if(result){
-        //       const token = localStorage.getItem('token');
-        //     axios({
-        //     url: `${API_URL}/api/user/projects/isVoteUpdate`,
-        //     headers: { 'Authorization': `Bearer ${token}` },
-        //     method: 'post',
-        //     params: { votingId: voteId }, // 투표 고유 id
-        //     }).then(function (response) {
-        //         setIdVoteState(true);
-        //         alert("투표가 종료되었습니다 !");
+            if(result){
+            axios({
+            url: `/api/voting/isVoteUpdate`,
+            method: 'post',
+            body: { votingId: voteId }, // 투표 고유 id
+            }).then(function (response) {
+                setIdVoteState(true);
+                alert("투표가 종료되었습니다 !");
              
-        //     });
-        //     }else{
-        //       return;
-        //     }
+            });
+            }else{
+              return;
+            }
       
-        //   }
+          }
       
           function handleCheckboxChange(e, voteId, contentId) {
             setState(contentId); 
@@ -355,6 +350,11 @@ const Voting = () => {
                         </section> 
                         );})} 
                         </div>
-                                    </>
-                                    )};
-                  export default Voting;
+                                  
+
+        </>
+
+    )
+}
+export default Voting;
+

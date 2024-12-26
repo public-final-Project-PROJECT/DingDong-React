@@ -1,13 +1,14 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
+import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
 import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
-import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
+import { useUserData } from '../hooks/useUserData'; 
 
-const QRCodeGenerator = ({ creatorInfo }) => 
+const QRCodeGenerator = () => 
 {
+    const { profile, schoolName, setSchoolName, isSchoolNameEditable, fetchSchoolName } = useUserData();
     const [students, setStudents] = useState([{ num: '', name: '' }]);
-    const [schoolName, setSchoolName] = useState('');
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
     const today = new Date();
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
@@ -45,9 +46,9 @@ const QRCodeGenerator = ({ creatorInfo }) =>
             const dataToEncrypt = 
             {
                 student: { student_num: student.num, student_name: student.name },
-                // creator: creatorInfo,
+                teacher: { teacher_name: profile.name, teacher_email: profile.email },
                 school: schoolData,
-                year: today.getFullYear(),
+                year: today.getFullYear()
             };
 
             return {
@@ -86,22 +87,32 @@ const QRCodeGenerator = ({ creatorInfo }) =>
     };
 
     // 프린트 버튼 동작
-    const handlePrint = useReactToPrint({ contentRef });
+    const handlePrint = useReactToPrint({ content: () => contentRef.current });
 
     return (
         <div>
             <h2>학생용 QR 코드 생성</h2>
 
-            <div>
-                <label htmlFor="schoolName">학교 이름: </label>
-                <input
-                    id="schoolName"
-                    type="text"
-                    value={schoolName}
-                    onChange={(e) => setSchoolName(e.target.value)}
-                    placeholder="학교 이름을 입력해주세요."
-                />
-            </div>
+            {isSchoolNameEditable ? (
+                <div>
+                    <label htmlFor="schoolName">학교 이름: </label>
+                    <input
+                        id="schoolName"
+                        type="text"
+                        value={schoolName}
+                        onChange={(e) => setSchoolName(e.target.value)}
+                        placeholder="학교 이름을 입력해주세요."
+                    />
+                </div>
+            ) : (
+                <div>
+                    학교 이름: {schoolName}
+                    <br />
+                    <h5 style={{ color: 'red' }}>
+                        근무 중인 학교가 설정되어 있습니다. 학교 이름을 수정할 수 없습니다.
+                    </h5>
+                </div>
+            )}
 
             <h3>학생 정보 입력</h3>
             {students.map((student, index) => (
@@ -131,10 +142,12 @@ const QRCodeGenerator = ({ creatorInfo }) =>
             ))}
             <button onClick={addStudent}>학생 추가</button>
             <button onClick={handleGenerate}>코드 생성</button>
-            <button onClick={handlePrint} disabled={students.every((student) => !student.qrCode)}>코드 인쇄</button>
+            <button onClick={handlePrint} disabled={students.every((student) => !student.qrCode)}>
+                코드 인쇄
+            </button>
 
             <div
-                ref={contentRef} // 프린트하고 싶은 div에 추가 
+                ref={contentRef} // 프린트하고 싶은 div에 추가
                 style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
@@ -149,21 +162,20 @@ const QRCodeGenerator = ({ creatorInfo }) =>
                         {/* 회원가입용 암호화 된 QR 코드 */}
                         {student.qrCode && (
                             <div>
-                                <QRCodeCanvas value={student.qrCode} />
+                                <QRCodeCanvas value={student.qrCode}/>
                             </div>
                         )}
 
                         {/* json 데이터 확인용 암호화되지 않은 QR 코드 */}
                         {/* {student.originalQRCode && (
                             <div>
-                                {/* <h5>Original Data QR Code</h5>
+                                <h5>Original Data QR Code</h5>
                                 <QRCodeCanvas value={student.originalQRCode} />
                             </div>
-                        )} */}
+                        )}  */}
                     </div>
                 ))}
             </div>
-
         </div>
     );
 };

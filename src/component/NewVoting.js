@@ -55,9 +55,9 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
 
     try {
       const response = await axios.post(
-        `/api/voting/newvoting`,
+        `http://localhost:8080/api/voting/newvoting`,
         {
-          classId: classId,  // 학급 id
+          classId: 1,  // 학급 id
           votingName: title, // 제목
           detail: detail, // 설명
           votingEnd:votingEnd? votingEnd : null, // 마감일자

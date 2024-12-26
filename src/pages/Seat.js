@@ -21,7 +21,10 @@ const SeatArrangement = () => {
     // 1. 기존 좌석표 불러오는 API
     const seatTable = async () => {
         try {
-            const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: 1 });
+            const response = await axios.post(
+                'http://localhost:8080/api/seat/findAllSeat', 
+                { classId: 1 }
+            );
             console.log(response.data); 
             setLoadedSeats(response.data); 
         } catch (error) {
@@ -51,7 +54,7 @@ const SeatArrangement = () => {
     // 3. 랜덤 돌리기 버튼 동작
     const randomSeatHandler = () => {
         if (loadedSeats.length === 0) {
-            console.log("No loaded seats to randomize.");
+            console.log("error");
             return;
         }
 
@@ -153,24 +156,29 @@ const SeatArrangement = () => {
                             gridRowStart: seat.rowId,
                         }}
                     >
-                        <h4>{seat.seatId}: ID {seat.studentId}</h4>
+                        <h4>{index+1}: ID {seat.studentId}</h4>
                     </div>
                 ))}
 
                 {/* 새로 생성된 좌석 */}
                 <div className="created-seats" ref={contentRef}>
-                    {createdSeats.map((seat, index) => (
-                        <div
-                            key={`created-${seat.id}`}
-                            className="seat created new"
-                            style={{
-                                gridColumnStart: seat.columnId,
-                                gridRowStart: seat.rowId,
-                            }}
-                        >
-                            <h4>{seat.id} (New)</h4>
-                        </div>
-                    ))}
+                    {createdSeats.map((seat, index) => {
+                        const correspondingLoadedSeat = loadedSeats[index];
+                        const studentId = correspondingLoadedSeat ? correspondingLoadedSeat.studentId : null;  
+
+                        return (
+                            <div
+                                key={`created-${seat.id}`}
+                                className="seat created new"
+                                style={{
+                                    gridColumnStart: seat.columnId,
+                                    gridRowStart: seat.rowId,
+                                }}
+                            >
+                                <h4>{index + 1}: ID {studentId || null}</h4>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </>
