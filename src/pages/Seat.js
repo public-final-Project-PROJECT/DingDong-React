@@ -1,53 +1,90 @@
-
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactModal from "react-modal";
-import '../asset/css/Seat.css'; 
+import '../asset/css/Seat.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faBars} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faDownload, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { useReactToPrint } from 'react-to-print';
+import axios from 'axios';
 
 const SeatArrangement = () => {
     const [modalShow, setModalShow] = useState(false); // 좌석 생성 모달 상태
     const [seats, setSeats] = useState(Array(60).fill(false)); // 좌석 상태
-    const [isDragging, setIsDragging] = useState(false);
-    const [createdSeats, setCreatedSeats] = useState([]); // 생성된 좌석 상태
-    const [detailButtonShow, setDetailButtonShow] = useState(false); // 상세 기능 버튼 상태
+    const [isDragging, setIsDragging] = useState(false); // 색칠되는 좌석 - true
+    const [createdSeats, setCreatedSeats] = useState([]); // 새로 생성된 좌석 상태
+    const [loadedSeats, setLoadedSeats] = useState([]); // 기존 로드된 좌석 상태
+    const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
 
-    const handleMouseDown = (index) => {
-        setIsDragging(true);
-        toggleSeat(index);
+    useEffect(() => {
+        seatTable(); // 초기 좌석 불러오기
+    }, []);
+
+    // 1. 기존 좌석표 불러오는 API
+    const seatTable = async () => {
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/seat/findAllSeat', 
+                { classId: 1 }
+            );
+            console.log(response.data); 
+            setLoadedSeats(response.data); 
+        } catch (error) {
+            console.error("기존 좌석 불러오는 API error:", error);
+        }
     };
 
-    const handleMouseUp = () => {
-        setIsDragging(false);
-    };
-
-    const handleMouseEnter = (index) => {
-        if (isDragging) toggleSeat(index);
-    };
-
-    const toggleSeat = (index) => {
-        setSeats((prevSeats) => {
-            const newSeats = [...prevSeats];
-            newSeats[index] = !newSeats[index];
-            return newSeats;
-        });
-    };
-
+    // 2. 새 좌석 등록하기 (기존 정보 초기화 후 새로 추가)
     const handleRegister = () => {
-      const newCreatedSeats = seats
-          .map((selected, index) => ({ id: index, selected }))
-          .filter(seat => seat.selected);
+        const newCreatedSeats = seats
+            .map((selected, index) => ({ id: index + 1, selected }))
+            .filter(seat => seat.selected)
+            .map(seat => ({
+                ...seat,
+                studentName: null,
+                studentId: null,
+                rowId: Math.floor((seat.id - 1) / 10) + 1, // 행 계산
+                columnId: (seat.id - 1) % 10 + 1,           // 열 계산
+            }));
 
-    
-          setCreatedSeats((prevCreatedSeats) => [...prevCreatedSeats, ...newCreatedSeats]); // 기존 좌석에 추가
-          setSeats(Array(60).fill(false));
-          setModalShow(false);
-  };
+        setLoadedSeats([]); // 기존 로드된 좌석 초기화
+        setCreatedSeats(newCreatedSeats); // 새로 생성된 좌석만 저장
+        setSeats(Array(60).fill(false)); // 초기화
+        setModalShow(false); // 모달 닫기
+    };
 
+    // 3. 랜덤 돌리기 버튼 동작
+    const randomSeatHandler = () => {
+        if (loadedSeats.length === 0) {
+            console.log("error");
+            return;
+        }
+
+        const studentIds = loadedSeats.map(seat => seat.studentId);
+
+        const shuffledStudentIds = [...studentIds];
+        for (let i = shuffledStudentIds.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledStudentIds[i], shuffledStudentIds[j]] = [shuffledStudentIds[j], shuffledStudentIds[i]];
+        }
+
+        const updatedLoadedSeats = loadedSeats.map((seat, index) => ({
+            ...seat,
+            studentId: shuffledStudentIds[index],
+        }));
+
+        setLoadedSeats(updatedLoadedSeats);
+    };
+
+    // 저장 handler
+    const saveSeatHandler =() => {
+
+    }
+
+     // 프린트 버튼 동작     
+     const handlePrint = useReactToPrint({ contentRef });
 
     return (
         <>
-            <ReactModal 
+            <ReactModal
                 isOpen={modalShow}
                 contentLabel="새 좌석 만들기"
                 style={{
@@ -68,18 +105,32 @@ const SeatArrangement = () => {
                     }
                 }}
             >
-                 <div className="seat-arrangement">
+                <div className="seat-arrangement">
                     <div
                         className="seat-grid"
-                        onMouseLeave={handleMouseUp}
-                        onMouseUp={handleMouseUp}
+                        onMouseUp={() => setIsDragging(false)}
                     >
                         {seats.map((selected, index) => (
                             <div
                                 key={index}
                                 className={`seat ${selected ? 'selected' : ''}`}
-                                onMouseDown={() => handleMouseDown(index)}
-                                onMouseEnter={() => handleMouseEnter(index)}
+                                onMouseDown={() => {
+                                    setIsDragging(true);
+                                    setSeats((prevSeats) => {
+                                        const newSeats = [...prevSeats];
+                                        newSeats[index] = !newSeats[index];
+                                        return newSeats;
+                                    });
+                                }}
+                                onMouseEnter={() => {
+                                    if (isDragging) {
+                                        setSeats((prevSeats) => {
+                                            const newSeats = [...prevSeats];
+                                            newSeats[index] = true;
+                                            return newSeats;
+                                        });
+                                    }
+                                }}
                             />
                         ))}
                     </div>
@@ -87,44 +138,51 @@ const SeatArrangement = () => {
                 </div>
             </ReactModal>
 
-            <h1> 자리 바꾸기 </h1>
+            <h1>자리 바꾸기</h1>
             <button className="register-button" onClick={() => setModalShow(true)}>+ 새 자리배치</button>
-            <button className="register-button" >랜덤 돌리기 !</button>
-            <button onClick={() => detailButtonShow?  
-            setDetailButtonShow(false):
-            setDetailButtonShow(true)}
-            ><FontAwesomeIcon icon={faBars} /></button>
+            <button className="register-button" onClick={randomSeatHandler}>랜덤 돌리기 !</button>
+            <button onClick={handlePrint}><FontAwesomeIcon icon={faPrint} /></button>
+            <button onClick={saveSeatHandler}>저장</button>
+            <button><FontAwesomeIcon icon={faDownload} /></button>
 
-            {detailButtonShow &&
-                <>
-                <button>이미지 저장</button>
-                <button>출력하기</button>
-                <button>설정</button>
-                </>
-            }
-           
-
-            <button className='table-button'>교탁</button>
-            
-
-            <div className="created-seats">
-        
-                {createdSeats.map((seat, index) => (
-
+            <div className="created-seats" ref={contentRef}>
+                {/* 기존 로드된 좌석 */}
+                {loadedSeats.map((seat, index) => (
                     <div
-                        key={seat.id}
+                        key={`loaded-${seat.seatId}`}
                         className="seat created"
                         style={{
-                            gridColumnStart: (seat.id % 10) + 1,
-                            gridRowStart: Math.floor(seat.id / 10) + 1
+                            gridColumnStart: seat.columnId,
+                            gridRowStart: seat.rowId,
                         }}
-                    > {index + 1} </div>
+                    >
+                        <h4>{index+1}: ID {seat.studentId}</h4>
+                    </div>
                 ))}
+
+                {/* 새로 생성된 좌석 */}
+                <div className="created-seats" ref={contentRef}>
+                    {createdSeats.map((seat, index) => {
+                        const correspondingLoadedSeat = loadedSeats[index];
+                        const studentId = correspondingLoadedSeat ? correspondingLoadedSeat.studentId : null;  
+
+                        return (
+                            <div
+                                key={`created-${seat.id}`}
+                                className="seat created new"
+                                style={{
+                                    gridColumnStart: seat.columnId,
+                                    gridRowStart: seat.rowId,
+                                }}
+                            >
+                                <h4>{index + 1}: ID {studentId || null}</h4>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </>
     );
 };
 
-// db 에 인덱스 번호랑 같이 박아야 함. 
 export default SeatArrangement;
-

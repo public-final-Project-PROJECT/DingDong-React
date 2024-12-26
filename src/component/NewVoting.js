@@ -3,9 +3,7 @@ import ReactModal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faXmark,faClockRotateLeft,faCalendar,faUser,faLock, faCheckDouble} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-
-
-
+import html2canvas from "html2canvas";
 
 const Voting = ({newVotingModal,setNewVotingModal}) => {
 
@@ -21,6 +19,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
   const [inputItems, setInputItems] = useState([{ id: 0, voteOption: "" }]); // 투표 항목
   const [classId, setClassId] = useState();  // 학급 id
   let arr = [];
+
 
   // 투표 항목 추가
   const addInput = () => {
@@ -56,18 +55,19 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
 
     try {
       const response = await axios.post(
-        `/api/voting/newvoting`,
+        `http://localhost:8080/api/voting/newvoting`,
         {
-          classId: classId,  // 학급 id
+          classId: 1,  // 학급 id
           votingName: title, // 제목
           detail: detail, // 설명
-          inputDate:votingEnd? votingEnd : null, // 마감기한(날짜 or null)
+          votingEnd:votingEnd? votingEnd : null, // 마감일자
           contents: arr, // 투표 항목들 
           anonymousVote: anonymousVote,  // 비밀 투표 여부
           doubleVote: doubleVote // 중복 투표 가능 여부 
         },
  
       );
+      return response;
       
     } catch (error) {
       console.error("투표 생성 api error:", error.response || error.message);
@@ -82,7 +82,6 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
    
     try {
       await send(); // API 호출
-      // updateVotingList(); // 부모 컴포넌트의 상태 업데이트
       resetModalState(); // 상태 초기화
       // setModalShow(false); // 모달 닫기
       alert("투표가 생성되었습니다!");
@@ -112,6 +111,21 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
       {children}
     </label>
   );
+
+  const onClickDownloadButton = () => {
+    const target = document.getElementById("download");
+    if (!target) {
+      return alert("사진 저장에 실패했습니다.");
+    }
+    html2canvas(target).then((canvas) => {
+      const link = document.createElement("a");
+      document.body.appendChild(link);
+      link.href = canvas.toDataURL("image/png");
+      link.download = "Haru4cut.png"; // 다운로드 이미지 파일 이름
+      link.click();
+      document.body.removeChild(link);
+    });
+  };
   
 
   return (
@@ -217,7 +231,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 </Radio>
                 <br/>
                 <Radio name="endDate" value="false" defaultChecked>
-                <label><FontAwesomeIcon icon={faUser} /> 사용자 별도 지정</label>
+                <FontAwesomeIcon icon={faUser} /> 사용자 별도 지정
                 <h5 style={{color:"gray"}}>  선생님이 종료버튼을 눌러야 종료됩니다.</h5>
                 </Radio>
               </RadioGroup>

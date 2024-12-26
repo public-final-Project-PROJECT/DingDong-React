@@ -21,7 +21,10 @@
     "bootstrap": "^5.3.3",
     "cra-template": "1.2.0",
     "crypto-js": "^4.2.0",
+    "html2canvas": "^1.4.1",
     "http-proxy-middleware": "^3.0.3",
+
+    "mkcert": "^3.2.0",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "modal": "^0.2.0",
