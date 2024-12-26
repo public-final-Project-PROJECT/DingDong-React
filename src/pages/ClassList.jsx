@@ -75,54 +75,74 @@ const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editI
 
 const EditNicknameCell = ({ newNickname, setNewNickname, handleUpdate, onCancel }) => 
 {
-    const [inputWidth, setInputWidth] = useState("auto");
+    const [inputWidth, setInputWidth] = useState(``);
     const spanRef = useRef(null);
 
-    useEffect(() => {
-        if (spanRef.current) {
-            const newWidth = spanRef.current.offsetWidth * 1.1;
-            setInputWidth(`${newWidth}px`);
+    useEffect(() => 
+    {
+        if (spanRef.current) 
+        {
+            const calculatedWidth = spanRef.current.offsetWidth;
+            const newWidth = Math.min(calculatedWidth, 200);
+            console.log("Calculated Width:", calculatedWidth, "Final Width:", newWidth);
+            setInputWidth(`${calculatedWidth}px`);
         }
     }, [newNickname]);
 
     return (
-        <>
-            <span ref={spanRef} style={{ visibility: "hidden", position: "absolute", whiteSpace: "nowrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <span
+                ref={spanRef}
+                style={{
+                    visibility: "hidden",
+                    position: "absolute",
+                    whiteSpace: "nowrap",
+                    pointerEvents: "none",
+                }}
+            >
                 {newNickname || " "}
             </span>
-            <input
-                type="text"
-                value={newNickname}
-                onChange={(e) => setNewNickname(e.target.value)}
-                onClick={(e) => e.stopPropagation()}
-                className="input-nickname"
-                style={{ width: inputWidth }}
-            />
-            <button
-                className="button button-save-icon"
-                onClick={(e) => 
-                {
-                    e.stopPropagation();
-                    handleUpdate();
-                }}
-            >
-                <FontAwesomeIcon icon={faCheck} />
-            </button>
-            <button
-                className="button button-cancel-icon"
-                onClick={(e) => 
-                {
-                    e.stopPropagation();
-                    onCancel();
-                }}
-            >
-                <FontAwesomeIcon icon={faTimes} />
-            </button>
-        </>
+            <div style={{
+                    width: inputWidth,
+                    minWidth: "50px",
+                    maxWidth: inputWidth
+                }}>
+                <input
+                    type="text"
+                    value={newNickname}
+                    onChange={(e) => setNewNickname(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="input-nickname"
+                    style={{
+                        flexGrow: 1,
+                        width: inputWidth -55,
+                        maxWidth: inputWidth -55
+                    }}
+                />
+                <button
+                    className="button button-save-icon"
+                    onClick={(e) => 
+                    {
+                        e.stopPropagation();
+                        handleUpdate();
+                    }}
+                >
+                    <FontAwesomeIcon icon={faCheck} />
+                </button>
+                <button
+                    className="button button-cancel-icon"
+                    onClick={(e) => 
+                    {
+                        e.stopPropagation();
+                        onCancel();
+                    }}
+                >
+                    <FontAwesomeIcon icon={faTimes} />
+                </button>
+            </div>
+        </div>
     );
 };
-
-
 
 const DisplayNicknameCell = ({ nickname, onEdit }) => (
     <>

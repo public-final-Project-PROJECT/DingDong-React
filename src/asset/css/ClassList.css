@@ -16,10 +16,10 @@
     background-color: #d1e7dd;
 }
 
-.cell {
-    /* display: flex; */
-    align-items: center;
-    gap: 4px;
+td.cell {
+    padding: 5px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .input-nickname {

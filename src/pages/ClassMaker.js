@@ -31,14 +31,27 @@ const ClassMaker = () =>
 
     const handleSubmit = async () => 
     {
-        const isNumeric = /^[1-9]+$/;
-        if (!isNumeric.test(grade) || !isNumeric.test(classNo)) 
+        const isNumeric = /^\d+$/;
+        if (!isNumeric.test(grade) || grade < 1 || grade > 6) 
         {
-            alert("학년과 반을 정확히 선택해주세요.");
+            alert("학년을 선택해주세요.");
             return;
         }
+        if (!isNumeric.test(classNo) || classNo < 1 || classNo > 20) 
+        {
+            alert("반을 선택해주세요.");
+            return;
+        }
+        
+        const nicknameToSubmit = classNickname.trim() === "" ? "없음" : classNickname.trim();
 
-        const data = { email, schoolName, grade, classNo, classNickname };
+        const data = {
+            email,
+            schoolName,
+            grade,
+            classNo,
+            classNickname: nicknameToSubmit,
+        };
         try {
             await fetchFromAPI("/class/create", 
             {
