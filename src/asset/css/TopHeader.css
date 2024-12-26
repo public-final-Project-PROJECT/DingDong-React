@@ -14,19 +14,19 @@
   padding: 10px 0; 
 }
 
-button {
+.button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   border: none;
-  background-color: #f0f0f0;
+  background-color: blue;
   transition: background-color 0.3s ease;
   flex-grow: 1; 
   /* max-width: 160px;  */
 }
 
 button:hover {
-  background-color: #e0e0e0;
+  
 }
 
 
@@ -52,9 +52,9 @@ button:hover {
 .convenience-buttons button {
   width: 100%; 
   padding: 10px;
-  background-color: #dcdcdc; 
+  
 }
 
 .convenience-buttons button:hover {
-  background-color: #c0c0c0; 
+  
 }

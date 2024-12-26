@@ -40,7 +40,7 @@
   color: #db9a3e;
    text-decoration: none; 
 }
-body {
+.body {
     color: var(--black);
     font-family: "Noto Sans KR", sans-serif;
     font-optical-sizing: auto;

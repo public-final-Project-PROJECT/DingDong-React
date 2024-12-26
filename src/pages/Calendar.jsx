@@ -14,14 +14,13 @@ const Calendar = () => {
   const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
   const [googleEventSources, setGoogleEventSources] = useState([]);
   const [events, setEvents] = useState([
-    { id: '1', title: 'Event 1', start: '2024-12-27', className: 'user_event', display: 'dot' },
-    { id: '2', title: 'Event 2', start: '2024-12-31', className: 'user_event', display: 'dot' },
+    
   ]);
   const [eventDescription, setEventDescription] = useState(''); // 텍스트 입력 상태
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 여부
   const [selectedEvent, setSelectedEvent] = useState(null); // 클릭된 이벤트 정보
   const [loading,setLoading] = useState(false);
-
+  const calendarRef = useRef(null);
   // Google Calendar 이벤트 소스를 설정
   useEffect(() => {
     localStorage.removeItem('googleEventSources');
@@ -97,12 +96,27 @@ const Calendar = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ input: test }),
       });
-      const jsonData = await response.json();
-      setResponseData(jsonData);
+      const eventData = await response.json(); // 단일 이벤트 데이터 가져오기
+      
+      // 서버에서 받은 단일 이벤트를 FullCalendar 형식으로 변환
+      const formattedEvent = {
+        id: String(eventData.calendarId),
+        title: eventData.title, // 이벤트 제목
+        start: eventData.startDatetime, // 시작 날짜 (ISO8601 형식)
+        end: eventData.endDatetime, // 종료 날짜 (ISO8601 형식)
+        className: ['fc-h-event','user_event'], // 사용자 지정 클래스
+        startEditable: true,           // 시작 시간 리사이즈 가능
+        durationEditable: true,
+        editable: true, 
+      };
+  
+      setEvents((prevEvents) => [...prevEvents, formattedEvent]);
+      console.log(events);
       setError(null);
     } catch (err) {
       setError(err.message);
     }
+    
   };
 
   // 날짜 클릭 처리
@@ -164,7 +178,8 @@ const Calendar = () => {
         title: eventDescription,
         start: selectedRange.start,
         end: selectedRange.end,
-        className: 'iwrite',
+        className: ['user_event'],
+        editable: true, 
       };
 
       setEvents((prevEvents) => [...prevEvents, newEvent]);
@@ -176,11 +191,17 @@ const Calendar = () => {
   // 이벤트 드래그 후 이동 처리
   const handleEventDrop = (dropInfo) => {
     const { id, startStr, endStr } = dropInfo.event;
+    console.log(id);
+    
     setEvents((prevEvents) =>
       prevEvents.map((event) =>
         event.id === id ? { ...event, start: startStr, end: endStr } : event
+
+   
       )
+      
     );
+    console.log(events);
   };
 
   // 현재 날짜 범위 변경 처리
@@ -204,9 +225,25 @@ const Calendar = () => {
     if (!loading) {
       setInterval(() => {
       showCalendar();
-    }, 500);
+    }, 100);
     }
   }, [loading]);
+
+  const handleEventResize = (info) => {
+    // 리사이즈된 이벤트 데이터 생성
+    const resizedEvent = {
+      id: info.event.id,
+      start: info.event.start.toISOString(),
+      end: info.event.end ? info.event.end.toISOString() : null,
+    };
+  
+    console.log('Resized Event:', resizedEvent);
+  
+  
+    
+
+    
+  };
 
   return (
     <>
@@ -254,6 +291,7 @@ const Calendar = () => {
           
         <div className="full-calendar-container">
           <FullCalendar
+             
             plugins={[dayGridPlugin, interactionPlugin, googleCalendarPlugin]}
             initialView="dayGridMonth"
             googleCalendarApiKey="AIzaSyA3_A-B-m1UVa7Oye7j9Vtw4JyeYlqOgiw"
@@ -272,10 +310,14 @@ const Calendar = () => {
             dateClick={handleDateClick}
             selectable
             select={handleDateSelect}
-            editable
+            editable={true}
             eventClick={handleEventClick}
             eventDrop={handleEventDrop}
             datesSet={handleDateChange}
+            eventResize={handleEventResize}
+            eventResizableFromStart={true}
+            
+
             headerToolbar={{
               left: 'prev,next today',
               center: 'title',
