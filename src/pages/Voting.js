@@ -47,6 +47,7 @@ const Voting = () => {
                             }
                         }
                         setContentsData(allContents);
+                        console.log(allContents);
                     }
                 } catch (error) {
                     console.error("Error fetching initial data:", error);
@@ -65,7 +66,6 @@ const Voting = () => {
                 );
                 console.log(response)
                 console.log(response.data);
-                console.log(response.data[0].vote);
                 setVotingData(response.data);
                
                 return response.data;
@@ -112,6 +112,23 @@ const Voting = () => {
               return null;  
               }
           };
+
+            // (투표 후) 사용자 투표 항목 저장 요청
+            const userVote = async (voteId)=> {
+              try{
+                console.log(state);
+                console.log(voteId);
+              const response = await axios.post(
+               `http://localhost:3013/api/voting/uservoteinsert`,
+              { votingId: voteId, contentsId: state, studentId: 1 }, // 투표 고유 id, 투표 항목 id, 사용자id
+              );
+              console.log(response.data);
+              return response.data;
+            }catch(error){
+              console.error('student_insertVote 중 error : ', error)
+            }
+
+          }
       
    
           
@@ -145,25 +162,16 @@ const Voting = () => {
               }
           };
       
-          // (투표 후) 사용자 투표 항목 저장 요청
-          function userVote(voteId) {
-              axios.post(
-               `http://localhost:3013/api/voting/uservoteinsert`,
-              { votingId: voteId, contentsId: state, studentId: 1 }, // 투표 고유 id, 투표 항목 id, 사용자id
-              ).then(function (response) {
-                  console.log(response);
-              });
-          }
+        
 
       
           // (투표 후) 항목들에 대한 유저들의 투표 정보들
           const optionSend = async (voteId) => {                
             try {             
-                const response = await axios({                 
-                    url: `http://localhost:3013/api/voting/VoteOptionUsers`,                               
-                    method: 'post',                 
-                    body: { votingId: voteId , studentId: studentId},             
-                });             
+                const response = await axios.post(             
+                   `http://localhost:3013/api/voting/VoteOptionUsers`,                                               
+                    { votingId: voteId },             
+                );             
                 const voteCounts = response.data.reduce((acc, item) => {
                   acc[item.contentsId] = item.userCount;
                   return acc;
@@ -173,6 +181,8 @@ const Voting = () => {
                   ...prev,
                   [voteId]: voteCounts,
                 }));
+                console.log(voteCounts);
+                console.log(response.data);
             
               } catch (error) {
                 console.error(` ${voteId}:`, error);
@@ -207,9 +217,13 @@ const Voting = () => {
           }
       
           function handleCheckboxChange(e, voteId, contentId) {
-            setState(contentId); 
+            console.log(contentId);
+            setState(contentId);
+            setUserVotes((prev) => ({
+                ...prev,
+                [voteId]: { ...prev[voteId], selectedContentId: contentId },
+            }));
         
-          
             const voteButton = document.querySelector(`#vote-button-${voteId}`);
             voteButton.disabled = !e.target.checked;
         }
@@ -218,28 +232,33 @@ const Voting = () => {
         function handleSubmittt(e, voteId) {
           e.preventDefault();
       
-          const checkboxes = document.querySelectorAll(`[name="vote-${voteId}"]`);
-          const selected = Array.from(checkboxes).find((box) => box.checked);
+          const selectedContentId = userVotes[voteId]?.selectedContentId;
       
-          if (!selected) {
-              alert("항목을 선택해주세요!"); 
+          if (!selectedContentId) {
+              alert("항목을 선택해주세요!");
               return;
           }
       
+          // 체크박스 비활성화
+          const checkboxes = document.querySelectorAll(`[name="vote-${voteId}"]`);
           checkboxes.forEach((box) => (box.disabled = true));
       
           const voteButton = document.querySelector(`#vote-button-${voteId}`);
-          voteButton.disabled = true; 
+          voteButton.disabled = true;
       
-           userVote(voteId); 
-          localStorage.setItem('userVote_' + voteId, JSON.stringify({ voteId, contentId: selected.value }));
-          
-           handler(voteId);
-           optionSend(voteId); 
+          // API 호출
+          userVote(voteId);
       
-          alert("투표가 완료되었습니다!"); 
+          localStorage.setItem(
+              "userVote_" + voteId,
+              JSON.stringify({ voteId, contentId: selectedContentId })
+          );
+      
+          handler(voteId);
+          optionSend(voteId);
+      
+          alert("투표가 완료되었습니다!");
       }
-
     return (
         <>
 
@@ -260,6 +279,7 @@ const Voting = () => {
 
       <div className="voting-container">
         {Array.isArray(votingData) &&
+      
           votingData.map((vote) => {
             const isEnded = !!vote.votingEnd; // 종료 여부 확인
             const today = new Date();
@@ -312,45 +332,53 @@ const Voting = () => {
             {Array.isArray(contentsData[vote.id]) && contentsData[vote.id].length > 0 ? (
                 <form onSubmit={(e) => handleSubmittt(e, vote.id)}>
                 {contentsData[vote.id].map((content, idx) => {
-                const isVoted = userVotes[vote.id]?.contentsId === content.id;
-                const voteCount = voteResults[vote.id]?.[content.id] || 0;
-
+                const isVoted = userVotes[vote.id]?.contentsId === content.votingId; // 현재 사용자가 투표했는지 확인
+                const voteCount = voteResults[vote.id]?.[content.votingId] || 0; // 투표 수 가져오기
                 const isVotingActive = vote.vote && (!vote.votingEnd || new Date(vote.votingEnd) > new Date());
                 const isVotingEnded = !isVotingActive;
 
-                return (
+                  // 투표 결과에서 해당 항목에 투표한 학생들 가져오기
+                  const voters = voteResults[vote.id]?.[content.votingId]?.voters || [];
+
+                  return (
                     <div key={idx} className="vote-item">
-                        <label
-                            className="vote-option"
-                            style={{ color: isVoted ? "red" : "black" }}
-                        >
-                            <input
-                                type="radio"
-                                name={`vote-${vote.id}`}
-                                value={content.id}
-                                disabled={isVotingEnded || !!userVotes[vote.id]} 
-                                onChange={(e) => handleCheckboxChange(e, vote.id, content.id)}
-                                className="custom-checkbox"
-                            />
-                            <span className="checkbox-label">
-                                {content.votingContents}
-                            </span>
-                            {voteCount > 0 && (
-                                <span className="vote-count">({voteCount} 명 투표)</span>
-                            )}
-                        </label>
-                        <div className="progress-bar">
-                            <div
-                                className="progress-fill"
-                                style={{
-                                   // width: `${(voteCount / (totalVotes[vote.id] || 1)) * 100}%`,
-                                    backgroundColor: isVoted ? "red" : "gray",
-                                }}
-                            ></div>
-                        </div>
+                      <label
+                        className="vote-option"
+                        style={{ color: isVoted ? "red" : "black" }}
+                      >
+                        <input
+                          type="radio"
+                          name={`vote-${vote.id}`}
+                          value={content.votingId}
+                          disabled={isVotingEnded || !!userVotes[vote.id]}
+                          onChange={(e) => handleCheckboxChange(e, vote.id, content.votingId)}
+                          className="custom-checkbox"
+                        />
+                        <span className="checkbox-label">
+                          {content.votingContents}
+                        </span>
+                        {voteCount > 0 && (
+                          <span className="vote-count">({voteCount} 명 투표)</span>
+                        )}
+                        {/* 투표한 학생 ID 표시 */}
+                        {isVoted && voters.length > 0 && (
+                          <span className="voter-ids">
+                            투표한 학생: {voters.join(", ")}
+                          </span>
+                        )}
+                      </label>
+                      <div className="progress-bar">
+                        <div
+                          className="progress-fill"
+                          style={{
+                            backgroundColor: isVoted ? "red" : "gray",
+                          }}
+                        ></div>
+                      </div>
                     </div>
-                );
-            })} {vote.vote && (
+                  );
+                })}
+ {vote.vote && (
                 <button
                     type="submit"
                     id={`vote-button-${vote.id}`}
