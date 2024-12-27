@@ -1,22 +1,23 @@
-/* 고정 타이머 css */
-
-.small-timer.complete {
-    color: #ffffff;
-    font-size: 1.2rem;
-    background-color: red;
-
-}
-
 .small-timer {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    color: #fff;
-    padding: 5px 10px; /* 크기 증가 */
-    border-radius: 10px;
-    font-size: 1.2rem; /* 크기 증가 */
-    font-family: Arial, sans-serif;
-    z-index: 1000;
-    background-color: #000; /* 기본 배경색 */
+    width: 100px;
+    height: 100px;
+    background-color: green;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+    transition: transform 0.2s ease;
 }
 
+.small-timer:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.timer-display {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
