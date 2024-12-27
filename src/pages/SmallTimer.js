@@ -24,24 +24,79 @@
  * */
 
 
-import React, { useContext } from "react";
+// import React, { useContext } from "react";
+// import "../asset/css/SmallTimer.css";
+// import { TimerContext } from "./TimerContext";
+
+// const SmallTimer = () => {
+//     const { time, isComplete, isRunning } = useContext(TimerContext);
+
+//     const formatTime = (time) => {
+//         const minutes = String(Math.floor(time / 60)).padStart(2, "0");
+//         const seconds = String(time % 60).padStart(2, "0");
+//         return `${minutes}:${seconds}`;
+//     };
+
+//     if (!isRunning) return null; // isRunning이 false면 렌더링하지 않음
+
+//     return (
+//         <div className={`small-timer ${isComplete ? "complete" : ""}`}>
+//             <span>{formatTime(time)}</span>
+//         </div>
+//     );
+// };
+
+// export default SmallTimer;
+
+import React, { useState } from "react";
 import "../asset/css/SmallTimer.css";
-import { TimerContext } from "./TimerContext";
 
-const SmallTimer = () => {
-    const { time, isComplete, isRunning } = useContext(TimerContext);
+const SmallTimer = ({ time, isComplete }) => {
+    const [position, setPosition] = useState({ x: 0, y: 0 }); // 드래그로 변경되는 위치
 
-    const formatTime = (time) => {
-        const minutes = String(Math.floor(time / 60)).padStart(2, "0");
-        const seconds = String(time % 60).padStart(2, "0");
-        return `${minutes}:${seconds}`;
+    const handleDragStart = (e) => {
+        const rect = e.target.getBoundingClientRect();
+        e.dataTransfer.setData("text/plain", JSON.stringify({
+            offsetX: e.clientX - rect.left,
+            offsetY: e.clientY - rect.top,
+        }));
     };
 
-    if (!isRunning) return null; // isRunning이 false면 렌더링하지 않음
+    const handleDrag = (e) => {
+        if (e.clientX === 0 && e.clientY === 0) return; // 드래그 종료 시 무시
+        setPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const offset = JSON.parse(e.dataTransfer.getData("text/plain"));
+        setPosition({
+            x: e.clientX - offset.offsetX,
+            y: e.clientY - offset.offsetY,
+        });
+    };
+
+    const handleDragOver = (e) => e.preventDefault();
 
     return (
-        <div className={`small-timer ${isComplete ? "complete" : ""}`}>
-            <span>{formatTime(time)}</span>
+        <div
+            className="small-timer"
+            draggable="true"
+            onDragStart={handleDragStart}
+            onDrag={handleDrag}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            style={{
+                position: "absolute",
+                left: position.x,
+                top: position.y,
+            }}
+        >
+            <div className="timer-display">
+                {`${String(Math.floor(time / 60)).padStart(2, "0")}:${String(
+                    time % 60
+                ).padStart(2, "0")}`}
+            </div>
         </div>
     );
 };
