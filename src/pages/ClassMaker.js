@@ -8,7 +8,7 @@ import { fetchFromAPI } from "../utils/api";
 
 const ClassMaker = () => 
 {
-    const { email, schoolName, classCount, isSchoolNameEditable, setSchoolName, fetchClassCount, Logout } = useUserData();
+    const { email, schoolName, classCount, isSchoolNameEditable, setSchoolName, fetchClassCount, openMaker, setOpenMaker, Logout } = useUserData();
     const navigate = useNavigate();
 
     const [grade, setGrade] = useState("");
@@ -43,7 +43,7 @@ const ClassMaker = () =>
             return;
         }
         
-        const nicknameToSubmit = classNickname.trim() === "" ? "없음" : classNickname.trim();
+        const nicknameToSubmit = classNickname.trim() === "" ? "학급 이름을 설정하지 않았습니다." : classNickname;
 
         const data = {
             email,
@@ -62,7 +62,7 @@ const ClassMaker = () =>
 
             fetchClassCount();
             alert("학급이 생성되었습니다.");
-            navigate("/profile");
+            navigate(0);
         } catch (error) {
             alert("학급 생성에 실패했습니다.");
         }
@@ -132,7 +132,6 @@ const ClassMaker = () =>
                     onChange={(e) => setClassNickname(e.target.value)}
                 />
                 <button onClick={submitConfirm}>학급 생성</button>
-                <button onClick={() => navigate(-1)}>뒤로가기</button>
                 {!classCount && <button onClick={handleLogout}>로그아웃</button>}
             </form>
         </div>

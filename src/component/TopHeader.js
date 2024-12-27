@@ -5,44 +5,43 @@ import GoogleLoginButton from './GoogleLoginButton';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const TopHeader = () => {
-  const [show, setShow] = useState(false); // 편의기능 detail 버튼 show
+  const [show, setShow] = useState(false);
   const navigator = useNavigate();
   const clientId = process.env.REACT_APP_OAUTH2_GOOGLE_CLIENT_ID;
 
   const onClickHandler = (e) => {
     setShow(false);
 
-    switch(e.target.className) {
-        case "Notice":
-          navigator("/Notice");
-          break;
-        case "Attendance":
-          navigator("/Attendance"); 
-          break;
-        case "Students":
-          navigator("/Students");
-          break;
-        case "Calendar" :
-          navigator("/Calendar");
-          break;
-        case "Timer":
-          navigator("/Timer");
-          break;
-        case "Seat":
-          navigator("/Seat");
-          break;
-        case "RandomPicker":
-          navigator("/RandomPicker");
-          break;
-        case "Voting":
-          navigator("/Voting");
-          break;
-        default:
-          break;
-      }
-    };
-  
-  
+    switch (e.target.className) {
+      case "Notice":
+        navigator("/Notice");
+        break;
+      case "Attendance":
+        navigator("/Attendance"); 
+        break;
+      case "Students":
+        navigator("/Students");
+        break;
+      case "Calendar":
+        navigator("/Calendar");
+        break;
+      case "Timer":
+        navigator("/Timer");
+        break;
+      case "Seat":
+        navigator("/Seat");
+        break;
+      case "RandomPicker":
+        navigator("/RandomPicker");
+        break;
+      case "Voting":
+        navigator("/Voting");
+        break;
+      default:
+        break;
+    }
+  };
+
   const toggleFunctions = () => {
     setShow((prevState) => !prevState);
   };
@@ -54,9 +53,9 @@ const TopHeader = () => {
         <button className="Attendance" onClick={onClickHandler}>출석부</button>
         <button className="Students" onClick={onClickHandler}>학생정보</button>
         <button className="Calendar" onClick={onClickHandler}>캘린더</button>
-        <button  onClick={toggleFunctions}>편의기능</button>
+        <button onClick={toggleFunctions}>편의기능</button>
         <GoogleOAuthProvider clientId={clientId}>
-            <GoogleLoginButton />
+          <GoogleLoginButton />
         </GoogleOAuthProvider>
       </div>
 
@@ -68,7 +67,6 @@ const TopHeader = () => {
           <button className="Voting" onClick={onClickHandler}>학급 투표</button>
         </div>
       )}
-      
     </div>
   );
 };

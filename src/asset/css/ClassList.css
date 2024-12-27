@@ -25,8 +25,8 @@ td.cell {
 .input-nickname {
     flex: 1;
     margin-right: 5px;
-    font-size: 12px;
-    height: 20px;
+    font-size: 14px;
+    height: 24px;
 }
 
 .button {

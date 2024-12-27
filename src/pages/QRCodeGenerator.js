@@ -5,16 +5,13 @@ import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
 import { useUserData } from '../hooks/useUserData'; 
 import { SchoolNameDisplay } from '../component/SchoolNameDisplay';
-import { useLocation } from 'react-router-dom';
 
-const QRCodeGenerator = () => 
+const QRCodeGenerator = ({ classData }) => 
 {
     const { profile, schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
     const [students, setStudents] = useState([{ num: '', name: '' }]);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
-    const location = useLocation();
-    const { classData } = location.state || {};
 
     const handleGenerate = async () => 
     {
@@ -95,6 +92,7 @@ const QRCodeGenerator = () =>
     return (
         <div>
             <h2>학생용 QR 코드 생성</h2>
+            <p>해당 QR 코드를 통해 학생용 어플에 로그인할 수 있습니다.</p>
             {classData ? (
                 <div>
                     <p>학급 정보: {classData.schoolName} {classData.grade}학년 {classData.classNo}반</p>
