@@ -23,6 +23,9 @@ import ClassMaker from "./pages/ClassMaker.js";
 import NoticeInsert from "./pages/NoticeRegister.js";
 import NoticeUpdate from "./pages/NoticeUpdate.js";
 import StudentDetail from "./pages/StudentDetail.js";
+import AttendanceRegister from "./pages/AttendanceRegister.js";
+import AttendanceTotal from "./pages/AttendanceTotal.js";
+
 
 
 function App() 
@@ -57,7 +60,8 @@ function App()
                     <Route path="/:id" element={<NoticeDetail />} />                    {/* 공지사항 */}
                     <Route path="notice/update/:id" element={<NoticeUpdate/>} />
                     <Route path="notice/register" element={<NoticeInsert/>} />
-                    <Route path="Attendance" element={<Attendance/>}/>            {/* 출석부  */} 
+                    <Route path="Attendance" element={<AttendanceTotal />} />  {/* 출석부 */}
+                    <Route path="Attendance/insert" element={<AttendanceRegister />} /> 
                     <Route path="Students" element={<Students/>}/>      
                     <Route path="Students/:id" element={<StudentDetail/>}/>                  {/* 학생정보  */}    
                     <Route path="Calendar" element={<Calendar/>}/>                  {/* 캘린더 */}
