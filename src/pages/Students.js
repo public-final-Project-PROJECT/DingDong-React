@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../asset/css/Student.css"; // CSS 파일 임포트
 
 const Students = () => {
 
@@ -10,9 +11,24 @@ const Students = () => {
     const navigate = useNavigate();
 
         
+    // useEffect(() => {
+    //     axios
+    //         .get("http://localhost:3013/api/students/view", {
+    //             params: { classId },
+    //         })
+    //         .then((response) => {
+
+    //             setStudents(response.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching students:", error);
+    //         });
+    // }, []);
+
+         
     useEffect(() => {
         axios
-            .get("http://localhost:3013/api/students/view", {
+            .get("http://localhost:3013/api/students/viewClass", {
                 params: { classId },
             })
             .then((response) => {
@@ -30,25 +46,47 @@ const Students = () => {
         navigate(`./${studentId}`)
     }
 
+    const grade = students.length > 0 ? students[0].grade : null;
+    const classNo = students.length > 0 ? students[0].classNo : null;
+    const schoolName = students.length > 0 ? students[0].schoolName : null;
+
+
 
     return (
-    <>
-         <h1>학생 인적사항</h1>
-        {students.length === 0 ? (
-            <p>학생이 없습니다.</p>
+        <>
+            <h1>학생 인적사항</h1>
+            {students.length === 0 ? (
+                <p>학생이 없습니다.</p>
             ) : (
-                <ul>
-                    {students.map((student) =>(
-                        <li key={student.studentId                        }
-                        onClick={() => studentDetail(student.studentId)}>
-                        <p>{student.studentName}</p>
+                <>
+                    {/* 학교 정보, 학년/반 */}
+                    <div className="class-header">
+                        {schoolName && grade && classNo && (
+                            <h2>
+                                {schoolName} - {grade}학년 {classNo}반
+                            </h2>
+                        )}
+                    </div>
 
-                        </li>
-                    ))}
-                </ul>
+                    {/* 학생 목록 */}
+                    <div className="student-list">
+                        {students.map((student) => (
+                            <div 
+                                key={student.studentId} 
+                                className="student-card" 
+                                onClick={() => studentDetail(student.studentId)}
+                            >
+                                <h3>{student.studentName}</h3>
+                                <p>{student.grade}학년 {student.classNo}반</p>
+                                <p>전화번호: {student.studentPhone}</p>
+                
+                            </div>
+                        ))}
+                    </div>
+                </>
             )}
-         
-    </>
-    )
+        </>
+    );
 }
+
 export default Students;
