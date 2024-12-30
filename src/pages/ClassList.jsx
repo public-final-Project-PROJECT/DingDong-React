@@ -5,6 +5,8 @@ import { faCheck, faPencilAlt, faTimes } from "@fortawesome/free-solid-svg-icons
 import { fetchFromAPI } from "../utils/api";
 import { useNavigate } from "react-router-dom";
 import "../asset/css/ClassList.css";
+import ClassMaker from "./ClassMaker";
+import QRCodeGenerator from "./QRCodeGenerator";
 
 const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editIndex, newNickname, setNewNickname, handleUpdate, handleQRCode, handleGoToClass, handleDelete }) => 
 {
@@ -17,7 +19,7 @@ const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editI
                     <th>학교 이름</th>
                     <th>학년</th>
                     <th>반</th>
-                    <th>학급 별명</th>
+                    <th>학급 이름</th>
                     <th>선생님</th>
                     <th>개설일</th>
                     <th>삭제 예정일</th>
@@ -75,54 +77,67 @@ const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editI
 
 const EditNicknameCell = ({ newNickname, setNewNickname, handleUpdate, onCancel }) => 
 {
-    const [inputWidth, setInputWidth] = useState("auto");
+    const [inputWidth, setInputWidth] = useState(``);
     const spanRef = useRef(null);
 
-    useEffect(() => {
-        if (spanRef.current) {
-            const newWidth = spanRef.current.offsetWidth * 1.1;
-            setInputWidth(`${newWidth}px`);
+    useEffect(() => 
+    {
+        if (spanRef.current) 
+        {
+            const calculatedWidth = spanRef.current.offsetWidth;
+            setInputWidth(`${calculatedWidth}px`);
         }
     }, [newNickname]);
 
     return (
-        <>
-            <span ref={spanRef} style={{ visibility: "hidden", position: "absolute", whiteSpace: "nowrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            <span
+                ref={spanRef}
+                style={{
+                    visibility: "hidden",
+                    position: "absolute",
+                    whiteSpace: "nowrap",
+                    pointerEvents: "none",
+                }}
+            >
                 {newNickname || " "}
             </span>
-            <input
-                type="text"
-                value={newNickname}
-                onChange={(e) => setNewNickname(e.target.value)}
-                onClick={(e) => e.stopPropagation()}
-                className="input-nickname"
-                style={{ width: inputWidth }}
-            />
-            <button
-                className="button button-save-icon"
-                onClick={(e) => 
-                {
-                    e.stopPropagation();
-                    handleUpdate();
-                }}
-            >
-                <FontAwesomeIcon icon={faCheck} />
-            </button>
-            <button
-                className="button button-cancel-icon"
-                onClick={(e) => 
-                {
-                    e.stopPropagation();
-                    onCancel();
-                }}
-            >
-                <FontAwesomeIcon icon={faTimes} />
-            </button>
-        </>
+            <div>
+                <input
+                    type="text"
+                    value={newNickname}
+                    onChange={(e) => setNewNickname(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="input-nickname"
+                    style={{ 
+                        minWidth: "36px",
+                        width: inputWidth 
+                    }}
+                />
+                <button
+                    className="button button-save-icon"
+                    onClick={(e) => 
+                    {
+                        e.stopPropagation();
+                        handleUpdate();
+                    }}
+                >
+                    <FontAwesomeIcon icon={faCheck} />
+                </button>
+                <button
+                    className="button button-cancel-icon"
+                    onClick={(e) => 
+                    {
+                        e.stopPropagation();
+                        onCancel();
+                    }}
+                >
+                    <FontAwesomeIcon icon={faTimes} />
+                </button>
+            </div>
+        </div>
     );
 };
-
-
 
 const DisplayNicknameCell = ({ nickname, onEdit }) => (
     <>
@@ -180,10 +195,14 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
 
 const ClassList = () => 
 {
+    
     const { classList, teacherId, classCount } = useUserData();
     const [selectedRow, setSelectedRow] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [newNickname, setNewNickname] = useState("");
+    const [selectedClassItem, setSelectedClassItem] = useState(null);
+    const [openMaker, setOpenMaker] = useState(false);
+    const [openCode, setOpenCode] = useState(false);
     const navigate = useNavigate();
 
     const handleRowClick = (index) => 
@@ -199,7 +218,18 @@ const ClassList = () =>
 
     const handleUpdate = async (classItem) => 
     {
-        if (newNickname.trim() !== "") 
+        if(classItem.classNickname === newNickname)
+        {
+            setEditIndex(null);
+            setNewNickname("");
+            return;
+        }
+        // 일부러 왼쪽으로 붙인 것
+        const confirmationMessage =
+`학급 이름을 변경하시겠습니까?
+변경 전: ${classItem.classNickname}
+변경 후: ${newNickname}`
+        if (window.confirm(confirmationMessage) && newNickname.trim() !== "") 
         {
             try {
                 await fetchFromAPI(`/class/update/${teacherId}/${classItem.classId}`, 
@@ -208,9 +238,10 @@ const ClassList = () =>
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ classNickname: newNickname }),
                 });
+                alert("학급 이름이 변경되었습니다.");
                 navigate(0);
             } catch (err) {
-                console.error("Error updating class nickname: ", err);
+                alert("변경되지 않았습니다.");
             } finally {
                 setEditIndex(null);
                 setNewNickname("");
@@ -240,14 +271,16 @@ const ClassList = () =>
                 alert("학급이 삭제되었습니다.");
                 navigate(0);
             } catch (err) {
-                console.error("삭제 중 에러 발생: ", err);
+                alert("삭제되지 않았습니다.");
             }
         }
     };
 
     const handleQRCode = (classItem) => 
     {
-        navigate('/qrcode', { state: { classData: classItem } });
+        setOpenMaker(false);
+        setOpenCode(true);
+        setSelectedClassItem(classItem);
     };
 
     const handleGoToClass = (classItem) => 
@@ -264,34 +297,61 @@ const ClassList = () =>
         }
         else
         {
-            navigate("/classmaker")
+            setOpenCode(false);
+            setOpenMaker(true);
         }
     }
 
     return (
-        <div>
-            <div>
-                <h4>
-                    학급 목록(생성된 학급 수: {classCount}개)
-                    <button onClick={handleMake}>학급 생성</button>
-                </h4>
-            </div>
+        <div className="class-list-container">
             {classList.length > 0 ? (
-                <ClassListTable
-                    classList={classList}
-                    selectedRow={selectedRow}
-                    onRowClick={handleRowClick}
-                    onEditClick={handleEditClick}
-                    editIndex={editIndex}
-                    newNickname={newNickname}
-                    setNewNickname={setNewNickname}
-                    handleUpdate={handleUpdate}
-                    handleQRCode={handleQRCode}
-                    handleGoToClass={handleGoToClass}
-                    handleDelete={handleDelete}
-                />
+                <>
+                    <br/>
+                    학급 목록 (생성된 학급 수: {classCount}/2)
+                    <button className="button-create" onClick={handleMake}>
+                        학급 생성
+                    </button>
+                    <ClassListTable
+                        classList={classList}
+                        selectedRow={selectedRow}
+                        onRowClick={handleRowClick}
+                        onEditClick={handleEditClick}
+                        editIndex={editIndex}
+                        newNickname={newNickname}
+                        setNewNickname={setNewNickname}
+                        handleUpdate={handleUpdate}
+                        handleQRCode={handleQRCode}
+                        handleGoToClass={handleGoToClass}
+                        handleDelete={handleDelete}
+                    />
+                    <br/>
+                    {openMaker && (
+                        <div className="class-maker-container">
+                            <button
+                                className="button button-cancel-icon"
+                                onClick={() => setOpenMaker(false)}
+                            >
+                                <FontAwesomeIcon icon={faTimes} />
+                            </button>
+                            <ClassMaker />
+                        </div>
+                    )}
+                    {openCode && (
+                        <div className="class-qrcode-container">
+                            <button
+                                className="button button-cancel-icon"
+                                onClick={() => setOpenCode(false)}
+                            >
+                                <FontAwesomeIcon icon={faTimes} />
+                            </button>
+                            <QRCodeGenerator classData={selectedClassItem} />
+                        </div>
+                    )}
+                </>
             ) : (
-                <p>생성된 학급이 없습니다.</p>
+                <div className="no-classes">
+                    <ClassMaker />
+                </div>
             )}
         </div>
     );

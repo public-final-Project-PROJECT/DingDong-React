@@ -1,47 +1,91 @@
-// 오른쪽 상단 타이머 고정
-
-/**
- * pm 05:20
- *  - 고정 타이머 컴포넌트 분리 [구현]
- *  - 분리 후 고정 타이머 SmallTimer.js 를 Timer.js 로 임포트 [구현]
- *  - 각각의 모든 페이지에 고정 타이머 유지 [구현]
- *
- * 12월 23일 pm 04:57
- *  - [문제]: Layout 에 SmallTimer 삽입 시 고정 타이머 나타나지 않음 [해결]
- *
- * 12월 24일 am 09:47
- *  - [문제]: Layout 에 SmallTimer 삽입 시 고정 타이머가 유지되긴하나 숫자가 나오지 않음 [해결]
- *          -> Layout 에 그냥 때려넣어서 안됐던 건에 대하여.
- *
- * pm 02:55
- *  - [문제]: 모든 페이지에 잘 나오는데 페이지 이동 시 메인 타이머가 보이지 않을 때와 같이 타이머가 멈춤
- *          편의기능 > 타이머에 다시 들어가면 감소된 시간만큼 줄어있음 [해결 中] (이상해,,)
- *
- * 12월 27일 am 01:57
- *  - 메인 타이머 실행 시 고정 타이머 나타나면서 작동 [구현]
- *  - 고정 타이머 커서로 이동 시 움직이도록 [미구현]
- *  - 고정 타이머 다른 페이지에 있을 때 클릭 시 메인 타이머 페이지로 이동 [미구현]
- * */
-
-
-import React, { useContext } from "react";
-import "../asset/css/SmallTimer.css";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { TimerContext } from "./TimerContext";
+import "../asset/css/SmallTimer.css";
 
 const SmallTimer = () => {
-    const { time, isComplete, isRunning } = useContext(TimerContext);
+    const { time } = useContext(TimerContext); // TimerContext에서 time 가져오기
+    const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate
 
-    const formatTime = (time) => {
-        const minutes = String(Math.floor(time / 60)).padStart(2, "0");
-        const seconds = String(time % 60).padStart(2, "0");
-        return `${minutes}:${seconds}`;
+    // 타이머의 위치 상태 (로컬스토리지에서 초기값 복원)
+    const [position, setPosition] = useState(() => {
+        const savedPosition = JSON.parse(localStorage.getItem("smallTimerPosition"));
+        return savedPosition || { x: 100, y: 100 }; // 기본 위치
+    });
+
+    // 드래그 상태 관리
+    const [isDragging, setIsDragging] = useState(false);
+    const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        // 위치를 로컬스토리지에 저장
+        if (position) {
+            localStorage.setItem("smallTimerPosition", JSON.stringify(position));
+        }
+    }, [position]);
+
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setOffset({
+            x: e.clientX - position.x,
+            y: e.clientY - position.y,
+        });
     };
 
-    if (!isRunning) return null; // isRunning이 false면 렌더링하지 않음
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        setPosition({
+            x: e.clientX - offset.x,
+            y: e.clientY - offset.y,
+        });
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    useEffect(() => {
+        if (isDragging) {
+            window.addEventListener("mousemove", handleMouseMove);
+            window.addEventListener("mouseup", handleMouseUp);
+        } else {
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseup", handleMouseUp);
+        }
+
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseup", handleMouseUp);
+        };
+    }, [isDragging, offset]);
+
+    // 타이머 클릭 시 메인 타이머 페이지로 이동
+    const handleTimerClick = () => {
+        if (!isDragging) {
+            navigate("/Timer");
+        }
+    };
 
     return (
-        <div className={`small-timer ${isComplete ? "complete" : ""}`}>
-            <span>{formatTime(time)}</span>
+        <div
+            className="small-timer"
+            onMouseDown={handleMouseDown}
+            onClick={handleTimerClick}
+            style={{
+                position: "absolute",
+                left: `${position.x}px`,
+                top: `${position.y}px`,
+                cursor: "move",
+                userSelect: "none",
+            }}
+        >
+            <div className="timer-display">
+                {time != null
+                    ? `${String(Math.floor(time / 60)).padStart(2, "0")}:${String(
+                        time % 60
+                    ).padStart(2, "0")}`
+                    : "00:00"}
+            </div>
         </div>
     );
 };

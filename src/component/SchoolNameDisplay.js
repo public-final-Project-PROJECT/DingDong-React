@@ -11,11 +11,12 @@ export const SchoolNameDisplay = ({ isEditable, schoolName, onChange }) => (
             />
         </div>
     ) : (
-        <div>
-            학교 이름: {schoolName}
-            <p style={{ color: 'red' }}>
-                재직중인 학교가 설정되어 있습니다. 학교 이름을 수정할 수 없습니다.
-            </p>
-        </div>
+        // <div>
+        //     학교 이름: {schoolName}
+        //     <p style={{ color: 'red' }}>
+        //         재직중인 학교가 설정되어 있습니다. 학교 이름을 수정할 수 없습니다.
+        //     </p>
+        // </div>
+        null
     )
 );

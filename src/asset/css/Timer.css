@@ -29,6 +29,7 @@
 
 .min-text {
     margin-left: 3px;
+    font-weight: bold;
 }
 .reset-button {
     width: 50px;
@@ -62,7 +63,7 @@
     box-shadow: 2px 2px 3px #404040;
     margin-right: 10px;
     margin-left: 10px;
-    letter-spacing: 2px;
+    /* letter-spacing: 2px; */
 }
 
 .start-button:hover {
@@ -81,7 +82,7 @@
     border-radius: 5px;
     cursor: pointer;
     box-shadow: 2px 2px 3px #404040;
-    letter-spacing: 10%;
+    /* letter-spacing: 10%; */
     margin-right: 10px;
     font: center;
 }
