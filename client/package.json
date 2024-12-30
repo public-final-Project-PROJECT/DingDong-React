@@ -2,6 +2,7 @@
   "name": "lastdance_r",
   "version": "0.1.1",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -24,10 +25,9 @@
     "crypto-js": "^4.2.0",
     "html2canvas": "^1.4.1",
     "http-proxy-middleware": "^3.0.3",
-
-    "mkcert": "^3.2.0",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
+    "mkcert": "^3.2.0",
     "modal": "^0.2.0",
     "neis": "^0.5.1",
     "qrcode.react": "^4.2.0",

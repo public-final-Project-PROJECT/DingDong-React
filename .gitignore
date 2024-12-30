@@ -2,15 +2,15 @@
 
 # dependencies
 /client/node_modules
-/client//.pnp
+/client/.pnp
 /client/.pnp.js
-/client//.idea
+/client/.idea
 
 # testing
-/client//coverage
+/client/coverage
 
 # production
-/client//build
+/client/build
 
 # misc
 /client/.DS_Store
@@ -23,3 +23,4 @@
 /client/npm-debug.log*
 /client/yarn-debug.log*
 /client/yarn-error.log*
+/flask-server/venv
