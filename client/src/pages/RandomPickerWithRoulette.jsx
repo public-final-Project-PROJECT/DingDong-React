@@ -133,7 +133,7 @@ const RandomPickerWithRoulette = () =>
 
     return (
         <div style={{ position: "relative" }}>
-            <h1>Random Face Picker with Roulette</h1>
+            <h1>부드러운 줌인 기능 추가하기</h1>
             <div style={{ position: "relative", width: "100%" }}>
                 <video ref={videoRef} style={{ width: "100%", border: "1px solid black" }} />
                 <canvas
