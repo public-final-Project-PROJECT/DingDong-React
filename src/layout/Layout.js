@@ -8,7 +8,6 @@ const Layout = () => {
         <TimerProvider>
             <TopHeader/>
             <Outlet/>
-            <SmallTimer/>
         </TimerProvider>
     )
 }

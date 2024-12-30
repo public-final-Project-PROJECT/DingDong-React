@@ -1,8 +1,8 @@
 .small-timer {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 70px;
     background-color: green;
-    border-radius: 50%;
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;

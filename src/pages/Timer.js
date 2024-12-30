@@ -4,6 +4,9 @@ import SmallTimer from "./SmallTimer";
 import { TimerContext } from "./TimerContext";
 
 const Timer = () => {
+
+    console.log("Timer 렌더링");
+
     const radius = 100;
     const circumference = 2 * Math.PI * radius;
 
@@ -62,7 +65,7 @@ const Timer = () => {
         }
     }, []); // 컴포넌트가 처음 로드될 때 한 번만 실행
 
-    console.log("가랏 time!: ", time);
+    // console.log("가랏 time!: ", time);
 
     useEffect(() => {
         let timer;
@@ -141,10 +144,11 @@ const Timer = () => {
         localStorage.removeItem("lastUpdated");
         localStorage.setItem("timerRunning", "false");
     };
+    
 
     return (
     <div className="center-container">
-        <SmallTimer key="small-timer" time={time} isComplete={isComplete} />
+        <SmallTimer time={time} isRunning={isRunning} />
         <div>
             <h1 className="timer-text">타이머</h1>
             <div className="circle-timer">
