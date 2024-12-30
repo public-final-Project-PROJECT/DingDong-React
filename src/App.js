@@ -1,7 +1,3 @@
-
-
-
-
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import PostMappingTest from "./test/PostMappingTest";
 import Layout from "./layout/Layout";
