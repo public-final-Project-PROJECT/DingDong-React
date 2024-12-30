@@ -29,7 +29,7 @@ const SeatArrangement = () => {
         try {
             const response = await axios.post(
                 'http://localhost:3013/api/seat/findAllSeat',
-                { classId: 1 },
+                { classId: 2 },
             );
             console.log(response.data);
             setLoadedSeats(response.data);
@@ -43,7 +43,7 @@ const SeatArrangement = () => {
         try{
             const response = await axios.post(
                 'http://localhost:3013/api/seat/findName',
-                {classId : 1},
+                {classId : 2},
             );
             console.log(response.data);
             setNameList(response.data.sort((a, b) => a.studentId - b.studentId));
@@ -56,7 +56,7 @@ const SeatArrangement = () => {
         try{
             const response = await axios.post(
                 'http://localhost:3013/api/seat/saveSeat',
-                {userId : 1, columnId : 1, rowId: 1, classId: 1 }
+                {userId : 1, columnId : 1, rowId: 1, classId: 2 }
             );
             console.log(response.data);
         }catch(error){
