@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AttendanceTotal() {
     const classId = 1; // 클래스 ID
     const [students, setStudents] = useState([]); // 학생 목록
     const [attendanceDate, setAttendanceDate] = useState(""); // 전체 날짜 상태
+
+    const nevigate = useNavigate();
 
     useEffect(() => {
         // 학생 목록 가져오기 (출석 데이터와 별개)
@@ -81,6 +84,11 @@ function AttendanceTotal() {
         setAttendanceDate(newDate); // 전체 날짜 상태 업데이트
     };
 
+    const studentDetail = (studentId)=>{
+        nevigate(`/Students/${studentId}`);
+        
+    }
+
     const handleSubmit = () => {
         const dataToSend = students.map((student) => ({
             attendanceId: student.attendanceId,
@@ -131,7 +139,7 @@ function AttendanceTotal() {
                         students.map((student, index) => (
                             <tr key={student.studentId}>
                                 <td>{index + 1}</td>
-                                <td>{student.studentName || ""}</td>
+                                <td onClick={()=>studentDetail(student.studentId)}>{student.studentName || ""}</td>
                                 <td>{student.studentId}</td>
                                 <td>
                                     <input

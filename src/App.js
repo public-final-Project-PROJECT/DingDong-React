@@ -7,7 +7,7 @@ import PostMappingTest from "./test/PostMappingTest";
 import Layout from "./layout/Layout";
 import Main from "./pages/Main";
 import Notice from "./pages/Notice";
-import Attendance from "./pages/Attendance.js";
+//import Attendance from "./pages/Attendance.js";
 import Calendar from "./pages/Calendar.js";
 import Students from "./pages/Students.js";
 import Timer from "./pages/Timer.js";
@@ -57,7 +57,7 @@ function App()
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
                     <Route path="Notice" element={<Notice/>}/>    
-                    <Route path="/:id" element={<NoticeDetail />} />                    {/* 공지사항 */}
+                    <Route path="Notice/:id" element={<NoticeDetail />} />                    {/* 공지사항 */}
                     <Route path="notice/update/:id" element={<NoticeUpdate/>} />
                     <Route path="notice/register" element={<NoticeInsert/>} />
                     <Route path="Attendance" element={<AttendanceTotal />} />  {/* 출석부 */}
