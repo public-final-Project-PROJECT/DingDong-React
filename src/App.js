@@ -4,7 +4,7 @@ import Layout from "./layout/Layout";
 import Main from "./pages/Main";
 import Notice from "./pages/Notice";
 //import Attendance from "./pages/Attendance.js";
-import Calendar from "./pages/Calendar.js";
+import Calendar from "./pages/Calendar.jsx";
 import Students from "./pages/Students.js";
 import Timer from "./pages/Timer.js";
 import Seat from "./pages/Seat.js";
