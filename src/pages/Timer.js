@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import "../asset/css/Timer.css";
-import SmallTimer from "./SmallTimer";
 import { TimerContext } from "./TimerContext";
 
 const Timer = () => {
+
+    console.log("Timer 렌더링");
+
     const radius = 100;
     const circumference = 2 * Math.PI * radius;
 
@@ -62,7 +64,6 @@ const Timer = () => {
         }
     }, []); // 컴포넌트가 처음 로드될 때 한 번만 실행
 
-    console.log("가랏 time!: ", time);
 
     useEffect(() => {
         let timer;
@@ -90,7 +91,6 @@ const Timer = () => {
         }
     }, [time, inputTime]);
     
-    
 
     useEffect(() => {
         localStorage.setItem("timerRunning", isRunning.toString());
@@ -103,11 +103,6 @@ const Timer = () => {
         }
     }, []);
 
-    // useEffect(() => {
-    //     console.log("useEffect 실행");
-    //     setTime(savedTime); // 중복 실행 가능
-    // }, []);
-    
 
     // 시간 설정 시 inputTime도 저장
     const handleSetTime = (e) => {
@@ -141,10 +136,10 @@ const Timer = () => {
         localStorage.removeItem("lastUpdated");
         localStorage.setItem("timerRunning", "false");
     };
+    
 
     return (
     <div className="center-container">
-        <SmallTimer key="small-timer" time={time} isComplete={isComplete} />
         <div>
             <h1 className="timer-text">타이머</h1>
             <div className="circle-timer">
@@ -211,9 +206,7 @@ const Timer = () => {
                         시작
                     </button>
                     {isRunning && (
-                        <button onClick={handlePause} className="pause-button">
-                            멈춤
-                        </button>
+                        <button onClick={handlePause} className="pause-button">멈춤</button>
                     )}
                 </div>
             )}

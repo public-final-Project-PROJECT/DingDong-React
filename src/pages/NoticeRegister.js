@@ -94,7 +94,7 @@ const NoticeInsert = ({ closeModal }) => {  // closeModal prop 추가
 
     return (
         <div>
-            <h1>공지사항 작성</h1>
+            <h3>공지사항 작성</h3><hr/>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="noticeTitle">제목:</label>
@@ -157,9 +157,9 @@ const NoticeInsert = ({ closeModal }) => {  // closeModal prop 추가
                         onChange={handleFileChange}
                     />
                 </div>
-                <button type="submit">등록하기</button>
+                <button type="submit" className="notice-register">등록하기</button>
                 {/* 닫기 버튼 추가 */}
-                <button type="button" onClick={closeModal} style={{ marginLeft: "10px" }}>
+                <button type="button" onClick={closeModal} style={{ marginLeft: "10px" }} className="modal-close">
                     닫기
                 </button>
             </form>

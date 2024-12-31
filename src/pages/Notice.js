@@ -38,7 +38,7 @@ const Notice = () => {
     };
 
     const noticeDetail = (noticeId) => {
-        navigate(`/${noticeId}`);
+        navigate(`./${noticeId}`);
     };
 
     const Register = () => {
@@ -79,8 +79,8 @@ const Notice = () => {
                         <thead style={{ backgroundColor: "#d4edda" }}>
                             <tr>
                                 <th style={{ textAlign: "center", width: "10%", borderBottom: "2px solid #ddd" }}>번호</th>
-                                <th style={{ textAlign: "center", width: "30%", borderBottom: "2px solid #ddd" }}>제목</th>
-                                <th style={{ textAlign: "center", width: "15%", borderBottom: "2px solid #ddd" }}>카테고리</th>
+                                <th style={{ textAlign: "center", width: "30%", borderBottom: "2px solid #ddd" }}>카테고리</th>
+                                <th style={{ textAlign: "center", width: "15%", borderBottom: "2px solid #ddd" }}>제목</th>
                                 <th style={{ textAlign: "center", width: "30%", borderBottom: "2px solid #ddd" }}>내용</th>
                                 <th style={{ textAlign: "center", width: "25%", borderBottom: "2px solid #ddd" }}>작성일/수정일</th>
                             </tr>
