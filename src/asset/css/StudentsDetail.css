@@ -1,0 +1,122 @@
+.student-info-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.student_info{
+    text-align : center;
+}
+
+.data {
+    text-align: left; /* 데이터 왼쪽 정렬 */
+    flex-grow: 1; 
+    padding-left: 40px; /* 왼쪽에 조금의 여백 추가 */
+}
+
+/* 각 정보 항목 */
+.info-row {
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 정보 레이블 (왼쪽에 고정) */
+.info-label {
+    font-weight: bold;
+    color: #333;
+    min-width: 120px;
+    text-align: left; /* 왼쪽 정렬 */
+}
+
+/* DB에서 가져온 값 (가운데 정렬) */
+
+
+/* 메모 버튼 스타일 */
+.memo-button {
+    background-color: #0c0c0c;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.memo-button:hover {
+    background-color: #989998;
+}
+
+/* 모달 스타일 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+}
+
+.modal-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.modal-textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-save-button, .modal-close-button {
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.modal-save-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.modal-close-button {
+    background-color: #ccc;
+    color: black;
+}
+
+.modal-save-button:hover {
+    background-color: #0056b3;
+}
+
+.modal-close-button:hover {
+    background-color: #aaa;
+}

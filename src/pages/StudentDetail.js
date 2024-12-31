@@ -1,22 +1,36 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "../asset/css/StudentDetail.css"; // CSS 파일 임포트
+import "../asset/css/StudentsDetail.css"; // CSS 파일 임포트
 const StudentDetail = () => {
     const classId = 1;
-    const [student, setStudent] = useState([]);
+    const [student, setStudent] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
     const [memo, setMemo] = useState(""); // 메모 입력값 관리
 
     const { id } = useParams();
 
+    // useEffect(() => {
+    //     axios
+    //         .get(`http://localhost:3013/api/students/view/${id}`, {
+    //             params: { classId },
+    //         })
+    //         .then((response) => {
+    //             setStudent(response.data[0]);
+    //             console.log(response.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching students:", error);
+    //         });
+    // }, [id]);
+
     useEffect(() => {
         axios
-            .get(`http://localhost:3013/api/students/view/${id}`, {
+            .get(`http://localhost:3013/api/students/viewClass/${id}`, {
                 params: { classId },
             })
             .then((response) => {
-                setStudent(response.data[0]);
+                setStudent(response.data);
                 console.log(response.data);
             })
             .catch((error) => {
@@ -78,20 +92,58 @@ const StudentDetail = () => {
 
     return (
         <>
-        <h1>학생 정보</h1>
-            <p>프로필 : {student.studentImg}</p>
-            <p>이름 : {student.studentName}</p>
-            <p>생년월일 : {student.studentBirth}</p>
-            <p>성 별 : {student.studentGender}</p>
-            <p>핸드폰 : {student.studentPhone}</p>
-            <p>주소 : {student.studentAddress}</p>
-            <p>특이사항 : {student.studentEtc}</p>
-            <p>보호자 : {student.parentsName}</p>
-            <p>보호자 핸드폰 : {student.parentsPhone}</p>
-            <p>
-                메모 : {student.memo} <button onClick={handleOpenModal}>메모하기</button>
-            </p>
-
+                    <h1 className="student_info">학생 정보</h1>
+            <div className="student-info-card">
+            <div className="info-row">
+                    <span className="info-label"> 프로필 </span>
+                    <span className="data">{student.studentImg || "프로필 없음"} </span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">이름</span>
+                    <span className="data">{student.studentName}</span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">성별</span>
+                    <span className="data" >{student.studentGender}</span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">학교/학년/반</span>
+                    <span className="data">{student.schoolName}/{student.grade}학년/{student.classNo}반</span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">생년월일</span>
+                    <span className="data">{student.studentBirth}</span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">핸드폰</span>
+                    <span className="data">{student.studentPhone}</span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">보호자</span>
+                    <span className="data">{student.parentsName || "미기입"} </span>
+                    <span className="info-label">보호자 핸드폰</span>
+                    <span className="data">{student.parentsPhone || "미기입"}</span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">주소</span>
+                    <span className="data">{student.studentAddress}</span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">특이사항</span>
+                    <span className="data">{student.studentEtc}</span>
+                </div>
+                <div className="info-row">
+                    <span className="info-label">메모</span>
+                    <span className="data">
+                        
+                        {student.memo}{" "}
+                        <button onClick={handleOpenModal} className="memo-button">
+                            메모하기
+                        </button>
+                    </span>
+                </div>
+            </div>
+    
             {/* 모달 */}
             {isModalOpen && (
                 <div className="modal-overlay">
