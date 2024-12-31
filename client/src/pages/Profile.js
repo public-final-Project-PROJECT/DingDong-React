@@ -7,7 +7,7 @@ import ClassList from "./ClassList";
 
 const Profile = () => 
 {
-    const { email, schoolName, setSchoolName, teacherId, Logout } = useUserData();
+    const { profile, email, schoolName, setSchoolName, teacherId, Logout } = useUserData();
     const [fetched, setFetched] = useState(false);
     const navigate = useNavigate();
 
@@ -111,8 +111,14 @@ const Profile = () =>
 
     return (
         <div>
-            <div>
-                <div>
+            <div className="teacher_profile">
+                <div className="google_profile">
+                    선생님 프로필<br/>
+                    <img src={profile.picture} alt="profile_img" className="profile_img"/><br/>
+                    {profile.name}<br/>
+                    {profile.email}<br/>
+                </div>
+                <div className="school">
                     <label htmlFor="schoolName">재직중인 학교: </label>
                     <input
                         id="schoolName"

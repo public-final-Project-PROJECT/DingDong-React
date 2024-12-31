@@ -132,10 +132,26 @@ const RandomPickerWithRoulette = () =>
     };
 
     return (
-        <div style={{ position: "relative" }}>
-            <h1>부드러운 줌인 기능 추가하기</h1>
-            <div style={{ position: "relative", width: "100%" }}>
-                <video ref={videoRef} style={{ width: "100%", border: "1px solid black" }} />
+        <div
+            style={{
+                position: "relative",
+                width: "100%",
+                maxWidth: "1910px", // Constrain maximum width
+                height: window.innerWidth > 1280 ? "720px" : "auto", // Fix height at 720px if width > 1280
+                margin: "0 auto", // Center the container
+            }}
+        >
+            <p>편의기능 &gt; 발표자 뽑기</p>
+            <div style={{ position: "relative", width: "100%", height: "100%" }}>
+                <video
+                    ref={videoRef}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        border: "1px solid black",
+                    }}
+                />
                 <canvas
                     ref={canvasRef}
                     style={{
@@ -149,11 +165,11 @@ const RandomPickerWithRoulette = () =>
                 />
             </div>
             <button onClick={handleCapture} disabled={isRouletteRunning}>
-                {isRouletteRunning ? "..." : "딸깍"}
+                {isRouletteRunning ? "..." : "뽑기"}
             </button>
             <button onClick={handleResetHighlight}>초기화</button>
         </div>
-    );
+    );    
 };
 
 export default RandomPickerWithRoulette;

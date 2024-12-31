@@ -12,6 +12,7 @@ export const useUserData = () =>
     const [isSchoolNameEditable, setIsSchoolNameEditable] = useState(true);
     const [classCount, setClassCount] = useState(0);
     const [classList, setClassList] = useState([]);
+    const [selectedClassId, setSelectedClassId] = useState(null);
     const email = useMemo(() => profile?.email, [profile]);
     const navigate = useNavigate();
 
@@ -125,6 +126,8 @@ export const useUserData = () =>
         classCount,
         classList,
         fetchClassCount,
+        selectedClassId, 
+        setSelectedClassId,
         Logout
     };
 };
