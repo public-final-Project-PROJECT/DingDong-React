@@ -70,7 +70,7 @@ const SmallTimer = () => {
         <div
             className="small-timer"
             onMouseDown={handleMouseDown}
-            onClick={handleTimerClick}
+            onDoubleClick={handleTimerClick}
             style={{
                 position: "absolute",
                 left: `${position.x}px`,
