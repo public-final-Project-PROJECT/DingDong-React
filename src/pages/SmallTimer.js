@@ -70,7 +70,7 @@ const SmallTimer = () => {
         <div
             className="small-timer"
             onMouseDown={handleMouseDown}
-            onClick={handleTimerClick}
+            onDoubleClick={handleTimerClick}
             style={{
                 position: "absolute",
                 left: `${position.x}px`,
@@ -82,8 +82,8 @@ const SmallTimer = () => {
             <div className="timer-display">
                 {time != null
                     ? `${String(Math.floor(time / 60)).padStart(2, "0")}:${String(
-                          time % 60
-                      ).padStart(2, "0")}`
+                        time % 60
+                    ).padStart(2, "0")}`
                     : "00:00"}
             </div>
         </div>
