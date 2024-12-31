@@ -21,11 +21,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>Centered Modal</h4>
+          <h4>일정 수정</h4>
           <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-            consectetur ac, vestibulum at eros.
+           수정 하셈.
           </p>
         </Modal.Body>
         <Modal.Footer>
@@ -48,13 +46,15 @@ const CalendarModal =({event,onClose})=> {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    console.log("왜?");
+    
 
     return (
       <>
        
         <MyVerticallyCenteredModal
           show={modalShow}
+
+          
           onHide={() => onClose(false)}
         />
       </>

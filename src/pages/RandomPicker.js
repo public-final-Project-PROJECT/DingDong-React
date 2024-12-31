@@ -1,7 +1,9 @@
-
-const RandomPicker = () => {
+const RandomPicker = () => 
+{
     return (
-        <p>발표자 뽑기 페이지</p>
+        <p>
+            개봉박두
+        </p>
     )
 }
 export default RandomPicker;

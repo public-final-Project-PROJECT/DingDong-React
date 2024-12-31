@@ -16,17 +16,17 @@
     background-color: #d1e7dd;
 }
 
-.cell {
-    /* display: flex; */
-    align-items: center;
-    gap: 4px;
+td.cell {
+    padding: 5px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .input-nickname {
     flex: 1;
     margin-right: 5px;
-    font-size: 12px;
-    height: 20px;
+    font-size: 14px;
+    height: 24px;
 }
 
 .button {

@@ -55,9 +55,9 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/voting/newvoting`,
+        `http://localhost:3013/api/voting/newvoting`,
         {
-          classId: 1,  // 학급 id
+          classId: 2,  // 학급 id
           votingName: title, // 제목
           detail: detail, // 설명
           votingEnd:votingEnd? votingEnd : null, // 마감일자
@@ -96,18 +96,24 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
     setNewVotingModal(false);
   };
 
-  function RadioGroup({lable, children}){
+  const RadioGroup = ({ label, children }) => {
     return (
       <fieldset>
-        <legend>{lable}</legend>
+        <legend>{label}</legend>
         {children}
       </fieldset>
-    )
-  }
+    );
+  };
 
-  const Radio = ({ name, value, children, ...props }) => (
+  const Radio = ({ name, value, children, onChange, ...props }) => (
     <label>
-      <input type="radio" name={name} value={value} {...props} />
+      <input
+        type="radio"
+        name={name}
+        value={value}
+        onChange={onChange}
+        {...props}
+      />
       {children}
     </label>
   );
@@ -218,7 +224,11 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
 
               <RadioGroup>
                 <br/>
-                <Radio name="endDate" value="true">
+                <Radio 
+                name="endDate" 
+                value="true"
+                onChange={()=> setDateShow(true)}
+                >
                 <FontAwesomeIcon icon={faCalendar} />  날짜 지정
                 <h5 style={{color:"gray"}}>   지정한 마감일에 자동으로 투표가 종료됩니다.</h5>
                 {dateShow && (
@@ -230,7 +240,11 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                     />)}
                 </Radio>
                 <br/>
-                <Radio name="endDate" value="false" defaultChecked>
+                <Radio 
+                name="endDate" 
+                value="false" 
+                onChange={()=> setDateShow(false)}
+                >
                 <FontAwesomeIcon icon={faUser} /> 사용자 별도 지정
                 <h5 style={{color:"gray"}}>  선생님이 종료버튼을 눌러야 종료됩니다.</h5>
                 </Radio>

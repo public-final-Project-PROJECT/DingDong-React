@@ -1,14 +1,10 @@
-
-
-
-
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import PostMappingTest from "./test/PostMappingTest";
 import Layout from "./layout/Layout";
 import Main from "./pages/Main";
 import Notice from "./pages/Notice";
 //import Attendance from "./pages/Attendance.js";
-import Calendar from "./pages/Calendar.js";
+import Calendar from "./pages/Calendar.jsx";
 import Students from "./pages/Students.js";
 import Timer from "./pages/Timer.js";
 import Seat from "./pages/Seat.js";
@@ -19,40 +15,22 @@ import Login from "./pages/Login.js";
 import Profile from "./pages/Profile.js";
 import NoticeDetail from "./pages/NoticeDetail.js";
 import ClassMaker from "./pages/ClassMaker.js";
-
 import NoticeInsert from "./pages/NoticeRegister.js";
 import NoticeUpdate from "./pages/NoticeUpdate.js";
 import StudentDetail from "./pages/StudentDetail.js";
 import AttendanceRegister from "./pages/AttendanceRegister.js";
 import AttendanceTotal from "./pages/AttendanceTotal.js";
 
-
-
 function App() 
 {
     return (
         <BrowserRouter>
             <Routes>
-
-
-
-               
-                
-         
-
-              
-
-
-                {/* <Route path="/" element={<Main />} /> */}
-                {/* <Route path="/postmappingtest" element={<PostMappingTest />} /> */}
-
                 <Route path="/login" element={<Outlet />} >
                     <Route index element={<Login/>}/>
                 </Route>
                 <Route path="/postmappingtest" element={<PostMappingTest />} />
                 <Route path="/classmaker" element={<ClassMaker />} />
-
-
 
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Main/>}/>                                {/* 메인*/}
@@ -71,10 +49,7 @@ function App()
                     <Route path="voting" element={<Voting/>}/>                      {/* 학급 투표*/}
                     <Route path="qrcode" element={<QRCodeGenerator/>}/>
                     <Route path="profile" element={<Profile/>}/>
-
                 </Route>
-            
-
             </Routes>
         </BrowserRouter>
     );

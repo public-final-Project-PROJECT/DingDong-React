@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { fetchFromAPI } from "../utils/api";
 import { clearProfileFromStorage, getStoredProfile } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,8 @@ export const useUserData = () =>
     const [isSchoolNameEditable, setIsSchoolNameEditable] = useState(true);
     const [classCount, setClassCount] = useState(0);
     const [classList, setClassList] = useState([]);
-    const email = profile?.email;
+    const [selectedClassId, setSelectedClassId] = useState(null);
+    const email = useMemo(() => profile?.email, [profile]);
     const navigate = useNavigate();
 
     useEffect(() => 
@@ -125,6 +126,8 @@ export const useUserData = () =>
         classCount,
         classList,
         fetchClassCount,
+        selectedClassId, 
+        setSelectedClassId,
         Logout
     };
 };

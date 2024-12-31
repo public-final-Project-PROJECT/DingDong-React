@@ -3,67 +3,77 @@
     flex-direction: column;
     align-items: center;
     margin: 20px;
+    justify-content: center; /* Center the seat arrangement vertically */
+    height: 100vh; /* Make the container take full height */
 }
 
 .seat-grid {
     display: grid;
-    grid-template-columns: repeat(10, 30px);
-    gap: 5px;
+    grid-template-columns: repeat(10, 60px); /* Increase size of each seat */
+    gap: 10px; /* Increase space between seats */
     cursor: pointer;
+    justify-content: center; /* Center the grid inside the container */
 }
 
 .seat {
-    width: 30px;
-    height: 30px;
+    width: 60px;  /* Increase the width of each seat */
+    height: 60px; /* Increase the height of each seat */
     border: 1px solid #ccc;
     background-color: #fff;
     transition: background-color 0.2s;
+    border-radius: 5px;
 }
 
 .seat.selected {
-    background-color: rgb(235, 235, 108);
+    background-color: rgb(235, 235, 108); /* Color when selected */
 }
 
 .register-button {
     margin-top: 20px;
-    margin-right: 20px;
-    font-size: 13px;
+    font-size: 15px; /* Increase the font size */
     background-color: rgb(150, 218, 16);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
-    width: 140px;
+    width: 180px; /* Make the button wider */
 }
 
-/* 임시의 교탁 버튼임 */
-.table-button{ 
+.table-button {
     margin-top: 24px;
-    margin-right: 20px;
     font-size: 15px;
     background-color: rgb(219, 219, 80);
     border: none;
     border-radius: 5px;
     transition: background-color 0.2s;
-    width: 140px;
-    margin-left: 303px;
-
+    width: 180px;
+    margin-left: 50%; /* Center it horizontally */
+    transform: translateX(-50%); /* Correct horizontal positioning */
 }
 
 .seat.created {
-    width: 88px;
-    height: 56px;
+    width: 150px;  /* Increase seat width for created seats */
+    height: 90px; /* Increase seat height for created seats */
     background-color: rgb(235, 235, 108);
-    border: none;
 }
-
 
 .created-seats {
     display: grid;
-    grid-template-columns: repeat(10, 30px);
-    gap: 71px;
-    margin-top: 38px;
-    margin-left: 141px;
+    gap: 92px;
+    margin-top: 94px; /* Add margin for spacing */
+    justify-content: center; /* Center the created seats horizontally */
 }
 
+/* Add teacher's desk (교탁) */
+.table {
+    width: 500px; /* Set the width of the teacher's desk */
+    height: 100px; /* Set the height of the desk */
+    background-color: #b7c431; /* Color for the desk */
+    margin-bottom: 20px; /* Space between desk and seats */
+    border-radius: 10px;
+    position: absolute;
+    top: 50px; /* Position the desk at the top of the screen */
+    left: 50%; /* Center it horizontally */
+    transform: translateX(-50%); /* Correct horizontal positioning */
+}
