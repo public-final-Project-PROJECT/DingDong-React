@@ -96,7 +96,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
       <h1 className="notice-update-title">공지사항 수정</h1>
       <form onSubmit={handleSubmit} className="notice-update-form">
         <div className="form-group">
-          <label htmlFor="noticeTitle">제목:</label>
+          <label htmlFor="noticeTitle" >제목</label>
           <input
             type="text"
             id="noticeTitle"
@@ -104,10 +104,11 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
             value={updateNotice.noticeTitle}
             onChange={handleChange}
             className="form-input"
+            style={{textAlign : "left"}}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="noticeCategory">카테고리:</label>
+          <label htmlFor="noticeCategory">카테고리</label>
           <select
             id="noticeCategory"
             name="noticeCategory"
@@ -123,7 +124,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="noticeContent">내용:</label>
+          <label htmlFor="noticeContent">내용</label>
           <textarea
             id="noticeContent"
             name="noticeContent"
@@ -133,7 +134,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="noticeImg">이미지:</label>
+          <label htmlFor="noticeImg">이미지</label>
           <input
             type="file"
             id="noticeImg"
@@ -143,7 +144,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="noticeFile">파일:</label>
+          <label htmlFor="noticeFile">파일</label>
           <input
             type="file"
             id="noticeFile"

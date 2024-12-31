@@ -2,6 +2,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
+    max-width: 90%; /* 전체 너비의 90%로 제한 */
+    margin: 0 auto; /* 좌우 가운데 정렬 */
     margin-top: 20px;
 }
 

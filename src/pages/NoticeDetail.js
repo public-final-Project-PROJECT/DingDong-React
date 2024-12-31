@@ -95,10 +95,10 @@ const NoticeDetail = () => {
         {/* 수정 및 삭제 버튼 */}
         <div className="notice-actions">
           <button onClick={noticeUpdate} className="notice-update-btn">
-            수정하기
+            수정
           </button>
           <button onClick={() => noticeDelete(id)} className="notice-delete-btn">
-            삭제하기
+          삭제
           </button>
         </div>
 
