@@ -155,7 +155,6 @@ const DisplayNicknameCell = ({ nickname, onEdit }) => (
     </>
 );
 
-
 const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) => (
     <tr>
         <td colSpan="9" style={{ backgroundColor: "#f1f1f1", textAlign: "center" }}>
@@ -196,7 +195,7 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
 const ClassList = () => 
 {
     
-    const { classList, teacherId, classCount } = useUserData();
+    const { classList, teacherId, classCount, setSelectedClassId } = useUserData();
     const [selectedRow, setSelectedRow] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [newNickname, setNewNickname] = useState("");
@@ -224,11 +223,13 @@ const ClassList = () =>
             setNewNickname("");
             return;
         }
+
         // 일부러 왼쪽으로 붙인 것
         const confirmationMessage =
 `학급 이름을 변경하시겠습니까?
 변경 전: ${classItem.classNickname}
 변경 후: ${newNickname}`
+
         if (window.confirm(confirmationMessage) && newNickname.trim() !== "") 
         {
             try {
@@ -285,7 +286,9 @@ const ClassList = () =>
 
     const handleGoToClass = (classItem) => 
     {
-        navigate(`/class/${classItem.classId}`);
+        setSelectedClassId(classItem.classId);
+        alert(`${classItem.classNickname}(으)로 전환되었습니다.`);
+        navigate(`/`);
     };
 
     const handleMake = () =>
