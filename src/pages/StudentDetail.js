@@ -95,9 +95,19 @@ const StudentDetail = () => {
                     <h1 className="student_info">학생 정보</h1>
             <div className="student-info-card">
             <div className="info-row">
-                    <span className="info-label"> 프로필 </span>
-                    <span className="data">{student.studentImg || "프로필 없음"} </span>
-                </div>
+    <span className="info-label">프로필</span>
+    <span className="data">
+        {student.studentImg ? (
+            <img
+                src={`http://localhost:3013${student.studentImg}`}
+                alt="학생 프로필"
+                className="student-img"
+            />
+        ) : (
+            "없음" 
+        )}
+    </span>
+</div>
                 <div className="info-row">
                     <span className="info-label">이름</span>
                     <span className="data">{student.studentName}</span>

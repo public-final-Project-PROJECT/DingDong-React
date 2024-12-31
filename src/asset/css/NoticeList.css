@@ -24,7 +24,7 @@
 }
 
 .notice-table th {
-    background-color: #d4edda;
+    background-color: rgba(88, 157, 45, 0.17); /* Applying 17% opacity */
     border-bottom: 2px solid #ddd;
 }
 

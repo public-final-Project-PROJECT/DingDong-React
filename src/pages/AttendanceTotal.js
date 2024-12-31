@@ -85,10 +85,9 @@ function AttendanceTotal() {
         setAttendanceDate(newDate); // 전체 날짜 상태 업데이트
     };
 
-    const studentDetail = (studentId)=>{
+    const studentDetail = (studentId) => {
         nevigate(`/Students/${studentId}`);
-        
-    }
+    };
 
     const handleSubmit = () => {
         const dataToSend = students.map((student) => ({
@@ -112,113 +111,130 @@ function AttendanceTotal() {
             });
     };
 
+    const getAttendanceClass = (state) => {
+        switch (state) {
+            case "출석":
+                return "attendance-present";
+            case "지각":
+                return "attendance-late";
+            case "결석":
+                return "attendance-absent";
+            case "조퇴":
+                return "attendance-earlyLeave";
+            default:
+                return "";
+        }
+    };
+
     return (
         <div className="attendance-container">
-        <h2 className="attedance-title">출석부</h2>
-        <table className="attendance-table">
-            <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>이름</th>
-                    <th>학번</th>
-                    <th>
-                        날짜
-                        <input
-                            type="date"
-                            value={attendanceDate}
-                            onChange={(e) => handleDateChange(e.target.value)}
-                            className="attendance-date-input"
-                        />
-                    </th>
-                    <th>출석 여부</th>
-                    <th>출석 상태</th>
-                    <th>사유</th>
-                </tr>
-            </thead>
-            <tbody>
-                {students.length > 0 ? (
-                    students.map((student, index) => (
-                        <tr key={student.studentId}>
-                            <td>{index + 1}</td>
-                            <td onClick={() => studentDetail(student.studentId)}>{student.studentName || ""}</td>
-                            <td>{student.studentId}</td>
-                            <td>
-                                <input
-                                    type="date"
-                                    value={attendanceDate}
-                                    readOnly
-                                    className="attendance-date-readonly"
-                                />
-                            </td>
-                            <td>
-                                <div className="attendance-radio-group">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name={`attendance-${student.studentId}`}
-                                            value="출석"
-                                            checked={student.attendanceState === "출석"}
-                                            onChange={() => handleAttendanceChange(student.studentId, "출석")}
-                                        />
-                                        출석
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name={`attendance-${student.studentId}`}
-                                            value="결석"
-                                            checked={student.attendanceState === "결석"}
-                                            onChange={() => handleAttendanceChange(student.studentId, "결석")}
-                                        />
-                                        결석
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name={`attendance-${student.studentId}`}
-                                            value="지각"
-                                            checked={student.attendanceState === "지각"}
-                                            onChange={() => handleAttendanceChange(student.studentId, "지각")}
-                                        />
-                                        지각
-                                    </label>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            name={`attendance-${student.studentId}`}
-                                            value="조퇴"
-                                            checked={student.attendanceState === "조퇴"}
-                                            onChange={() => handleAttendanceChange(student.studentId, "조퇴")}
-                                        />
-                                        조퇴
-                                    </label>
-                                </div>
-                            </td>
-                            <td>{student.attendanceState || "상태 없음"}</td>
-                            <td>
-                                <input
-                                    type="text"
-                                    value={student.attendanceEtc || ""}
-                                    onChange={(e) => handleEtcChange(student.studentId, e.target.value)}
-                                    placeholder="사유 입력"
-                                    className="attendance-etc-input"
-                                />
+            <h2 className="attedance-title">출석부</h2>
+            <table className="attendance-table">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>이름</th>
+                        <th>학번</th>
+                        <th>
+                            날짜
+                            <input
+                                type="date"
+                                value={attendanceDate}
+                                onChange={(e) => handleDateChange(e.target.value)}
+                                className="attendance-date-input"
+                            />
+                        </th>
+                        <th>출석 여부</th>
+                        <th>출석 상태</th>
+                        <th>특이사항</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {students.length > 0 ? (
+                        students.map((student, index) => (
+                            <tr key={student.studentId}>
+                                <td>{index + 1}</td>
+                                <td onClick={() => studentDetail(student.studentId)}>{student.studentName || ""}</td>
+                                <td>{student.studentId}</td>
+                                <td>
+                                    <input
+                                        type="date"
+                                        value={attendanceDate}
+                                        readOnly
+                                        className="attendance-date-readonly"
+                                    />
+                                </td>
+                                <td>
+                                    <div className="attendance-radio-group">
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name={`attendance-${student.studentId}`}
+                                                value="출석"
+                                                checked={student.attendanceState === "출석"}
+                                                onChange={() => handleAttendanceChange(student.studentId, "출석")}
+                                            />
+                                            출석
+                                        </label>
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name={`attendance-${student.studentId}`}
+                                                value="결석"
+                                                checked={student.attendanceState === "결석"}
+                                                onChange={() => handleAttendanceChange(student.studentId, "결석")}
+                                            />
+                                            결석
+                                        </label>
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name={`attendance-${student.studentId}`}
+                                                value="지각"
+                                                checked={student.attendanceState === "지각"}
+                                                onChange={() => handleAttendanceChange(student.studentId, "지각")}
+                                            />
+                                            지각
+                                        </label>
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name={`attendance-${student.studentId}`}
+                                                value="조퇴"
+                                                checked={student.attendanceState === "조퇴"}
+                                                onChange={() => handleAttendanceChange(student.studentId, "조퇴")}
+                                            />
+                                            조퇴
+                                        </label>
+                                    </div>
+                                </td>
+                                <td className={`attendance-state ${getAttendanceClass(student.attendanceState)}`}>
+                                    {student.attendanceState || "상태 없음"}
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        value={student.attendanceEtc || ""}
+                                        onChange={(e) => handleEtcChange(student.studentId, e.target.value)}
+                                        placeholder="특이사항 입력"
+                                        className="attendance-etc-input"
+                                    />
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="7" style={{ textAlign: "center" }}>
+                                데이터를 가져오는 중입니다...
                             </td>
                         </tr>
-                    ))
-                ) : (
-                    <tr>
-                        <td colSpan="7" style={{ textAlign: "center" }}>
-                            데이터를 가져오는 중입니다...
-                        </td>
-                    </tr>
-                )}
-            </tbody>
-        </table>
-        <button onClick={handleSubmit} className="attendance-submit-btn">
-            제출/수정
-        </button>
-    </div>
+                    )}
+                </tbody>
+            </table>
+            <button onClick={handleSubmit} className="attendance-submit-btn">
+                제출/수정
+            </button>
+        </div>
     );
 }
 

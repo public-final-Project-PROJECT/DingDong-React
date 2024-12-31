@@ -72,6 +72,7 @@ const NoticeInsert = ({ closeModal }) => {
         noticeImg: null,
         noticeFile: null,
       });
+      closeModal();
     } catch (error) {
       console.error("등록 오류:", error);
       alert("등록에 실패했습니다.");

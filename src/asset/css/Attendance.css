@@ -20,7 +20,7 @@
 }
 
 .attendance-table th {
-    background-color: #d4edda;
+    background-color: rgba(88, 157, 45, 0.17); /* 17% 투명도 적용 */
 }
 
 .attendance-date-input, .attendance-date-readonly, .attendance-etc-input {
@@ -41,7 +41,7 @@
 
 .attendance-submit-btn {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #050505;
     color: white;
     border: none;
     cursor: pointer;
@@ -50,7 +50,7 @@
 }
 
 .attendance-submit-btn:hover {
-    background-color: #45a049;
+    background-color: #696e69;
 }
 
 .attendance-etc-input {
@@ -58,4 +58,23 @@
     padding: 5px;
     margin-top: 5px;
     font-size: 14px;
+}
+.attendance-present {
+    color: blue; 
+    font-weight: bold; 
+}
+
+.attendance-late {
+    color: orange; 
+    font-weight: bold; 
+}
+
+.attendance-absent {
+    color: red; 
+    font-weight: bold; 
+}
+
+.attendance-earlyLeave {
+    color: gray; 
+    font-weight: bold; 
 }
