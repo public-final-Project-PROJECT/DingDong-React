@@ -88,37 +88,7 @@ const Calendar = () => {
   }, [loading,selectedRange,selectedDate]);
 
   // 데이터 가져오기
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3013/calendar/list', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ input: test }),
-      });
-      const eventData = await response.json(); // 단일 이벤트 데이터 가져오기
-      
-      // 서버에서 받은 단일 이벤트를 FullCalendar 형식으로 변환
-      const formattedEvent = {
-        id: String(eventData.calendarId),
-        title: eventData.title, // 이벤트 제목
-        start: eventData.startDatetime, // 시작 날짜 (ISO8601 형식)
-        end: eventData.endDatetime, // 종료 날짜 (ISO8601 형식)
-        className: ['fc-h-event','user_event'], // 사용자 지정 클래스
-        startEditable: true,           // 시작 시간 리사이즈 가능
-        durationEditable: true,
-        editable: true, 
-      };
-  
-      setEvents((prevEvents) => [...prevEvents, formattedEvent]);
-      console.log(events);
-      setError(null);
-    } catch (err) {
-      setError(err.message);
-    }
-    
-  };
-
+ 
   // 날짜 클릭 처리
   const handleDateClick = (clickInfo) => {
     if (clickInfo.dragged) return;
@@ -176,6 +146,7 @@ const Calendar = () => {
       const newEvent = {
         id: `${events.length + 1}`,
         title: eventDescription,
+        description : eventDescription,
         start: selectedRange.start,
         end: selectedRange.end,
         className: ['user_event'],
@@ -183,9 +154,54 @@ const Calendar = () => {
       };
 
       setEvents((prevEvents) => [...prevEvents, newEvent]);
+      
       setEventDescription('');
       setSelectedRange({ start: null, end: null, color: '' });
     }
+  };
+  
+
+useEffect(()=>{
+  handleSubmit();
+ 
+},[])
+
+
+
+
+  const handleSubmit = async (e) => {
+    
+    try {
+      const response = await fetch('http://localhost:3013/calendar/list', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        
+      });
+      const eventList = await response.json(); // 단일 이벤트 데이터 가져오기
+      
+      // 서버에서 받은 단일 이벤트를 FullCalendar 형식으로 변환
+      const formattedEvent = eventList.map((eventData)=>({
+        id: String(eventData.calendarId),
+        title: eventData.title, // 이벤트 제목
+        description : eventData.description,
+        start: eventData.startDatetime, // 시작 날짜 (ISO8601 형식)
+        end: eventData.endDatetime, // 종료 날짜 (ISO8601 형식)
+        className: ['fc-h-event','user_event'], // 사용자 지정 클래스
+        startEditable: true,           // 시작 시간 리사이즈 가능
+        durationEditable: true,
+        editable: true,
+        
+      }
+    ));
+    setEvents((prevEvents) => [...prevEvents, ...formattedEvent]);
+      
+      console.log(events);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    }
+    
+    
   };
 
   // 이벤트 드래그 후 이동 처리
@@ -247,31 +263,7 @@ const Calendar = () => {
 
   return (
     <>
-      <div className="inner">
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="testInput">Test Input: </label>
-          <input
-            id="testInput"
-            type="text"
-            value={test}
-            onChange={(e) => setTest(e.target.value)}
-          />
-          <button type="submit">Submit</button>
-        </form>
-
-        {error && (
-          <div style={{ color: 'red' }}>
-            <h2>Error:</h2>
-            <p>{error}</p>
-          </div>
-        )}
-
-        {responseData && (
-          <div>
-            <h2>Response Data:</h2>
-            <pre>{JSON.stringify(responseData, null, 2)}</pre>
-          </div>
-        )}
+      <div className="inner">     
 
         
           <div>
@@ -310,13 +302,13 @@ const Calendar = () => {
             dateClick={handleDateClick}
             selectable
             select={handleDateSelect}
-            editable={true}
+            editable={false}
             eventClick={handleEventClick}
             eventDrop={handleEventDrop}
             datesSet={handleDateChange}
             eventResize={handleEventResize}
             eventResizableFromStart={true}
-            
+            timeZone="UTC"
 
             headerToolbar={{
               left: 'prev,next today',
@@ -350,6 +342,7 @@ const Calendar = () => {
 
         {isModalOpen && (
           <CalendarModal
+            setEvents={setEvents}
             event={selectedEvent}
             onClose={() => setIsModalOpen(false)}
           />
