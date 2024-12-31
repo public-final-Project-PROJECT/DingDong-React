@@ -8,6 +8,26 @@ const RandomPickerWithRoulette = () =>
     const [randomPerson, setRandomPerson] = useState(null);
     const [faces, setFaces] = useState([]);
     const [isRouletteRunning, setIsRouletteRunning] = useState(false);
+    const [containerStyle, setContainerStyle] = useState({});
+
+    useEffect(() => 
+    {
+        const adjustContainerStyle = () =>
+        {
+            setContainerStyle({
+                position: "relative",
+                width: "100%",
+                maxWidth: "1910px",
+                height: window.innerWidth > 1280 ? "720px" : "auto",
+                margin: "0 auto",
+            });
+        };
+
+        adjustContainerStyle();
+        window.addEventListener("resize", adjustContainerStyle);
+
+        return () => window.removeEventListener("resize", adjustContainerStyle);
+    }, []);
 
     useEffect(() => 
     {
@@ -132,15 +152,7 @@ const RandomPickerWithRoulette = () =>
     };
 
     return (
-        <div
-            style={{
-                position: "relative",
-                width: "100%",
-                maxWidth: "1910px", // Constrain maximum width
-                height: window.innerWidth > 1280 ? "720px" : "auto", // Fix height at 720px if width > 1280
-                margin: "0 auto", // Center the container
-            }}
-        >
+        <div style={containerStyle}>
             <p>편의기능 &gt; 발표자 뽑기</p>
             <div style={{ position: "relative", width: "100%", height: "100%" }}>
                 <video
