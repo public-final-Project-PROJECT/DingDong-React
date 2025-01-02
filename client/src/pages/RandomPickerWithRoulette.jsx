@@ -9,6 +9,8 @@ const RandomPickerWithRoulette = () =>
     const [faces, setFaces] = useState([]);
     const [isRouletteRunning, setIsRouletteRunning] = useState(false);
     const [containerStyle, setContainerStyle] = useState({});
+    const rouletteSoundRef = useRef(null);
+    const selectionSoundRef = useRef(null);
 
     useEffect(() => 
     {
@@ -84,6 +86,13 @@ const RandomPickerWithRoulette = () =>
     {
         setIsRouletteRunning(true);
 
+        if (!rouletteSoundRef.current) 
+        {
+            rouletteSoundRef.current = new Audio("/roulette_spin.mp3");
+        }
+        rouletteSoundRef.current.loop = true;
+        rouletteSoundRef.current.play();
+
         let currentIndex = 0;
         const interval = setInterval(() => 
         {
@@ -95,8 +104,21 @@ const RandomPickerWithRoulette = () =>
         {
             clearInterval(interval);
             setIsRouletteRunning(false);
+
+            if (rouletteSoundRef.current) 
+            {
+                rouletteSoundRef.current.pause();
+                rouletteSoundRef.current.currentTime = 0;
+            }
+
             const randomFace = detectedFaces[Math.floor(Math.random() * detectedFaces.length)];
             setRandomPerson(randomFace);
+
+            if (!selectionSoundRef.current) 
+            {
+                selectionSoundRef.current = new Audio("/roulette_select.mp3");
+            }
+            selectionSoundRef.current.play();
         }, 5000);
     };
 
@@ -131,7 +153,7 @@ const RandomPickerWithRoulette = () =>
             ctx.fillStyle = isRouletteRunning ? "yellow" : "red";
             ctx.font = "16px Arial";
             ctx.fillText(
-                isRouletteRunning ? "두구두구..." : "당첨",
+                isRouletteRunning ? "두구두구..." : "당첨!",
                 bbox[0],
                 bbox[1] - 10
             );
@@ -177,7 +199,7 @@ const RandomPickerWithRoulette = () =>
                 />
             </div>
             <button onClick={handleCapture} disabled={isRouletteRunning}>
-                {isRouletteRunning ? "..." : "뽑기"}
+                {isRouletteRunning ? "진행 중..." : "뽑기"}
             </button>
             <button onClick={handleResetHighlight}>초기화</button>
         </div>
