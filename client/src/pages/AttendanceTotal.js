@@ -5,14 +5,13 @@ import "../asset/css/Attendance.css"; // CSS 파일 임포트
 import { useUserData } from "../hooks/useUserData";
 
 function AttendanceTotal() {
-    const classId = 1; // 클래스 ID
+   // const classId = 1; // 클래스 ID
     const [students, setStudents] = useState([]); // 학생 목록
     const [attendanceDate, setAttendanceDate] = useState(""); // 전체 날짜 상태
 
     const nevigate = useNavigate();
 
     const {
-        schoolName,
         selectedClassId
     } = useUserData();
 
@@ -20,13 +19,12 @@ function AttendanceTotal() {
 
     useEffect(() => {
         // 학생 목록 가져오기 (출석 데이터와 별개)
-        console.log(selectedClassId);
-        console.log(schoolName);
+     
 
 
         axios
         .get("http://localhost:3013/api/students/view", {
-            params: { classId },
+            params: { classId :selectedClassId },
         })
             .then((response) => {
                 const studentList = response.data.map((student) => ({
@@ -41,14 +39,14 @@ function AttendanceTotal() {
             .catch((error) => {
                 console.error("Error fetching student data:", error);
             });
-    }, [classId]);
+    }, [selectedClassId]);
 
     useEffect(() => {
         if (!attendanceDate) return; // 날짜가 선택되지 않았을 경우 데이터 요청 안 함
 
         // 선택한 날짜의 출석 정보 가져오기
         axios
-            .get(`http://localhost:3013/api/attendance/view/${classId}`, {
+            .get(`http://localhost:3013/api/attendance/view/${selectedClassId}`, {
                 params: { attendanceDate },
             })
             .then((response) => {
@@ -72,7 +70,7 @@ function AttendanceTotal() {
             .catch((error) => {
                 console.error("Error fetching attendance data:", error);
             });
-    }, [attendanceDate, classId]);
+    }, [attendanceDate, selectedClassId]);
 
     const handleAttendanceChange = (studentId, state) => {
         setStudents((prevStudents) =>
@@ -109,7 +107,7 @@ function AttendanceTotal() {
             attendanceDate,
             attendanceState: student.attendanceState,
             attendanceEtc: student.attendanceEtc,
-            classId,
+            classId : selectedClassId,
         }));
           
         axios

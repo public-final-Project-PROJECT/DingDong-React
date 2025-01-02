@@ -69,7 +69,6 @@ const Calendar = () => {
       const startDate = new Date(start);
       const endDate = new Date(end);
 
-      
 
       allDayCells.forEach((cell) => {
         const cellDate = cell.getAttribute('data-date');
@@ -146,7 +145,7 @@ const Calendar = () => {
       const newEvent = {
         id: `${events.length + 1}`,
         title: eventDescription,
-        description : eventDescription,
+        description : "남기실 메모를 적어주세요.",
         start: selectedRange.start,
         end: selectedRange.end,
         className: ['user_event'],
@@ -166,7 +165,47 @@ useEffect(()=>{
  
 },[])
 
+const handleUpdate = async (e) => {
+  
+  const eventupdate = events;
 
+  
+    
+  eventupdate.map((event) => {
+    console.log('Event Details:', event); // 각 이벤트 객체 출력
+    return {
+      ...event, // 기존 이벤트 데이터
+      start: event.start,
+      end: event.end,
+    };
+    
+  });
+  eventupdate.map((event) => {
+    console.log('Event123 Details:', event); // 각 이벤트 객체 출력
+    
+    
+  });
+
+  
+
+  try {
+    const response = await fetch('http://localhost:3013/calendar/update', {
+      method:'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(eventupdate),
+    });
+
+    const eventList = await response.json(); // 단일 이벤트 데이터 가져오기
+      
+      
+    
+   
+  } catch (err) {
+    
+  }
+  
+  
+};
 
 
   const handleSubmit = async (e) => {
@@ -184,8 +223,8 @@ useEffect(()=>{
         id: String(eventData.calendarId),
         title: eventData.title, // 이벤트 제목
         description : eventData.description,
-        start: eventData.startDatetime, // 시작 날짜 (ISO8601 형식)
-        end: eventData.endDatetime, // 종료 날짜 (ISO8601 형식)
+        start: eventData.start, 
+        end: eventData.end, 
         className: ['fc-h-event','user_event'], // 사용자 지정 클래스
         startEditable: true,           // 시작 시간 리사이즈 가능
         durationEditable: true,
@@ -247,15 +286,31 @@ useEffect(()=>{
 
   const handleEventResize = (info) => {
     // 리사이즈된 이벤트 데이터 생성
+
+    const EventToLocal = (date) => {
+      if (!date) return null;
+    
+      // 'YYYY-MM-DD' 형식으로 변환
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+    
     const resizedEvent = {
       id: info.event.id,
-      start: info.event.start.toISOString(),
-      end: info.event.end ? info.event.end.toISOString() : null,
+      start: EventToLocal(info.event.start),
+      end: EventToLocal(info.event.end),
     };
+
   
-    console.log('Resized Event:', resizedEvent);
+    console.log(info.event.end);
   
-  
+    setEvents((prevEvents)=>
+    prevEvents.map((events=>
+      events.id === resizedEvent.id ? {...events,start:resizedEvent.start,end:resizedEvent.end}
+      : events
+    )))
     
 
     
@@ -278,7 +333,7 @@ useEffect(()=>{
             </label>
             <button onClick={handleCreateEvent}>Create Event</button>
           </div>
-     
+          <button onClick={handleUpdate}>업데이트 Event</button>
           
           
         <div className="full-calendar-container">
@@ -289,15 +344,7 @@ useEffect(()=>{
             googleCalendarApiKey="AIzaSyA3_A-B-m1UVa7Oye7j9Vtw4JyeYlqOgiw"
             eventSources={[...googleEventSources,events]}
            
-            eventOrder={(a, b) => {
-              // 공휴일 이벤트는 항상 우선적으로 표시
-              const isAHoliday = a.classNames?.includes('ko_event') || false;
-              const isBHoliday = b.classNames?.includes('ko_event') || false;
-          
-              if (isAHoliday && !isBHoliday) return -1; // a를 위로
-              if (!isAHoliday && isBHoliday) return 1;  // b를 위로
-              return 0; // 공휴일이 아니면 기본 순서 유지
-            }}
+            
                         
             dateClick={handleDateClick}
             selectable
@@ -308,7 +355,7 @@ useEffect(()=>{
             datesSet={handleDateChange}
             eventResize={handleEventResize}
             eventResizableFromStart={true}
-            timeZone="UTC"
+            timeZone="local"
 
             headerToolbar={{
               left: 'prev,next today',

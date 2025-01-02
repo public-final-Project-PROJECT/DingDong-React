@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import NoticeInsert from "./NoticeRegister"; // NoticeInsert 컴포넌트 import
 import "../asset/css/NoticeList.css"; // CSS 파일 임포트
+import { useUserData } from "../hooks/useUserData";
 
 const Notice = () => {
     const [notices, setNotices] = useState([]);
@@ -14,10 +15,15 @@ const Notice = () => {
     const navigate = useNavigate();
     const classId = 1; // 예시로 설정된 classId
 
+        const {
+            schoolName,
+            selectedClassId
+        } = useUserData();
+
     useEffect(() => {
         axios
             .get("http://localhost:3013/api/notice/view", {
-                params: { classId },
+                params: { classId : selectedClassId},
             })
             .then((response) => {
                 setNotices(response.data);
@@ -51,7 +57,7 @@ const Notice = () => {
         // Fetch notices again after submission
         axios
             .get("http://localhost:3013/api/notice/view", {
-                params: { classId },
+                params: { classId : selectedClassId},
             })
             .then((response) => {
                 setNotices(response.data);
