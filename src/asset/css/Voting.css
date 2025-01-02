@@ -7,7 +7,7 @@
   }
   
     .voting-card {
-      max-width: 1000px; /* 최대 너비 고정 */
+      max-width: 80%; /* 최대 너비 고정 */
       border-radius: 10px;
       border: 1px solid #ddd;
       padding: 40px;
@@ -165,9 +165,10 @@
     }
     
     .date {
-      font-size: 15px;
+      font-size: 19px;
       color: gray;
-      margin-left: 20px;
+      margin-left: 1656px;
+      margin-top: -169px;
     }
     
     .separator {
@@ -271,4 +272,18 @@
     border: none;
     border-radius: 4px;
     margin-left: 10px;
+  }
+
+  .title{
+    text-align: center;
+  }
+
+  .button_div{
+    margin-left: 1657px;
+  }
+
+  .two_button{
+    border: none;
+    height: 38px;
+    background-color: lightgoldenrodyellow;
   }

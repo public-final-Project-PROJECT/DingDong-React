@@ -24,21 +24,90 @@
     border-radius: 5px;
 }
 
-.seat.selected {
-    background-color: rgb(235, 235, 108); /* Color when selected */
+.print_icon {
+    background: none; /* Remove the background */
+    border: none; /* Remove the border */
+    padding: 0; /* Remove default padding */
+    cursor: pointer; /* Retain the pointer cursor for clickable effect */
+    display: inline-flex; /* Center the icon within the button */
+    align-items: center; /* Align icon vertically */
+    justify-content: center; /* Align icon horizontally */
+    font-size: 25px; /* Inherit font size for the icon */
+    color: inherit; /* Ensure the icon uses the inherited color */
+   
 }
 
-.register-button {
-    margin-top: 20px;
+.change_icon{
+    margin-top: 10px;
     font-size: 15px; /* Increase the font size */
-    background-color: rgb(150, 218, 16);
-    color: white;
+    background-color: rgb(207, 209, 110);
+    color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
-    width: 180px; /* Make the button wider */
+    width: 100px;
+    height: 60px;
+    margin-left: 10px;
 }
+
+.icons_div{
+    margin-left: 1800px;
+    gap: 20px;
+}
+
+
+.seat.selected {
+    background-color: rgb(235, 235, 108); /* Color when selected */
+}
+
+.title_h1{
+    text-align: center;
+    margin-top: 30px;
+}
+.created-seats-container {
+    display: flex;
+    justify-content: center; /* Centers the .created-seats horizontally */
+    align-items: center; /* Centers vertically if needed */
+    width: 100%; /* Ensure it spans the full width of the screen */
+}
+
+
+.register-button {
+    margin-top: 20px;
+    font-size: 20px; /* Increase the font size */
+    background-color: rgb(223, 226, 38);
+    color: black;
+    border: none;
+    border-radius: 50%; /* Make the button round */
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100px; /* Set equal width and height for a perfect circle */
+    height: 100px;
+    display: flex; /* Center content inside the circle */
+    align-items: center; /* Vertical alignment */
+    justify-content: center; /* Horizontal alignment */
+    margin-left: 30px;
+}
+
+.teacher_table {
+    height: 51px;
+    width: 212px;
+    background-color: rgb(174, 214, 109);
+    margin-top: 38px;
+    border: none;
+}
+
+.teacher_table_div{
+    text-align: center;
+}
+
+
+.red-button {
+    background-color: red;
+    color: white;
+}
+
 
 .table-button {
     margin-top: 24px;
@@ -53,14 +122,15 @@
 }
 
 .seat.created {
-    width: 150px;  /* Increase seat width for created seats */
-    height: 90px; /* Increase seat height for created seats */
+    width: 159px;  /* Increase seat width for created seats */
+    height: 102px; /* Increase seat height for created seats */
     background-color: rgb(235, 235, 108);
+    text-align: center;
 }
 
 .created-seats {
     display: grid;
-    gap: 92px;
+    gap: 90px;
     margin-top: 94px; /* Add margin for spacing */
     justify-content: center; /* Center the created seats horizontally */
 }
@@ -76,4 +146,25 @@
     top: 50px; /* Position the desk at the top of the screen */
     left: 50%; /* Center it horizontally */
     transform: translateX(-50%); /* Correct horizontal positioning */
+}
+
+.seat-container {
+    
+    align-items: flex-start; /* Align items at the start of the cross axis */
+    gap: 20px; /* Add space between the buttons and the seat grid */
+    margin-top: 20px; /* Adjust margin as needed */
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 17px; /* Add space between buttons */
+    margin-left: 100px;
+}
+
+/* Right section for seat grid */
+.seat-grid-container {
+    display: flex;
+    flex-direction: column; /* Optional: Arrange seat-related items vertically */
+    margin-top: -442px;
 }
