@@ -9,6 +9,7 @@
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     cursor: grab;
     transition: transform 0.2s ease;
+    z-index: 500;
 }
 
 .small-timer:active {
