@@ -18,6 +18,14 @@ const Timer = () => {
     };
 
     useEffect(() => {
+        if (inputTime) {
+            const newStrokeDashoffset = calculateStrokeDashoffset();
+            setStrokeDashoffset(newStrokeDashoffset);
+        }
+    }, [time, inputTime]);
+
+
+    useEffect(() => {
         const savedTime = localStorage.getItem("timerTime");
         const savedInputTime = localStorage.getItem("timerInputTime");
         const lastUpdated = localStorage.getItem("lastUpdated");
@@ -37,16 +45,17 @@ const Timer = () => {
                 setIsRunning(false);
             }
 
-            setStrokeDashoffset(
-                circumference -
-                (remainingTime / (parseInt(savedInputTime, 10) * 60)) * circumference
-            );
+            const restoredStrokeDashoffset =
+                circumference - (remainingTime / (parseInt(savedInputTime, 10) * 60)) * circumference;
+            setStrokeDashoffset(restoredStrokeDashoffset); // 복원된 `strokeDashoffset` 설정
         } else {
-            setTime(0);
+            setStrokeDashoffset(circumference); // 초기 상태로 설정
         }
 
         setTimeout(() => setIsInitialized(true), 100);
     }, []);
+
+
 
     useEffect(() => {
         let timer;
@@ -67,32 +76,34 @@ const Timer = () => {
         return () => clearInterval(timer);
     }, [isRunning, time]);
 
-    useEffect(() => {
-        setStrokeDashoffset(calculateStrokeDashoffset());
-    }, [time, inputTime]);
-
-    const handleSetTime = (e) => {
-        const newTime = e.target.value * 60;
-        setInputTime(e.target.value);
-        setTime(newTime);
-        setIsRunning(false);
-        setIsComplete(false);
-        localStorage.setItem("timerTime", newTime);
-        localStorage.setItem("timerInputTime", e.target.value);
-    };
 
     const handleStart = () => {
-        if (inputTime) {
-            setIsRunning(true);
-            setIsComplete(false);
-            localStorage.setItem("timerRunning", "true");
+        if (!isRunning && time === 0 && inputTime) {
+            const newTime = inputTime * 60; // 입력된 시간을 초로 변환
+            setTime(newTime); // 타이머 시간 설정
+            setStrokeDashoffset(circumference); // 원형 타이머 초기화
+            localStorage.setItem("timerTime", newTime);
         }
+
+        setIsRunning(true); // 실행 상태 설정
+        setIsComplete(false);
+        localStorage.setItem("timerRunning", "true");
+        localStorage.setItem("lastUpdated", Date.now().toString()); // 타이머 시작 시간 저장
     };
 
     const handlePause = () => {
         setIsRunning(false);
         localStorage.setItem("timerRunning", "false");
     };
+
+    const handleSetTime = (e) => {
+        const newInputTime = e.target.value; // 입력 값 가져오기
+        setInputTime(newInputTime); // 상태에 반영
+        setIsRunning(false); // 타이머 실행 중지
+        setIsComplete(false); // 완료 상태 초기화
+        localStorage.setItem("timerInputTime", newInputTime); // 로컬 스토리지에 저장
+    };
+
 
     const handleReset = () => {
         setTime(0);
@@ -103,15 +114,22 @@ const Timer = () => {
         localStorage.removeItem("timerTime");
         localStorage.removeItem("timerInputTime");
         localStorage.removeItem("timerRunning");
+        localStorage.removeItem("lastUpdated");
     };
 
+
     const handleRestart = () => {
-        setTime(inputTime * 60);
-        setStrokeDashoffset(circumference);
-        setIsRunning(false);
-        setIsComplete(false);
-        localStorage.setItem("timerTime", inputTime * 60);
+        // 타이머 입력 초기화
+        setTime(0); // 타이머 값을 초기화
+        setInputTime(null); // 입력 값 초기화
+        setIsRunning(false); // 타이머가 실행되지 않도록 설정
+        setIsComplete(false); // 완료 상태 초기화
+        setStrokeDashoffset(circumference); // 원형 타이머 초기화
+        localStorage.removeItem("timerTime"); // 저장된 타이머 값 제거
+        localStorage.removeItem("timerInputTime"); // 저장된 입력 값 제거
+        localStorage.removeItem("timerRunning"); // 실행 상태 제거
     };
+
 
     return (
         <div className="center-container">
@@ -178,6 +196,7 @@ const Timer = () => {
                                 </button>
                             </>
                         )}
+
                         {isRunning && (
                             <>
                                 <button onClick={handlePause} className="pause-button">
@@ -188,6 +207,7 @@ const Timer = () => {
                                 </button>
                             </>
                         )}
+
                         {!isRunning && time > 0 && (
                             <>
                                 <button onClick={handleStart} className="start-button">
@@ -198,6 +218,7 @@ const Timer = () => {
                                 </button>
                             </>
                         )}
+
                     </div>
                 )}
             </div>
