@@ -1,0 +1,147 @@
+/* 공지사항 상세 페이지 컨테이너 */
+.notice-detail-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #f4f8fb; /* 연한 파란색 배경 */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 공지사항 제목 스타일 */
+.notice-header {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 개별 공지사항 제목 스타일 */
+.notice-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #030303; /* 검정색 */
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* 공지사항 메타 정보 */
+.notice-meta {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.notice-category {
+    background-color: #ff9800; /* 오렌지색 */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+/* 공지사항 본문 내용 */
+.notice-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 이미지 스타일 */
+.notice-image {
+    margin-top: 20px;
+}
+
+.notice-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 파일 링크 스타일 */
+.notice-file {
+    margin-top: 20px;
+}
+
+.notice-file-link {
+    color: #1a73e8; /* 파란색 */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.notice-file-link:hover {
+    text-decoration: underline;
+}
+
+/* 버튼 스타일 */
+.notice-actions {
+    display: flex;
+    justify-content: flex-end; /* 버튼 오른쪽 정렬 */
+    gap: 10px; /* 버튼 간격 추가 */
+    margin-top: 20px;
+}
+
+.notice-update-btn, .notice-delete-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 수정 버튼 (초록색) */
+.notice-update-btn {
+    background-color: #427422; /* 차분한 초록색 */
+    color: white;
+}
+
+.notice-update-btn:hover {
+    background-color: #5fa75b; /* 어두운 초록색 */
+}
+
+/* 삭제 버튼 (빨간색) */
+.notice-delete-btn {
+    background-color: #f44336; /* 소프트한 빨간색 */
+    color: white;
+}
+
+.notice-delete-btn:hover {
+    background-color: #e53935; /* 어두운 빨간색 */
+}
+
+/* 모달 스타일 */
+.notice-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.notice-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.notice-modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}

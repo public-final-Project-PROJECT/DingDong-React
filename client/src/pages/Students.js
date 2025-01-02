@@ -54,7 +54,7 @@ const Students = () => {
 
     return (
         <>
-            <h1>학생 인적사항</h1>
+            <h1 style={{textAlign : "center"}}>학생 인적사항</h1>
             {students.length === 0 ? (
                 <p>학생이 없습니다.</p>
             ) : (
@@ -62,24 +62,24 @@ const Students = () => {
                     {/* 학교 정보, 학년/반 */}
                     <div className="class-header">
                         {schoolName && grade && classNo && (
-                            <h2>
+                            <h2 style={{textAlign : "center"}}>
                                 {schoolName} - {grade}학년 {classNo}반
                             </h2>
                         )}
                     </div>
 
+                  
                     {/* 학생 목록 */}
                     <div className="student-list">
-                        {students.map((student) => (
+                        {students.map((student, index) => (
                             <div 
                                 key={student.studentId} 
                                 className="student-card" 
                                 onClick={() => studentDetail(student.studentId)}
                             >
-                                <h3>{student.studentName}</h3>
+                                <h3>{index + 1}번 {student.studentName}</h3>
                                 <p>{student.grade}학년 {student.classNo}반</p>
                                 <p>전화번호: {student.studentPhone}</p>
-                
                             </div>
                         ))}
                     </div>
@@ -87,6 +87,6 @@ const Students = () => {
             )}
         </>
     );
-}
+};
 
 export default Students;

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-import NoticeInsert from "./NoticeRegister";  // NoticeInsert 컴포넌트 import
+import NoticeInsert from "./NoticeRegister"; // NoticeInsert 컴포넌트 import
+import "../asset/css/NoticeList.css"; // CSS 파일 임포트
 
 const Notice = () => {
     const [notices, setNotices] = useState([]);
@@ -61,50 +62,41 @@ const Notice = () => {
     };
 
     return (
-        <div>
-            <div style={{ width: "90%", margin: "0 auto", marginBottom: "20px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <h1>공지사항 페이지</h1>
-                    <button onClick={Register} style={{ marginLeft: "auto" }}>
-                        <FaPlus /> 작성하기
-                    </button>
-                </div>
+        <div className="notice-container">
+            <div className="notice-header">
+                <h1 style={{ textAlign: 'center' }}>공지사항</h1>
+                <button
+                onClick={Register}
+                    style={{ backgroundColor: '#427422', borderRadius: '10px', fontWeight: 'bold',   fontSize: '20px',  color: 'white', padding: '10px 20px' }}>
+                     <FaPlus /> 작성하기</button>
             </div>
 
             {currentNotices.length === 0 ? (
                 <p>공지사항이 없습니다.</p>
             ) : (
-                <div style={{ width: "90%", margin: "0 auto" }}>
-                    <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
-                        <thead style={{ backgroundColor: "#d4edda" }}>
+                <div>
+                    <table className="notice-table">
+                        <thead>
                             <tr>
-                                <th style={{ textAlign: "center", width: "10%", borderBottom: "2px solid #ddd" }}>번호</th>
-                                <th style={{ textAlign: "center", width: "30%", borderBottom: "2px solid #ddd" }}>카테고리</th>
-                                <th style={{ textAlign: "center", width: "15%", borderBottom: "2px solid #ddd" }}>제목</th>
-                                <th style={{ textAlign: "center", width: "30%", borderBottom: "2px solid #ddd" }}>내용</th>
-                                <th style={{ textAlign: "center", width: "25%", borderBottom: "2px solid #ddd" }}>작성일/수정일</th>
+                                <th>번호</th>
+                                <th>카테고리</th>
+                                <th>제목</th>
+                                <th>내용</th>
+                                <th>작성일/수정일</th>
                             </tr>
                         </thead>
                         <tbody>
                             {currentNotices.map((notice, index) => (
-                                <tr
-                                    key={notice.noticeId}
-                                    onClick={() => noticeDetail(notice.noticeId)}
-                                    style={{ borderBottom: "1px solid #ddd" }}
-                                >
-                                    <td style={{ textAlign: "center", borderRight: "1px solid #ddd" }}>
-                                        {index + 1 + currentPage * noticesPerPage}
+                                <tr key={notice.noticeId} onClick={() => noticeDetail(notice.noticeId)}>
+                                    <td>{index + 1 + currentPage * noticesPerPage}</td>
+                                    <td>{notice.noticeCategory}</td>
+                                    <td className="ellipsis">{notice.noticeTitle}</td>
+                                    <td className="ellipsis">
+                                        {notice.noticeContent.length > 10
+                                            ? `${notice.noticeContent.substring(0, 10)}...`
+                                            : notice.noticeContent}
                                     </td>
-                                    <td style={{ textAlign: "center" }}>{notice.noticeCategory}</td>
-                                    <td style={{ textAlign: "center", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                                        {notice.noticeTitle}
-                                    </td>
-                                    <td style={{ textAlign: "center", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                                        {notice.noticeContent}
-                                    </td>
-                                    <td style={{ textAlign: "center" }}>
-                                        {new Date(notice.updatedAt || notice.createdAt).toLocaleString()}
-                                    </td>
+                                    <td>{new Date(notice.updatedAt || notice.createdAt).toLocaleString()}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -112,47 +104,25 @@ const Notice = () => {
                 </div>
             )}
 
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
-                <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 0}
-                    style={{ marginRight: "10px" }}
-                >
-                    이전
-                </button>
-                <span>
-                    {currentPage + 1} / {Math.ceil(notices.length / noticesPerPage)}
-                </span>
-                <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === Math.ceil(notices.length / noticesPerPage) - 1}
-                    style={{ marginLeft: "10px" }}
-                >
-                    다음
-                </button>
-            </div>
+<div className="page-navigation">
+    <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
+        이전
+    </button>
+    <span>
+        {currentPage + 1} / {Math.ceil(notices.length / noticesPerPage)}
+    </span>
+    <button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage >= Math.ceil(notices.length / noticesPerPage) - 1}
+    >
+        다음
+    </button>
+</div>
 
             {/* 모달 */}
             {isModalOpen && (
-                <div style={{
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    zIndex: 1000,
-                }}>
-                    <div style={{
-                        position: "absolute",
-                        top: "20%",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        backgroundColor: "#fff",
-                        padding: "20px",
-                        width: "50%",
-                        borderRadius: "10px",
-                    }}>
+                <div className="notice-modal">
+                    <div className="notice-modal-content">
                         <NoticeInsert closeModal={closeModal} />
                     </div>
                 </div>

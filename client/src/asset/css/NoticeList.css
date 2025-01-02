@@ -1,0 +1,100 @@
+.notice-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.notice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.notice-table th, .notice-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.notice-table th {
+    background-color: rgba(88, 157, 45, 0.17); /* Applying 17% opacity */
+    border-bottom: 2px solid #ddd;
+}
+
+.notice-table td {
+    border-right: 1px solid #ddd;
+}
+
+.notice-table td:last-child {
+    border-right: none;
+}
+
+.notice-table td .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 호버 효과 */
+.notice-table tr:hover {
+    background-color: #f1f1f1; /* 호버 시 배경색 변경 */
+    cursor: pointer; /* 마우스를 올리면 커서가 손 모양으로 바뀌도록 */
+}
+
+.page-navigation {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.page-navigation button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.page-navigation span {
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+.notice-submit-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.notice-submit-btn:hover {
+    background-color: #45a049;
+}
+
+.notice-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.notice-modal-content {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 20px;
+    width: 50%;
+    border-radius: 10px;
+}

@@ -1,0 +1,80 @@
+.attendance-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.attedance-title{
+    text-align: center;
+}
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.attendance-table th, .attendance-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.attendance-table th {
+    background-color: rgba(88, 157, 45, 0.17); /* 17% 투명도 적용 */
+}
+
+.attendance-date-input, .attendance-date-readonly, .attendance-etc-input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.attendance-date-readonly {
+    background-color: #f5f5f5;
+}
+
+.attendance-radio-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.attendance-submit-btn {
+    padding: 10px 20px;
+    background-color: #050505;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.attendance-submit-btn:hover {
+    background-color: #696e69;
+}
+
+.attendance-etc-input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 14px;
+}
+.attendance-present {
+    color: blue; 
+    font-weight: bold; 
+}
+
+.attendance-late {
+    color: orange; 
+    font-weight: bold; 
+}
+
+.attendance-absent {
+    color: red; 
+    font-weight: bold; 
+}
+
+.attendance-earlyLeave {
+    color: gray; 
+    font-weight: bold; 
+}
