@@ -164,7 +164,7 @@ const Voting = () => {
 
     return (
         <>
-            <h1> 투표 </h1>
+            <h1 className="title"> 투표 </h1>
             <button onClick={() => setNewVotingModal(true)}> <FontAwesomeIcon icon={faPenToSquare} /> </button>
             {newVotingModal && <NewVoting setNewVotingModal={setNewVotingModal} newVotingModal={newVotingModal} />}
             {modalShow && (
@@ -259,8 +259,12 @@ const Voting = () => {
                             )}
                         </div>
                     </div>
-                    <button onClick={() => setNonStudentModalShow(true)}>투표 안한 학생 보기</button>
-                    <button>투표 결과 알림 보내기</button>
+
+                    <div className="button_div">
+                    <button className="two_button" onClick={() => setNonStudentModalShow(true)}>투표 안한 학생 보기</button>
+                    <button className="two_button">투표 결과 알림 보내기</button>
+                    </div>
+
                     <div className="voting-header">
                         <p className="date">
                             {new Date(vote.createdAt).toLocaleDateString()}{" "}

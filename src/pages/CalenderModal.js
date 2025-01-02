@@ -51,11 +51,18 @@ import 'react-day-picker/dist/style.css';
     const handleSubmit = (e) => {
       e.preventDefault();
   
-       // T 뒤의 데이터를 제거하는 함수
-  const formatDate = (date) => {
-    if (!date) return null;
-    return date.toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식으로 변환
-  };
+
+      const EventToLocal = (date) => {
+        if (!date) return null;
+      
+        // 'YYYY-MM-DD' 형식으로 변환
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); 
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      };
+
+
 
 
       props.setEvents((prevEvents) =>
@@ -66,15 +73,21 @@ import 'react-day-picker/dist/style.css';
                 ...ev,
                 title: event2.title,
                 description : event2.description,
-                start: formatDate(event2.start),
-                end: formatDate(event2.end),
+                start: EventToLocal(event2.start),
+                end: EventToLocal(event2.end),
               }
             : ev 
+
     })
       );
       
       props.onHide(); // 모달 닫기
     };
+
+    const Delete = (id)=>{
+      props.setEvents((pre)=> pre.filter((item)=> item.id !== id))
+
+    }
 
     return (
       <Modal
@@ -109,8 +122,9 @@ import 'react-day-picker/dist/style.css';
                     <h3>일정 선택</h3>
                     <EventDatePicker event={props.event} setEvents={setEvent2}  />
                     <div>
-                      <p>선택된 시작일: {props.event.start?.toLocaleDateString() || '없음'}</p>
-                      <p>선택된 종료일: {props.event.end?.toLocaleDateString() || '없음'}</p>
+                      <p>선택된 시작일: {props.event.start?.toISOString() || '없음'}</p>
+                      <p>선택된 종료일: {props.event.end?.toISOString() || '없음'}</p>
+                      
                     </div>
                   </div>
 
@@ -124,8 +138,10 @@ import 'react-day-picker/dist/style.css';
                         onChange={handleChange}
                     />
                 </div>
-                
+                <div className='updatedelete'>
                 <button type="submit">수정하기</button>
+                <button onClick={()=>Delete(props.event.id)}>삭제하기</button>
+                </div>
             </form>
         </Modal.Body>
         <Modal.Footer>
@@ -138,30 +154,38 @@ import 'react-day-picker/dist/style.css';
   }
   function EventDatePicker(props) {
     const [event3,setEvent3] = useState([]);
-
-
-    useEffect(()=>{
-      setEvent3( { start: props.event.start || null,
-        end: props.event.end || null});
-    },[])
-
-    const handleDateRangeChange = (range) => {
-      const updatedEvent = {
-        start: range?.from || null,
-        end: range?.to|| null,
-      };
-      setEvent3(updatedEvent);
-      
-      props.setEvents((prevevent) => ({
-        ...prevevent,
-        start: range?.from || null,
-        end: range?.to || null,
-    }));
-      
-    console.log(range.to);
-
+    
+    const normalizeDateToUTC = (date) => {
+      if (!date || !(date instanceof Date) || isNaN(date)) return null;
+      return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     };
   
+    // 초기화: props.event의 날짜를 UTC로 변환
+    useEffect(() => {
+      const start = props.event.start ? normalizeDateToUTC(new Date(props.event.start)) : null;
+      const end = props.event.end ? normalizeDateToUTC(new Date(props.event.end)) : null;
+  
+      setEvent3({ start, end });
+    }, [props.event]);
+  
+    // 날짜 범위 변경 핸들러
+    const handleDateRangeChange = (range) => {
+      if (!range?.from || !range?.to) return;
+  
+      const start = normalizeDateToUTC(new Date(range.from));
+      const end = normalizeDateToUTC(new Date(range.to));
+  
+      const updatedEvent = { start, end };
+  
+      setEvent3(updatedEvent);
+  
+      // 상위 컴포넌트로 업데이트된 이벤트 전달
+      props.setEvents((prevEvents) => ({
+        ...prevEvents,
+        start,
+        end,
+      }));
+    }
     return (
       <div>
         <DayPicker
@@ -196,39 +220,7 @@ const CalendarModal =({event,onClose,setEvents})=> {
   };
 
 
-    const handleSubmit = async (e) => {
-      
-      try {
-        const response = await fetch('http://localhost:3013/calendar/update', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(event),
-        });
-        const eventData = await response.json(); // 단일 이벤트 데이터 가져오기
-        
-        // 서버에서 받은 단일 이벤트를 FullCalendar 형식으로 변환
-        const formattedEvent = {
-          id: String(eventData.calendarId),
-          title: eventData.title, // 이벤트 제목
-          start: eventData.startDatetime, // 시작 날짜 (ISO8601 형식)
-          end: eventData.endDatetime, // 종료 날짜 (ISO8601 형식)
-          className: ['fc-h-event','user_event'], // 사용자 지정 클래스
-          startEditable: true,           // 시작 시간 리사이즈 가능
-          durationEditable: true,
-          editable: true,
-          selectable: true,
-        };
-    
-      setEvents((prevEvents) => [...prevEvents, formattedEvent]);
-        
-        
-       
-      } catch (err) {
-        
-      }
-      
-      
-    };
+  
   
 
 
@@ -239,7 +231,7 @@ const CalendarModal =({event,onClose,setEvents})=> {
           event={event}
           setEvents={setEvents}
           show={modalShow}     
-          handleSubmit={handleSubmit}
+          
           handleChange={handleChange}
           onHide={() => onClose(false)}
         />

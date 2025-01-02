@@ -2,19 +2,29 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../asset/css/Attendance.css"; // CSS 파일 임포트
+import { useUserData } from "../hooks/useUserData";
 
 function AttendanceTotal() {
-    const classId = 1; // 클래스 ID
+   // const classId = 1; // 클래스 ID
     const [students, setStudents] = useState([]); // 학생 목록
     const [attendanceDate, setAttendanceDate] = useState(""); // 전체 날짜 상태
 
     const nevigate = useNavigate();
 
+    const {
+        selectedClassId
+    } = useUserData();
+
+    
+
     useEffect(() => {
         // 학생 목록 가져오기 (출석 데이터와 별개)
+     
+
+
         axios
         .get("http://localhost:3013/api/students/view", {
-            params: { classId },
+            params: { classId :selectedClassId },
         })
             .then((response) => {
                 const studentList = response.data.map((student) => ({
@@ -23,19 +33,20 @@ function AttendanceTotal() {
                     attendanceState: "",
                     attendanceEtc: "",
                 }));
+                console.log(response.data)
                 setStudents(studentList);
             })
             .catch((error) => {
                 console.error("Error fetching student data:", error);
             });
-    }, [classId]);
+    }, [selectedClassId]);
 
     useEffect(() => {
         if (!attendanceDate) return; // 날짜가 선택되지 않았을 경우 데이터 요청 안 함
 
         // 선택한 날짜의 출석 정보 가져오기
         axios
-            .get(`http://localhost:3013/api/attendance/view/${classId}`, {
+            .get(`http://localhost:3013/api/attendance/view/${selectedClassId}`, {
                 params: { attendanceDate },
             })
             .then((response) => {
@@ -59,7 +70,7 @@ function AttendanceTotal() {
             .catch((error) => {
                 console.error("Error fetching attendance data:", error);
             });
-    }, [attendanceDate, classId]);
+    }, [attendanceDate, selectedClassId]);
 
     const handleAttendanceChange = (studentId, state) => {
         setStudents((prevStudents) =>
@@ -96,7 +107,7 @@ function AttendanceTotal() {
             attendanceDate,
             attendanceState: student.attendanceState,
             attendanceEtc: student.attendanceEtc,
-            classId,
+            classId : selectedClassId,
         }));
           
         axios
@@ -132,9 +143,8 @@ function AttendanceTotal() {
             <table className="attendance-table">
                 <thead>
                     <tr>
-                        <th>번호</th>
+                        <th>출석 번호</th>
                         <th>이름</th>
-                        <th>학번</th>
                         <th>
                             날짜
                             <input
@@ -153,9 +163,10 @@ function AttendanceTotal() {
                     {students.length > 0 ? (
                         students.map((student, index) => (
                             <tr key={student.studentId}>
-                                <td>{index + 1}</td>
-                                <td onClick={() => studentDetail(student.studentId)}>{student.studentName || ""}</td>
-                                <td>{student.studentId}</td>
+                                <td>{index + 1}</td> {/* 학번 대신 인덱스 */}
+                                <td onClick={() => studentDetail(student.studentId)}>
+                                    {student.studentName || ""}
+                                </td>
                                 <td>
                                     <input
                                         type="date"
@@ -172,7 +183,9 @@ function AttendanceTotal() {
                                                 name={`attendance-${student.studentId}`}
                                                 value="출석"
                                                 checked={student.attendanceState === "출석"}
-                                                onChange={() => handleAttendanceChange(student.studentId, "출석")}
+                                                onChange={() =>
+                                                    handleAttendanceChange(student.studentId, "출석")
+                                                }
                                             />
                                             출석
                                         </label>
@@ -182,7 +195,9 @@ function AttendanceTotal() {
                                                 name={`attendance-${student.studentId}`}
                                                 value="결석"
                                                 checked={student.attendanceState === "결석"}
-                                                onChange={() => handleAttendanceChange(student.studentId, "결석")}
+                                                onChange={() =>
+                                                    handleAttendanceChange(student.studentId, "결석")
+                                                }
                                             />
                                             결석
                                         </label>
@@ -192,7 +207,9 @@ function AttendanceTotal() {
                                                 name={`attendance-${student.studentId}`}
                                                 value="지각"
                                                 checked={student.attendanceState === "지각"}
-                                                onChange={() => handleAttendanceChange(student.studentId, "지각")}
+                                                onChange={() =>
+                                                    handleAttendanceChange(student.studentId, "지각")
+                                                }
                                             />
                                             지각
                                         </label>
@@ -202,20 +219,28 @@ function AttendanceTotal() {
                                                 name={`attendance-${student.studentId}`}
                                                 value="조퇴"
                                                 checked={student.attendanceState === "조퇴"}
-                                                onChange={() => handleAttendanceChange(student.studentId, "조퇴")}
+                                                onChange={() =>
+                                                    handleAttendanceChange(student.studentId, "조퇴")
+                                                }
                                             />
                                             조퇴
                                         </label>
                                     </div>
                                 </td>
-                                <td className={`attendance-state ${getAttendanceClass(student.attendanceState)}`}>
+                                <td
+                                    className={`attendance-state ${getAttendanceClass(
+                                        student.attendanceState
+                                    )}`}
+                                >
                                     {student.attendanceState || "상태 없음"}
                                 </td>
                                 <td>
                                     <input
                                         type="text"
                                         value={student.attendanceEtc || ""}
-                                        onChange={(e) => handleEtcChange(student.studentId, e.target.value)}
+                                        onChange={(e) =>
+                                            handleEtcChange(student.studentId, e.target.value)
+                                        }
                                         placeholder="특이사항 입력"
                                         className="attendance-etc-input"
                                     />
@@ -224,7 +249,7 @@ function AttendanceTotal() {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="7" style={{ textAlign: "center" }}>
+                            <td colSpan="6" style={{ textAlign: "center" }}>
                                 데이터를 가져오는 중입니다...
                             </td>
                         </tr>

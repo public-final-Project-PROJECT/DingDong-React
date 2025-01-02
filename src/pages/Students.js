@@ -2,13 +2,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../asset/css/Student.css"; // CSS 파일 임포트
+import { useUserData } from "../hooks/useUserData";
 
 const Students = () => {
 
-    const classId = 1; 
+    
     const [students , setStudents] = useState([]);
 
     const navigate = useNavigate();
+
+      const {
+            selectedClassId
+        } = useUserData();
 
         
     // useEffect(() => {
@@ -29,7 +34,7 @@ const Students = () => {
     useEffect(() => {
         axios
             .get("http://localhost:3013/api/students/viewClass", {
-                params: { classId },
+                params: { classId : selectedClassId},
             })
             .then((response) => {
                 console.log(response.data)
@@ -38,7 +43,7 @@ const Students = () => {
             .catch((error) => {
                 console.error("Error fetching students:", error);
             });
-    }, []);
+    }, [selectedClassId]);
 
 
     const studentDetail = (studentId) =>{
@@ -68,18 +73,18 @@ const Students = () => {
                         )}
                     </div>
 
+                  
                     {/* 학생 목록 */}
-                    <div className="student-list" >
-                        {students.map((student) => (
+                    <div className="student-list">
+                        {students.map((student, index) => (
                             <div 
                                 key={student.studentId} 
                                 className="student-card" 
                                 onClick={() => studentDetail(student.studentId)}
                             >
-                                <h3>{student.studentName}</h3>
+                                <h3>{index + 1}번 {student.studentName}</h3>
                                 <p>{student.grade}학년 {student.classNo}반</p>
                                 <p>전화번호: {student.studentPhone}</p>
-                
                             </div>
                         ))}
                     </div>
@@ -87,6 +92,6 @@ const Students = () => {
             )}
         </>
     );
-}
+};
 
 export default Students;

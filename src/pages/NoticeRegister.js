@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useUserData } from "../hooks/useUserData";
 
 
 const NoticeInsert = ({ closeModal }) => {
@@ -10,6 +11,11 @@ const NoticeInsert = ({ closeModal }) => {
     noticeImg: null,
     noticeFile: null,
   });
+
+     const {
+              schoolName,
+              selectedClassId
+          } = useUserData();
 
   const classId = "1";
 
@@ -41,11 +47,16 @@ const NoticeInsert = ({ closeModal }) => {
       return;
     }
 
+    if (!notice.noticeContent.trim()) {
+        alert("내용을 입력해 주세요.");
+        return;
+      }
+
     const formData = new FormData();
     formData.append("noticeTitle", notice.noticeTitle);
     formData.append("noticeCategory", notice.noticeCategory);
     formData.append("noticeContent", notice.noticeContent);
-    formData.append("classId", classId);
+    formData.append("classId", selectedClassId);
 
     if (notice.noticeImg) {
       formData.append("noticeImg", notice.noticeImg);
