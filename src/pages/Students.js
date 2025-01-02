@@ -68,18 +68,18 @@ const Students = () => {
                         )}
                     </div>
 
+                  
                     {/* 학생 목록 */}
-                    <div className="student-list" >
-                        {students.map((student) => (
+                    <div className="student-list">
+                        {students.map((student, index) => (
                             <div 
                                 key={student.studentId} 
                                 className="student-card" 
                                 onClick={() => studentDetail(student.studentId)}
                             >
-                                <h3>{student.studentName}</h3>
+                                <h3>{index + 1}번 {student.studentName}</h3>
                                 <p>{student.grade}학년 {student.classNo}반</p>
                                 <p>전화번호: {student.studentPhone}</p>
-                
                             </div>
                         ))}
                     </div>
@@ -87,6 +87,6 @@ const Students = () => {
             )}
         </>
     );
-}
+};
 
 export default Students;
