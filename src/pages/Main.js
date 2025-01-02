@@ -7,7 +7,7 @@ import "../asset/css/Calendar.css";
 
 const Main = () => 
 {
-    const { profile, teacherId, classCount } = useUserData();
+    const { profile, teacherId, classCount, schoolName } = useUserData();
     const navigate = useNavigate();
 
     const [responseData, setResponseData] = useState(null);
@@ -45,9 +45,16 @@ const Main = () =>
             Type: "json",
         });
 
+
+
+
+
+
         const loadLunch = async () => {
             try {
-                const schoolInfo = await neis.getSchoolInfo({ SCHUL_NM: "한세사이버보안고등학교" });
+                const schoolInfo = await neis.getSchoolInfo({ SCHUL_NM: schoolName });
+                console.log(schoolName);
+                console.log(classCount);
                 const mealInfo = await neis.getMealInfo({
                     ATPT_OFCDC_SC_CODE: schoolInfo[0].ATPT_OFCDC_SC_CODE,
                     SD_SCHUL_CODE: schoolInfo[0].SD_SCHUL_CODE,
