@@ -41,6 +41,11 @@ const NoticeInsert = ({ closeModal }) => {
       return;
     }
 
+    if (!notice.noticeContent.trim()) {
+        alert("내용을 입력해 주세요.");
+        return;
+      }
+
     const formData = new FormData();
     formData.append("noticeTitle", notice.noticeTitle);
     formData.append("noticeCategory", notice.noticeCategory);
