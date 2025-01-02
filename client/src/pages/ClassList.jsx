@@ -194,7 +194,7 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
 
 const ClassList = () => 
 {
-    const { classList, teacherId, classCount, selectedClassId, setSelectedClassId } = useUserData();
+    const { classList, teacherId, classCount, setSelectedClassId } = useUserData();
     const [selectedRow, setSelectedRow] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [newNickname, setNewNickname] = useState("");
