@@ -12,7 +12,11 @@ export const useUserData = () =>
     const [isSchoolNameEditable, setIsSchoolNameEditable] = useState(true);
     const [classCount, setClassCount] = useState(0);
     const [classList, setClassList] = useState([]);
-    const [selectedClassId, setSelectedClassId] = useState(null);
+    const [selectedClassId, setSelectedClassId] = useState(() => 
+    {
+        const storedId = localStorage.getItem("selectedClassId");
+        return storedId ? Number(storedId) : null;
+    });
     const email = useMemo(() => profile?.email, [profile]);
     const navigate = useNavigate();
 
@@ -32,6 +36,14 @@ export const useUserData = () =>
             fetchClassList();
         }
     }, [teacherId]);
+
+    useEffect(() => 
+    {
+        if (selectedClassId !== null) 
+        {
+            localStorage.setItem("selectedClassId", selectedClassId);
+        }
+    }, [selectedClassId]);
 
     const fetchUserData = async (email) => 
     {
@@ -67,8 +79,7 @@ export const useUserData = () =>
             {
                 setSchoolName("");
                 setIsSchoolNameEditable(true);
-            } 
-            else if (response?.schoolName) 
+            } else if (response?.schoolName) 
             {
                 setSchoolName(response.schoolName);
                 setIsSchoolNameEditable(false);
@@ -103,14 +114,11 @@ export const useUserData = () =>
     };
 
     // 로그아웃
-    // if (window.confirm(message)) 
-    // {
-    //      Logout();
-    // }
     const Logout = () => 
     {
         googleLogout();
         clearProfileFromStorage();
+        localStorage.removeItem("selectedClassId");
         navigate("/login");
     };
 
@@ -126,8 +134,8 @@ export const useUserData = () =>
         classCount,
         classList,
         fetchClassCount,
-        selectedClassId, 
+        selectedClassId,
         setSelectedClassId,
-        Logout
+        Logout,
     };
 };
