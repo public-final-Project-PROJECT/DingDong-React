@@ -4,7 +4,7 @@ import { TimerContext } from "./TimerContext";
 import "../asset/css/SmallTimer.css";
 
 const SmallTimer = () => {
-    const { time } = useContext(TimerContext); // TimerContext에서 time 가져오기
+    const { time, isRunning } = useContext(TimerContext); // TimerContext에서 time과 isRunning 가져오기
     const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate
 
     // 타이머의 위치 상태 (로컬스토리지에서 초기값 복원)
@@ -65,6 +65,9 @@ const SmallTimer = () => {
             navigate("/Timer");
         }
     };
+
+    // 메인 타이머가 실행될 때만 렌더링
+    if (!isRunning) return null;
 
     return (
         <div

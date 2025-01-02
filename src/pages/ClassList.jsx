@@ -194,8 +194,7 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
 
 const ClassList = () => 
 {
-    
-    const { classList, teacherId, classCount, setSelectedClassId } = useUserData();
+    const { classList, teacherId, classCount, selectedClassId, setSelectedClassId } = useUserData();
     const [selectedRow, setSelectedRow] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [newNickname, setNewNickname] = useState("");
@@ -287,6 +286,7 @@ const ClassList = () =>
     const handleGoToClass = (classItem) => 
     {
         setSelectedClassId(classItem.classId);
+    
         alert(`${classItem.classNickname}(으)로 전환되었습니다.`);
         navigate(`/`);
     };

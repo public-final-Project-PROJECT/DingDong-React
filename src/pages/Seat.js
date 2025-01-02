@@ -1,40 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactModal from "react-modal";
-import '../asset/css/Seat.css';
+import '../asset/css/Seat.css'; // Ensure your CSS file is included
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faDownload, faPrint } from "@fortawesome/free-solid-svg-icons";
 import { useReactToPrint } from 'react-to-print';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
+import useUserData from '../hooks/useUserData';
 
 const SeatArrangement = () => {
-    const [modalShow, setModalShow] = useState(false); // 좌석 생성 모달 상태
-    const [seats, setSeats] = useState(Array(60).fill(false)); // 좌석 상태
-    const [isDragging, setIsDragging] = useState(false); // 색칠되는 좌석 - true
-    const [createdSeats, setCreatedSeats] = useState([]); // 새로 생성된 좌석 상태
-    const [loadedSeats, setLoadedSeats] = useState([]); // 기존 로드된 좌석 상태
-    const [nameList, setNameList] = useState([]); // 학생들 이름 list
-    const [seatState, setSeatState] = useState(false); // 좌석 상태 변경 모달
-    const [modifyState, setModifyState] = useState(false); // 수정 상태
-    const [firstSeat, setFirstSeat] = useState(null); // 첫 클릭 학생
-    const [secondSeat, setSecondSeat] = useState(null); // 두 번째 클릭 학생
-    const [countdown, setCountdown] = useState(null); // 카운트다운 상태
-    const [buttonsDisabled, setButtonsDisabled] = useState(false); // 버튼 비활성화 상태
-    const [showSaveButton, setShowSaveButton] = useState(false); // 저장 버튼 표시 여부
-    const [randomSpinLabel, setRandomSpinLabel] = useState("랜덤 돌리기 !"); // 랜덤 버튼 텍스트
-    const [randomedSeat, setRandomedSeat] = useState([]); // 랜덤 결과 좌석 리스트
-    const contentRef = useRef(); // 프린트 변수 선언
+    const [modalShow, setModalShow] = useState(false);
+    const [seats, setSeats] = useState(Array(60).fill(false));
+    const [isDragging, setIsDragging] = useState(false);
+    const [createdSeats, setCreatedSeats] = useState([]);
+    const [loadedSeats, setLoadedSeats] = useState([]);
+    const [nameList, setNameList] = useState([]);
+    const [seatState, setSeatState] = useState(false);
+    const [modifyState, setModifyState] = useState(false);
+    const [firstSeat, setFirstSeat] = useState(null);
+    const [secondSeat, setSecondSeat] = useState(null);
+    const [countdown, setCountdown] = useState(null);
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
+    const [showSaveButton, setShowSaveButton] = useState(false);
+    const [randomSpinLabel, setRandomSpinLabel] = useState("start !");
+    const [randomedSeat, setRandomedSeat] = useState([]);
+    const contentRef = useRef();
 
     const downloadSeatsAsImage = async () => {
         if (contentRef.current) {
             try {
                 const canvas = await html2canvas(contentRef.current);
                 const image = canvas.toDataURL('image/png');
-
                 const link = document.createElement('a');
                 link.href = image;
                 link.download = 'seat-arrangement.png';
-
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -72,13 +71,13 @@ const SeatArrangement = () => {
         saveStudentsAPI();
         setButtonsDisabled(false);
         setShowSaveButton(false);
-        setRandomSpinLabel("랜덤 돌리기 !");
+        setRandomSpinLabel("start !");
     };
 
     const resetRandomSpin = () => {
         setButtonsDisabled(false);
         setShowSaveButton(false);
-        setRandomSpinLabel("랜덤 돌리기 !");
+        setRandomSpinLabel("start!");
     };
 
     useEffect(() => {
@@ -114,7 +113,6 @@ const SeatArrangement = () => {
     const seatTable = async () => {
         try {
             const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: 1 });
-            console.log(response.data);
             setLoadedSeats(response.data);
         } catch (error) {
             console.error("기존 좌석 불러오는 API error:", error);
@@ -124,7 +122,6 @@ const SeatArrangement = () => {
     const studentNameAPI = async () => {
         try {
             const response = await axios.post('http://localhost:3013/api/seat/findName', { classId: 1 });
-            console.log(response.data);
             setNameList(response.data.sort((a, b) => a.studentId - b.studentId));
         } catch (error) {
             console.error("학생 이름 조회 중 error:", error);
@@ -216,86 +213,42 @@ const SeatArrangement = () => {
         if (modifyState) {
             if (!firstSeat) {
                 setFirstSeat(seat);
-                console.log("첫번째 선택 자리:", seat);
             } else if (!secondSeat) {
                 setSecondSeat(seat);
-                console.log("두번째 선택 자리:", seat);
             }
         }
     };
 
     return (
         <>
-            {/* 모달 */}
-            <ReactModal
-                isOpen={modalShow}
-                contentLabel="새 좌석 만들기"
-                style={{
-                    content: {
-                        top: '50%',
-                        left: '50%',
-                        right: 'auto',
-                        bottom: 'auto',
-                        marginRight: '-50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: 500,
-                        borderRadius: 0,
-                        border: "none",
-                        padding: 0,
-                    },
-                    overlay: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                    },
-                }}
-            >
+            {/* Modal for seat creation */}
+            <ReactModal isOpen={modalShow} contentLabel="새 좌석 만들기" style={{ content: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, borderRadius: 0, padding: 0 }, overlay: { backgroundColor: 'rgba(0, 0, 0, 0.75)' } }}>
                 <div className="seat-arrangement">
-                    <div
-                        className="seat-grid"
-                        onMouseUp={() => setIsDragging(false)}
-                    >
+                    <div className="seat-grid" onMouseUp={() => setIsDragging(false)}>
                         {seats.map((selected, index) => (
                             <div
                                 key={index}
                                 className={`seat ${selected ? 'selected' : ''}`}
-                                onMouseDown={() => {
-                                    setIsDragging(true);
-                                    setSeats((prevSeats) => {
-                                        const newSeats = [...prevSeats];
-                                        newSeats[index] = !newSeats[index];
-                                        return newSeats;
-                                    });
-                                }}
-                                onMouseEnter={() => {
-                                    if (isDragging) {
-                                        setSeats((prevSeats) => {
-                                            const newSeats = [...prevSeats];
-                                            newSeats[index] = true;
-                                            return newSeats;
-                                        });
-                                    }
-                                }}
+                                onMouseDown={() => { setIsDragging(true); setSeats((prevSeats) => { const newSeats = [...prevSeats]; newSeats[index] = !newSeats[index]; return newSeats; }); }}
+                                onMouseEnter={() => { if (isDragging) { setSeats((prevSeats) => { const newSeats = [...prevSeats]; newSeats[index] = true; return newSeats; }); } }}
                             />
                         ))}
                     </div>
-                    <button className="register-button" onClick={handleRegister}>
-                        자리 만들기
-                    </button>
+                    <button className="register-button" onClick={handleRegister}>자리 만들기</button>
                 </div>
             </ReactModal>
 
-            {/* UI */}
             <h1>자리 바꾸기</h1>
-
-            <button onClick={() => setModalShow(true)} disabled={buttonsDisabled}>
-                + 새 자리배치
-            </button>
-
+            <button className="register-button" onClick={() => setModalShow(true)} disabled={buttonsDisabled}>+ 새자리</button>
             <button
                 className="register-button"
                 onClick={randomSpinLabel === "다시" ? resetRandomSpin : randomSeatHandlerWithCountdown}
                 disabled={randomSpinLabel !== "다시" && buttonsDisabled}
             >
-                {countdown !== null ? countdown : randomSpinLabel}
+                {countdown !== null ? 
+                countdown 
+               : 
+                randomSpinLabel}
             </button>
 
             {showSaveButton && (
@@ -305,7 +258,6 @@ const SeatArrangement = () => {
             )}
 
             <button onClick={modifyHandler}>자리 수정</button>
-
             <button onClick={downloadSeatsAsImage} disabled={buttonsDisabled}>
                 <FontAwesomeIcon icon={faDownload} />
             </button>
@@ -314,7 +266,7 @@ const SeatArrangement = () => {
                 <FontAwesomeIcon icon={faPrint} />
             </button>
 
-            {/* 좌석 렌더링 */}
+            {/* Seat rendering */}
             <div className="created-seats" ref={contentRef}>
                 {loadedSeats.map((seat, index) => {
                     const student = nameList.find(student => student.studentId === seat.studentId);
