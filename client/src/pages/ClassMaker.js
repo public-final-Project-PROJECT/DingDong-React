@@ -45,7 +45,8 @@ const ClassMaker = () =>
         
         const nicknameToSubmit = classNickname.trim() === "" ? "학급 이름을 설정하지 않았습니다." : classNickname;
 
-        const data = {
+        const data = 
+        {
             email,
             schoolName,
             grade,
@@ -62,7 +63,14 @@ const ClassMaker = () =>
 
             fetchClassCount();
             alert("학급이 생성되었습니다.");
-            navigate(0);
+            if(classCount === 1)
+            {
+                navigate("/");
+            }
+            else
+            {
+                navigate(0);
+            }
         } catch (error) {
             alert("학급 생성에 실패했습니다.");
         }
