@@ -13,6 +13,9 @@ const TopHeader = () => {
     setShow(false);
 
     switch (e.target.className) {
+      case "Main":
+        navigator("/")
+        break;
       case "Notice":
         navigator("/Notice");
         break;
@@ -49,11 +52,12 @@ const TopHeader = () => {
   return (
     <div className="top-header">
       <div className="main-buttons">
-        <button className="Notice" onClick={onClickHandler}>공지사항</button>
-        <button className="Attendance" onClick={onClickHandler}>출석부</button>
-        <button className="Students" onClick={onClickHandler}>학생정보</button>
-        <button className="Calendar" onClick={onClickHandler}>캘린더</button>
-        <button onClick={toggleFunctions}>편의기능</button>
+        <div className="Main" onClick={onClickHandler}>메인</div>
+        <div className="Notice" onClick={onClickHandler}>공지사항</div>
+        <div className="Attendance" onClick={onClickHandler}>출석부</div>
+        <div className="Students" onClick={onClickHandler}>학생정보</div>
+        <div className="Calendar" onClick={onClickHandler}>캘린더</div>
+        <div onClick={toggleFunctions}>편의기능</div>
         <GoogleOAuthProvider clientId={clientId}>
           <GoogleLoginButton />
         </GoogleOAuthProvider>
