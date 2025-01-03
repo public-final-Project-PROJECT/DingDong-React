@@ -19,8 +19,6 @@ function AttendanceTotal() {
 
     useEffect(() => {
         // 학생 목록 가져오기 (출석 데이터와 별개)
-     
-
 
         axios
         .get("http://localhost:3013/api/students/view", {

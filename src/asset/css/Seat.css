@@ -1,23 +1,22 @@
 .seat-arrangement {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-    justify-content: center; /* Center the seat arrangement vertically */
-    height: 100vh; /* Make the container take full height */
-}
+    flex-direction: column; 
+    align-items: center; 
+    gap: 20px;
+    width: 100%; 
+    margin-top: 242px;
+  }
 
 .seat-grid {
-    display: grid;
-    grid-template-columns: repeat(10, 60px); /* Increase size of each seat */
-    gap: 10px; /* Increase space between seats */
-    cursor: pointer;
-    justify-content: center; /* Center the grid inside the container */
+  display: grid;
+  grid-template-columns: repeat(10, 60px); 
+  gap: 10px; 
+  justify-content: center; 
 }
 
 .seat {
-    width: 60px;  /* Increase the width of each seat */
-    height: 60px; /* Increase the height of each seat */
+    width: 60px; 
+    height: 60px; 
     border: 1px solid #ccc;
     background-color: #fff;
     transition: background-color 0.2s;
@@ -25,15 +24,15 @@
 }
 
 .print_icon {
-    background: none; /* Remove the background */
-    border: none; /* Remove the border */
-    padding: 0; /* Remove default padding */
-    cursor: pointer; /* Retain the pointer cursor for clickable effect */
-    display: inline-flex; /* Center the icon within the button */
-    align-items: center; /* Align icon vertically */
-    justify-content: center; /* Align icon horizontally */
-    font-size: 25px; /* Inherit font size for the icon */
-    color: inherit; /* Ensure the icon uses the inherited color */
+    background: none;
+    border: none; 
+    padding: 0;
+    cursor: pointer; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 25px; 
+    color: inherit; 
    
 }
 
@@ -51,9 +50,29 @@
     margin-left: 10px;
 }
 
+.buttons-container {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 20px; /* Space between buttons */
+    flex: 0 0 auto; /* Prevent buttons from resizing */
+    margin-left: 30px; /* Add space from the left edge */
+}
+
+/* Right section for the teacher desk and seat grid */
+.teacher_table_and_students_table_div {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center align the contents */
+    flex: 1; /* Take up the remaining space */
+    margin-top: -427px;
+}
+
 .icons_div{
-    margin-left: 1800px;
+    margin-left: 1877px;
     gap: 20px;
+    width: 30px;
+    margin-top: -334px;
+    font-size: 37px;
 }
 
 
@@ -61,9 +80,9 @@
     background-color: rgb(235, 235, 108); /* Color when selected */
 }
 
-.title_h1{
+.title{
     text-align: center;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 .created-seats-container {
     display: flex;
@@ -74,7 +93,7 @@
 
 
 .register-button {
-    margin-top: 20px;
+    margin-top: 50px;
     font-size: 20px; /* Increase the font size */
     background-color: rgb(223, 226, 38);
     color: black;
@@ -87,19 +106,19 @@
     display: flex; /* Center content inside the circle */
     align-items: center; /* Vertical alignment */
     justify-content: center; /* Horizontal alignment */
-    margin-left: 30px;
+    margin-left: 168px;
 }
 
 .teacher_table {
     height: 51px;
     width: 212px;
     background-color: rgb(174, 214, 109);
-    margin-top: 38px;
+    margin-top: 326px;
     border: none;
 }
 
-.teacher_table_div{
-    text-align: center;
+.teacher_table_div {
+    margin-bottom: 30px; /* Space below the desk */
 }
 
 
@@ -126,12 +145,13 @@
     height: 102px; /* Increase seat height for created seats */
     background-color: rgb(235, 235, 108);
     text-align: center;
+    margin-left: 45px;
 }
 
 .created-seats {
     display: grid;
     gap: 90px;
-    margin-top: 94px; /* Add margin for spacing */
+    margin-top: 39px; /* Add margin for spacing */
     justify-content: center; /* Center the created seats horizontally */
 }
 
@@ -164,7 +184,81 @@
 
 /* Right section for seat grid */
 .seat-grid-container {
-    display: flex;
-    flex-direction: column; /* Optional: Arrange seat-related items vertically */
-    margin-top: -442px;
+    margin-top: 20px;
 }
+
+.horizontal-container {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    justify-content: space-between; /* Create space between buttons and seating chart */
+    width: 100%; /* Full width container */
+    padding: 20px; /* Optional padding for better spacing */
+}
+
+.modify_button{
+    width: 100px;
+    height: 50px;
+    margin-left: 160px;
+    margin-top: 28px;
+    border: none;
+    font-size: 20px;
+    border-radius: 8px;
+}
+
+.new_seat_modal_in_button {
+    display: flex;
+    flex-direction: row; /* Arrange buttons horizontally */
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 10px; /* Add space between buttons */
+    margin-top: 20px; /* Space above the buttons */
+  }
+
+  .new_seat_button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f0c040;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .new_seat_button:hover {
+    background-color: #e0a030;
+  }
+
+
+.new_seat_modal_in_button {
+    display: flex; /* Use Flexbox for horizontal alignment */
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Align the buttons vertically */
+    gap: 10px; /* Add space between the buttons */
+    margin-top: 20px; /* Optional: Add some margin above the buttons */
+}
+
+.new_seat_modal_in_button button {
+    padding: 10px 20px; /* Ensure consistent styling for all buttons */
+    font-size: 16px;
+    background-color: #ccc; /* Set a default background for non-primary buttons */
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.new_seat_modal_in_button button:hover {
+    background-color: #aaa; /* Change background color on hover for non-primary buttons */
+}
+.new_seat_modal {
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    justify-content: flex-start; /* Align content at the top */
+    align-items: center; /* Center content horizontally */
+    padding: 20px;
+    width: 600px; /* Set modal width */
+    max-width: 90%; /* Make responsive for smaller screens */
+    margin: 0 auto; /* Center the modal in the viewport */
+    background-color: #fff;
+  }
