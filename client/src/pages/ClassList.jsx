@@ -236,7 +236,7 @@ const ClassList = () =>
                 {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ classNickname: newNickname }),
+                    body: JSON.stringify({ classNickname: newNickname })
                 });
                 alert("학급 이름이 변경되었습니다.");
                 navigate(0);
@@ -266,7 +266,7 @@ const ClassList = () =>
                 await fetchFromAPI(`/class/delete/${teacherId}/${classItem.classId}`, 
                 {
                     method: "DELETE",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "application/json" }
                 });
                 alert("학급이 삭제되었습니다.");
                 navigate(0);
@@ -290,16 +290,13 @@ const ClassList = () =>
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: email,
-                    latestClassId: classItem.classId,
-                }),
+                body: JSON.stringify({ email: email, latestClassId: classItem.classId })
             });
             setSelectedClassId(classItem.classId);
             alert(`${classItem.classNickname}을(를) 기본 학급으로 설정합니다.`);
             navigate(`/`);
         } catch (error) {
-            console.error("Error fetching class count:", error);
+            console.error("Error fetching class id:", error);
         }
     };
 

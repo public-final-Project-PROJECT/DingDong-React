@@ -41,14 +41,12 @@ export const useUserData = () =>
     const fetchUserData = async (email) => 
     {
         try {
-            await fetchTeacherId(email);
-            await fetchSchoolName(email);
+            await Promise.all([fetchTeacherId(email), fetchSchoolName(email)]);
         } catch (error) {
             console.error("Error fetching user data:", error);
         }
     };
 
-    // 선생님 테이블 pk 가져오기
     const fetchTeacherId = async (email) => 
     {
         try {
@@ -59,20 +57,20 @@ export const useUserData = () =>
         }
     };
 
-    // 선생님 테이블 school_name column 가져오기
     const fetchSchoolName = async (email) => 
     {
         try {
             const response = await fetchFromAPI(`/user/get/school/${email}`, 
             {
                 method: "GET",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json" }
             });
             if (response.status === 404) 
             {
                 setSchoolName("");
                 setIsSchoolNameEditable(true);
-            } else if (response?.schoolName) 
+            } 
+            else if (response?.schoolName) 
             {
                 setSchoolName(response.schoolName);
                 setIsSchoolNameEditable(false);
@@ -88,7 +86,7 @@ export const useUserData = () =>
             const response = await fetchFromAPI(`/class/count/${teacherId}`, 
             {
                 method: "GET",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json" }
             });
             setClassCount(response > 0 ? response : 0);
         } catch (error) {
@@ -110,13 +108,16 @@ export const useUserData = () =>
     {
         try {
             const response = await fetchFromAPI(`/user/get/class/${email}`);
-            setSelectedClassId(response.latestClassId);
+            if (response?.latestClassId) 
+            {
+                setSelectedClassId(response.latestClassId);
+                localStorage.setItem("selectedClassId", response.latestClassId);
+            }
         } catch (error) {
             console.error("Error fetching class id:", error);
         }
-    };    
+    };
 
-    // 로그아웃
     const Logout = () => 
     {
         googleLogout();
@@ -136,7 +137,6 @@ export const useUserData = () =>
         isSchoolNameEditable,
         classCount,
         classList,
-        fetchClassCount,
         selectedClassId,
         setSelectedClassId,
         fetchClassId,
