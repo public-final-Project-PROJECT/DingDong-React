@@ -1,21 +1,29 @@
 .voting-container {
-    overflow-y: auto; /* 세로 스크롤 활성화 */
-    overflow-x: hidden; /* 가로 스크롤 비활성화 */
-    background-color: rgba(255, 255, 255, .7); /* 선택적 배경색 */
-    border-radius: 10px; /* 모서리 둥글게 */
+  display: grid; /* Use grid for layout */
+  grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+  gap: 20px; /* Space between cards */
+  justify-content: center; /* Center align the grid */
+  align-items: start; /* Align cards to the top */
+  padding: 20px; /* Add padding around the container */
+  max-width: 1200px; /* Optional: set a max width for the container */
+  margin: 0 auto; /* Center the container */
+}
 
-  }
-  
-    .voting-card {
-      max-width: 80%; /* 최대 너비 고정 */
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      padding: 40px;
-      background-color: rgba(255, 255, 255, .8);
-      flex-direction: column;
-      align-items: flex-start;
-      margin: 20px auto; /* 중앙 정렬 */
-    }
+.voting-card {
+  background-color:  #fbfade;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex
+;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 95%;
+  width: 1000px;
+  margin-top: 12px;
+  margin-left: 42px;
+}
     
     /* 반응형: 1200px 이하 화면 */
     @media screen and (max-width: 1200px) {
@@ -74,14 +82,16 @@
     }
     
     .vote-name {
-      font-size: 36px;
+      font-size: 42px;
+      margin-left: 29px;
+      margin-bottom: 48px;
 
     }
     
     .vote-detail {
-      font-size: 14px;
+      font-size: 19px;
       color: #777;
-      margin-left: 3px;
+      margin-left: 38px;
     }
   
    .user-info-dropdown {
@@ -114,6 +124,7 @@
       display: flex;
       align-items: center; 
       margin-bottom: 5px; 
+      font-size: 20px;
     }
     
     .custom-checkbox {
@@ -165,10 +176,10 @@
     }
     
     .date {
-      font-size: 19px;
+      font-size: 24px;
       color: gray;
-      margin-left: 1656px;
-      margin-top: -169px;
+      margin-left: 763px;
+      margin-top: -197px;
     }
     
     .separator {
@@ -184,7 +195,9 @@
       flex-direction: row;
       align-items: center;
       justify-content: flex-start;
-      margin-bottom: 10px;
+      margin-bottom: 11px;
+      margin-top: 12px;
+      margin-left: 21px;
     }
   
     .progress-bar {
@@ -278,12 +291,190 @@
     text-align: center;
   }
 
-  .button_div{
-    margin-left: 1657px;
+  .button_div {
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    align-items: center; /* Center the buttons horizontally */
+    gap: 10px; /* Add space between buttons */
+    margin-top: -19px;
+    margin-left: 852px; /* Adjust as needed */
   }
-
-  .two_button{
+  
+  .two_button {
     border: none;
     height: 38px;
     background-color: lightgoldenrodyellow;
+    font-size: 37px;
+    margin-left: 4; /* Reset horizontal margin for vertical alignment */
+    margin-bottom:-8px ;
   }
+  .plus_minus_button{
+    border: none;
+    font-size: 20px;
+    color: inherit;
+    margin-top: 14px;
+  }
+
+  .submit_button{
+    border: none;
+    font-size: 20px;
+    width: 85px;
+    height: 50px;
+    margin-left: 20px;
+  }
+
+  .contents_detail{
+    font-size: 18px;
+    color: gray;
+    margin-top: 10px;
+  }
+
+  .voting_check_students{
+    font-size: 27px;
+    border: none;
+    background-color: #fbfade;
+  }
+
+  .voting_result_text{
+    color: rgb(122, 145, 22);
+    margin-bottom: 30px;
+    font-size: 30px;
+  }
+
+  .voting_maker_icon{
+    font-size: 50px;
+    border: none;
+    margin-left: 2250px;
+    background-color: white;
+  }
+
+  .new_voting_modal_text{
+    width: 500px;
+    font-size: 25px;
+  }
+  
+  .new_voting_modal{
+      height: 1085px;
+      position: absolute;
+      inset: 50% auto auto 50%;
+      background: rgb(255, 255, 255);
+      overflow: auto;
+      border-radius: 0px;
+      padding: 42px;
+      margin-right: -50%;
+      transform: translate(-50%, -50%);
+      width: 716px;
+    }
+
+    .voting_card_contents{
+      margin-top: 14px;
+      font-size: 20px;
+    }
+
+    .student-voters-modal {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 10;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      min-width: 195px;
+      max-width: 1000px;
+      max-height: 202px;
+      overflow-y: auto;
+      min-height: 172px;
+    }
+    
+    .student-info {
+      display: flex; /* Align items horizontally */
+      align-items: center; /* Vertically center align */
+      margin-bottom: 8px; /* Space between each student */
+    }
+
+
+    .student-img {
+   
+      margin-right: 8px; /* Space between image and text */
+    }
+
+    .student-name {
+      font-size: 30px; /* Font size for student name */
+      color: #333; /* Text color */
+      word-break: break-word; /* Prevent long names from overflowing */
+    }
+    
+    /* Additional styles for the parent container for relative positioning */
+    .vote-item {
+      position: relative; /* Make the modal appear relative to this container */
+    }
+    .contents_and_user_icons {
+      display: flex; /* Use flexbox for layout */
+      align-items: center; /* Align items vertically in the center */
+      justify-content: space-between; /* Add spacing between items */
+      gap: 10px; /* Add some space between items */
+    }
+
+    .vote-option {
+      margin: 0; /* Remove extra margins */
+    }
+    
+    .student-voters {
+      display: flex; /* Ensure the button aligns properly */
+      align-items: center; /* Align the button vertically */
+    }
+
+    .end_voting_button{
+      border: none;
+      border-radius: 5px;
+      width: 85px;
+      height: 50px;
+      background-color: rgb(227, 253, 108);
+      margin-left: 35px;
+    }
+
+    /* Make the modal background transparent */
+    .ReactModal__Overlay {
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay for the modal */
+    }
+
+    .ReactModal__Content {
+      /* Keep the modal styling intact as per your current design */
+      border: none;
+      border-radius: 0;
+      padding: 42px;
+      width: 600px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+    }
+
+    /* Align student name and button horizontally */
+    .student-info-row {
+      display: flex;
+      justify-content: space-between; /* Align name and button horizontally */
+      align-items: center;
+      gap: 10px; /* Space between name and button */
+      padding: 5px;
+      background-color: #f9f9f9; /* Optional: Add a light background for better visibility */
+      border: 1px solid #ddd; /* Optional: Add a border */
+      border-radius: 5px; /* Optional: Rounded corners */
+    }
+
+    .bell_icon{
+      font-size: 50px;
+      border: none;
+      background-color: white;
+    }
+
+    .non-voting-students-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Automatically create columns */
+      grid-auto-rows: auto; /* Rows adjust to content height */
+      grid-gap: 10px; /* Space between items */
+      align-content: start; /* Align content at the top */
+      max-width: 100%; /* Ensure grid doesn't overflow horizontally */
+    }

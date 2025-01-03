@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import ReactModal from "react-modal";
+import '../asset/css/Voting.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell} from "@fortawesome/free-solid-svg-icons";
 
 const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) => {
     const [nonVotingModal, setNonVotingModal] = useState(true); // 모달 on/off
@@ -35,24 +38,30 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) 
                     borderRadius: 0,
                     border: "none",
                     padding: "42px",
+                    fontSize: "30px"
                     // backgroundColor:"rgb(255,255,255,0.)"
                 },
             }}
         >
             {nonVoters.length > 0 ? (
                 <span className="non-voters">
-                    <strong>미투표자:</strong>
+                    <strong>[ 미투표자 ]</strong>
+                    <br/>
+                    <h4 style={{color:"red"}}> 투표 알림을 보낼 학생을 선택해주세요</h4>
+                    <br/>
                     {console.log(nonVoters)}
+                    <div className="non-voting-students-grid">
                     {nonVoters.map(student => (
-                      <>
-                        <div key={student.id}>{student.name}</div> 
-                        <button>알림보내기</button>
-                        </>
+                    <div key={student.id} className="student-info-row">
+                        <div>{student.name}</div>
+                        <button className="bell_icon"><FontAwesomeIcon icon={faBell} /></button>
+                    </div>
                     ))}
+                    </div>
                     <br />
                 </span>
             ) : (
-                <p>모든 학생이 투표를 완료했습니다.</p> 
+                <p style={{color:"red"}}>모든 학생이 투표를 완료했습니다.</p> 
             )}
             <button onClick={closeModalHandler}>닫기</button>
         </ReactModal>
