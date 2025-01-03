@@ -121,19 +121,16 @@ import 'react-day-picker/dist/style.css';
                   <div>
                     <h3>일정 선택</h3>
                     <EventDatePicker event={props.event} setEvents={setEvent2}  />
-                    <div>
-                      <p>선택된 시작일: {props.event.start?.toISOString() || '없음'}</p>
-                      <p>선택된 종료일: {props.event.end?.toISOString() || '없음'}</p>
-                      
-                    </div>
+                    
                   </div>
 
 
                 <div>
-                    <label htmlFor="noticeContent">내용:</label>
+                    <label htmlFor="noticeContent"></label>
                     <textarea
                         id="description"
                         name="description"
+                        placeholder='남기실메모를 적어주세요'
                         value={event2.description}
                         onChange={handleChange}
                     />

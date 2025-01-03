@@ -1,8 +1,9 @@
 import React, { useRef, useState } from "react";
 import ReactModal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faXmark,faClockRotateLeft,faCalendar,faUser,faLock, faCheckDouble} from "@fortawesome/free-solid-svg-icons";
+import {faXmark,faClockRotateLeft,faCalendar,faUser,faLock, faCheckDouble,faMinus,faPlus} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import  '../asset/css/Voting.css';
 import html2canvas from "html2canvas";
 
 const Voting = ({newVotingModal,setNewVotingModal}) => {
@@ -141,24 +142,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
         closeModal={cancelHandler}
         contentLabel="새 투표 생성 모달"
         appElement={document.getElementById("root")}
-        style={{
-          content: {
-            top: "50%",
-            left: "50%",
-            right: "auto",
-            bottom: "auto",
-            marginRight: "-50%",
-            transform: "translate(-50%, -50%)",
-            width: 600,
-            borderRadius: 0,
-            border: "none",
-            padding: "42px",
-          
-          },
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.75)",
-          },
-        }}
+        className='new_voting_modal'
       >
          <button
         onClick={cancelHandler}
@@ -175,6 +159,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
       >
         <FontAwesomeIcon icon={faXmark} />
       </button>
+      <div className="new_voting_modal_text">
         <form onSubmit={handleSubmit}>
           <input
             placeholder="제목을 입력하세요."
@@ -203,13 +188,13 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                   onChange={(e) => handleChange(e, index)}
                 />
                 {index === 0 && inputItems.length < 30 && (
-                  <button type="button" onClick={addInput}>
-                    +
+                  <button className="plus_minus_button" type="button" onClick={addInput}>
+                   <FontAwesomeIcon icon={faPlus} />
                   </button>
                 )}
                 {index > 0 && (
-                  <button type="button" onClick={() => deleteInput(item.id)}>
-                    -
+                  <button className="plus_minus_button" type="button" onClick={() => deleteInput(item.id)}>
+                    <FontAwesomeIcon icon={faMinus} />
                   </button>
                 )}
               </label>
@@ -230,7 +215,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 onChange={()=> setDateShow(true)}
                 >
                 <FontAwesomeIcon icon={faCalendar} />  날짜 지정
-                <h5 style={{color:"gray"}}>   지정한 마감일에 자동으로 투표가 종료됩니다.</h5>
+                <h5 className="contents_detail" >   지정한 마감일에 자동으로 투표가 종료됩니다.</h5>
                 {dateShow && (
                     <input
                       type="date"
@@ -246,7 +231,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 onChange={()=> setDateShow(false)}
                 >
                 <FontAwesomeIcon icon={faUser} /> 사용자 별도 지정
-                <h5 style={{color:"gray"}}>  선생님이 종료버튼을 눌러야 종료됩니다.</h5>
+                <h5 className="contents_detail" >  선생님이 종료버튼을 눌러야 종료됩니다.</h5>
                 </Radio>
               </RadioGroup>
               <br/>
@@ -279,8 +264,10 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 </div>
                 <br />
                 <br />
-                <button type="submit">저장</button>
+                <button className="submit_button" type="submit">저장</button>
+                <button className="submit_button" onClick={cancelHandler}>닫기</button>
               </form>
+              </div>
       </ReactModal>
     </>
   );

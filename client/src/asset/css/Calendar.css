@@ -55,18 +55,21 @@
     margin: 0 auto;
 }
 .full-calendar-container {
-    width: 60%;
+    height: auto;
+    width: auto;
     visibility: hidden;
-    justify-content: center; /* Centers the calendar horizontally */
-    align-items: center; /* Centers the calendar vertically */
+    
+    
+    display: flex;
     
   }
   .fc-h-event .fc-event-main {
     color: #252525;
 }
   .fc {
-    height: 650px;
+    height: 100%;
     width: 100%;
+    
     
   }
   .fc-h-event {
@@ -74,6 +77,7 @@
     border: 1px solid var(--fc-event-border-color);
     display: block;
 }
+
 
   .fc .fc-toolbar.fc-header-toolbar {
     margin: 0;
@@ -87,7 +91,26 @@
     border-radius: 20px 20px 0px 0px;
   }
   
+
+  .custom-calendar {
+   display: flex;
+   justify-content: flex-end; /* 오른쪽 정렬 */
+  }
+  .fc .fc-popover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px;
+    position: absolute;
+    z-index: 5;
+}
+
+  .custom-calendar .fc {
+    width: 100%; /* 너비 */
+    height: 50%; /* 높이 */
+    text-align: left; /* 텍스트 및 내용 왼쪽 정렬 */
+  }
+ 
   
+
+
   .fc .fc-button-primary {
     background-color: transparent;
     color: black;
@@ -130,23 +153,43 @@
     line-height: 19px;
     color: #7b7b7b;
   }
-  
+  .fc-daygrid-day {
+    height: 100px; /* 각 셀의 높이를 고정 */
+    
+  }
   .fc .fc-daygrid-day.fc-day-today {
     background-color: #fff8bd;
     color: #356eff;
+    
   }
-  
-  .fc .fc-daygrid-day-frame {
-    padding: 10px;
-  }
-  
   .fc .fc-daygrid-day-top {
     flex-direction: row;
     margin-bottom: 3px;
   }
+  .fc .fc-daygrid-day-frame {
+    padding: 0px;
+    position: relative;
+    height: 115px;
+    overflow: visible; /* 스크롤 없이 넘침 허용 */
+    
+    
+  }
+  .fc-daygrid-day-events {
+    position: relative; /* 이벤트 배치를 고정 */
+    max-height: 100%; /* 부모 셀 높이에 맞춤 */
+    overflow: visible; /* 내부 콘텐츠는 자유롭게 표시 */
+    
+  }
   
+  .fc-daygrid-event-harness {
+    position: absolute;
+    clip-path: inset(0 0 0 0); /* 셀 경계 밖은 숨김 */
+    max-height: 100px; /* 셀 높이 안에서 제한 */
+    overflow: hidden; /* 넘치는 콘텐츠 숨김 */
+    z-index: 1;
+  }
   .fc-event {
-    cursor: pointer;
+    
     padding: 5px 8px;
     margin-bottom: 5px;
     border-radius: 40px;
@@ -154,9 +197,13 @@
     font-size: 10px;
     background-color: transparent; /* 기본 배경 제거 */
     outline: none; /* 기본 포커스 아웃라인 제거 */
+    white-space: nowrap; /* 이벤트 텍스트를 한 줄로 제한 */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
   }
   .fc-event.ko_event {
-    cursor: pointer;
+    
     padding: 5px 8px;
     margin-bottom: 5px;
     border-radius: 4px;

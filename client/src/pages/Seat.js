@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactModal from "react-modal";
 import '../asset/css/Seat.css'; // Ensure your CSS file is included
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faDownload, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faUserGroup, faDownload, faPrint,faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { useReactToPrint } from 'react-to-print';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
@@ -24,6 +24,7 @@ const SeatArrangement = () => {
     const [showSaveButton, setShowSaveButton] = useState(false);
     const [randomSpinLabel, setRandomSpinLabel] = useState("start !");
     const [randomedSeat, setRandomedSeat] = useState([]);
+    const [modifyButtonShow, setModifyButtonShow] = useState(false);
     const contentRef = useRef();
 
     const downloadSeatsAsImage = async () => {
@@ -206,7 +207,20 @@ const SeatArrangement = () => {
     const handlePrint = useReactToPrint({ contentRef });
 
     const modifyHandler = () => {
-        setModifyState(true);
+
+        if(modifyState){
+            setModifyState(false);
+        }else{
+            setModifyState(true);
+        }
+
+        if(modifyButtonShow){
+            setModifyButtonShow(false);
+        }else{
+            setModifyButtonShow(true);
+        }
+        
+       
     };
 
     const handleSeatClick = (seat, index) => {
@@ -219,93 +233,140 @@ const SeatArrangement = () => {
         }
     };
 
+    // 모달 close handler
+    const closeModal = () => {
+        setModalShow(false);
+        setSeats(Array(60).fill(false));
+    }
+
     return (
         <>
-            {/* Modal for seat creation */}
-            <ReactModal isOpen={modalShow} contentLabel="새 좌석 만들기" style={{ content: { top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 500, borderRadius: 0, padding: 0 }, overlay: { backgroundColor: 'rgba(0, 0, 0, 0.75)' } }}>
-                <div className="seat-arrangement">
-                    <div className="seat-grid" onMouseUp={() => setIsDragging(false)}>
-                        {seats.map((selected, index) => (
-                            <div
-                                key={index}
-                                className={`seat ${selected ? 'selected' : ''}`}
-                                onMouseDown={() => { setIsDragging(true); setSeats((prevSeats) => { const newSeats = [...prevSeats]; newSeats[index] = !newSeats[index]; return newSeats; }); }}
-                                onMouseEnter={() => { if (isDragging) { setSeats((prevSeats) => { const newSeats = [...prevSeats]; newSeats[index] = true; return newSeats; }); } }}
-                            />
-                        ))}
-                    </div>
-                    <button className="register-button" onClick={handleRegister}>자리 만들기</button>
-                </div>
-            </ReactModal>
-
-            <h1>자리 바꾸기</h1>
-            <button className="register-button" onClick={() => setModalShow(true)} disabled={buttonsDisabled}>+ 새자리</button>
-            <button
+          <ReactModal 
+          isOpen={modalShow} 
+          closeModal={closeModal}
+          contentLabel="새 좌석 만들기" 
+          className="new_seat_modal"
+         >
+            <div className="seat-arrangement">
+              <div className="seat-grid" onMouseUp={() => setIsDragging(false)}>
+                {seats.map((selected, index) => (
+                  <div
+                    key={index}
+                    className={`seat ${selected ? 'selected' : ''}`}
+                    onMouseDown={() => {
+                      setIsDragging(true);
+                      setSeats((prevSeats) => {
+                        const newSeats = [...prevSeats];
+                        newSeats[index] = !newSeats[index];
+                        return newSeats;
+                      });
+                    }}
+                    onMouseEnter={() => {
+                      if (isDragging) {
+                        setSeats((prevSeats) => {
+                          const newSeats = [...prevSeats];
+                          newSeats[index] = true;
+                          return newSeats;
+                        });
+                      }
+                    }}
+                  />
+                ))}
+              </div>
+              <div className='new_seat_modal_in_button'>
+              <button className='new_seat_button' onClick={handleRegister}>자리 만들기</button>
+              <button onClick={closeModal}>닫기</button>
+              </div>
+            </div>
+          </ReactModal>
+      
+          <h1 className="title">자리 바꾸기</h1>
+      
+          
+          <div className="main-container">
+            <div className="buttons-container">
+                {!showSaveButton && 
+                <button className="register-button" onClick={() => setModalShow(true)} disabled={buttonsDisabled}>+ 새배치</button>
+                }
+              <button
                 className="register-button"
                 onClick={randomSpinLabel === "다시" ? resetRandomSpin : randomSeatHandlerWithCountdown}
                 disabled={randomSpinLabel !== "다시" && buttonsDisabled}
-            >
+              >
                 {countdown !== null ? 
-                countdown 
-               : 
+                <h2 style={{color:"red"}}>{countdown}</h2>
+                 : 
                 randomSpinLabel}
-            </button>
+              </button>
+              {showSaveButton && (
+                <button className="register-button red-button" onClick={saveSeatHandler}>저장</button>
+              )}
+              <button className='modify_button' onClick={modifyHandler}>
+              <FontAwesomeIcon icon={faUserGroup} />   <FontAwesomeIcon icon={faRepeat} />
+              </button>
+              {modifyButtonShow && 
+                <h8 style={{color:"gray", fontSize:"18px"}}>자리를 클릭하여 좌석을 변경하세요</h8>
+                }
 
-            {showSaveButton && (
-                <button className="register-button red-button" onClick={saveSeatHandler}>
-                    저장
+      
+              <div className="icons_div">
+                <button className="print_icon" onClick={downloadSeatsAsImage} disabled={buttonsDisabled}>
+                  <FontAwesomeIcon icon={faDownload} />
                 </button>
-            )}
-
-            <button onClick={modifyHandler}>자리 수정</button>
-            <button onClick={downloadSeatsAsImage} disabled={buttonsDisabled}>
-                <FontAwesomeIcon icon={faDownload} />
-            </button>
-
-            <button onClick={handlePrint} disabled={buttonsDisabled}>
-                <FontAwesomeIcon icon={faPrint} />
-            </button>
-
-            {/* Seat rendering */}
-            <div className="created-seats" ref={contentRef}>
-                {loadedSeats.map((seat, index) => {
-                    const student = nameList.find(student => student.studentId === seat.studentId);
-                    const studentName = student ? student.studentName : '학생 없음';
-
-                    return (
-                        <div
-                            key={`loaded-${seat.seatId}`}
-                            className={`seat created ${modifyState ? 'modifiable' : ''}`}
-                            style={{
-                                gridColumnStart: seat.columnId,
-                                gridRowStart: seat.rowId,
-                                border: modifyState && (firstSeat?.seatId === seat.seatId || secondSeat?.seatId === seat.seatId) ? "2px solid red" : "none",
-                            }}
-                            onClick={() => handleSeatClick(seat, index)}
-                        >
-                            <h4>{studentName}</h4>
-                        </div>
-                    );
-                })}
-
-                <div className="created-seats">
-                    {createdSeats.map((seat, index) => (
-                        <div
-                            key={`created-${seat.id}`}
-                            className="seat created new"
-                            style={{
-                                gridColumnStart: seat.columnId,
-                                gridRowStart: seat.rowId,
-                            }}
-                            onClick={() => handleSeatClick(seat, index)}
-                        >
-                            <h4>{seat.studentName || ''}</h4>
-                        </div>
-                    ))}
-                </div>
+                <button className="print_icon" onClick={handlePrint} disabled={buttonsDisabled}>
+                  <FontAwesomeIcon icon={faPrint} />
+                </button>
+              </div>
             </div>
+      
+            
+            <div className="teacher_table_and_students_table_div">
+              <div className="teacher_table_div">
+                <button className="teacher_table">교탁</button>
+              </div>
+      
+              <div className="created-seats" ref={contentRef}>
+                {loadedSeats.map((seat, index) => {
+                  const student = nameList.find(student => student.studentId === seat.studentId);
+                  const studentName = student ? student.studentName : '학생 없음';
+      
+                  return (
+                    <div
+                      key={`loaded-${seat.seatId}`}
+                      className={`seat created ${modifyState ? 'modifiable' : ''}`}
+                      style={{
+                        gridColumnStart: seat.columnId,
+                        gridRowStart: seat.rowId,
+                        border: modifyState && (firstSeat?.seatId === seat.seatId || secondSeat?.seatId === seat.seatId) ? "2px solid red" : "none",
+                      }}
+                      onClick={() => handleSeatClick(seat, index)}
+                    >
+                      <h4>{studentName}</h4>
+                    </div>
+                  );
+                })}
+               
+                  {createdSeats.map((seat, index) => (
+                    <div
+                      key={`created-${seat.id}`}
+                      className={`seat created ${modifyState ? 'modifiable' : ''}`}
+                      style={{
+                        gridColumnStart: seat.columnId,
+                        gridRowStart: seat.rowId,
+                        border: modifyState && (firstSeat?.seatId === seat.seatId || secondSeat?.seatId === seat.seatId) ? "2px solid red" : "none",
+                      }}
+                      onClick={() => handleSeatClick(seat, index)}
+                    >
+                      <h4>{seat.studentName || ''}</h4>
+                    </div>
+                  ))}
+                
+              </div>
+            </div>
+          </div>
         </>
-    );
+      );
+      
 };
 
 export default SeatArrangement;
