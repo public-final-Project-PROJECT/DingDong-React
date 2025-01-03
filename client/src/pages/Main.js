@@ -8,12 +8,11 @@ import "../asset/css/Calendar.css";
 const Main = () => 
 {
     const { profile, teacherId, classCount, schoolName } = useUserData();
-    const navigate = useNavigate();
-
     const [responseData, setResponseData] = useState(null);
     const [error, setError] = useState(null);
     const [date, setDate] = useState("20241130");
     const [meal, setMeal] = useState([]);
+    const navigate = useNavigate();
 
     const API_KEY = process.env.REACT_APP_FETCH_NEIS_KEY;
 
@@ -34,7 +33,7 @@ const Main = () =>
             } else {
                 navigate("/login");
             }
-        }, 70);
+        }, 80);
     
         return () => clearTimeout(delayCheck);
     }, [profile, teacherId, classCount, navigate]);
@@ -45,16 +44,9 @@ const Main = () =>
             Type: "json",
         });
 
-
-
-
-
-
         const loadLunch = async () => {
             try {
                 const schoolInfo = await neis.getSchoolInfo({ SCHUL_NM: schoolName });
-                console.log(schoolName);
-                console.log(classCount);
                 const mealInfo = await neis.getMealInfo({
                     ATPT_OFCDC_SC_CODE: schoolInfo[0].ATPT_OFCDC_SC_CODE,
                     SD_SCHUL_CODE: schoolInfo[0].SD_SCHUL_CODE,

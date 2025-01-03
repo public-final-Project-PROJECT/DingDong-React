@@ -24,7 +24,7 @@ const ClassMaker = () =>
                 alert("학급은 최대 2개까지 생성할 수 있습니다.");
                 navigate("/profile");
             }
-        }, 70);
+        }, 80);
     
         return () => clearTimeout(delayCheck);
     }, [classCount, navigate]);
@@ -60,16 +60,15 @@ const ClassMaker = () =>
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-
             fetchClassCount();
             alert("학급이 생성되었습니다.");
-            if(classCount === 1)
+            if(classCount === 2 && window.confirm("지금 생성하신 학급을 기본 학급으로 설정하시겠습니까?"))
             {
-                navigate("/");
+                navigate(0);
             }
             else
             {
-                navigate(0);
+                navigate("/");
             }
         } catch (error) {
             alert("학급 생성에 실패했습니다.");

@@ -34,16 +34,9 @@ export const useUserData = () =>
         {
             fetchClassCount();
             fetchClassList();
+            fetchClassId();
         }
     }, [teacherId]);
-
-    useEffect(() => 
-    {
-        if (selectedClassId !== null) 
-        {
-            localStorage.setItem("selectedClassId", selectedClassId);
-        }
-    }, [selectedClassId]);
 
     const fetchUserData = async (email) => 
     {
@@ -113,6 +106,16 @@ export const useUserData = () =>
         }
     };
 
+    const fetchClassId = async () => 
+    {
+        try {
+            const response = await fetchFromAPI(`/user/get/class/${email}`);
+            setSelectedClassId(response.latestClassId);
+        } catch (error) {
+            console.error("Error fetching class id:", error);
+        }
+    };    
+
     // 로그아웃
     const Logout = () => 
     {
@@ -136,6 +139,7 @@ export const useUserData = () =>
         fetchClassCount,
         selectedClassId,
         setSelectedClassId,
+        fetchClassId,
         Logout,
     };
 };
