@@ -1,0 +1,8 @@
+.main-page {
+    background-image: url('/path/to/your/image.jpg');
+    background-size: cover; /* 배경 이미지를 전체 화면에 맞춤 */
+    background-position: center; /* 이미지를 가운데로 정렬 */
+    background-repeat: no-repeat; /* 반복 방지 */
+    height: 100vh; /* 화면 전체 높이 */
+    width: 100%; /* 화면 전체 너비 */
+  }

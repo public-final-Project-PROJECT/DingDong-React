@@ -7,23 +7,19 @@
 }
 
 
-.main-buttons {
+.top-header .main-buttons {
   display: flex;
   justify-content: space-evenly; 
   width: 100%; 
   padding: 10px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+  font-size: 16px;
+  padding: 0;
 }
 
-.button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-  background-color: blue;
-  transition: background-color 0.3s ease;
-  flex-grow: 1; 
-  /* max-width: 160px;  */
-}
 
 
 .convenience-functions {

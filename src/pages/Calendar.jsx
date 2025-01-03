@@ -6,9 +6,9 @@ import CalendarModal from './CalenderModal';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
 
-const Calendar = () => {
-  const [test, setTest] = useState(0);
-  const [responseData, setResponseData] = useState(null);
+const Calendar = ({showControls = true}) => {
+  
+  
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState({ start: null, end: null, color: null }); // 선택된 날짜 상태
   const [selectedRange, setSelectedRange] = useState({ start: null, end: null });
@@ -16,53 +16,80 @@ const Calendar = () => {
   const [events, setEvents] = useState([
     
   ]);
+  
   const [eventDescription, setEventDescription] = useState(''); // 텍스트 입력 상태
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 여부
   const [selectedEvent, setSelectedEvent] = useState(null); // 클릭된 이벤트 정보
-  const [loading,setLoading] = useState(false);
-  const calendarRef = useRef(null);
-  // Google Calendar 이벤트 소스를 설정
+  const [loading,setLoading] = useState(true);
+  
+ 
+
+
   useEffect(() => {
-    localStorage.removeItem('googleEventSources');
-    const savedSources = localStorage.getItem('googleEventSources');
-    if (savedSources) {
-      try {
-        const parsedSources = JSON.parse(savedSources);
-        if (Array.isArray(parsedSources)) {
-          setGoogleEventSources(parsedSources);
-        } else {
-          throw new Error("Invalid data format");
-        }
-      } catch (error) {
-        console.error("Error parsing googleEventSources:", error);
-        initializeDefaultSources();
-      }
-    } else {
-      initializeDefaultSources();
-    }
-    setLoading(true);
-  }, []);
+    // 중복된 ID 덮어쓰기
+    const deduplicatedEvents = events.reduce((acc, event) => {
+      acc[event.id] = event; // 같은 ID가 있으면 덮어씀
+      return acc;
+    }, {});
+
+    // 객체를 배열로 변환 후 상태 업데이트
+    setEvents(Object.values(deduplicatedEvents));
+  }, []); // 컴포넌트가 처음 렌더링될 때 실행
+
+
 
 
   
+  
+  // 이벤트 소스 초기화
+  const initializeDefaultSources = async () => {
+    console.log("Initializing default sources...");
+    return new Promise((resolve, reject) => {
+      const initialSources = [
+        {
+          googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",
+          className: "ko_event",
+          color: "#FFDD57",
+          textColor: "black",
+          },
+      ];
+         
+      
+      setGoogleEventSources(initialSources); // 상태 업데이트
+      
 
+      // 성공적으로 데이터가 로드되었다고 가정
+      resolve("Google Calendar loaded successfully!");
+      
+      localStorage.setItem("googleEventSources", JSON.stringify(initialSources)); // 로컬 저장소
 
-  const initializeDefaultSources = () => {
-    const initialSources = [
-      {
-        googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",
-        className: 'ko_event',
-        color: '#FFDD57',
-        textColor: 'black',
-      },
-    ];
-    setGoogleEventSources(initialSources);
-    localStorage.setItem('googleEventSources', JSON.stringify(initialSources));
+      
+    });
   };
+  const loadPlugins = async () => {
+    console.log("Loading plugins...");
+
+    try {
+      await initializeDefaultSources(); // 소스 초기화
+      console.log("All plugins loaded successfully!");
+      setTimeout(() => {
+        setLoading(false); // 로딩 실패
+      }, 0); 
+    } catch (error) {
+      console.error("Error loading plugins:", error); // 실패 처리
+      setLoading(false); // 로딩 실패
+    }
+     
+  };
+
+useEffect(() => {
+  loadPlugins(); // 플러그인 초기화
+}, []);
+
 
   // 선택된 날짜 범위 색상 적용 로직
   useEffect(() => {
-    if(loading){
+    
     const allDayCells = document.querySelectorAll('.fc-daygrid-day');
     if ((selectedRange.start && selectedRange.end) || selectedDate ) {
       const { start, end, color } = selectedRange;
@@ -83,14 +110,16 @@ const Calendar = () => {
         }
       });
     }
-  }
-  }, [loading,selectedRange,selectedDate]);
+  
+  }, [selectedRange,selectedDate,selectedEvent]);
 
   // 데이터 가져오기
  
   // 날짜 클릭 처리
   const handleDateClick = (clickInfo) => {
+    if(!showControls) return;
     if (clickInfo.dragged) return;
+    
   
     const selectedCell = document.querySelector('.selected-day'); // 선택된 날짜 셀 확인
     const isSameDate = selectedDate === clickInfo.dateStr; // 현재 클릭한 날짜가 이미 선택된 날짜인지 확인
@@ -119,6 +148,7 @@ const Calendar = () => {
     if (clickInfo.event.classNames.includes('ko_event')) {
       return;
     }
+    console.log(events);
     setIsModalOpen(true);
     
     setSelectedEvent(clickInfo.event);
@@ -126,6 +156,7 @@ const Calendar = () => {
 
   // 날짜 선택 처리
   const handleDateSelect = (selectInfo) => {
+    if(!showControls) return;
     const startDate = selectInfo.startStr;
     const endDate = selectInfo.endStr;
     
@@ -145,11 +176,11 @@ const Calendar = () => {
       const newEvent = {
         id: `${events.length + 1}`,
         title: eventDescription,
-        description : "남기실 메모를 적어주세요.",
+        
         start: selectedRange.start,
         end: selectedRange.end,
         className: ['user_event'],
-        editable: true, 
+        
       };
 
       setEvents((prevEvents) => [...prevEvents, newEvent]);
@@ -180,13 +211,13 @@ const handleUpdate = async (e) => {
     };
     
   });
-  eventupdate.map((event) => {
-    console.log('Event123 Details:', event); // 각 이벤트 객체 출력
-    
-    
-  });
+  
+
 
   
+
+
+
 
   try {
     const response = await fetch('http://localhost:3013/calendar/update', {
@@ -195,8 +226,7 @@ const handleUpdate = async (e) => {
       body: JSON.stringify(eventupdate),
     });
 
-    const eventList = await response.json(); // 단일 이벤트 데이터 가져오기
-      
+    
       
     
    
@@ -204,6 +234,8 @@ const handleUpdate = async (e) => {
     
   }
   
+
+
   
 };
 
@@ -226,13 +258,24 @@ const handleUpdate = async (e) => {
         start: eventData.start, 
         end: eventData.end, 
         className: ['fc-h-event','user_event'], // 사용자 지정 클래스
-        startEditable: true,           // 시작 시간 리사이즈 가능
-        durationEditable: true,
-        editable: true,
+       
+        
         
       }
+
+
+
+
+
+
     ));
-    setEvents((prevEvents) => [...prevEvents, ...formattedEvent]);
+    setEvents((prevEvents) =>{ 
+      const existingIds = new Set(prevEvents.map((event) => event.id)); // 기존 ID 수집
+      const filteredEvents = formattedEvent.filter(
+        (event) => !existingIds.has(event.id) // 중복된 ID가 없는 이벤트만 추가
+      );
+
+      return [...prevEvents, ...filteredEvents]});
       
       console.log(events);
       setError(null);
@@ -255,6 +298,10 @@ const handleUpdate = async (e) => {
    
       )
       
+
+
+
+
     );
     console.log(events);
   };
@@ -266,23 +313,7 @@ const handleUpdate = async (e) => {
     console.log('Current Range:', start, 'to', end);
   };
 
-  const showCalendar = () => {
-    const calendarElement = document.querySelector('.full-calendar-container'); 
-    if (calendarElement) {
-      
-        calendarElement.style.visibility = 'visible'; 
-      
-      
-      
-    }
-  };
-  useEffect(() => {
-    if (!loading) {
-      setInterval(() => {
-      showCalendar();
-    }, 100);
-    }
-  }, [loading]);
+
 
   const handleEventResize = (info) => {
     // 리사이즈된 이벤트 데이터 생성
@@ -316,47 +347,37 @@ const handleUpdate = async (e) => {
     
   };
 
+
   return (
     <>
       <div className="inner">     
 
         
-          <div>
-            <label>
-              Event Description:
-              <input
-                type="text"
-                value={eventDescription}
-                onChange={handleDescriptionChange}
-                placeholder="Enter event description"
-              />
-            </label>
-            <button onClick={handleCreateEvent}>Create Event</button>
-          </div>
-          <button onClick={handleUpdate}>업데이트 Event</button>
-          
-          
-        <div className="full-calendar-container">
+        <div className="full-calendar-container" style={{ visibility: loading ? "hidden" : "visible" }} >
           <FullCalendar
              
             plugins={[dayGridPlugin, interactionPlugin, googleCalendarPlugin]}
             initialView="dayGridMonth"
             googleCalendarApiKey="AIzaSyA3_A-B-m1UVa7Oye7j9Vtw4JyeYlqOgiw"
             eventSources={[...googleEventSources,events]}
-           
+            initialEvents={[events]}
             
-                        
+              
             dateClick={handleDateClick}
             selectable
             select={handleDateSelect}
-            editable={false}
+            editable={showControls}
             eventClick={handleEventClick}
             eventDrop={handleEventDrop}
             datesSet={handleDateChange}
             eventResize={handleEventResize}
-            eventResizableFromStart={true}
+            eventResizableFromStart={showControls}
+            dayMaxEventRows={2}
             timeZone="local"
-
+            height="120%"
+            expandRows={false}
+            
+            contentHeight="auto"
             headerToolbar={{
               left: 'prev,next today',
               center: 'title',
@@ -366,7 +387,7 @@ const handleUpdate = async (e) => {
             eventContent={(arg) => {
               if (arg.event.classNames.includes('user_event')) {
                 return (
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', overflow: "hidden", textOverflow: "ellipsis" }}>
                     <span
                       style={{
                         width: '8px',
@@ -385,7 +406,21 @@ const handleUpdate = async (e) => {
             }}
           />
         </div>
+        {showControls && (
+        <div>
+            <label>
+              Event Description:
+              <input
+                type="text"
+                value={eventDescription}
+                onChange={handleDescriptionChange}
+                placeholder="Enter event description"
+              />
+            </label>
+            <button onClick={handleCreateEvent}>Create Event</button>
           
+          <button onClick={handleUpdate}>업데이트 Event</button>
+        
 
         {isModalOpen && (
           <CalendarModal
@@ -393,6 +428,8 @@ const handleUpdate = async (e) => {
             event={selectedEvent}
             onClose={() => setIsModalOpen(false)}
           />
+        )}
+          </div>
         )}
       </div>
     </>
