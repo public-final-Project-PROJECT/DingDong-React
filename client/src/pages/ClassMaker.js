@@ -5,6 +5,9 @@ import { InputField } from "../component/InputField";
 import { DropdownField } from "../component/DropdownField";
 import { SchoolNameDisplay } from "../component/SchoolNameDisplay";
 import { fetchFromAPI } from "../utils/api";
+import { useAuth } from "../contexts/AuthContext";
+import { googleLogout } from "@react-oauth/google";
+import { clearProfileFromStorage } from "../utils/localStorage";
 
 const ClassMaker = () => 
 {
@@ -17,8 +20,8 @@ const ClassMaker = () =>
         isSchoolNameEditable,
         setSchoolName,
         setSelectedClassId,
-        Logout,
     } = useUserData();
+    const { setProfile } = useAuth();
 
     const [grade, setGrade] = useState("");
     const [classNo, setClassNo] = useState("");
@@ -47,21 +50,26 @@ const ClassMaker = () =>
 
             if (newClassId) 
             {
-                await updateLatestClassId(email, newClassId);
-                setSelectedClassId(newClassId);
+                if (classCount === 1) 
+                {
+                    const confirmSetDefault = window.confirm("생성된 학급을 기본 학급으로 설정하시겠습니까?");
+                    if (confirmSetDefault) 
+                    {
+                        await updateLatestClassId(email, newClassId);
+                        setSelectedClassId(newClassId);
+                    }
+                } 
+                else 
+                {
+                    await updateLatestClassId(email, newClassId);
+                    setSelectedClassId(newClassId);
+                }
             }
-
-            if (classCount === 2) 
-            {
-                confirmDefaultClass(newClassId);
-            }
-
             navigate("/");
         } catch (error) {
             alert("학급 생성에 실패했습니다.");
         }
     };
-
     const validateInputs = () => 
     {
         const isNumeric = /^\d+$/;
@@ -116,14 +124,6 @@ const ClassMaker = () =>
         });
     };
 
-    const confirmDefaultClass = (newClassId) => 
-    {
-        if (window.confirm("지금 생성하신 학급을 기본 학급으로 설정하시겠습니까?")) 
-        {
-           updateLatestClassId();
-        }
-    };
-
     const submitConfirm = () => 
     {
         const confirmationMessage = 
@@ -143,7 +143,11 @@ const ClassMaker = () =>
     {
         if (window.confirm("로그아웃 하시겠습니까?")) 
         {
-            Logout();
+            googleLogout();
+            clearProfileFromStorage();
+            localStorage.removeItem("selectedClassId");
+            setProfile(null);
+            navigate("/login");
         }
     };
 

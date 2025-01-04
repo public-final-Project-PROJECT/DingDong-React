@@ -1,12 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { fetchFromAPI } from "../utils/api";
-import { clearProfileFromStorage, getStoredProfile } from "../utils/localStorage";
-import { useNavigate } from "react-router-dom";
-import { googleLogout } from "@react-oauth/google";
+import { useAuth } from "../contexts/AuthContext";
 
 export const useUserData = () => 
 {
-    const [profile, setProfile] = useState(getStoredProfile);
+    const { profile } = useAuth();
     const [teacherId, setTeacherId] = useState(0);
     const [schoolName, setSchoolName] = useState("");
     const [isSchoolNameEditable, setIsSchoolNameEditable] = useState(true);
@@ -17,8 +15,6 @@ export const useUserData = () =>
         const storedId = localStorage.getItem("selectedClassId");
         return storedId ? Number(storedId) : null;
     });
-    const email = useMemo(() => profile?.email, [profile]);
-    const navigate = useNavigate();
 
     useEffect(() => 
     {
@@ -107,7 +103,7 @@ export const useUserData = () =>
     const fetchClassId = async () => 
     {
         try {
-            const response = await fetchFromAPI(`/user/get/class/${email}`);
+            const response = await fetchFromAPI(`/user/get/class/${profile?.email}`);
             if (response?.latestClassId) 
             {
                 setSelectedClassId(response.latestClassId);
@@ -118,18 +114,8 @@ export const useUserData = () =>
         }
     };
 
-    const Logout = () => 
-    {
-        googleLogout();
-        clearProfileFromStorage();
-        localStorage.removeItem("selectedClassId");
-        navigate("/login");
-    };
 
     return {
-        profile,
-        setProfile,
-        email,
         fetchUserData,
         teacherId,
         schoolName,
@@ -139,7 +125,6 @@ export const useUserData = () =>
         classList,
         selectedClassId,
         setSelectedClassId,
-        fetchClassId,
-        Logout,
+        fetchClassId
     };
 };

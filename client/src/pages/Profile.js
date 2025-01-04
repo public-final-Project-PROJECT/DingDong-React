@@ -4,10 +4,14 @@ import { useUserData } from "../hooks/useUserData";
 import { fetchFromAPI } from "../utils/api";
 import { fetchSchoolInfo } from "../utils/fetchSchoolInfo";
 import ClassList from "./ClassList";
+import { useAuth } from "../contexts/AuthContext";
+import { googleLogout } from "@react-oauth/google";
+import { clearProfileFromStorage } from "../utils/localStorage";
 
 const Profile = () => 
 {
-    const { profile, email, schoolName, setSchoolName, teacherId, Logout } = useUserData();
+    const { email, schoolName, setSchoolName, teacherId } = useUserData();
+    const { profile, setProfile } = useAuth();
     const [fetched, setFetched] = useState(false);
     const navigate = useNavigate();
 
@@ -15,7 +19,11 @@ const Profile = () =>
     {
         if (window.confirm("로그아웃 하시겠습니까?")) 
         {
-            Logout();
+            googleLogout();
+            clearProfileFromStorage();
+            localStorage.removeItem("selectedClassId");
+            setProfile(null);
+            navigate("/login");
         }
     };
 
@@ -42,7 +50,11 @@ const Profile = () =>
                 headers: { "Content-Type": "application/json" },
             });
 
-            Logout();
+            googleLogout();
+            clearProfileFromStorage();
+            localStorage.removeItem("selectedClassId");
+            setProfile(null);
+            navigate("/login");
         } catch (err) {
             console.error("Error during withdrawal:", err);
         }
@@ -114,9 +126,9 @@ const Profile = () =>
             <div className="teacher_profile">
                 <div className="google_profile">
                     선생님 프로필<br/>
-                    <img src={profile.picture} alt="profile_img" className="profile_img"/><br/>
-                    {profile.name}<br/>
-                    {profile.email}<br/>
+                    <img src={profile?.picture} alt="profile_img" className="profile_img"/><br/>
+                    {profile?.name}<br/>
+                    {profile?.email}<br/>
                 </div>
                 <div className="school">
                     <label htmlFor="schoolName">재직중인 학교: </label>

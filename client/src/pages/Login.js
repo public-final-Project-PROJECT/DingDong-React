@@ -3,20 +3,20 @@ import GoogleLoginButton from "../component/GoogleLoginButton";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../asset/css/Login.css";
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => 
 {
     const clientId = process.env.REACT_APP_OAUTH2_GOOGLE_CLIENT_ID;
-    const savedProfile = localStorage.getItem("googleProfile");
+    const { profile } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(() => 
-    {
-        if (savedProfile) 
-        {
-            navigate("/");
+    useEffect(() => {
+        console.log(profile);
+        if (profile) {
+            navigate("/"); 
         }
-    }, [savedProfile, navigate]);
+    }, [profile, navigate]);
 
     return (
         <div>

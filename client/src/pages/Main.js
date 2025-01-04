@@ -24,8 +24,6 @@ const Main = () => {
                         navigate("/classmaker");
                     }
                 }
-            } else {
-                navigate("/login");
             }
         }, 80);
     
