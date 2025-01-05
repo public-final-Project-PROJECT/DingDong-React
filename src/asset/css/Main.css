@@ -1,8 +1,25 @@
 .main-page {
-    background-image: url('/path/to/your/image.jpg');
-    background-size: cover; /* 배경 이미지를 전체 화면에 맞춤 */
-    background-position: center; /* 이미지를 가운데로 정렬 */
-    background-repeat: no-repeat; /* 반복 방지 */
-    height: 100vh; /* 화면 전체 높이 */
-    width: 100%; /* 화면 전체 너비 */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url('../images/mainback.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    color: white; /* 텍스트가 배경에서 잘 보이도록 설정 */
   }
+.carousel-item img {
+    object-fit: cover; /* 이미지 비율 유지하며 영역 채우기 */
+    max-height: 400px; /* 최대 높이 제한 */
+    width: 100%; /* 전체 폭에 맞춤 */
+}
+.carousel-item img {
+    width: 100%;
+    height: auto; /* 높이를 자동으로 맞추되 비율 유지 */
+    object-fit: cover; /* 비율을 유지하며 크기 조정 */
+
+}
+.mainlunch {
+    width : 900px;
+}
+.innerMain {
+    display: flex;
+}
