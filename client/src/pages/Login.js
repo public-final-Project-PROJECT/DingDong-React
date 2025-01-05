@@ -11,9 +11,10 @@ const Login = () =>
     const { profile } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log(profile);
-        if (profile) {
+    useEffect(() => 
+    {
+        if (profile) 
+        {
             navigate("/"); 
         }
     }, [profile, navigate]);
