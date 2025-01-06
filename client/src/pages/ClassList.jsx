@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import "../asset/css/ClassList.css";
 import ClassMaker from "./ClassMaker";
 import QRCodeGenerator from "./QRCodeGenerator";
+import { useAuth } from "../contexts/AuthContext";
 
 const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editIndex, newNickname, setNewNickname, handleUpdate, handleQRCode, switchClassId, handleDelete }) => 
 {
@@ -194,7 +195,8 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
 
 const ClassList = () => 
 {
-    const { email, classList, teacherId, classCount, setSelectedClassId } = useUserData();
+    const { classList, teacherId, classCount, setSelectedClassId } = useUserData();
+    const { profile } = useAuth();
     const [selectedRow, setSelectedRow] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [newNickname, setNewNickname] = useState("");
@@ -290,7 +292,7 @@ const ClassList = () =>
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: email, latestClassId: classItem.classId })
+                body: JSON.stringify({ email: profile.email, latestClassId: classItem.classId })
             });
             setSelectedClassId(classItem.classId);
             alert(`${classItem.classNickname}을(를) 기본 학급으로 설정합니다.`);
