@@ -139,13 +139,13 @@ const Timer = () => {
             <div>
                 <h1 className="timer-text">타이머</h1>
                 <div className="circle-timer">
-                    <svg width="250" height="250" viewBox="0 0 250 250">
+                    <svg width="500" height="500" viewBox="0 0 250 250">
                         <circle
                             cx="125"
                             cy="125"
                             r={radius}
                             stroke="lightgray"
-                            strokeWidth="10"
+                            strokeWidth="15"
                             fill="none"
                         />
                         <circle
@@ -153,7 +153,7 @@ const Timer = () => {
                             cy="125"
                             r={radius}
                             stroke="green"
-                            strokeWidth="10"
+                            strokeWidth="15"
                             fill="none"
                             strokeDasharray={circumference}
                             strokeDashoffset={strokeDashoffset}
@@ -181,7 +181,7 @@ const Timer = () => {
                 <div className="input-container">
                     {isComplete ? (
                         <button onClick={handleRestart} className="restart-button">
-                            다시시작
+                            시작
                         </button>
                     ) : isRunning ? (
                         <>
@@ -212,7 +212,7 @@ const Timer = () => {
                             />
                             <span className="min-text">분</span>
                             <button onClick={handleStart} className="start-button">
-                                시작
+                                실행
                             </button>
                         </>
                     )}
