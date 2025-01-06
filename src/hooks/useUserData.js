@@ -1,12 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { fetchFromAPI } from "../utils/api";
-import { clearProfileFromStorage, getStoredProfile } from "../utils/localStorage";
-import { useNavigate } from "react-router-dom";
-import { googleLogout } from "@react-oauth/google";
+import { useAuth } from "../contexts/AuthContext";
 
 export const useUserData = () => 
 {
-    const [profile, setProfile] = useState(getStoredProfile);
+    const { profile } = useAuth();
     const [teacherId, setTeacherId] = useState(0);
     const [schoolName, setSchoolName] = useState("");
     const [isSchoolNameEditable, setIsSchoolNameEditable] = useState(true);
@@ -17,8 +15,6 @@ export const useUserData = () =>
         const storedId = localStorage.getItem("selectedClassId");
         return storedId ? Number(storedId) : null;
     });
-    const email = useMemo(() => profile?.email, [profile]);
-    const navigate = useNavigate();
 
     useEffect(() => 
     {
@@ -34,28 +30,19 @@ export const useUserData = () =>
         {
             fetchClassCount();
             fetchClassList();
+            fetchClassId();
         }
     }, [teacherId]);
-
-    useEffect(() => 
-    {
-        if (selectedClassId !== null) 
-        {
-            localStorage.setItem("selectedClassId", selectedClassId);
-        }
-    }, [selectedClassId]);
 
     const fetchUserData = async (email) => 
     {
         try {
-            await fetchTeacherId(email);
-            await fetchSchoolName(email);
+            await Promise.all([fetchTeacherId(email), fetchSchoolName(email)]);
         } catch (error) {
             console.error("Error fetching user data:", error);
         }
     };
 
-    // 선생님 테이블 pk 가져오기
     const fetchTeacherId = async (email) => 
     {
         try {
@@ -66,20 +53,20 @@ export const useUserData = () =>
         }
     };
 
-    // 선생님 테이블 school_name column 가져오기
     const fetchSchoolName = async (email) => 
     {
         try {
             const response = await fetchFromAPI(`/user/get/school/${email}`, 
             {
                 method: "GET",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json" }
             });
             if (response.status === 404) 
             {
                 setSchoolName("");
                 setIsSchoolNameEditable(true);
-            } else if (response?.schoolName) 
+            } 
+            else if (response?.schoolName) 
             {
                 setSchoolName(response.schoolName);
                 setIsSchoolNameEditable(false);
@@ -95,7 +82,7 @@ export const useUserData = () =>
             const response = await fetchFromAPI(`/class/count/${teacherId}`, 
             {
                 method: "GET",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json" }
             });
             setClassCount(response > 0 ? response : 0);
         } catch (error) {
@@ -113,19 +100,22 @@ export const useUserData = () =>
         }
     };
 
-    // 로그아웃
-    const Logout = () => 
+    const fetchClassId = async () => 
     {
-        googleLogout();
-        clearProfileFromStorage();
-        localStorage.removeItem("selectedClassId");
-        navigate("/login");
+        try {
+            const response = await fetchFromAPI(`/user/get/class/${profile?.email}`);
+            if (response?.latestClassId) 
+            {
+                setSelectedClassId(response.latestClassId);
+                localStorage.setItem("selectedClassId", response.latestClassId);
+            }
+        } catch (error) {
+            console.error("Error fetching class id:", error);
+        }
     };
 
+
     return {
-        profile,
-        setProfile,
-        email,
         fetchUserData,
         teacherId,
         schoolName,
@@ -133,9 +123,8 @@ export const useUserData = () =>
         isSchoolNameEditable,
         classCount,
         classList,
-        fetchClassCount,
         selectedClassId,
         setSelectedClassId,
-        Logout,
+        fetchClassId
     };
 };

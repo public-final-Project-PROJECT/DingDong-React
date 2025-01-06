@@ -1,91 +1,134 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../hooks/useUserData";
 import { InputField } from "../component/InputField";
 import { DropdownField } from "../component/DropdownField";
 import { SchoolNameDisplay } from "../component/SchoolNameDisplay";
 import { fetchFromAPI } from "../utils/api";
+import { useAuth } from "../contexts/AuthContext";
+import { googleLogout } from "@react-oauth/google";
+import { clearProfileFromStorage } from "../utils/localStorage";
 
 const ClassMaker = () => 
 {
-    const { email, schoolName, classCount, isSchoolNameEditable, setSchoolName, fetchClassCount, openMaker, setOpenMaker, Logout } = useUserData();
-    const navigate = useNavigate();
+    const 
+    {
+        email,
+        teacherId,
+        schoolName,
+        classCount,
+        isSchoolNameEditable,
+        setSchoolName,
+        setSelectedClassId,
+    } = useUserData();
+    const { setProfile } = useAuth();
 
     const [grade, setGrade] = useState("");
     const [classNo, setClassNo] = useState("");
     const [classNickname, setClassNickname] = useState("");
-
-    useEffect(() => 
-    {
-        const delayCheck = setTimeout(() =>
-        {
-            if (classCount === 2) 
-            {
-                alert("학급은 최대 2개까지 생성할 수 있습니다.");
-                navigate("/profile");
-            }
-        }, 70);
-    
-        return () => clearTimeout(delayCheck);
-    }, [classCount, navigate]);
+    const navigate = useNavigate();
 
     const handleSubmit = async () => 
+    {
+        if (!validateInputs()) return;
+
+        try {
+            const nicknameToSubmit =
+                classNickname.trim() || "학급 이름을 설정하지 않았습니다.";
+
+            const newClassData = 
+            {
+                email,
+                schoolName,
+                grade,
+                classNo,
+                classNickname: nicknameToSubmit,
+            };
+
+            await createClass(newClassData);
+            const newClassId = await fetchLatestClassId(grade, classNo, teacherId);
+
+            if (newClassId) 
+            {
+                if (classCount === 1) 
+                {
+                    const confirmSetDefault = window.confirm("생성된 학급을 기본 학급으로 설정하시겠습니까?");
+                    if (confirmSetDefault) 
+                    {
+                        await updateLatestClassId(email, newClassId);
+                        setSelectedClassId(newClassId);
+                    }
+                } 
+                else 
+                {
+                    await updateLatestClassId(email, newClassId);
+                    setSelectedClassId(newClassId);
+                }
+            }
+            navigate("/");
+        } catch (error) {
+            alert("학급 생성에 실패했습니다.");
+        }
+    };
+    const validateInputs = () => 
     {
         const isNumeric = /^\d+$/;
         if (!isNumeric.test(grade) || grade < 1 || grade > 6) 
         {
             alert("학년을 선택해주세요.");
-            return;
+            return false;
         }
         if (!isNumeric.test(classNo) || classNo < 1 || classNo > 20) 
         {
             alert("반을 선택해주세요.");
-            return;
+            return false;
         }
-        
-        const nicknameToSubmit = classNickname.trim() === "" ? "학급 이름을 설정하지 않았습니다." : classNickname;
+        return true;
+    };
 
-        const data = 
+    const createClass = async (data) => 
+    {
+        await fetchFromAPI("/class/create", 
         {
-            email,
-            schoolName,
-            grade,
-            classNo,
-            classNickname: nicknameToSubmit,
-        };
-        try {
-            await fetchFromAPI("/class/create", 
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+        alert("학급이 생성되었습니다.");
+    };
 
-            fetchClassCount();
-            alert("학급이 생성되었습니다.");
-            if(classCount === 1)
+    const fetchLatestClassId = async (grade, classNo, teacherId) => 
+    {
+        const response = await fetchFromAPI(
+            `/class/grade/${grade}/class/${classNo}/teacher/${teacherId}`,
             {
-                navigate("/");
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
             }
-            else
-            {
-                navigate(0);
-            }
-        } catch (error) {
-            alert("학급 생성에 실패했습니다.");
+        );
+
+        if (Array.isArray(response) && response.length > 0) 
+        {
+            return response[0].classId;
         }
+        return null;
+    };
+
+    const updateLatestClassId = async (email, classId) => 
+    {
+        await fetchFromAPI("/user/add/class", 
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, latestClassId: classId }),
+        });
     };
 
     const submitConfirm = () => 
     {
-        // 일부러 왼쪽으로 붙인 것
         const confirmationMessage = 
 `학급은 최대 2개까지 생성하실 수 있으며,
 생성일자로부터 2년 후의 3월 1일에 자동으로 삭제됩니다.
-
-예시)
-1) 2023년 2월 15일 생성 → 2025년 3월 1일 자동 삭제
-2) 2024년 8월 15일 생성 → 2026년 3월 1일 자동 삭제
 
 학교, 학년, 반은 생성 후 변경할 수 없습니다.
 학급을 생성하시겠습니까?`;
@@ -100,18 +143,18 @@ const ClassMaker = () =>
     {
         if (window.confirm("로그아웃 하시겠습니까?")) 
         {
-            Logout();
+            googleLogout();
+            clearProfileFromStorage();
+            localStorage.removeItem("selectedClassId");
+            setProfile(null);
+            navigate("/login");
         }
     };
 
     return (
         <div>
             <h2>학급 생성</h2>
-            {!classCount && (
-                <div>
-                    <p>입력하신 정보로 학급을 생성합니다.</p>
-                </div>
-            )}
+            {!classCount && <p>입력하신 정보로 학급을 생성합니다.</p>}
             <form onSubmit={(e) => e.preventDefault()}>
                 <SchoolNameDisplay
                     isEditable={isSchoolNameEditable}
