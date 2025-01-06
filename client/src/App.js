@@ -25,37 +25,37 @@ import { AuthProvider } from "./contexts/AuthContext.js";
 function App() 
 {
     return (
-            <BrowserRouter>
-                <AuthProvider>
-                    <Routes>
-                        <Route path="/login" element={<Outlet />} >
-                            <Route index element={<Login/>}/>
-                        </Route>
+        <BrowserRouter>
+            <AuthProvider>
+                <Routes>
+                    <Route path="/login" element={<Outlet />} >
+                        <Route index element={<Login/>}/>
+                    </Route>
 
-                        <Route path="/postmappingtest" element={<PostMappingTest />} />
-                        <Route path="/classmaker" element={<ClassMaker />} />
+                    <Route path="/postmappingtest" element={<PostMappingTest />} />
+                    <Route path="/classmaker" element={<ClassMaker />} />
 
-                        <Route path="/" element={<Layout/>}>
-                            <Route index element={<Main/>}/>                                {/* 메인*/}
-                            <Route path="Notice" element={<Notice/>}/>    
-                            <Route path="Notice/:id" element={<NoticeDetail />} />                    {/* 공지사항 */}
-                            <Route path="notice/update/:id" element={<NoticeUpdate/>} />
-                            <Route path="notice/register" element={<NoticeInsert/>} />
-                            <Route path="Attendance" element={<AttendanceTotal />} />  {/* 출석부 */}
-                            <Route path="Attendance/insert" element={<AttendanceRegister />} /> 
-                            <Route path="Students" element={<Students/>}/>      
-                            <Route path="Students/:id" element={<StudentDetail/>}/>                  {/* 학생정보  */}    
-                            <Route path="Calendar" element={<Calendar/>}/>                  {/* 캘린더 */}
-                            <Route path="Timer" element={<Timer/>}/>                        {/* 타이머 */}
-                            <Route path="Seat" element={<Seat/>}/>                          {/* 좌석표*/}
-                            <Route path="RandomPicker" element={<RandomPickerWithRoulette/>}/>          {/* 발표자 뽑기 */}
-                            <Route path="voting" element={<Voting/>}/>                      {/* 학급 투표*/}
-                            <Route path="qrcode" element={<QRCodeGenerator/>}/>
-                            <Route path="profile" element={<Profile/>}/>
-                        </Route>
-                    </Routes>
-                </AuthProvider>
-            </BrowserRouter>
+                    <Route path="/" element={<Layout/>}>
+                        <Route index element={<Main/>}/>                                            {/* 메인*/}
+                        <Route path="Notice" element={<Notice/>}/>    
+                        <Route path="Notice/:id" element={<NoticeDetail />} />                      {/* 공지사항 */}
+                        <Route path="notice/update/:id" element={<NoticeUpdate/>} />
+                        <Route path="notice/register" element={<NoticeInsert/>} />
+                        <Route path="Attendance" element={<AttendanceTotal />} />                   {/* 출석부 */}
+                        <Route path="Attendance/insert" element={<AttendanceRegister />} /> 
+                        <Route path="Students" element={<Students/>}/>      
+                        <Route path="Students/:id" element={<StudentDetail/>}/>                     {/* 학생정보  */}    
+                        <Route path="Calendar" element={<Calendar/>}/>                              {/* 캘린더 */}
+                        <Route path="Timer" element={<Timer/>}/>                                    {/* 타이머 */}
+                        <Route path="Seat" element={<Seat/>}/>                                      {/* 좌석표*/}
+                        <Route path="RandomPicker" element={<RandomPickerWithRoulette/>}/>          {/* 발표자 뽑기 */}
+                        <Route path="voting" element={<Voting/>}/>                                  {/* 학급 투표*/}
+                        <Route path="qrcode" element={<QRCodeGenerator/>}/>
+                        <Route path="profile" element={<Profile/>}/>
+                    </Route>
+                </Routes>
+            </AuthProvider>
+        </BrowserRouter>
     );
 }
 
