@@ -1,3 +1,5 @@
+// 새로 고침 제외 다른 기능 완벽 구현
+
 import React, { useState, useEffect, useContext } from "react";
 import "../asset/css/Timer.css";
 import { TimerContext } from "./TimerContext";
