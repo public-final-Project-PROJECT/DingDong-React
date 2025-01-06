@@ -1,6 +1,6 @@
 .small-timer {
-    width: 80px;
-    height: 70px;
+    width: 110px;
+    height: 90px;
     background-color: green;
     border-radius: 20px;
     display: flex;
@@ -18,7 +18,7 @@
 }
 
 .timer-display {
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
     color: white;
 }
