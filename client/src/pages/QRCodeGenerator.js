@@ -5,10 +5,12 @@ import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
 import { useUserData } from '../hooks/useUserData'; 
 import { SchoolNameDisplay } from '../component/SchoolNameDisplay';
+import { useAuth } from '../contexts/AuthContext';
 
 const QRCodeGenerator = ({ classData }) => 
 {
-    const { profile, schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
+    const { schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
+    const { profile } = useAuth();
     const [students, setStudents] = useState([{ num: '', name: '' }]);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
@@ -46,7 +48,7 @@ const QRCodeGenerator = ({ classData }) =>
             const dataToEncrypt = 
             {
                 student: { student_num: student.num, student_name: student.name },
-                teacher_name: profile.name,
+                teacher_name: profile?.name,
                 school: { school_info: schoolData, grade: classData.grade, class: classData.classNo},
                 year: new Date(classData.classCreated).getFullYear()
             };
