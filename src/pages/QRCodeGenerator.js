@@ -11,7 +11,7 @@ const QRCodeGenerator = ({ classData }) =>
 {
     const { schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
     const { profile } = useAuth();
-    const [students, setStudents] = useState([{ num: '', name: '' }]);
+    const [students, setStudents] = useState([{ no: '', name: '' }]);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
     const scrollRef = useRef();
@@ -33,14 +33,14 @@ const QRCodeGenerator = ({ classData }) =>
 
         const qrCodes = students.map((student) => 
         {
-            if (!student.num || !student.name) 
+            if (!student.no || !student.name) 
             {
                 alert('빈 칸을 모두 채워야합니다.');
                 return { encrypted: '', original: '' };
             }
 
             const regex = /^[0-9]+$/;
-            if (!regex.test(student.num)) 
+            if (!regex.test(student.no)) 
             {
                 alert('번호는 반드시 숫자여야 합니다.');
                 return { encrypted: '', original: '' };
@@ -48,9 +48,9 @@ const QRCodeGenerator = ({ classData }) =>
 
             const dataToEncrypt = 
             {
-                student: { student_num: student.num, student_name: student.name },
+                student: { student_no: student.no, student_name: student.name },
                 teacher_name: profile?.name,
-                school: { school_info: schoolData, grade: classData.grade, class: classData.classNo},
+                school: { school_info: schoolData, grade_no: classData.grade, class_no: classData.classNo},
                 year: new Date(classData.classCreated).getFullYear()
             };
 
@@ -81,7 +81,7 @@ const QRCodeGenerator = ({ classData }) =>
 
     const addStudent = () => 
     {
-        setStudents((prev) => [...prev, { num: '', name: '' }]);
+        setStudents((prev) => [...prev, { no: '', name: '' }]);
     };
 
     const removeStudent = (index) => 
@@ -120,8 +120,8 @@ const QRCodeGenerator = ({ classData }) =>
                         번호:
                         <input
                             type="text"
-                            value={student.num}
-                            onChange={(e) => handleStudentChange(index, 'num', e.target.value)}
+                            value={student.no}
+                            onChange={(e) => handleStudentChange(index, 'no', e.target.value)}
                             placeholder="학생의 번호를 입력해주세요."
                         />
                     </label>
