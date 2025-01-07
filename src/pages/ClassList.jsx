@@ -204,6 +204,12 @@ const ClassList = () =>
     const [openMaker, setOpenMaker] = useState(false);
     const [openCode, setOpenCode] = useState(false);
     const navigate = useNavigate();
+    const scrollRef = useRef();
+
+    useEffect(() => 
+    {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [openCode, openMaker]);
 
     const handleRowClick = (index) => 
     {
@@ -340,7 +346,7 @@ const ClassList = () =>
                     />
                     <br/>
                     {openMaker && (
-                        <div className="class-maker-container">
+                        <div className="class-maker-container" ref={scrollRef}>
                             <button
                                 className="button button-cancel-icon"
                                 onClick={() => setOpenMaker(false)}
@@ -351,7 +357,7 @@ const ClassList = () =>
                         </div>
                     )}
                     {openCode && (
-                        <div className="class-qrcode-container">
+                        <div className="class-qrcode-container" ref={scrollRef}>
                             <button
                                 className="button button-cancel-icon"
                                 onClick={() => setOpenCode(false)}
