@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
 import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
 import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
@@ -14,6 +14,7 @@ const QRCodeGenerator = ({ classData }) =>
     const [students, setStudents] = useState([{ num: '', name: '' }]);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
+    const scrollRef = useRef();
 
     const handleGenerate = async () => 
     {
@@ -91,6 +92,11 @@ const QRCodeGenerator = ({ classData }) =>
     // 프린트 버튼 동작
     const handlePrint = useReactToPrint({ content: () => contentRef.current });
 
+    useEffect(() => 
+    {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [addStudent]);
+
     return (
         <div>
             <h2>학생용 QR 코드 생성</h2>
@@ -109,7 +115,7 @@ const QRCodeGenerator = ({ classData }) =>
             )}             
             <h3>학생 정보 입력</h3>
             {students.map((student, index) => (
-                <div key={index} style={{ marginBottom: '10px' }}>
+                <div key={index} style={{ marginBottom: '10px' }} ref={scrollRef}>
                     <label>
                         번호:
                         <input
@@ -154,7 +160,7 @@ const QRCodeGenerator = ({ classData }) =>
 
                         {/* 회원가입용 암호화 된 QR 코드 */}
                         {student.qrCode && (
-                            <div>
+                            <div ref={scrollRef}>
                                 <QRCodeCanvas value={student.qrCode}/>
                             </div>
                         )}
