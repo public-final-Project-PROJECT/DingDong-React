@@ -8,7 +8,7 @@ import Calendar from "./pages/Calendar.jsx";
 import Students from "./pages/Students.js";
 import Timer from "./pages/Timer.js";
 import Seat from "./pages/Seat.js";
-import RandomPicker from "./pages/RandomPicker.jsx";
+import RandomPicker from "./pages/RandomPicker.js";
 import Voting from "./pages/Voting.js";
 import QRCodeGenerator from "./pages/QRCodeGenerator.js";
 import Login from "./pages/Login.js";
