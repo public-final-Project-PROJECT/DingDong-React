@@ -1,216 +1,123 @@
-.seat-arrangement {
+.main-container {
     display: flex;
-    flex-direction: column; 
-    align-items: center; 
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
-    width: 100%; 
-    margin-top: 242px;
+  }
+  
+  .buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .icons_div {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .teacher_table_and_students_table_div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .teacher_table_div {
+    margin-bottom: 20px;
+  }
+  
+  .teacher_table {
+    padding: 10px 20px;
+    background-color: #ddd;
+    border-radius: 4px;
+  }
+  
+  .created-seats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 35px;
+        width: 100%;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        row-gap: 64px;
+  }
+  
+  .seat {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    width: 130px;
+    height: 89px;
+  }
+  
+  .seat.selected {
+    background-color: #8bc34a;
+    width: 48px;
+    height: 53px;
+    gap: 29px;
   }
 
-.seat-grid {
-  display: grid;
-  grid-template-columns: repeat(10, 60px); 
-  gap: 10px; 
-  justify-content: center; 
-}
-
-.seat {
-    width: 60px; 
-    height: 60px; 
-    border: 1px solid #ccc;
-    background-color: #fff;
-    transition: background-color 0.2s;
-    border-radius: 5px;
-}
-
-.print_icon {
-    background: none;
-    border: none; 
-    padding: 0;
-    cursor: pointer; 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 25px; 
-    color: inherit; 
-   
-}
-
-.change_icon{
-    margin-top: 10px;
-    font-size: 15px; /* Increase the font size */
-    background-color: rgb(207, 209, 110);
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    width: 100px;
-    height: 60px;
-    margin-left: 10px;
-}
-
-.buttons-container {
-    display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 20px; /* Space between buttons */
-    flex: 0 0 auto; /* Prevent buttons from resizing */
-    margin-left: 30px; /* Add space from the left edge */
-}
-
-/* Right section for the teacher desk and seat grid */
-.teacher_table_and_students_table_div {
-    display: flex;
-    flex-direction: column; /* Arrange items vertically */
-    align-items: center; /* Center align the contents */
-    flex: 1; /* Take up the remaining space */
-    margin-top: -427px;
-}
-
-.icons_div{
-    margin-left: 1877px;
-    gap: 20px;
-    width: 30px;
-    margin-top: -334px;
-    font-size: 37px;
-}
-
-
-.seat.selected {
-    background-color: rgb(235, 235, 108); /* Color when selected */
-}
-
-.title{
-    text-align: center;
-    margin-top: 50px;
-}
-.created-seats-container {
-    display: flex;
-    justify-content: center; /* Centers the .created-seats horizontally */
-    align-items: center; /* Centers vertically if needed */
-    width: 100%; /* Ensure it spans the full width of the screen */
-}
-
-
-.register-button {
-    margin-top: 50px;
-    font-size: 20px; /* Increase the font size */
-    background-color: rgb(223, 226, 38);
-    color: black;
-    border: none;
-    border-radius: 50%; /* Make the button round */
-    cursor: pointer;
-    transition: background-color 0.2s;
-    width: 100px; /* Set equal width and height for a perfect circle */
-    height: 100px;
-    display: flex; /* Center content inside the circle */
-    align-items: center; /* Vertical alignment */
-    justify-content: center; /* Horizontal alignment */
-    margin-left: 168px;
-}
-
-.teacher_table {
-    height: 51px;
-    width: 212px;
-    background-color: rgb(174, 214, 109);
-    margin-top: 326px;
-    border: none;
-}
-
-.teacher_table_div {
-    margin-bottom: 30px; /* Space below the desk */
-}
-
-
-.red-button {
-    background-color: red;
+  .seat.created-seatsda{
+    width: 48px;
+    height: 53px;
+    gap: 29px;
+  }
+  
+  .seat.created {
+    background-color: #dbe77d;
+    color: #0c0101;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .seat.created.modifiable {
+    border: 2px dashed #ff9800;
+  }
+  
+  .register-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #4caf50;
     color: white;
-}
-
-
-.table-button {
-    margin-top: 24px;
-    font-size: 15px;
-    background-color: rgb(219, 219, 80);
     border: none;
-    border-radius: 5px;
-    transition: background-color 0.2s;
-    width: 180px;
-    margin-left: 50%; /* Center it horizontally */
-    transform: translateX(-50%); /* Correct horizontal positioning */
-}
-
-.seat.created {
-    width: 159px;  /* Increase seat width for created seats */
-    height: 102px; /* Increase seat height for created seats */
-    background-color: rgb(235, 235, 108);
-    text-align: center;
-    margin-left: 45px;
-}
-
-.created-seats {
-    display: grid;
-    gap: 90px;
-    margin-top: 39px; /* Add margin for spacing */
-    justify-content: center; /* Center the created seats horizontally */
-}
-
-/* Add teacher's desk (교탁) */
-.table {
-    width: 500px; /* Set the width of the teacher's desk */
-    height: 100px; /* Set the height of the desk */
-    background-color: #b7c431; /* Color for the desk */
-    margin-bottom: 20px; /* Space between desk and seats */
-    border-radius: 10px;
-    position: absolute;
-    top: 50px; /* Position the desk at the top of the screen */
-    left: 50%; /* Center it horizontally */
-    transform: translateX(-50%); /* Correct horizontal positioning */
-}
-
-.seat-container {
-    
-    align-items: flex-start; /* Align items at the start of the cross axis */
-    gap: 20px; /* Add space between the buttons and the seat grid */
-    margin-top: 20px; /* Adjust margin as needed */
-}
-
-.button-container {
-    display: flex;
-    flex-direction: column; /* Stack buttons vertically */
-    gap: 17px; /* Add space between buttons */
-    margin-left: 100px;
-}
-
-/* Right section for seat grid */
-.seat-grid-container {
-    margin-top: 20px;
-}
-
-.horizontal-container {
-    display: flex;
-    align-items: flex-start; /* Align items to the top */
-    justify-content: space-between; /* Create space between buttons and seating chart */
-    width: 100%; /* Full width container */
-    padding: 20px; /* Optional padding for better spacing */
-}
-
-.modify_button{
-    width: 100px;
-    height: 50px;
-    margin-left: 160px;
-    margin-top: 28px;
-    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .register-button.red-button {
+    background-color: #f44336;
+  }
+  
+  .register-button:disabled {
+    background-color: #9e9e9e;
+    cursor: not-allowed;
+  }
+  
+  .print_icon {
     font-size: 20px;
-    border-radius: 8px;
-}
-
-.new_seat_modal_in_button {
-    display: flex;
-    flex-direction: row; /* Arrange buttons horizontally */
-    justify-content: center; /* Center the buttons horizontally */
-    gap: 10px; /* Add space between buttons */
-    margin-top: 20px; /* Space above the buttons */
+    color: #333;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .print_icon:disabled {
+    color: #bbb;
+    cursor: not-allowed;
   }
 
   .new_seat_button {
@@ -228,37 +135,43 @@
     background-color: #e0a030;
   }
 
-
-.new_seat_modal_in_button {
-    display: flex; /* Use Flexbox for horizontal alignment */
-    justify-content: center; /* Center the buttons horizontally */
-    align-items: center; /* Align the buttons vertically */
-    gap: 10px; /* Add space between the buttons */
-    margin-top: 20px; /* Optional: Add some margin above the buttons */
-}
-
-.new_seat_modal_in_button button {
-    padding: 10px 20px; /* Ensure consistent styling for all buttons */
-    font-size: 16px;
-    background-color: #ccc; /* Set a default background for non-primary buttons */
-    color: #000;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.new_seat_modal_in_button button:hover {
-    background-color: #aaa; /* Change background color on hover for non-primary buttons */
-}
+/* ReactModal 스타일 */
 .new_seat_modal {
-    display: flex;
-    flex-direction: column; /* Stack content vertically */
-    justify-content: flex-start; /* Align content at the top */
-    align-items: center; /* Center content horizontally */
-    padding: 20px;
-    width: 600px; /* Set modal width */
-    max-width: 90%; /* Make responsive for smaller screens */
-    margin: 0 auto; /* Center the modal in the viewport */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* 가로를 넓게 설정 */
+    max-width: 800px; /* 최대 가로 제한 */
     background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* 여백 추가 */
+    box-sizing: border-box;
+    overflow: hidden; /* 내용이 넘치지 않도록 설정 */
   }
+
+  .square-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* Create 10 equal-width columns */
+    grid-template-rows: repeat(10, 1fr); /* Create 10 equal-height rows */
+    gap: 5px; /* Add spacing between the squares */
+    width: 50%; /* Adjust to fit your modal width */
+    height: 50%; /* Adjust to fit your modal height */
+  }
+  
+  .grid-square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ensure squares are responsive */
+    height: 100%; /* Ensure squares are responsive */
+    background-color: lightyellow; /* Background color for the squares */
+    border: 1px solid #ddd; /* Optional: Add a border to the squares */
+    font-size: 12px; /* Adjust font size for the content */
+    text-align: center;
+    box-sizing: border-box; /* Include padding/border in width/height */
+    border-radius: 5px; /* Optional: Add rounded corners */
+  }
+  
+  
