@@ -95,7 +95,7 @@ const QRCodeGenerator = ({ classData }) =>
     useEffect(() => 
     {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [addStudent]);
+    });
 
     return (
         <div>
