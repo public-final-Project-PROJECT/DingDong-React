@@ -39,7 +39,7 @@ const Voting = () => {
         }
     };
 
-    // 투표 항목들에 대한 유저들의 투표 정보
+    // 투표 항목들에 대한 학생들의 투표 정보
     const optionSend = async (voteId) => {
         try {
             const response = await axios.post(
@@ -69,6 +69,7 @@ const Voting = () => {
                 const votingResponse = await Send();
                 if (votingResponse && votingResponse.length > 0) {
                     const allContents = {};
+  
                     for (const vote of votingResponse) {
                         const contents = await contentsSend(vote.id);
                         allContents[vote.id] = contents;
@@ -81,10 +82,10 @@ const Voting = () => {
                 const studentMap = studentData.reduce((map, student) => {
                     map[student.studentId] = { id:student.studentId, name: student.studentName, img: student.studentImg };
                     return map;
-                }, {});
+                }, {}); 
                 setStudentInfo(studentMap);
             } catch (error) {
-                console.error("Error fetching initial data:", error);
+                console.error("useEffect Error :", error);
             }
         };
 
@@ -204,7 +205,7 @@ const Voting = () => {
         <>
             <h1 className="title"> 학급 투표 
                 <br/>
-                (알림 가도록 하는건 플러터 알림 만들고 할게욤..)</h1>
+                    </h1>
             <button className="voting_maker_icon" onClick={() => setNewVotingModal(true)}> <FontAwesomeIcon icon={faPenToSquare} /> </button>
             {newVotingModal && <NewVoting setNewVotingModal={setNewVotingModal} newVotingModal={newVotingModal} />}
             {modalShow && (
