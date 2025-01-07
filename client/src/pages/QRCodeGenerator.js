@@ -5,7 +5,6 @@ import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
 import { useUserData } from '../hooks/useUserData'; 
 import { SchoolNameDisplay } from '../component/SchoolNameDisplay';
-import { useAuth } from '../contexts/AuthContext';
 
 const QRCodeGenerator = ({ classData }) => 
 {
