@@ -10,7 +10,6 @@ import { useAuth } from '../contexts/AuthContext';
 const QRCodeGenerator = ({ classData }) => 
 {
     const { schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
-    const { profile } = useAuth();
     const [students, setStudents] = useState([{ no: '', name: '' }]);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
     const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
@@ -48,10 +47,10 @@ const QRCodeGenerator = ({ classData }) =>
 
             const dataToEncrypt = 
             {
-                student: { student_no: student.no, student_name: student.name },
-                teacher_name: profile?.name,
-                school: { school_info: schoolData, grade_no: classData.grade, class_no: classData.classNo},
-                year: new Date(classData.classCreated).getFullYear()
+                studentInfo: { studentNo: parseInt(student.no), studentName: student.name },
+                teacherId: parseInt(classData.id.id),
+                classId: parseInt(classData.classId),
+                year: parseInt(new Date(classData.classCreated).getFullYear())
             };
 
             return {
