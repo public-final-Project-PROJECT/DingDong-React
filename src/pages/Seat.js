@@ -25,6 +25,8 @@ const SeatArrangement = () => {
     const [randomSpinLabel, setRandomSpinLabel] = useState("start !");
     const [randomedSeat, setRandomedSeat] = useState([]);
     const [modifyButtonShow, setModifyButtonShow] = useState(false);
+    const [studentsTableData, setStudentsTableData] = useState(); // studentsTable 에서 가지고 온 data
+    const [lastStudentsSeatList, setLastStudentsSeatList] = useState();
     const contentRef = useRef();
 
     const downloadSeatsAsImage = async () => {
@@ -113,16 +115,58 @@ const SeatArrangement = () => {
 
     const seatTable = async () => {
         try {
-            const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: 1 });
+            const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: 4 });
             setLoadedSeats(response.data);
+
+            if(response.data == null){
+              console.log("좌석표 비었다.")
+              findByStudents(); // 만약, 좌석표 table 이 비어있다면 studentsTable 에서 학생 정보 불러옴
+            }
         } catch (error) {
+            findByStudents();
             console.error("기존 좌석 불러오는 API error:", error);
         }
     };
 
+    // studentsTable 에서 학생 정보 불러오는 api
+    const findByStudents = async() => {
+      try{
+        console.log("좌석표 비어서 학생테이블 조회");
+        const response = await axios.get('http://localhost:3013/api/students/viewClass',
+          {params : {classId : 4}});
+          console.log(response);
+          setStudentsTableData(response.data);
+          saveStudentsAPI2(); 
+      }catch(e) {
+        console.error("students Table api 중 error : " + e)
+      }
+    }
+
+    const saveStudentsAPI2 = async () => {
+      try {
+          const seatsToSave = studentsTableData.map((student, index) => {
+              const columnId = (index % 4) + 1; // 열 번호 계산
+              const rowId = Math.floor(index / 4) + 1; // 행 번호 계산
+  
+              return {
+                  classId : 4,
+                  studentId: student.studentId,
+                  rowId: rowId,
+                  columnId: columnId,
+              };
+          });
+  
+          // API 호출
+          await axios.post('http://localhost:3013/api/seat/saveSeat', { studentList: seatsToSave });
+      } catch (error) {
+          console.error("저장 API 요청 중 error:", error);
+      }
+  };
+  
+
     const studentNameAPI = async () => {
         try {
-            const response = await axios.post('http://localhost:3013/api/seat/findName', { classId: 1 });
+            const response = await axios.post('http://localhost:3013/api/seat/findName', { classId: 4 });
             setNameList(response.data.sort((a, b) => a.studentId - b.studentId));
         } catch (error) {
             console.error("학생 이름 조회 중 error:", error);
@@ -131,6 +175,8 @@ const SeatArrangement = () => {
 
     const saveStudentsAPI = async () => {
         try {
+          lastStudentsSeatList = 
+
             await axios.post('http://localhost:3013/api/seat/saveSeat', { studentList: randomedSeat });
             alert("좌석이 저장되었습니다 !");
         } catch (error) {
@@ -247,12 +293,11 @@ const SeatArrangement = () => {
           contentLabel="새 좌석 만들기" 
           className="new_seat_modal"
          >
-            <div className="seat-arrangement">
-              <div className="seat-grid" onMouseUp={() => setIsDragging(false)}>
+              <div  className="square-grid" onMouseUp={() => setIsDragging(false)}>
                 {seats.map((selected, index) => (
                   <div
                     key={index}
-                    className={`seat ${selected ? 'selected' : ''}`}
+                    className={`seat ${selected ? 'selected' : 'created-seatsda'}`}
                     onMouseDown={() => {
                       setIsDragging(true);
                       setSeats((prevSeats) => {
@@ -277,10 +322,7 @@ const SeatArrangement = () => {
               <button className='new_seat_button' onClick={handleRegister}>자리 만들기</button>
               <button onClick={closeModal}>닫기</button>
               </div>
-            </div>
           </ReactModal>
-      
-          <h1 className="title">자리 바꾸기</h1>
       
           
           <div className="main-container">
@@ -305,7 +347,7 @@ const SeatArrangement = () => {
               <FontAwesomeIcon icon={faUserGroup} />   <FontAwesomeIcon icon={faRepeat} />
               </button>
               {modifyButtonShow && 
-                <h8 style={{color:"gray", fontSize:"18px"}}>자리를 클릭하여 좌석을 변경하세요</h8>
+                <h8 className="seatChange-modify">자리를 클릭하여 좌석을 변경하세요</h8>
                 }
 
       
@@ -326,7 +368,8 @@ const SeatArrangement = () => {
               </div>
       
               <div className="created-seats" ref={contentRef}>
-                {loadedSeats.map((seat, index) => {
+
+              {loadedSeats.map((seat, index) => {
                   const student = nameList.find(student => student.studentId === seat.studentId);
                   const studentName = student ? student.studentName : '학생 없음';
       
@@ -345,6 +388,28 @@ const SeatArrangement = () => {
                     </div>
                   );
                 })}
+
+                        {studentsTableData && studentsTableData.map((student, index) => {
+                          const columnId = (index % 4) + 1; // 열 번호: 1~10
+                          const rowId = Math.floor(index / 4) + 1; // 행 번호: 1, 2, ...
+
+                          return (
+                            <div
+                              key={`students-${student.studentId}`}
+                              className={`seat created ${modifyState ? 'modifiable' : ''}`}
+                              style={{
+                                gridColumnStart: columnId,
+                                gridRowStart: rowId,
+                                border: modifyState && (firstSeat?.studentId === student.studentId || secondSeat?.studentId === student.studentId) ? "2px solid red" : "none",
+                              }}
+                              onClick={() => handleSeatClick(student, index)}
+                            >
+                              <h4>{student.studentName || '학생 없음'}</h4>
+                            </div>
+                          );
+                        })}
+
+
                
                   {createdSeats.map((seat, index) => (
                     <div
