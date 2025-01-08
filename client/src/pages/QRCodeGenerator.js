@@ -164,12 +164,12 @@ const QRCodeGenerator = ({ classData }) =>
                         )}
 
                         {/* json 데이터 확인용 암호화되지 않은 QR 코드 */}
-                        {student.originalQRCode && (
+                        {/* {student.originalQRCode && (
                             <div>
                                 <h5>Original Data QR Code</h5>
                                 <QRCodeCanvas value={student.originalQRCode} />
                             </div>
-                        )} 
+                        )}  */}
                     </div>
                 ))}
             </div>
