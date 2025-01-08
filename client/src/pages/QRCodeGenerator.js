@@ -1,18 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
 import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
 import { useUserData } from '../hooks/useUserData'; 
 import { SchoolNameDisplay } from '../component/SchoolNameDisplay';
+import { useReactToPrint } from 'react-to-print';
 
 const QRCodeGenerator = ({ classData }) => 
 {
     const { schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
     const [students, setStudents] = useState([{ no: '', name: '' }]);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
-    const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
     const scrollRef = useRef();
+    const contentRef = useRef();
 
     const handleGenerate = async () => 
     {
@@ -88,7 +88,7 @@ const QRCodeGenerator = ({ classData }) =>
     };
 
     // 프린트 버튼 동작
-    const handlePrint = useReactToPrint({ content: () => contentRef.current });
+    const handlePrint = useReactToPrint({ contentRef });
 
     useEffect(() => 
     {
@@ -164,12 +164,12 @@ const QRCodeGenerator = ({ classData }) =>
                         )}
 
                         {/* json 데이터 확인용 암호화되지 않은 QR 코드 */}
-                        {/* {student.originalQRCode && (
+                        {student.originalQRCode && (
                             <div>
                                 <h5>Original Data QR Code</h5>
                                 <QRCodeCanvas value={student.originalQRCode} />
                             </div>
-                        )}  */}
+                        )} 
                     </div>
                 ))}
             </div>
