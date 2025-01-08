@@ -7,6 +7,7 @@ import ClassList from "./ClassList";
 import { useAuth } from "../contexts/AuthContext";
 import { googleLogout } from "@react-oauth/google";
 import { clearProfileFromStorage } from "../utils/localStorage";
+import "../asset/css/Profile.css";
 
 const Profile = () => 
 {
@@ -123,11 +124,11 @@ const Profile = () =>
 
     return (
         <div>
+            선생님 프로필<br/>
             <div className="teacher_profile">
                 <div className="google_profile">
-                    선생님 프로필<br/>
                     <img src={profile?.picture} alt="profile_img" className="profile_img"/><br/>
-                    {profile?.name}<br/>
+                    {profile?.name} 선생님<br/>
                     {profile?.email}<br/>
                 </div>
                 <div className="school">

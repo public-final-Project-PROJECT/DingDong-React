@@ -13,7 +13,6 @@ const ClassMaker = () =>
 {
     const 
     {
-        email,
         teacherId,
         schoolName,
         classCount,
@@ -21,7 +20,7 @@ const ClassMaker = () =>
         setSchoolName,
         setSelectedClassId,
     } = useUserData();
-    const { setProfile } = useAuth();
+    const { profile, setProfile } = useAuth();
 
     const [grade, setGrade] = useState("");
     const [classNo, setClassNo] = useState("");
@@ -38,7 +37,7 @@ const ClassMaker = () =>
 
             const newClassData = 
             {
-                email,
+                email: profile.email,
                 schoolName,
                 grade,
                 classNo,
@@ -55,13 +54,13 @@ const ClassMaker = () =>
                     const confirmSetDefault = window.confirm("생성된 학급을 기본 학급으로 설정하시겠습니까?");
                     if (confirmSetDefault) 
                     {
-                        await updateLatestClassId(email, newClassId);
+                        await updateLatestClassId(profile.email, newClassId);
                         setSelectedClassId(newClassId);
                     }
                 } 
                 else 
                 {
-                    await updateLatestClassId(email, newClassId);
+                    await updateLatestClassId(profile.email, newClassId);
                     setSelectedClassId(newClassId);
                 }
             }
