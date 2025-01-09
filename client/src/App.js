@@ -21,6 +21,7 @@ import StudentDetail from "./pages/StudentDetail.js";
 import AttendanceRegister from "./pages/AttendanceRegister.js";
 import AttendanceTotal from "./pages/AttendanceTotal.js";
 import { AuthProvider } from "./contexts/AuthContext.js";
+import DrawingApp from "./pages/DrawingApp.js";
 
 function App() 
 {
@@ -50,6 +51,7 @@ function App()
                         <Route path="Seat" element={<Seat/>}/>                                      {/* 좌석표*/}
                         <Route path="RandomPicker" element={<RandomPickerWithRoulette/>}/>          {/* 발표자 뽑기 */}
                         <Route path="voting" element={<Voting/>}/>                                  {/* 학급 투표*/}
+                        <Route path="drawing" element={<DrawingApp/>}/>
                         <Route path="qrcode" element={<QRCodeGenerator/>}/>
                         <Route path="profile" element={<Profile/>}/>
                     </Route>

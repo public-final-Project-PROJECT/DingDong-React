@@ -40,6 +40,9 @@ const TopHeader = () => {
       case "Voting":
         navigator("/Voting");
         break;
+      case "drawing":
+        navigator("/drawing");
+        break;
       default:
         break;
     }
@@ -69,6 +72,7 @@ const TopHeader = () => {
           <button className="Seat" onClick={onClickHandler}>자리바꾸기</button>
           <button className="RandomPicker" onClick={onClickHandler}>발표자 뽑기</button>
           <button className="Voting" onClick={onClickHandler}>학급 투표</button>
+          <button className="drawing" onClick={onClickHandler}>칠판</button>
         </div>
       )}
     </div>
