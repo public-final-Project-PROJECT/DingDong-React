@@ -1,172 +1,230 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
-const DrawingApp = () => {
-  const canvasRef = useRef(null);
-  const [shape, setShape] = useState({ color: 'white', width: 3 });
-  const [drawing, setDrawing] = useState(false);
-  const [canvasSize, setCanvasSize] = useState({
-    width: window.innerWidth > 1280 ? 1910 : window.innerWidth,
-    height: window.innerWidth > 1280 ? 720 : window.innerHeight * 0.7,
-  });
-  const savedCanvasRef = useRef(null);
+const DraggableTool = ({ children }) => {
+    const [dragging, setDragging] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const colorMap = [
-    { value: 'white', name: '하얀색' },
-    { value: 'red', name: '빨간색' },
-    { value: 'orange', name: '주황색' },
-    { value: 'yellow', name: '노란색' },
-    { value: 'blue', name: '파랑색' },
-    { value: 'black', name: '검정색' },
-  ];
-
-  const updateCanvasSize = useCallback(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-
-    // Save the current canvas content as an image
-    const savedImage = canvas.toDataURL();
-    savedCanvasRef.current = savedImage;
-
-    // Update canvas size
-    const newSize = {
-      width: window.innerWidth > 1280 ? 1910 : window.innerWidth,
-      height: window.innerWidth > 1280 ? 720 : window.innerHeight * 0.7,
+    const handleMouseDown = (e) => {
+        setDragging(true);
+        setPosition({ x: e.clientX, y: e.clientY });
     };
-    setCanvasSize(newSize);
-  }, []);
 
-  useEffect(() => {
-    window.addEventListener('resize', updateCanvasSize);
-    return () => window.removeEventListener('resize', updateCanvasSize);
-  }, [updateCanvasSize]);
+    const handleMouseMove = (e) => {
+        if (!dragging) return;
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+        const dx = e.clientX - position.x;
+        const dy = e.clientY - position.y;
 
-    // Restore saved canvas content after resizing
-    const savedImage = savedCanvasRef.current;
-    if (savedImage) {
-      const img = new Image();
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, canvasSize.width, canvasSize.height);
-      };
-      img.src = savedImage;
-    } else {
-      // Set the background color for the initial render
-      ctx.fillStyle = '#194038';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-  }, [canvasSize]);
+        setPosition((prev) => ({
+            x: prev.x + dx,
+            y: prev.y + dy,
+        }));
 
-  const handleMouseDown = (e) => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+        e.target.style.transform = `translate(${position.x + dx}px, ${position.y + dy}px)`;
+    };
 
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    setDrawing(true);
-  };
+    const handleMouseUp = () => {
+        setDragging(false);
+    };
 
-  const handleMouseMove = (e) => {
-    if (!drawing) return;
+    useEffect(() => {
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", handleMouseUp);
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseup", handleMouseUp);
+        };
+    }, [dragging]);
 
-    ctx.lineTo(x, y);
-    ctx.strokeStyle = shape.color;
-    ctx.lineWidth = shape.width;
-    ctx.stroke();
-  };
+    return (
+        <div
+            onMouseDown={handleMouseDown}
+            style={{
+                position: "absolute",
+                top: position.y,
+                left: position.x,
+                cursor: "move",
+            }}
+        >
+            {children}
+        </div>
+    );
+};
 
-  const handleMouseUp = () => {
-    setDrawing(false);
-  };
+const DrawingApp = () =>
+{
+    const canvasRef = useRef(null);
+    const [drawing, setDrawing] = useState(false);
+    const [shape, setShape] = useState({ color: 'white', width: 3 });
+    const [showRuler, setShowRuler] = useState(false);
+    const [showProtractor, setShowProtractor] = useState(false);
 
-  const handleClear = () => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const canvasWidth = 1910;
+    const canvasHeight = 720;
 
-    // Clear the canvas and reset the background color
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#194038';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    savedCanvasRef.current = null; // Reset saved content
-  };
+    const colors = [
+        { value: 'white', label: '하얀색' },
+        { value: 'palevioletred', label: '빨간색' },
+        { value: 'yellow', label: '노란색' },
+        { value: 'skyblue', label: '파란색' },
+    ];
 
-  const handleShapeChange = (e) => {
-    const { name, value } = e.target;
-    setShape((prevShape) => ({ ...prevShape, [name]: value }));
-  };
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#194038';
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    }, []);
 
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        maxWidth: '1910px',
-        margin: '0 auto',
-      }}
-    >
-      <canvas
-        id="cv"
-        ref={canvasRef}
-        width={canvasSize.width}
-        height={canvasSize.height}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        style={{
-          width: '100%',
-          height: '100%',
-          border: '1px solid black',
-          display: 'block',
-        }}
-      ></canvas>
-      <div>
-        <label>
-          색상:
-          <select
-            id="pen_color"
-            name="color"
-            value={shape.color}
-            onChange={handleShapeChange}
-          >
-            {colorMap.map((color) => (
-              <option key={color.value} value={color.value}>
-                {color.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          굵기:
-          <select
-            id="pen_width"
-            name="width"
-            value={shape.width}
-            onChange={handleShapeChange}
-          >
-            {Array.from({ length: 15 }, (_, i) => i + 1).map((width) => (
-              <option key={width} value={width}>
-                {width}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button id="clear" onClick={handleClear}>
-          지우기
-        </button>
-      </div>
-    </div>
-  );
+    const getCanvasCoordinates = (event) => {
+        const canvas = canvasRef.current;
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
+        const x = (event.clientX - rect.left) * scaleX;
+        const y = (event.clientY - rect.top) * scaleY;
+        return { x, y };
+    };
+
+    const handleMouseDown = (e) => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const { x, y } = getCanvasCoordinates(e);
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        setDrawing(true);
+    };
+
+    const handleMouseMove = (e) => {
+        if (!drawing) return;
+
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const { x, y } = getCanvasCoordinates(e);
+
+        ctx.lineTo(x, y);
+        ctx.strokeStyle = shape.color;
+        ctx.lineWidth = shape.width;
+        ctx.stroke();
+    };
+
+    const handleMouseUp = () => {
+        setDrawing(false);
+    };
+
+    const handleClear = () => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#194038';
+        ctx.fillRect(0, 0, canvas.width, canvasHeight);
+    };
+
+    const handleShapeChange = (e) => {
+        const { name, value } = e.target;
+        setShape((prev) => ({ ...prev, [name]: value }));
+    };
+
+    return (
+        <div
+            style={{
+                position: 'relative',
+                width: '100%',
+                maxWidth: '100%',
+                margin: '0 auto',
+            }}
+        >
+            <canvas
+                ref={canvasRef}
+                width={canvasWidth}
+                height={canvasHeight}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                style={{
+                    width: '100%',
+                    height: 'auto',
+                    border: '1px solid black',
+                }}
+            />
+            <div>
+                <label>
+                    펜 색상:
+                    <select
+                        name="color"
+                        value={shape.color}
+                        onChange={handleShapeChange}
+                    >
+                        {colors.map(({ value, label }) => (
+                            <option key={value} value={value}>
+                                {label}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+                <label>
+                    펜 굵기:
+                    <select
+                        name="width"
+                        value={shape.width}
+                        onChange={handleShapeChange}
+                    >
+                        {Array.from({ length: 15 }, (_, i) => i + 1).map((width) => (
+                            <option key={width} value={width}>
+                                {width}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+                <button onClick={handleClear}>지우기</button>
+                <button onClick={() => setShowRuler(!showRuler)}>
+                    {showRuler ? 'Hide Ruler' : 'Show Ruler'}
+                </button>
+                <button onClick={() => setShowProtractor(!showProtractor)}>
+                    {showProtractor ? 'Hide Protractor' : 'Show Protractor'}
+                </button>
+            </div>
+
+            {showRuler && (
+                <DraggableTool>
+                    <div
+                        style={{
+                            width: '600px',
+                            height: '100px',
+                            backgroundColor: 'gray',
+                            color: 'white',
+                            textAlign: 'center',
+                            lineHeight: '20px',
+                            cursor: 'move',
+                        }}
+                    >
+                        Ruler
+                    </div>
+                </DraggableTool>
+            )}
+
+            {showProtractor && (
+                <DraggableTool>
+                    <div
+                        style={{
+                            width: '200px',
+                            height: '200px',
+                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                            border: '2px solid black',
+                            borderRadius: '50%',
+                            textAlign: 'center',
+                            cursor: 'move',
+                        }}
+                    >
+                        Protractor
+                    </div>
+                </DraggableTool>
+            )}
+        </div>
+    );
 };
 
 export default DrawingApp;
