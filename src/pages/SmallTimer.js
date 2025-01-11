@@ -4,21 +4,19 @@ import { TimerContext } from "./TimerContext";
 import "../asset/css/SmallTimer.css";
 
 const SmallTimer = () => {
-    const { time, isRunning } = useContext(TimerContext); // TimerContext에서 time과 isRunning 가져오기
+    const { time, isRunning } = useContext(TimerContext); // 메인 타이머 상태 가져오기
     const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate
 
-    // 타이머의 위치 상태 (로컬스토리지에서 초기값 복원)
     const [position, setPosition] = useState(() => {
         const savedPosition = JSON.parse(localStorage.getItem("smallTimerPosition"));
         return savedPosition || { x: 100, y: 100 }; // 기본 위치
     });
 
-    // 드래그 상태 관리
     const [isDragging, setIsDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
+    const [localTime, setLocalTime] = useState(time); // 로컬 타이머 시간 관리
 
     useEffect(() => {
-        // 위치를 로컬스토리지에 저장
         if (position) {
             localStorage.setItem("smallTimerPosition", JSON.stringify(position));
         }
@@ -57,17 +55,29 @@ const SmallTimer = () => {
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("mouseup", handleMouseUp);
         };
-    }, [isDragging, offset]);
+    }, [isDragging]);
 
-    // 타이머 클릭 시 메인 타이머 페이지로 이동
     const handleTimerClick = () => {
         if (!isDragging) {
             navigate("/Timer");
         }
     };
 
-    // 메인 타이머가 실행될 때만 렌더링
-    if (!isRunning) return null;
+    // 타이머 시간이 감소되도록 로컬 상태 업데이트
+    useEffect(() => {
+        setLocalTime(time); // `TimerContext`에서 시간 동기화
+
+        let timer;
+        if (isRunning && time > 0) {
+            timer = setInterval(() => {
+                setLocalTime((prev) => Math.max(prev - 1, 0)); // 시간이 0이 되지 않도록 방지
+            }, 1000);
+        }
+
+        return () => clearInterval(timer); // 컴포넌트 언마운트 시 클리어
+    }, [time, isRunning]);
+
+    if (!isRunning) return null; // 메인 타이머가 실행 중일 때만 렌더링
 
     return (
         <div
@@ -83,9 +93,9 @@ const SmallTimer = () => {
             }}
         >
             <div className="timer-display">
-                {time != null
-                    ? `${String(Math.floor(time / 60)).padStart(2, "0")}:${String(
-                        time % 60
+                {localTime != null
+                    ? `${String(Math.floor(localTime / 60)).padStart(2, "0")}:${String(
+                        localTime % 60
                     ).padStart(2, "0")}`
                     : "00:00"}
             </div>

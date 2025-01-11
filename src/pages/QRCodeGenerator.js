@@ -1,17 +1,18 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { useReactToPrint } from 'react-to-print'; // 프린트 라이브러리
 import { fetchSchoolInfo } from '../utils/fetchSchoolInfo';
 import { encryptData } from '../utils/encryptData';
 import { useUserData } from '../hooks/useUserData'; 
 import { SchoolNameDisplay } from '../component/SchoolNameDisplay';
+import { useReactToPrint } from 'react-to-print';
 
 const QRCodeGenerator = ({ classData }) => 
 {
-    const { profile, schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
-    const [students, setStudents] = useState([{ num: '', name: '' }]);
+    const { schoolName, setSchoolName, isSchoolNameEditable } = useUserData();
+    const [students, setStudents] = useState([{ no: '', name: '' }]);
     const secretKey = process.env.REACT_APP_QRCODE_SECRET_KEY;
-    const contentRef = useRef(); // 프린트 변수 선언(변수 명 바뀌면 인식 못함)
+    const scrollRef = useRef();
+    const contentRef = useRef();
 
     const handleGenerate = async () => 
     {
@@ -30,14 +31,14 @@ const QRCodeGenerator = ({ classData }) =>
 
         const qrCodes = students.map((student) => 
         {
-            if (!student.num || !student.name) 
+            if (!student.no || !student.name) 
             {
                 alert('빈 칸을 모두 채워야합니다.');
                 return { encrypted: '', original: '' };
             }
 
             const regex = /^[0-9]+$/;
-            if (!regex.test(student.num)) 
+            if (!regex.test(student.no)) 
             {
                 alert('번호는 반드시 숫자여야 합니다.');
                 return { encrypted: '', original: '' };
@@ -45,10 +46,10 @@ const QRCodeGenerator = ({ classData }) =>
 
             const dataToEncrypt = 
             {
-                student: { student_num: student.num, student_name: student.name },
-                teacher_name: profile.name,
-                school: { school_info: schoolData, grade: classData.grade, class: classData.classNo},
-                year: new Date(classData.classCreated).getFullYear()
+                studentInfo: { studentNo: parseInt(student.no), studentName: student.name },
+                teacherId: parseInt(classData.id.id),
+                classId: parseInt(classData.classId),
+                year: parseInt(new Date(classData.classCreated).getFullYear())
             };
 
             return {
@@ -78,7 +79,7 @@ const QRCodeGenerator = ({ classData }) =>
 
     const addStudent = () => 
     {
-        setStudents((prev) => [...prev, { num: '', name: '' }]);
+        setStudents((prev) => [...prev, { no: '', name: '' }]);
     };
 
     const removeStudent = (index) => 
@@ -87,7 +88,12 @@ const QRCodeGenerator = ({ classData }) =>
     };
 
     // 프린트 버튼 동작
-    const handlePrint = useReactToPrint({ content: () => contentRef.current });
+    const handlePrint = useReactToPrint({ contentRef });
+
+    useEffect(() => 
+    {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    });
 
     return (
         <div>
@@ -107,13 +113,13 @@ const QRCodeGenerator = ({ classData }) =>
             )}             
             <h3>학생 정보 입력</h3>
             {students.map((student, index) => (
-                <div key={index} style={{ marginBottom: '10px' }}>
+                <div key={index} style={{ marginBottom: '10px' }} ref={scrollRef}>
                     <label>
                         번호:
                         <input
                             type="text"
-                            value={student.num}
-                            onChange={(e) => handleStudentChange(index, 'num', e.target.value)}
+                            value={student.no}
+                            onChange={(e) => handleStudentChange(index, 'no', e.target.value)}
                             placeholder="학생의 번호를 입력해주세요."
                         />
                     </label>
@@ -152,7 +158,7 @@ const QRCodeGenerator = ({ classData }) =>
 
                         {/* 회원가입용 암호화 된 QR 코드 */}
                         {student.qrCode && (
-                            <div>
+                            <div ref={scrollRef}>
                                 <QRCodeCanvas value={student.qrCode}/>
                             </div>
                         )}

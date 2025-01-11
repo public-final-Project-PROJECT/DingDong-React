@@ -7,8 +7,9 @@ import { useNavigate } from "react-router-dom";
 import "../asset/css/ClassList.css";
 import ClassMaker from "./ClassMaker";
 import QRCodeGenerator from "./QRCodeGenerator";
+import { useAuth } from "../contexts/AuthContext";
 
-const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editIndex, newNickname, setNewNickname, handleUpdate, handleQRCode, handleGoToClass, handleDelete }) => 
+const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editIndex, newNickname, setNewNickname, handleUpdate, handleQRCode, switchClassId, handleDelete }) => 
 {
     return (
         <table border="1" style={{ cursor: "pointer", width: "100%", textAlign: "left" }}>
@@ -64,7 +65,7 @@ const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editI
                             <ExpandedRowActions
                                 classItem={classItem}
                                 onQRCode={(classItem) => handleQRCode(classItem)}
-                                onClassSwitch={() => handleGoToClass(classItem)}
+                                onClassSwitch={() => switchClassId(classItem)}
                                 onDelete={() => handleDelete(classItem)}
                             />
                         )}
@@ -176,7 +177,7 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
                 }}
                 style={{ backgroundColor: "#007bff", color: "#fff", marginRight: "10px", padding: "5px 10px", border: "none" }}
             >
-                학급 전환
+                기본 학급으로 설정
             </button>
             <button
                 onClick={(e) => 
@@ -195,6 +196,7 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
 const ClassList = () => 
 {
     const { classList, teacherId, classCount, setSelectedClassId } = useUserData();
+    const { profile } = useAuth();
     const [selectedRow, setSelectedRow] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [newNickname, setNewNickname] = useState("");
@@ -202,6 +204,12 @@ const ClassList = () =>
     const [openMaker, setOpenMaker] = useState(false);
     const [openCode, setOpenCode] = useState(false);
     const navigate = useNavigate();
+    const scrollRef = useRef();
+
+    useEffect(() => 
+    {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [openCode, openMaker]);
 
     const handleRowClick = (index) => 
     {
@@ -236,7 +244,7 @@ const ClassList = () =>
                 {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ classNickname: newNickname }),
+                    body: JSON.stringify({ classNickname: newNickname })
                 });
                 alert("학급 이름이 변경되었습니다.");
                 navigate(0);
@@ -266,7 +274,7 @@ const ClassList = () =>
                 await fetchFromAPI(`/class/delete/${teacherId}/${classItem.classId}`, 
                 {
                     method: "DELETE",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "application/json" }
                 });
                 alert("학급이 삭제되었습니다.");
                 navigate(0);
@@ -283,12 +291,21 @@ const ClassList = () =>
         setSelectedClassItem(classItem);
     };
 
-    const handleGoToClass = (classItem) => 
+    const switchClassId = async (classItem) => 
     {
-        setSelectedClassId(classItem.classId);
-    
-        alert(`${classItem.classNickname}(으)로 전환되었습니다.`);
-        navigate(`/`);
+        try {
+            await fetchFromAPI("/user/add/class", 
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: profile.email, latestClassId: classItem.classId })
+            });
+            setSelectedClassId(classItem.classId);
+            alert(`${classItem.classNickname}을(를) 기본 학급으로 설정합니다.`);
+            navigate(`/`);
+        } catch (error) {
+            console.error("Error fetching class id:", error);
+        }
     };
 
     const handleMake = () =>
@@ -324,12 +341,12 @@ const ClassList = () =>
                         setNewNickname={setNewNickname}
                         handleUpdate={handleUpdate}
                         handleQRCode={handleQRCode}
-                        handleGoToClass={handleGoToClass}
+                        switchClassId={switchClassId}
                         handleDelete={handleDelete}
                     />
                     <br/>
                     {openMaker && (
-                        <div className="class-maker-container">
+                        <div className="class-maker-container" ref={scrollRef}>
                             <button
                                 className="button button-cancel-icon"
                                 onClick={() => setOpenMaker(false)}
@@ -340,7 +357,7 @@ const ClassList = () =>
                         </div>
                     )}
                     {openCode && (
-                        <div className="class-qrcode-container">
+                        <div className="class-qrcode-container" ref={scrollRef}>
                             <button
                                 className="button button-cancel-icon"
                                 onClick={() => setOpenCode(false)}

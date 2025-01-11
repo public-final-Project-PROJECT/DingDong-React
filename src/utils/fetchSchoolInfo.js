@@ -19,7 +19,7 @@ export const fetchSchoolInfo = async (schoolName) =>
       const schoolData = response.data.schoolInfo[1].row[0];
       
       return {
-        ENG_SCHUL_NM: schoolData.ENG_SCHUL_NM,
+        SCHUL_NM: schoolData.SCHUL_NM,
         ORG_RDNZC: schoolData.ORG_RDNZC,
       };
     } 

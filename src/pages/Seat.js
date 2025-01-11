@@ -48,9 +48,8 @@ const SeatArrangement = () => {
 
     const randomSeatHandlerWithCountdown = () => {
         if (loadedSeats.length === 0 && createdSeats.length === 0) {
-            return;
-        }
-
+            return; 
+          }
         let count = 3;
         setCountdown(count);
         setButtonsDisabled(true);
@@ -76,6 +75,12 @@ const SeatArrangement = () => {
         setShowSaveButton(false);
         setRandomSpinLabel("start !");
     };
+
+    
+  //   const saveSeatHandler2 = () => {
+  //     saveStudentsAPI3();
+  //     setModifyButtonShow (false);
+  // };
 
     const resetRandomSpin = () => {
         setButtonsDisabled(false);
@@ -173,10 +178,12 @@ const SeatArrangement = () => {
         }
     };
 
+
     const saveStudentsAPI = async () => {
+      
+      console.log(randomedSeat);
         try {
           lastStudentsSeatList = 
-
             await axios.post('http://localhost:3013/api/seat/saveSeat', { studentList: randomedSeat });
             alert("좌석이 저장되었습니다 !");
         } catch (error) {
@@ -184,6 +191,7 @@ const SeatArrangement = () => {
         }
     };
 
+    // 저장 handler
     const handleRegister = () => {
         if (!seatState) {
             setSeatState(false);
@@ -213,6 +221,8 @@ const SeatArrangement = () => {
         setModalShow(false);
     };
 
+
+    // 랜덤돌리기 handler
     const randomSeatHandler = () => {
         const seatsToShuffle = createdSeats.length > 0 ? createdSeats : loadedSeats;
 
@@ -252,32 +262,67 @@ const SeatArrangement = () => {
 
     const handlePrint = useReactToPrint({ contentRef });
 
-    const modifyHandler = () => {
+  // 좌석을 변경하고 저장하는 로직을 수정합니다.
+const modifyHandler = () => {
+  if (modifyState) {
+    // 첫 번째 좌석과 두 번째 좌석이 선택되었을 때 교환
+    if (firstSeat && secondSeat) {
+      const updatedSeats = [...loadedSeats]; // 기존 좌석 복사
 
-        if(modifyState){
-            setModifyState(false);
-        }else{
-            setModifyState(true);
-        }
+      const firstSeatIndex = updatedSeats.findIndex(seat => seat.seatId === firstSeat.seatId);
+      const secondSeatIndex = updatedSeats.findIndex(seat => seat.seatId === secondSeat.seatId);
 
-        if(modifyButtonShow){
-            setModifyButtonShow(false);
-        }else{
-            setModifyButtonShow(true);
-        }
-        
-       
-    };
+      if (firstSeatIndex !== -1 && secondSeatIndex !== -1) {
+        // 좌석 정보 교환
+        const tempStudentName = updatedSeats[firstSeatIndex].studentName;
+        updatedSeats[firstSeatIndex].studentName = updatedSeats[secondSeatIndex].studentName;
+        updatedSeats[secondSeatIndex].studentName = tempStudentName;
 
-    const handleSeatClick = (seat, index) => {
-        if (modifyState) {
-            if (!firstSeat) {
-                setFirstSeat(seat);
-            } else if (!secondSeat) {
-                setSecondSeat(seat);
-            }
-        }
-    };
+        const tempRowId = updatedSeats[firstSeatIndex].rowId;
+        const tempColumnId = updatedSeats[firstSeatIndex].columnId;
+        updatedSeats[firstSeatIndex].rowId = updatedSeats[secondSeatIndex].rowId;
+        updatedSeats[firstSeatIndex].columnId = updatedSeats[secondSeatIndex].columnId;
+        updatedSeats[secondSeatIndex].rowId = tempRowId;
+        updatedSeats[secondSeatIndex].columnId = tempColumnId;
+
+        console.log(updatedSeats);
+      
+        // 업데이트된 좌석 상태 설정
+        setLoadedSeats(updatedSeats);
+        setModifyState(false);  // 상태를 종료
+        setModifyButtonShow(false);  // 수정 버튼 숨기기
+        saveStudentsAPI3(updatedSeats);  // 변경된 좌석 정보 저장
+      }
+    }
+  } else {
+    // modifyState가 false일 때 수정 상태 시작
+    setModifyState(true);
+    setModifyButtonShow(true);
+  }
+};
+
+// 좌석을 저장하는 API 호출
+const saveStudentsAPI3 = async (updatedSeats) => {
+  console.log("왜안대 ㅠㅠ : " + updatedSeats)
+  try {
+    // 수정된 좌석 정보를 API로 저장
+    await axios.post('http://localhost:3013/api/seat/saveSeat', { studentList: updatedSeats });
+    alert("좌석이 저장되었습니다!");
+  } catch (error) {
+    console.error("저장 API 요청 중 error:", error);
+  }
+};
+
+// 좌석 클릭 시 첫 번째와 두 번째 좌석을 설정하여 변경할 수 있도록 수정
+const handleSeatClick = (seat, index) => {
+  if (modifyState) {
+    if (!firstSeat) {
+      setFirstSeat(seat);
+    } else if (!secondSeat) {
+      setSecondSeat(seat);
+    }
+  }
+};
 
     // 모달 close handler
     const closeModal = () => {
@@ -347,7 +392,11 @@ const SeatArrangement = () => {
               <FontAwesomeIcon icon={faUserGroup} />   <FontAwesomeIcon icon={faRepeat} />
               </button>
               {modifyButtonShow && 
+                <>
                 <h8 className="seatChange-modify">자리를 클릭하여 좌석을 변경하세요</h8>
+                <button onClick={modifyHandler}>저장</button>
+                <button onClick={() => setModifyButtonShow(false)}>취소</button>
+                </>
                 }
 
       
