@@ -390,8 +390,8 @@ const SeatArrangement = () => {
                 })}
 
                         {studentsTableData && studentsTableData.map((student, index) => {
-                          const columnId = (index % 4) + 1; // 열 번호: 1~10
-                          const rowId = Math.floor(index / 4) + 1; // 행 번호: 1, 2, ...
+                          const columnId = (index % 4) + 1; // 열  1-10
+                          const rowId = Math.floor(index / 4) + 1; // 행  1, 2 점점
 
                           return (
                             <div
