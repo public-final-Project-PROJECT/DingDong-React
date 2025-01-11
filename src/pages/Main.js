@@ -4,9 +4,11 @@ import { useUserData } from "../hooks/useUserData";
 import Neis from "@my-school.info/neis-api";
 import Calendar from "./Calendar";
 import "../asset/css/Calendar.css";
+import { useAuth } from "../contexts/AuthContext";
 
 const Main = () => {
-    const { profile, teacherId, classCount, schoolName } = useUserData();
+    const { teacherId, classCount, schoolName } = useUserData();
+    const { profile } = useAuth(); 
     const [responseData, setResponseData] = useState(null);
     const [error, setError] = useState(null);
     const [date, setDate] = useState("20241130");
