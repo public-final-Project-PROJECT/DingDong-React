@@ -11,7 +11,7 @@ import "../asset/css/Profile.css";
 
 const Profile = () => 
 {
-    const { email, schoolName, setSchoolName, teacherId } = useUserData();
+    const { schoolName, setSchoolName, teacherId } = useUserData();
     const { profile, setProfile } = useAuth();
     const [fetched, setFetched] = useState(false);
     const navigate = useNavigate();
@@ -45,7 +45,7 @@ const Profile = () =>
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
             });
-            await fetchFromAPI(`/user/withdraw/${email}`, 
+            await fetchFromAPI(`/user/withdraw/${profile.email}`, 
             {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
@@ -76,23 +76,20 @@ const Profile = () =>
             return;
         }
 
-        if (email) 
-        {
-            try {
-                await fetchFromAPI("/user/add/school", 
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        email: email,
-                        schoolName: schoolName,
-                    }),
-                });
-                alert("학교 이름이 저장되었습니다.");
-                navigate(0);
-            } catch (err) {
-                console.error("Error during save:", err);
-            }
+        try {
+            await fetchFromAPI("/user/add/school", 
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: profile.email,
+                    schoolName: schoolName,
+                }),
+            });
+            alert("학교 이름이 저장되었습니다.");
+            navigate(0);
+        } catch (err) {
+            console.error("Error during save:", err);
         }
     };
 
@@ -101,24 +98,21 @@ const Profile = () =>
         if (!window.confirm("저장된 정보를 초기화합니다.")) return;
 
         setSchoolName("");
-        if (email) 
-        {
-            try {
-                await fetchFromAPI("/user/add/school", 
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        email: email,
-                        schoolName: "RESET",
-                    }),
-                });
-                setFetched(false);
-                alert("초기화를 완료했습니다.");
-                navigate(0);
-            } catch (err) {
-                console.error("Error during reset:", err);
-            }
+        try {
+            await fetchFromAPI("/user/add/school", 
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: profile.email,
+                    schoolName: "RESET",
+                }),
+            });
+            setFetched(false);
+            alert("초기화를 완료했습니다.");
+            navigate(0);
+        } catch (err) {
+            console.error("Error during reset:", err);
         }
     };
 
