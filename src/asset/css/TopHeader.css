@@ -25,12 +25,42 @@
   margin: -0.9%;
 }
 
-/*.convenience-functions {*/
-/*  margin-top: 10px;*/
-/*  width: 100%;*/
-/*  display: flex;*/
-/*  justify-content: center;*/
-/*}*/
+/* 헤더 메인 버튼 호버 시 효과 */
+.Main:hover {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.Notice:hover {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.Attendance:hover {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.Students:hover {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.Calendar:hover {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.Convenience:hover {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
 
 /* 편의 기능 버튼 컨테이너 */
 .convenience-buttons {

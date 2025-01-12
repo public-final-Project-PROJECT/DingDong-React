@@ -57,7 +57,7 @@ const TopHeader = () => {
           <div className="Attendance" onClick={onClickHandler}>출석부</div>
           <div className="Students" onClick={onClickHandler}>학생정보</div>
           <div className="Calendar" onClick={onClickHandler}>캘린더</div>
-          <div onClick={toggleFunctions}>편의기능</div>
+          <div className="Convenience" onClick={toggleFunctions}>편의기능</div>
           <GoogleOAuthProvider clientId={clientId}>
             <GoogleLoginButton />
           </GoogleOAuthProvider>
