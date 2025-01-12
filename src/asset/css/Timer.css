@@ -33,9 +33,9 @@
     font-size: 20px;
 }
 .reset-button {
-    width: 90px;
+    width: 100px;
     height: 70px;
-    font-size: 25px;
+    font-size: 23px;
     border: none;
     font-weight: bold;
     color: #ffffff;
@@ -53,7 +53,7 @@
 .restart-button {
     width: 90px;
     height: 70px;
-    font-size: 25px;
+    font-size: 23px;
     border: none;
     font-weight: bold;
     color: #ffffff;
@@ -71,7 +71,7 @@
 .start-button {
     width: 90px;
     height: 70px;
-    font-size: 25px;
+    font-size: 23px;
     border: none;
     font-weight: bold;
     color: #ffffff;
@@ -92,7 +92,7 @@
 .pause-button {
     width: 90px;
     height: 70px;
-    font-size: 25px;
+    font-size: 23px;
     border: none;
     font-weight: bold;
     color: #ffffff;
