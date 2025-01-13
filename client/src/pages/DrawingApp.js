@@ -9,6 +9,8 @@ const DrawingApp = () =>
     const [textBoxes, setTextBoxes] = useState([]);
     const [draggingBox, setDraggingBox] = useState(null);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+    const textRefs = useRef({}); 
+    const hiddenTextRefs = useRef({});
 
     const canvasWidth = 1910;
     const canvasHeight = 720;
@@ -27,6 +29,26 @@ const DrawingApp = () =>
         ctx.fillStyle = "#194038";
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     }, []);
+
+    useEffect(() => 
+    {
+        textBoxes.forEach(({ id, text }) => 
+        {
+            const textArea = textRefs.current[id];
+            const hiddenSpan = hiddenTextRefs.current[id];
+
+            if (textArea && hiddenSpan) 
+            {
+                hiddenSpan.textContent = text || " ";
+                
+                const newWidth = hiddenSpan.offsetWidth;
+                textArea.style.width = `${newWidth}px`;
+                
+                textArea.style.height = "auto";
+                textArea.style.height = `${textArea.scrollHeight}px`;
+            }
+        });
+    }, [textBoxes]);
 
     const getCanvasCoordinates = (event) => 
     {
@@ -120,8 +142,7 @@ const DrawingApp = () =>
 
     const handleDrag = (e) => 
     {
-        if (draggingBox !== null) 
-        {
+        if (draggingBox !== null) {
             const newX = e.clientX - dragOffset.x;
             const newY = e.clientY - dragOffset.y;
 
@@ -164,23 +185,63 @@ const DrawingApp = () =>
                     border: "1px solid black",
                 }}
             />
-            {textBoxes.map(({ x, y, text, id }) => (
-                <textarea
-                    rows={1}
+            { textBoxes.map(({ x, y, text, id }) => (
+                <div
                     key={id}
-                    value={text}
-                    onChange={(e) => handleTextChange(id, e.target.value)}
-                    onMouseDown={(e) => handleDragStart(id, e)}
                     style={{
                         position: "absolute",
                         left: `${x}px`,
                         top: `${y}px`,
-                        backgroundColor: "transparent",
-                        border: "none",
-                        resize: "none",
-                        color: "white",
                     }}
-                />
+                >
+                    {/* Hidden span for measuring text */}
+                    <span
+                        ref={(el) => (hiddenTextRefs.current[id] = el)}
+                        style={{
+                            visibility: "hidden",
+                            whiteSpace: "pre",
+                            fontSize: "inherit",
+                            fontFamily: "inherit",
+                        }}
+                    />
+                    {/* Textarea for text entry */}
+                    <textarea
+                        ref={(el) => (textRefs.current[id] = el)}
+                        value={text}
+                        rows={1}
+                        onChange={(e) => handleTextChange(id, e.target.value)}
+                        style={{
+                            position: "absolute",
+                            left: 0, 
+                            top: 0,
+                            border: "none",
+                            backgroundColor: "transparent",
+                            resize: "none",
+                            color: "white",
+                            overflow: "hidden",
+                            fontSize: "inherit",
+                            fontFamily: "inherit",
+                            lineHeight: "inherit",
+                            textAlign: "start",
+                            minWidth: "100px",
+                            whiteSpace: "nowrap",
+                        }}
+                    />
+                    {/* Drag handle for moving the text box */}
+                    <div
+                        onMouseDown={(e) => handleDragStart(id, e)}
+                        style={{
+                            width: "10px",
+                            height: "10px",
+                            backgroundColor: "gray",
+                            cursor: "move",
+                            bottom: "-10px",
+                            right: "-10px",
+                            borderRadius: "50%",
+                            zIndex: 1, 
+                        }}
+                    />
+                </div>
             ))}
             <div>
                 <label>
