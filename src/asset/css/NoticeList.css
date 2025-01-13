@@ -11,6 +11,24 @@
     margin-bottom: 20px;
 }
 
+.notice-header button {
+    background-color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    color: rgb(16, 179, 16);
+    padding: 10px 20px;
+    box-shadow: 2px 2px 3px gray;
+    border: 2px solid rgb(16, 179, 16);
+}
+
+.notice-header button:hover {
+    background-color: white;
+    color: #076c07;
+    border: 2px solid #076c07;
+    
+}
+
 .notice-table {
     width: 100%;
     border-collapse: collapse;

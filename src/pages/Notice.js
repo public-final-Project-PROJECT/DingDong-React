@@ -72,8 +72,7 @@ const Notice = () => {
             <div className="notice-header">
                 <h1 style={{ textAlign: 'center' }}>공지사항</h1>
                 <button
-                onClick={Register}
-                    style={{ backgroundColor: '#427422', borderRadius: '10px', fontWeight: 'bold',   fontSize: '20px',  color: 'white', padding: '10px 20px' }}>
+                onClick={Register}>
                      <FaPlus /> 작성하기</button>
             </div>
 

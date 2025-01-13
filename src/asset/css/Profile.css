@@ -2,9 +2,19 @@
     padding: 20px;
     max-width: 1400px;
     margin: 0 auto;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
+    /*border-radius: 10px;*/
+    border-bottom: 1px solid gray;  /* 하단 줄 긋기 */
+    border-top: 1px solid gray;     /* 상단 줄 긋기 */
+}
+
+.teacher_profile button {
+    background-color: white;
+    border: none;
+    color: black;
+    margin-right: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px gray;
 }
 
 .google_profile {
@@ -19,6 +29,10 @@
     margin-bottom: 10px;
 }
 
+.school label {
+    margin-right: 10px;
+}
+
 .school input {
     width: 15%;
     padding: 8px;
@@ -30,17 +44,19 @@
 .school button {
     padding: 8px 12px;
     border: none;
-    background-color: #007bff;
-    color: white;
+    background-color: #ffffff;
+    color: black;
     border-radius: 5px;
     cursor: pointer;
+    box-shadow: 2px 2px 5px gray;
+    margin-right: 10px;
 }
 
 .school button:hover {
-    background-color: #0056b3;
+    background-color: #ddd;
 }
 
-button {
+.teacher_profile button {
     display: inline-block;
     margin: 5px 0;
     padding: 10px 15px;
