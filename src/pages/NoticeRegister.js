@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useUserData } from "../hooks/useUserData";
+import '../asset/css/NoticeRegister.css';
 
 
 const NoticeInsert = ({ closeModal }) => {
@@ -91,77 +92,78 @@ const NoticeInsert = ({ closeModal }) => {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>공지사항 작성</h1>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.formGroup}>
-          <label htmlFor="noticeTitle">제목:</label>
+    <div className="container">
+      <h1 className="title">공지사항 작성</h1>
+      <form onSubmit={handleSubmit} className="form">
+        <div className="form-group">
+          <label htmlFor="noticeTitle">제목 :</label>
           <input
             type="text"
             id="noticeTitle"
             name="noticeTitle"
             value={notice.noticeTitle}
             onChange={handleChange}
-            style={styles.input}
+            // className="input"
           />
         </div>
-        <div style={styles.formGroup}>
-          <label htmlFor="noticeCategory">카테고리:</label>
+        <div className="noticeCategory-group">
+          <label htmlFor="noticeCategory">카테고리 :</label>
           <select
             id="noticeCategory"
             name="noticeCategory"
             value={notice.noticeCategory}
             onChange={handleChange}
-            style={styles.select}
+            // className="select"
           >
             {categories.map((category, index) => (
-              <option key={index} value={category}>
+              <option  key={index} value={category}>
                 {category}
               </option>
             ))}
           </select>
         </div>
-        <div style={styles.formGroup}>
-          <label htmlFor="noticeContent">내용:</label>
+        <div className="noticeContent-group">
+          <label htmlFor="noticeContent">내용 :</label>
           <textarea
             id="noticeContent"
             name="noticeContent"
             value={notice.noticeContent}
             onChange={handleChange}
-            style={styles.textarea}
+            className="textarea"
           />
         </div>
-        <div style={styles.formGroup}>
+        <div className="noticeImg-group">
           <label htmlFor="noticeImg">이미지:</label>
           <input
             type="file"
             id="noticeImg"
             name="noticeImg"
             onChange={handleFileChange}
-            style={styles.input}
+            // className="image-input"
           />
         </div>
-        <div style={styles.formGroup}>
-          <label htmlFor="noticeFile">파일:</label>
+        <div className="noticeFile-group">
+          <label htmlFor="noticeFile">파일 :</label>
           <input
             type="file"
             id="noticeFile"
             name="noticeFile"
             onChange={handleFileChange}
-            style={styles.input}
+            // className="file-input"
           />
         </div>
-        <div style={styles.buttonGroup}>
-                    <button type="submit" style={styles.buttonPrimary}>
-                        등록하기
-                    </button>
-                    <button type="button" style={styles.buttonSecondary} onClick={closeModal}>
-                        취소
-                    </button>
-                </div>
+        <div className="button-group">
+          <button type="submit" className="button-primary">
+            등록하기
+          </button>
+          <button type="button" className="button-secondary" onClick={closeModal}>
+            취소
+          </button>
+        </div>
       </form>
     </div>
   );
+  
 };
 
 const styles = {
@@ -213,6 +215,8 @@ const styles = {
     justifyContent: "flex-end",
     gap: "10px",
   },
+
+  // 등록하기
   buttonPrimary: {
     backgroundColor: "#4CAF50",
     color: "white",
@@ -221,10 +225,12 @@ const styles = {
     padding: "10px 20px",
     cursor: "pointer",
   },
+
+  // 취소
   buttonSecondary: {
-    backgroundColor: "#f44336",
-    color: "white",
-    border: "none",
+    backgroundColor: "white",
+    color: "#4CAF50",
+    border: "2px soild #4CAF50",
     borderRadius: "4px",
     padding: "10px 20px",
     cursor: "pointer",

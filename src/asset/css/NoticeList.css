@@ -12,18 +12,21 @@
 }
 
 .notice-header button {
-    background-color: #f8f8f8;
+    background-color: white;
     border-radius: 10px;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 20px;
-    color: black;
+    color: rgb(16, 179, 16);
     padding: 10px 20px;
-    box-shadow: 2px 2px 2px gray;
+    box-shadow: 2px 2px 3px gray;
+    border: 2px solid rgb(16, 179, 16);
 }
 
 .notice-header button:hover {
-    background-color: gray;
-    color: #fff;
+    background-color: white;
+    color: #076c07;
+    border: 2px solid #076c07;
+    
 }
 
 .notice-table {
