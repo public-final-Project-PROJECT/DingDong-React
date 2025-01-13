@@ -1,481 +1,170 @@
+/* Container for the entire voting section */
 .voting-container {
-  display: grid; /* Use grid for layout */
-  grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
-  gap: 20px; /* Space between cards */
-  justify-content: center; /* Center align the grid */
-  align-items: start; /* Align cards to the top */
-  padding: 20px; /* Add padding around the container */
-  max-width: 1200px; /* Optional: set a max width for the container */
-  margin: 0 auto; /* Center the container */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 voting containers per row */
+  gap: 20px;
+  padding: 20px;
 }
 
+/* Style for each voting card */
 .voting-card {
-  background-color:  #fbfade;
-  border: none;
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  display: flex
-;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 75%;
-  width: 719px;
-  margin-top: 12px;
-  margin-left: 42px;
+  position: relative;
+  height: 500px; /* Fixed height */
+  overflow-y: auto; /* Allows vertical scrolling if content overflows */
+  max-width: 100%; /* Full width within grid cell */
+  margin-bottom: 20px;
+  box-sizing: border-box;
 }
-    
-    /* 반응형: 1200px 이하 화면 */
-    @media screen and (max-width: 1200px) {
-      .voting-card {
-        padding: 30px; /* 내부 여백 줄이기 */
-        max-width: 90%; /* 최대 너비를 90%로 축소 */
-      }
-    }
-    
-    /* 반응형: 768px 이하 화면 */
-    @media screen and (max-width: 768px) {
-      .voting-card {
-        padding: 20px; /* 내부 여백 줄이기 */
-        max-width: 95%; /* 최대 너비를 95%로 축소 */
-      }
-    }
-    
-    /* 반응형: 480px 이하 화면 */
-    @media screen and (max-width: 480px) {
-      .voting-card {
-        padding: 15px; /* 내부 여백 최소화 */
-        max-width: 100%; /* 최대 너비를 화면 전체로 */
-      }
-    }
-    
-    .profile-img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-    
-    .voting-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      justify-content: center;
-    
-    }
-    
-    .vote-title {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin: 10px 0 20px 0;
-    }
-    
-    .vote-name-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-left: 20px;
-    }
-    
-    .vote-name {
-      font-size: 42px;
-      margin-left: 27px;
-      margin-bottom: 38px;
-      margin-top: -49px;
-    }
-    
-    .vote-detail {
-      font-size: 19px;
-      color: #777;
-      margin-left: 38px;
-    }
-  
-   .user-info-dropdown {
-    position: absolute;
-    left: 100%; 
-    top: 40%; 
-    transform: translateY(-50%);
-    z-index: 1000; 
-    background-color: white; 
-    border: 1px solid #ccc; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    padding: 10px; 
-    width: 200px; 
-    border-radius: 5px; 
-    margin-left: -1545px; 
-  }
-  
-    
-    .voting-card:hover .user-info-dropdown {
-      display: block; 
-    }
-    
-    .vote-item {
-      display: flex;
-      flex-direction: column; 
-      align-items: flex-start; 
-      margin-bottom: 15px;
-    }
-    .vote-option {
-      display: flex;
-      align-items: center; 
-      margin-bottom: 5px; 
-      font-size: 20px;
-    }
-    
-    .custom-checkbox {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #777;
-      border-radius: 50%; /* 동그라미 모양 */
-      background-color: white;
-      margin-right: 10px;
-      position: relative;
-      cursor: pointer;
-      transition: background-color 0.2s ease, border-color 0.2s ease;
-    }
-    
-    .custom-checkbox:checked {
-      background-color: yellow; /* 선택 시 색상 */
-      border-color: yellow;
-    }
-    
-    .checkbox-label {
-      white-space: normal;
-      word-wrap: break-word;
-      max-width: 90%;
-      display: inline-block;
-    }
-    
-    .vote-count {
-      font-size: 12px;
-      color: #777;
-      margin-left: 5px;
-    }
-    
-    .vote-button {
-      background-color: rgb(136, 84, 219);
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    
-    
-    .votingByUser {
-      font-size: 20px;
-    }
-    
-    .date {
-      font-size: 24px;
-      color: gray;
-      margin-left: 763px;
-      margin-top: -197px;
-    }
-    
-    .separator {
-      width: 80%;
-      height: 1px;
-      background-color: rgb(128, 128, 128);
-      margin: 10px 0 20px 0;
-      
-    }
-    
-    .vote-status {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      margin-bottom: 11px;
-      margin-top: 12px;
-      margin-left: 21px;
-    }
-  
-    .progress-bar {
-      width: 90%; 
-      height: 8px;
-      background-color: #e0e0e0;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: 5px;
-    }
-    
-  .progress-fill {
-    height: 100%;
-    transition: width 0.3s ease;
-    border-radius: 4px;
-    width: 30px;
-  }
-    .custom-checkbox:disabled {
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-    
-    .vote-button[disabled] {
-      /* background-color: gray; */
-      cursor: not-allowed;
-    }
-  
-    .check{
-      margin-left:230px;
-      margin-bottom:50px;
-      font-size: 20px;
-    }
-  
-    .endButton{
-      border: 1px solid black;
-      font-weight: bold;
-      cursor: default;
-    }
-  
-    .votingButton{
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-      margin-left: 380px;
-      opacity: 0.7;
-      font-size: 25px;
-  }
-  .votingButton:hover {
-    /* 버튼 호버 효과 */
-    opacity: 0.8;
-    background-color: #f0f0f0;
-  }
-  
-  .votingButton2{
-      
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-family: 'MinSans-Regular';
-    margin-left:380px;
-  }
-  .votingButton2:hover {
-  /* 버튼 호버 효과 */
-  opacity: 0.8;
-  background-color: #f0f0f0;
-  }
-  
-  .voteheader {
-    display: flex;
-    justify-content: left;
-    align-items: center; 
-    gap: 28px;
-      margin-left: 57px;
-  }
-  
-  .votingButton {
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-  
-    border: none;
-    border-radius: 4px;
-    margin-left: 10px;
-  }
 
-  .title{
-    text-align: center;
-    font-size: 26px;
-  }
+/* Voting status section */
+.vote-status {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
 
-  .button_div {
-    display: flex;
-    flex-direction: column; /* Arrange items vertically */
-    align-items: center; /* Center the buttons horizontally */
-    gap: 10px; /* Add space between buttons */
-    margin-top: -19px;
-    margin-left: 852px; /* Adjust as needed */
-  }
-  
-  .two_button {
-    border: none;
-    height: 38px;
-    background-color: lightgoldenrodyellow;
-    font-size: 37px;
-    margin-left: 4; /* Reset horizontal margin for vertical alignment */
-    margin-bottom:-8px ;
-  }
-  .plus_minus_button{
-    border: none;
-    font-size: 20px;
-    color: inherit;
-    margin-top: 14px;
-  }
+/* Voting name and detail */
+.vote-name-container {
+  margin-bottom: 20px;
+}
 
-  .submit_button{
-    border: none;
-    font-size: 20px;
-    width: 85px;
-    height: 50px;
-    margin-left: 20px;
-  }
+.vote-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 
-  .contents_detail{
-    font-size: 18px;
-    color: gray;
-    margin-top: 10px;
-  }
+.vote-detail {
+  font-size: 1rem;
+  color: #555;
+}
 
-  .voting_check_students{
-    font-size: 27px;
-    border: none;
-    background-color: #fbfade;
-  }
+/* Voting buttons */
+.button_div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 
-  .voting_result_text{
-    color: rgb(122, 145, 22);
-    margin-bottom: 30px;
-    font-size: 30px;
-  }
+.two_button {
+  background-color: #f1f1f1;
+  border: none;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
 
-  .voting_maker_icon{
-    font-size: 50px;
-    border: none;
-    margin-left: 2250px;
-    background-color: white;
-  }
+.two_button:hover {
+  background-color: #ddd;
+}
 
-  .new_voting_modal_text{
-    width: 500px;
-    font-size: 25px;
-  }
-  
-  .new_voting_modal{
-      height: 1085px;
-      position: absolute;
-      inset: 50% auto auto 50%;
-      background: rgb(255, 255, 255);
-      overflow: auto;
-      border-radius: 0px;
-      padding: 42px;
-      margin-right: -50%;
-      transform: translate(-50%, -50%);
-      width: 716px;
-    }
+/* Vote items (options) - Display horizontally */
+.voting_card_contents {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap; /* Wraps content to the next line when necessary */
+  gap: 10px;
+}
 
-    .voting_card_contents{
-      margin-top: 14px;
-      font-size: 20px;
-    }
+.vote-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  width: 30%; /* Each vote item takes up 30% of the container's width */
+  box-sizing: border-box;
+}
 
-    .student-voters-modal {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      z-index: 10;
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 10px;
-      min-width: 195px;
-      max-width: 1000px;
-      max-height: 202px;
-      overflow-y: auto;
-      min-height: 172px;
-    }
-    
-    .student-info {
-      display: flex; /* Align items horizontally */
-      align-items: center; /* Vertically center align */
-      margin-bottom: 8px; /* Space between each student */
-    }
+.contents_and_user_icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.vote-option {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-right: 10px;
+}
 
-    .student-img {
-   
-      margin-right: 8px; /* Space between image and text */
-    }
+.student-voters {
+  display: flex;
+  align-items: center;
+}
 
-    .student-name {
-      font-size: 30px; /* Font size for student name */
-      color: #333; /* Text color */
-      word-break: break-word; /* Prevent long names from overflowing */
-    }
-    
-    /* Additional styles for the parent container for relative positioning */
-    .vote-item {
-      position: relative; /* Make the modal appear relative to this container */
-    }
-    .contents_and_user_icons {
-      display: flex; /* Use flexbox for layout */
-      align-items: center; /* Align items vertically in the center */
-      justify-content: space-between; /* Add spacing between items */
-      gap: 10px; /* Add some space between items */
-    }
+/* Modal for student voters */
+.student-voters-modal {
+  margin-top: 10px;
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 8px;
+}
 
-    .vote-option {
-      margin: 0; /* Remove extra margins */
-    }
-    
-    .student-voters {
-      display: flex; /* Ensure the button aligns properly */
-      align-items: center; /* Align the button vertically */
-    }
+.student-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-    .end_voting_button{
-      border: none;
-      border-radius: 5px;
-      width: 85px;
-      height: 50px;
-      background-color: rgb(227, 253, 108);
-      margin-left: 35px;
-    }
+.student-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
 
-    /* Make the modal background transparent */
-    .ReactModal__Overlay {
-      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay for the modal */
-    }
+.student-name {
+  font-size: 1rem;
+  color: #333;
+}
 
-    .ReactModal__Content {
-      /* Keep the modal styling intact as per your current design */
-      border: none;
-      border-radius: 0;
-      padding: 42px;
-      width: 600px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      position: absolute;
-    }
+/* Buttons for ending voting and deleting */
+.end_voting_button, .voting_maker_icon {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-    /* Align student name and button horizontally */
-    .student-info-row {
-      display: flex;
-      justify-content: space-between; /* Align name and button horizontally */
-      align-items: center;
-      gap: 10px; /* Space between name and button */
-      padding: 5px;
-      background-color: #f9f9f9; /* Optional: Add a light background for better visibility */
-      border: 1px solid #ddd; /* Optional: Add a border */
-      border-radius: 5px; /* Optional: Rounded corners */
-    }
+.end_voting_button:hover, .voting_maker_icon:hover {
+  background-color: #0056b3;
+}
 
-    .bell_icon{
-      font-size: 50px;
-      border: none;
-      background-color: white;
-    }
+/* Styling for red text when voting is active or near end */
+.ing-voting {
+  color: red;
+  font-size: 1.2rem;
+}
 
-    .non-voting-students-grid{
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Automatically create columns */
-      grid-auto-rows: auto; /* Rows adjust to content height */
-      grid-gap: 10px; /* Space between items */
-      align-content: start; /* Align content at the top */
-      max-width: 100%; /* Ensure grid doesn't overflow horizontally */
-    }
+.end-time {
+  font-size: 1rem;
+  color: red;
+  font-weight: bold;
+}
+
+/* Vote status icons */
+.vote-status h6 {
+  font-size: 1.5rem;
+  color: red;
+}
+
+/* Tooltip-like modal for non-voting students */
+.student-voters-modal {
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}

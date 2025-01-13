@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import NewVoting from "../component/NewVoting";
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan,faChevronDown,faUsersSlash, faBell, faCircle, faPenToSquare,faUserCheck,faHourglassStart} from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faTrashCan,faChevronDown,faUsersSlash, faBell, faCircle, faPenToSquare,faUserCheck,faHourglassStart} from "@fortawesome/free-solid-svg-icons";
 import '../asset/css/Voting.css';
 import NonVotingModal from "../component/NonVotingModal";
 import ReactModal from "react-modal";
@@ -251,7 +251,7 @@ const Voting = () => {
                         ) : (
                           <>
                             <h6  style={{ color: "red" }}><FontAwesomeIcon icon={faCircle} /></h6>
-                            <h3 style={{ color: "red" }}>진행중</h3>
+                            <h3 className="ing-voting">진행중</h3>
                           </>
                         )}
                          {vote.vote && !isEnded && (
@@ -307,7 +307,7 @@ const Voting = () => {
                                             className="vote-option" 
                                             style={{ color: isMaxVoted ? "red" : "black" }} // 최대 투표 콘텐츠는 빨간색으로 표시
                                         >
-                                            <FontAwesomeIcon icon={faChevronDown} />   {content.votingContents} - {voters.length}명
+                                            <FontAwesomeIcon icon={faCircleCheck} />   {content.votingContents} - {voters.length}명
                                         </p>
                                         <div className="student-voters">
                                             
