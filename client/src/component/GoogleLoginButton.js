@@ -1,9 +1,8 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { fetchFromAPI } from "../utils/api";
-import { getStoredProfile, saveProfileToStorage } from "../utils/localStorage";
+import { saveProfileToStorage } from "../utils/localStorage";
 import { useAuth } from "../contexts/AuthContext";
 
 const GoogleLoginButton = () => 

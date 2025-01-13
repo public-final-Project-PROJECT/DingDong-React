@@ -1,83 +1,35 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from "react";
 
-const DraggableTool = ({ children }) => {
-    const [dragging, setDragging] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-
-    const handleMouseDown = (e) => {
-        setDragging(true);
-        setPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleMouseMove = (e) => {
-        if (!dragging) return;
-
-        const dx = e.clientX - position.x;
-        const dy = e.clientY - position.y;
-
-        setPosition((prev) => ({
-            x: prev.x + dx,
-            y: prev.y + dy,
-        }));
-
-        e.target.style.transform = `translate(${position.x + dx}px, ${position.y + dy}px)`;
-    };
-
-    const handleMouseUp = () => {
-        setDragging(false);
-    };
-
-    useEffect(() => {
-        window.addEventListener("mousemove", handleMouseMove);
-        window.addEventListener("mouseup", handleMouseUp);
-
-        return () => {
-            window.removeEventListener("mousemove", handleMouseMove);
-            window.removeEventListener("mouseup", handleMouseUp);
-        };
-    }, [dragging]);
-
-    return (
-        <div
-            onMouseDown={handleMouseDown}
-            style={{
-                position: "absolute",
-                top: position.y,
-                left: position.x,
-                cursor: "move",
-            }}
-        >
-            {children}
-        </div>
-    );
-};
-
-const DrawingApp = () =>
+const DrawingApp = () => 
 {
     const canvasRef = useRef(null);
     const [drawing, setDrawing] = useState(false);
-    const [shape, setShape] = useState({ color: 'white', width: 3 });
-    const [showRuler, setShowRuler] = useState(false);
-    const [showProtractor, setShowProtractor] = useState(false);
+    const [shape, setShape] = useState({ color: "white", width: 3 });
+    const [addingText, setAddingText] = useState(false);
+    const [textBoxes, setTextBoxes] = useState([]);
+    const [draggingBox, setDraggingBox] = useState(null);
+    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
     const canvasWidth = 1910;
     const canvasHeight = 720;
 
     const colors = [
-        { value: 'white', label: '하얀색' },
-        { value: 'palevioletred', label: '빨간색' },
-        { value: 'yellow', label: '노란색' },
-        { value: 'skyblue', label: '파란색' },
+        { value: "white", label: "하얀색" },
+        { value: "palevioletred", label: "빨간색" },
+        { value: "yellow", label: "노란색" },
+        { value: "skyblue", label: "파란색" },
     ];
 
-    useEffect(() => {
+    useEffect(() => 
+    {
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#194038';
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#194038";
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     }, []);
 
-    const getCanvasCoordinates = (event) => {
+    const getCanvasCoordinates = (event) => 
+    {
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
@@ -88,21 +40,31 @@ const DrawingApp = () =>
         return { x, y };
     };
 
-    const handleMouseDown = (e) => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        const { x, y } = getCanvasCoordinates(e);
-
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        setDrawing(true);
+    const handleMouseDown = (e) => 
+    {
+        if (addingText) 
+        {
+            const { x, y } = getCanvasCoordinates(e);
+            addTextBox(x, y);
+            setAddingText(false);
+        } 
+        else 
+        {
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext("2d");
+            const { x, y } = getCanvasCoordinates(e);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            setDrawing(true);
+        }
     };
 
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e) => 
+    {
         if (!drawing) return;
 
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         const { x, y } = getCanvasCoordinates(e);
 
         ctx.lineTo(x, y);
@@ -111,31 +73,83 @@ const DrawingApp = () =>
         ctx.stroke();
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = () => 
+    {
         setDrawing(false);
     };
 
-    const handleClear = () => {
+    const handleClear = () => 
+    {
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#194038';
-        ctx.fillRect(0, 0, canvas.width, canvasHeight);
+        ctx.fillStyle = "#194038";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        setTextBoxes([]);
     };
 
-    const handleShapeChange = (e) => {
+    const handleShapeChange = (e) => 
+    {
         const { name, value } = e.target;
         setShape((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const addTextBox = (x, y) => 
+    {
+        const newTextBox = { x, y, text: "", id: Date.now() };
+        setTextBoxes((prev) => [...prev, newTextBox]);
+    };
+
+    const handleTextChange = (id, newText) => 
+    {
+        setTextBoxes((prev) =>
+            prev.map((box) =>
+                box.id === id ? { ...box, text: newText } : box
+            )
+        );
+    };
+
+    const handleDragStart = (id, e) => 
+    {
+        const box = textBoxes.find((box) => box.id === id);
+        const offsetX = e.clientX - box.x;
+        const offsetY = e.clientY - box.y;
+        setDraggingBox(id);
+        setDragOffset({ x: offsetX, y: offsetY });
+    };
+
+    const handleDrag = (e) => 
+    {
+        if (draggingBox !== null) 
+        {
+            const newX = e.clientX - dragOffset.x;
+            const newY = e.clientY - dragOffset.y;
+
+            setTextBoxes((prev) =>
+                prev.map((box) =>
+                    box.id === draggingBox
+                        ? { ...box, x: newX, y: newY }
+                        : box
+                )
+            );
+        }
+    };
+
+    const handleDragEnd = () => 
+    {
+        setDraggingBox(null);
     };
 
     return (
         <div
             style={{
-                position: 'relative',
-                width: '100%',
-                maxWidth: '100%',
-                margin: '0 auto',
+                position: "relative",
+                width: "100%",
+                maxWidth: "100%",
+                margin: "0 auto",
             }}
+            onMouseMove={handleDrag}
+            onMouseUp={handleDragEnd}
         >
             <canvas
                 ref={canvasRef}
@@ -145,11 +159,29 @@ const DrawingApp = () =>
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 style={{
-                    width: '100%',
-                    height: 'auto',
-                    border: '1px solid black',
+                    width: "100%",
+                    height: "auto",
+                    border: "1px solid black",
                 }}
             />
+            {textBoxes.map(({ x, y, text, id }) => (
+                <textarea
+                    rows={1}
+                    key={id}
+                    value={text}
+                    onChange={(e) => handleTextChange(id, e.target.value)}
+                    onMouseDown={(e) => handleDragStart(id, e)}
+                    style={{
+                        position: "absolute",
+                        left: `${x}px`,
+                        top: `${y}px`,
+                        backgroundColor: "transparent",
+                        border: "none",
+                        resize: "none",
+                        color: "white",
+                    }}
+                />
+            ))}
             <div>
                 <label>
                     펜 색상:
@@ -180,49 +212,8 @@ const DrawingApp = () =>
                     </select>
                 </label>
                 <button onClick={handleClear}>지우기</button>
-                <button onClick={() => setShowRuler(!showRuler)}>
-                    {showRuler ? 'Hide Ruler' : 'Show Ruler'}
-                </button>
-                <button onClick={() => setShowProtractor(!showProtractor)}>
-                    {showProtractor ? 'Hide Protractor' : 'Show Protractor'}
-                </button>
+                <button onClick={() => setAddingText(true)}>텍스트 박스 추가</button>
             </div>
-
-            {showRuler && (
-                <DraggableTool>
-                    <div
-                        style={{
-                            width: '600px',
-                            height: '100px',
-                            backgroundColor: 'gray',
-                            color: 'white',
-                            textAlign: 'center',
-                            lineHeight: '20px',
-                            cursor: 'move',
-                        }}
-                    >
-                        Ruler
-                    </div>
-                </DraggableTool>
-            )}
-
-            {showProtractor && (
-                <DraggableTool>
-                    <div
-                        style={{
-                            width: '200px',
-                            height: '200px',
-                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                            border: '2px solid black',
-                            borderRadius: '50%',
-                            textAlign: 'center',
-                            cursor: 'move',
-                        }}
-                    >
-                        Protractor
-                    </div>
-                </DraggableTool>
-            )}
         </div>
     );
 };
