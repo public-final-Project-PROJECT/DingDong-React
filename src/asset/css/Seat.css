@@ -154,8 +154,8 @@
   .square-grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr); /* Create 10 equal-width columns */
-    grid-template-rows: repeat(10, 1fr); /* Create 10 equal-height rows */
-    gap: 5px; /* Add spacing between the squares */
+    grid-template-rows: repeat(7, 1fr); /* Create 10 equal-height rows */
+    gap: 6px; /* Add spacing between the squares */
     width: 50%; /* Adjust to fit your modal width */
     height: 50%; /* Adjust to fit your modal height */
   }

@@ -73,6 +73,7 @@ const SeatArrangement = () => {
         saveStudentsAPI();
         setButtonsDisabled(false);
         setShowSaveButton(false);
+        alert("좌석이 저장되었습니다 !");
         setRandomSpinLabel("start !");
     };
 
@@ -86,6 +87,8 @@ const SeatArrangement = () => {
         setButtonsDisabled(false);
         setShowSaveButton(false);
         setRandomSpinLabel("start!");
+        seatTable(); // 초기 좌석 불러오기
+        studentNameAPI(); // 이름 불러오기
     };
 
     useEffect(() => {
@@ -120,58 +123,19 @@ const SeatArrangement = () => {
 
     const seatTable = async () => {
         try {
-            const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: 4 });
+            const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: 1 });
             setLoadedSeats(response.data);
 
-            if(response.data == null){
-              console.log("좌석표 비었다.")
-              findByStudents(); // 만약, 좌석표 table 이 비어있다면 studentsTable 에서 학생 정보 불러옴
-            }
         } catch (error) {
-            findByStudents();
+            // findByStudents();
             console.error("기존 좌석 불러오는 API error:", error);
         }
     };
 
-    // studentsTable 에서 학생 정보 불러오는 api
-    const findByStudents = async() => {
-      try{
-        console.log("좌석표 비어서 학생테이블 조회");
-        const response = await axios.get('http://localhost:3013/api/students/viewClass',
-          {params : {classId : 4}});
-          console.log(response);
-          setStudentsTableData(response.data);
-          saveStudentsAPI2(); 
-      }catch(e) {
-        console.error("students Table api 중 error : " + e)
-      }
-    }
-
-    const saveStudentsAPI2 = async () => {
-      try {
-          const seatsToSave = studentsTableData.map((student, index) => {
-              const columnId = (index % 4) + 1; // 열 번호 계산
-              const rowId = Math.floor(index / 4) + 1; // 행 번호 계산
-  
-              return {
-                  classId : 4,
-                  studentId: student.studentId,
-                  rowId: rowId,
-                  columnId: columnId,
-              };
-          });
-  
-          // API 호출
-          await axios.post('http://localhost:3013/api/seat/saveSeat', { studentList: seatsToSave });
-      } catch (error) {
-          console.error("저장 API 요청 중 error:", error);
-      }
-  };
-  
 
     const studentNameAPI = async () => {
         try {
-            const response = await axios.post('http://localhost:3013/api/seat/findName', { classId: 4 });
+            const response = await axios.post('http://localhost:3013/api/seat/findName', { classId: 1 });
             setNameList(response.data.sort((a, b) => a.studentId - b.studentId));
         } catch (error) {
             console.error("학생 이름 조회 중 error:", error);

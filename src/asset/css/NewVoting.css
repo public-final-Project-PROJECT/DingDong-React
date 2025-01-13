@@ -1,12 +1,8 @@
-.new_voting_modal_text{
-
-}
 
 .new_voting_modal{
-    height: 1085px;
+    height: 800px;
     position: absolute;
     inset: 50% auto auto 50%;
-    border: none;
     background: rgb(255, 255, 255);
     overflow: auto;
     border-radius: 0px;
@@ -15,4 +11,23 @@
     margin-right: -50%;
     transform: translate(-50%, -50%);
     width: 716px;
+  }
+
+  .new-voting-title{
+    margin-top: 30pz;
+  }
+
+  .new-voting-first-input{
+    margin-top: 29px;
+  }
+
+  .contents_detail{
+    font-size: 14px;
+    color: gray;
+    margin-top: 10px;
+  }
+
+  .radio-box-text{
+    margin-top: 10px;
+    margin-left: 10px;
   }
