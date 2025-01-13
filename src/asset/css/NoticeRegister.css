@@ -1,5 +1,5 @@
 .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
@@ -7,12 +7,14 @@
 }
 
 .title {
-    font-size: 24px;
+    font-size: 25px;
+    font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
     color: #333;
 }
 
+/* form-group : 제목 작성 */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -27,14 +29,16 @@
 }
 
 .form-group input {
-    background-color: rgb(232, 232, 232);
+    background-color: #f9f9f9;
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
+
+/* noticeCategory-group : 카테고리 선택 */
 .noticeCategory-group {
     margin-bottom: 15px;
 }
@@ -48,7 +52,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .noticeCategory-group textarea {
@@ -60,14 +64,8 @@
     min-height: 100px;
 }
 
-/* .category-option {
-    margin-left: 30px;
-}
 
-.noticeCategory-group select {
-    margin-right: 20px;
-} */
-
+/* noticeContent-group : 내용 작성란 */
 .noticeContent-group {
     margin-bottom: 10px;
 }
@@ -89,35 +87,101 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
     min-height: 100px;
+    background-color: #f9f9f9;
 }
 
-.noticeImg-group label {
-    margin-bottom: 5px;
-}
-
-.noticeImg-group input {
-    background-color: #f3f3f3;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+/* noticeImg-group : 이미지 선택 */
+.noticeImg-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .image-upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
+    background-color: #f9f9f9;
     border-radius: 4px;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-.noticeFile-group input {
-    background-color: #f3f3f3;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
+  }
+  
+  .image-input {
+    display: none; /* 파일 입력 필드는 숨김 처리 */
+  }
+  
+  .Image-upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #333;
+    vertical-align: middle;
+    background-color: #ccc;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
     border-radius: 4px;
-    font-size: 16px;
-    margin-bottom: 15px;
-}
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    box-shadow: 2px 2px 3px gray;
+  }
+  
+  .Image-upload-button:hover {
+    background-color: #777777;
+    color: #fff;
+  }
+  
 
-/* 등록하기 */
+/* noticeFile-group : 파일 선택 */
+.noticeFile-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .file-upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+  }
+  
+  .file-input {
+    display: none; /* 파일 입력 필드는 숨김 처리 */
+  }
+  
+  .file-upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #333;
+    vertical-align: middle;
+    background-color: #ccc;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+        box-shadow: 2px 2px 3px gray;
+  }
+  
+  .file-upload-button:hover {
+    background-color: #777777;
+    color: #fff;
+  }
+
+/* 등록하기 버튼 */
 .button-primary {
     background-color: #4CAF50;
     color: white;
@@ -125,16 +189,9 @@
     border-radius: 4px;
     padding: 10px 20px;
     cursor: pointer;
+    box-shadow: 2px 2px 3px grey;
 }
 
-.noticeFile-group input {
-    background-color: rgb(232, 232, 232);
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
 
 .button-primary:hover {
     background-color: white;
@@ -142,7 +199,7 @@
     border: 2px solid #076c07;
 }
 
-/* 취소 */
+/* 취소 버튼 */
 .button-secondary {
     background-color: white;
     color: #4CAF50;
@@ -151,6 +208,7 @@
     padding: 10px 20px;
     cursor: pointer;
     font-weight: bold;
+    box-shadow: 2px 2px 3px gray;
 }
 
 .button-secondary:hover {

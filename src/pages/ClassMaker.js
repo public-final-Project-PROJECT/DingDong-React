@@ -8,6 +8,7 @@ import { fetchFromAPI } from "../utils/api";
 import { useAuth } from "../contexts/AuthContext";
 import { googleLogout } from "@react-oauth/google";
 import { clearProfileFromStorage } from "../utils/localStorage";
+import '../asset/css/ClassMaker.css';
 
 const ClassMaker = () => 
 {
@@ -151,14 +152,15 @@ const ClassMaker = () =>
     };
 
     return (
-        <div>
+        <div className="classMaker">
             <h2>학급 생성</h2>
             {!classCount && <p>입력하신 정보로 학급을 생성합니다.</p>}
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form className="classMaker-form" onSubmit={(e) => e.preventDefault()}>
                 <SchoolNameDisplay
                     isEditable={isSchoolNameEditable}
                     schoolName={schoolName}
                     onChange={(e) => setSchoolName(e.target.value)}
+                    className="schoolNameDisplay"
                 />
                 <DropdownField
                     id="grade"
@@ -166,6 +168,7 @@ const ClassMaker = () =>
                     value={grade}
                     options={[1, 2, 3, 4, 5, 6]}
                     onChange={(e) => setGrade(e.target.value)}
+                    className="grade"
                 />
                 <DropdownField
                     id="classNo"
@@ -173,6 +176,7 @@ const ClassMaker = () =>
                     value={classNo}
                     options={Array.from({ length: 20 }, (_, i) => i + 1)}
                     onChange={(e) => setClassNo(e.target.value)}
+                    className="classNo"
                 />
                 <InputField
                     id="classNickname"
@@ -180,6 +184,7 @@ const ClassMaker = () =>
                     type="text"
                     value={classNickname}
                     onChange={(e) => setClassNickname(e.target.value)}
+                    className="classNickname"
                 />
                 <button onClick={submitConfirm}>학급 생성</button>
                 {!classCount && <button onClick={handleLogout}>로그아웃</button>}
