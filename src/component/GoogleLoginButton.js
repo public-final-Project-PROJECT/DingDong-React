@@ -1,14 +1,14 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { fetchFromAPI } from "../utils/api";
-import { getStoredProfile, saveProfileToStorage } from "../utils/localStorage";
+import { saveProfileToStorage } from "../utils/localStorage";
+import { useAuth } from "../contexts/AuthContext";
 
 const GoogleLoginButton = () => 
 {
     const navigate = useNavigate();
-    const [profile, setProfile] = useState(getStoredProfile);
+    const { login, profile, setProfile } = useAuth();
 
     const handleLoginSuccess = async (codeResponse) => 
     {
@@ -27,7 +27,7 @@ const GoogleLoginButton = () =>
                     picture: decoded.picture,
                 }),
             });
-
+            login(decoded);
             navigate("/");
         } catch (err) {
             console.error("Error during login:", err);
@@ -43,7 +43,13 @@ const GoogleLoginButton = () =>
                 />
             ) : (
                 <div>
-                    <button onClick={() => navigate("/profile")}>
+                    <button 
+                        onClick={() => navigate("/profile")}
+                        style={{ 
+                            backgroundColor: "transparent",    
+                            border: "none"
+                        }}
+                    >
                         <img
                             src={profile.picture}
                             alt="profile"

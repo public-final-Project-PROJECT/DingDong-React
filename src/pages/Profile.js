@@ -142,8 +142,8 @@ const Profile = () =>
                 </p>
                 <button onClick={handleLogout}>로그아웃</button>
                 <button onClick={withdrawAlert}>회원탈퇴</button>
-                <ClassList />
             </div>
+            <ClassList />
         </div>
     );
 };
