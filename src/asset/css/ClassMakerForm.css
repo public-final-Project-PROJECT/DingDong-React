@@ -1,18 +1,18 @@
 
 .schoolName {
     margin-bottom: 10px;
-    border-top: 1px solid gray;
+    border-top: 1px solid #ccc;
     padding-top: 10px;
 }
 
 .schoolName label {
-    margin-left: 5%;
+    margin-left: 20px;
     font-size: 14.5px;
     text-align: center;
 }
 
 .schoolName input {
-    margin-left: 10px;
+    margin-left: 40px;
     height: 30px;
     width: 600px;
     color: gray;
@@ -25,13 +25,12 @@
 .dropdown-field {
     border-top: 1px solid #ccc;
     padding-top: 10px;
-    margin-left: 13px;
 }
 
 .dropdown-field select {
-    margin-left: 3%;
+    margin-left: 59px;
     margin-bottom: 10px;
-    width: 500px;
+    width: 600px;
     height: 30px;
     color: gray;
     font-size: 13px;
@@ -40,7 +39,7 @@
 }
 
 .dropdown-field label {
-    margin-left: 5%;
+    /* margin-left: 5%; */
     font-size: 14.5px; 
     text-align: center;
 }
@@ -53,16 +52,16 @@
 
 .input-field input {
     margin-left: 10px;
-    width: 500px;
+    width: 600px;
     height: 30px;
     background-color: #f4f4f4;
     border: 0.5px solid #ccc;
 }
 
 .input-field label {
-    margin-left: 5%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     font-size: 14.5px;
     text-align: center;
 }
