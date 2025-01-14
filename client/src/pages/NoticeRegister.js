@@ -203,10 +203,10 @@ const NoticeInsert = ({ closeModal }) => {
           </div>
 
         <div className="button-group">
-          <button type="submit" className="button-primary">
+          <button type="submit">
             등록하기
           </button>
-          <button type="button" className="button-secondary" onClick={closeModal}>
+          <button type="button" onClick={closeModal}>
             취소
           </button>
         </div>

@@ -3,7 +3,7 @@ import '../asset/css/ClassMakerForm.css';
 export const SchoolNameDisplay = ({ isEditable, schoolName, onChange }) => (
     isEditable ? (
         <div className="schoolName">
-            <label htmlFor="schoolName">학교 이름 |</label>
+            <label htmlFor="schoolName">학교 이름 </label>
             <input
                 id="schoolName"
                 type="text"

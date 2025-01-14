@@ -2,9 +2,9 @@
     padding: 20px;
     max-width: 1400px;
     margin: 0 auto;
-    background-color: #f8f8f8;
-    border-bottom: 1px solid gray;  /* 하단 줄 긋기 */
-    border-top: 1px solid gray;     /* 상단 줄 긋기 */
+    background-color: #fff;
+    border-bottom: 1px solid #d8d8d8;  /* 하단 줄 긋기 */
+    border-top: 1px solid #d8d8d8;     /* 상단 줄 긋기 */
     margin-bottom: 10px;
 }
 
@@ -13,10 +13,20 @@
     border-color: #4CAF50;
     color: #4CAF50;
     margin-right: 10px;
-    box-shadow: 2px 2px 4px gray;
-    font-size: 15px;
+    box-shadow: 1px 1px 3px gray;
+    font-size: 13px;
     border-radius: 5px;
     font-weight: bold;
+    width: 80px;
+    height: 30px;
+}
+
+.teacher_profile p {
+    font-size: 13px;
+    margin-top: 13px;
+    /* text-align: center; */
+    /* margin-right: 130px; */
+    margin-left: 337px;
 }
 
 .teacher_profile button:hover {
@@ -38,17 +48,24 @@
     margin-bottom: 10px;
 }
 
+.school {
+    text-align: center;
+}
+
 .school label {
     margin-right: 10px;
+    font-size: 14px;
 }
 
 .school input {
-    width: 15%;
-    padding: 8px;
+    width: 400px;
+    height: 30px;
     margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    background-color: #f4f4f4;
+    border: 0.5px solid #ccc;
+    font-size: 13px;
 }
+
 
 /* .school button {
     padding: 8px 12px;
@@ -75,6 +92,9 @@
     background-color: #fff;
 }
 
+.logButton {
+    text-align: center;
+}
 /* .teacher_profile button {
     display: inline-block;
     margin: 5px 0;
