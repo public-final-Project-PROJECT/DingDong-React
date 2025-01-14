@@ -189,8 +189,12 @@ const ClassMaker = () =>
                     onChange={(e) => setClassNickname(e.target.value)}
                     className="classNickname"
                 />
+
+                <div className="classMakerButton">
                 <button onClick={submitConfirm}>학급 생성</button>
                 {!classCount && <button onClick={handleLogout}>로그아웃</button>}
+                </div>
+
             </form>
         </div>
     );
