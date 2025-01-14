@@ -1,0 +1,68 @@
+
+.schoolName {
+    margin-bottom: 10px;
+    border-top: 1px solid gray;
+    padding-top: 10px;
+}
+
+.schoolName label {
+    margin-left: 5%;
+    font-size: 14.5px;
+    text-align: center;
+}
+
+.schoolName input {
+    margin-left: 10px;
+    height: 30px;
+    width: 600px;
+    color: gray;
+    font-size: 13px;
+    background-color: #f4f4f4;
+    border: 0.5px solid #ccc;
+}
+
+/* 학년/반 선택 부분 css */
+.dropdown-field {
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-left: 13px;
+}
+
+.dropdown-field select {
+    margin-left: 3%;
+    margin-bottom: 10px;
+    width: 500px;
+    height: 30px;
+    color: gray;
+    font-size: 13px;
+    background-color: #f4f4f4;
+    border: 0.5px solid #ccc;
+}
+
+.dropdown-field label {
+    margin-left: 5%;
+    font-size: 14.5px; 
+    text-align: center;
+}
+
+/* 학급 이름(선택) css */
+.input-field {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.input-field input {
+    margin-left: 10px;
+    width: 500px;
+    height: 30px;
+    background-color: #f4f4f4;
+    border: 0.5px solid #ccc;
+}
+
+.input-field label {
+    margin-left: 5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 14.5px;
+    text-align: center;
+}

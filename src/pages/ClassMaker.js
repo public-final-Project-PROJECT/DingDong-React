@@ -164,7 +164,7 @@ const ClassMaker = () =>
                 />
                 <DropdownField
                     id="grade"
-                    label="학년:"
+                    label="학년 | "
                     value={grade}
                     options={[1, 2, 3, 4, 5, 6]}
                     onChange={(e) => setGrade(e.target.value)}
@@ -172,7 +172,7 @@ const ClassMaker = () =>
                 />
                 <DropdownField
                     id="classNo"
-                    label="반:"
+                    label="반 |"
                     value={classNo}
                     options={Array.from({ length: 20 }, (_, i) => i + 1)}
                     onChange={(e) => setClassNo(e.target.value)}
@@ -180,7 +180,7 @@ const ClassMaker = () =>
                 />
                 <InputField
                     id="classNickname"
-                    label="학급 이름(선택):"
+                    label="학급 이름(선택) |"
                     type="text"
                     value={classNickname}
                     onChange={(e) => setClassNickname(e.target.value)}

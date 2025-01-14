@@ -3,18 +3,27 @@
     max-width: 1400px;
     margin: 0 auto;
     background-color: #f8f8f8;
-    /*border-radius: 10px;*/
     border-bottom: 1px solid gray;  /* 하단 줄 긋기 */
     border-top: 1px solid gray;     /* 상단 줄 긋기 */
+    margin-bottom: 10px;
 }
 
 .teacher_profile button {
-    background-color: white;
-    border: none;
-    color: black;
+    background-color: #fff;
+    border-color: #4CAF50;
+    color: #4CAF50;
     margin-right: 10px;
-    cursor: pointer;
     box-shadow: 2px 2px 4px gray;
+    font-size: 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.teacher_profile button:hover {
+    background-color: #fff;
+    color: #205f22;
+    border-color: #205f22;
+    font-weight: bold;
 }
 
 .google_profile {
@@ -41,7 +50,7 @@
     border-radius: 5px;
 }
 
-.school button {
+/* .school button {
     padding: 8px 12px;
     border: none;
     background-color: #ffffff;
@@ -50,13 +59,23 @@
     cursor: pointer;
     box-shadow: 2px 2px 5px gray;
     margin-right: 10px;
+} */
+
+.school button {
+    background-color: white;
+    border-color: #4CAF50;
+    color: #4CAF50;
+    font-weight: bold;
+    margin-right: 10px;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px gray;
 }
 
 .school button:hover {
-    background-color: #ddd;
+    background-color: #fff;
 }
 
-.teacher_profile button {
+/* .teacher_profile button {
     display: inline-block;
     margin: 5px 0;
     padding: 10px 15px;
@@ -67,5 +86,5 @@
 
 button:hover {
     background-color: #ddd;
-}
+} */
 
