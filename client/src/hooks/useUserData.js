@@ -104,16 +104,12 @@ export const useUserData = () =>
     {
         try {
             const response = await fetchFromAPI(`/user/get/class/${profile?.email}`);
-            if (response?.latestClassId) 
-            {
-                setSelectedClassId(response.latestClassId);
-                localStorage.setItem("selectedClassId", response.latestClassId);
-            }
+            setSelectedClassId(response);
+            localStorage.setItem("selectedClassId", response);
         } catch (error) {
             console.error("Error fetching class id:", error);
         }
     };
-
 
     return {
         fetchUserData,
