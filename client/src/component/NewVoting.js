@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faXmark,faClockRotateLeft,faCalendar,faUser,faLock, faCheckDouble,faMinus,faPlus} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import  '../asset/css/Voting.css';
+import  '../asset/css/NewVoting.css';
 import html2canvas from "html2canvas";
 
 const Voting = ({newVotingModal,setNewVotingModal}) => {
@@ -146,26 +146,18 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
       >
          <button
         onClick={cancelHandler}
-        style={{
-          position: "absolute",
-          top: "10px", 
-          right: "10px",
-          fontSize: "2rem", 
-          fontWeight: "bold", 
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-        }}
       >
         <FontAwesomeIcon icon={faXmark} />
       </button>
       <div className="new_voting_modal_text">
+        <h2 className="new-voting-title">새 투표 만들기</h2>
         <form onSubmit={handleSubmit}>
           <input
             placeholder="제목을 입력하세요."
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className="new-voting-first-input"
             required
           />
           <br/>
@@ -214,8 +206,8 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 value="true"
                 onChange={()=> setDateShow(true)}
                 >
-                <FontAwesomeIcon icon={faCalendar} />  날짜 지정
-                <h5 className="contents_detail" >   지정한 마감일에 자동으로 투표가 종료됩니다.</h5>
+                <FontAwesomeIcon icon={faCalendar} className="radio-box-text"/>  날짜 지정
+                <h5 className="contents_detail">   지정한 마감일에 자동으로 투표가 종료됩니다.</h5>
                 {dateShow && (
                     <input
                       type="date"
@@ -230,7 +222,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 value="false" 
                 onChange={()=> setDateShow(false)}
                 >
-                <FontAwesomeIcon icon={faUser} /> 사용자 별도 지정
+                <FontAwesomeIcon icon={faUser} className="radio-box-text" /> 사용자 별도 지정
                 <h5 className="contents_detail" >  선생님이 종료버튼을 눌러야 종료됩니다.</h5>
                 </Radio>
               </RadioGroup>
