@@ -1,0 +1,23 @@
+
+.classMaker {
+    text-align: center;
+}
+
+
+.classMaker-form button {
+    background-color: #4CAF50;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.classMaker-form {
+    text-align: center;
+}
+
+.schoolNameDisplay {
+    margin-bottom: 10px;
+}
+
+.grade {
+    margin-bottom: 10px;
+}
