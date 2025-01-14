@@ -235,8 +235,6 @@ const DrawingApp = () =>
                             height: "10px",
                             backgroundColor: "gray",
                             cursor: "move",
-                            bottom: "-10px",
-                            right: "-10px",
                             borderRadius: "50%",
                             zIndex: 1, 
                         }}
