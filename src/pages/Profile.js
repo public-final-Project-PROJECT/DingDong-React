@@ -126,7 +126,7 @@ const Profile = () =>
                     {profile?.email}<br/>
                 </div>
                 <div className="school">
-                    <label htmlFor="schoolName">재직중인 학교: </label>
+                    <label htmlFor="schoolName">재직중인 학교 </label>
                     <input
                         id="schoolName"
                         type="text"
@@ -140,8 +140,12 @@ const Profile = () =>
                 <p>
                     {fetched ? null : "재직중인 학교 설정 시 학급 생성은 선택하신 학교로만 가능함에 유의해주세요."}
                 </p>
+
+                <div className="logButton">
                 <button onClick={handleLogout}>로그아웃</button>
                 <button onClick={withdrawAlert}>회원탈퇴</button>
+                </div>
+
             </div>
             <ClassList />
         </div>

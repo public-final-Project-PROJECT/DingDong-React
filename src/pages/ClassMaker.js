@@ -162,32 +162,39 @@ const ClassMaker = () =>
                     onChange={(e) => setSchoolName(e.target.value)}
                     className="schoolNameDisplay"
                 />
-                <DropdownField
-                    id="grade"
-                    label="학년:"
-                    value={grade}
-                    options={[1, 2, 3, 4, 5, 6]}
-                    onChange={(e) => setGrade(e.target.value)}
-                    className="grade"
+                <div className="grade">
+                    <DropdownField
+                        id="grade"
+                        label="학년"
+                        value={grade}
+                        options={[1, 2, 3, 4, 5, 6]}
+                        onChange={(e) => setGrade(e.target.value)}
                 />
-                <DropdownField
-                    id="classNo"
-                    label="반:"
-                    value={classNo}
-                    options={Array.from({ length: 20 }, (_, i) => i + 1)}
-                    onChange={(e) => setClassNo(e.target.value)}
-                    className="classNo"
+                </div>
+
+                <di className="classNo"v>
+                        <DropdownField
+                        id="classNo"
+                        label="반"
+                        value={classNo}
+                        options={Array.from({ length: 20 }, (_, i) => i + 1)}
+                        onChange={(e) => setClassNo(e.target.value)}
                 />
+                </di>
                 <InputField
                     id="classNickname"
-                    label="학급 이름(선택):"
+                    label="학급 이름(선택)"
                     type="text"
                     value={classNickname}
                     onChange={(e) => setClassNickname(e.target.value)}
                     className="classNickname"
                 />
+
+                <div className="classMakerButton">
                 <button onClick={submitConfirm}>학급 생성</button>
                 {!classCount && <button onClick={handleLogout}>로그아웃</button>}
+                </div>
+
             </form>
         </div>
     );
