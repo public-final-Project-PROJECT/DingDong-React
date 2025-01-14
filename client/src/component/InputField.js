@@ -1,5 +1,7 @@
+import '../asset/css/ClassMakerForm.css';
+
 export const InputField = ({ id, label, type, value, onChange, placeholder }) => (
-    <div>
+    <div className="input-field">
         <label htmlFor={id}>{label}</label>
         <input
             id={id}

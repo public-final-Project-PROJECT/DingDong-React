@@ -1,5 +1,7 @@
+import '../asset/css/ClassMakerForm.css';
+
 export const DropdownField = ({ id, label, value, options, onChange }) => (
-    <div>
+    <div className="dropdown-field">
         <label htmlFor={id}>{label}</label>
         <select id={id} value={value} onChange={onChange}>
             <option value="" disabled>
