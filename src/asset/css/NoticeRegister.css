@@ -7,7 +7,7 @@
 }
 
 .title {
-    font-size: 25px;
+    font-size: 24px;
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
@@ -22,6 +22,7 @@
     border-top: 1px solid #ccc;
     margin-top: 15px;
     padding-top: 10px;
+    font-size: 15px;
 }
 
 .form-group label {
@@ -31,10 +32,10 @@
 .form-group input {
     background-color: #f9f9f9;
     width: 100%;
-    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
+    height: 30px;
+    font-size: 13.5px;
 }
 
 
@@ -49,10 +50,10 @@
 
 .noticeCategory-group select {
     width: 100%;
-    padding: 10px;
+    height: 30px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13.5px;
 }
 
 .noticeCategory-group textarea {
@@ -182,32 +183,32 @@
   }
 
 /* 등록하기 버튼 */
-.button-primary {
+/* .button-primary {
     background-color: #4CAF50;
     color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    box-shadow: 2px 2px 3px grey;
-}
-
-
-.button-primary:hover {
-    background-color: white;
-    color: #076c07;
-    border: 2px solid #076c07;
-}
-
-/* 취소 버튼 */
-.button-secondary {
-    background-color: white;
-    color: #4CAF50;
     border: 2px solid #4CAF50;
     border-radius: 4px;
     padding: 10px 20px;
     cursor: pointer;
+    box-shadow: 2px 2px 3px grey;
+    height: 40px;
+}
+
+
+.button-primary:hover {
+    background-color: #f9f9f9;
+    color: #076c07;
+
+} */
+
+/* 취소 버튼 */
+/* .button-secondary {
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    border-radius: 4px;
+    padding: 10px 20px;
     font-weight: bold;
+    height: 40px;
     box-shadow: 2px 2px 3px gray;
 }
 
@@ -216,6 +217,22 @@
     color: #076c07;
     border: 2px solid #076c07;
 
+} */
+
+.button-group button {
+  background-color: #fff;
+  color: #4CAF50;
+  border-color: #4CAF50;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  width: 90px;
+  height: 40px;
+  box-shadow: 2px 2px 3px gray;
 }
 
- 
+.button-group button:hover {
+  background-color: #076c07;
+  color: #fff;
+  border: none;
+}
