@@ -113,7 +113,7 @@ const NoticeInsert = ({ closeModal }) => {
 
   return (
     <div className="container">
-      <h1 className="title">공지사항 작성</h1>
+      <h1 className="noticetitle">공지사항 작성</h1>
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
           <label htmlFor="noticeTitle">제목</label>
@@ -191,7 +191,7 @@ const NoticeInsert = ({ closeModal }) => {
             </label>
           </div>
 
-        <div className="button-group">
+        <div className="noticeButton-group">
           <button type="submit">
             등록하기
           </button>
@@ -204,6 +204,5 @@ const NoticeInsert = ({ closeModal }) => {
   );
   
 };
-
 
 export default NoticeInsert;

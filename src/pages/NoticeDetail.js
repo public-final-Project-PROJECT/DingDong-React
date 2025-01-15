@@ -54,12 +54,12 @@ const NoticeDetail = () => {
 
   return (
     <>
-      <h1 className="notice-title">공지 사항</h1>
+      <h1 className="noticeHeader">공지사항</h1>
       <div className="notice-detail-container">
         {/* 공지사항 내용 */}
         {notices.map((notice) => (
           <div key={notice.noticeId} className="notice-detail">
-            <h1 className="notice-detail-title">{notice.noticeTitle}</h1>
+            <h1>{notice.noticeTitle}</h1>
             <div className="notice-meta">
               <small>{new Date(notice.createdAt).toLocaleString()}</small>
               <span className="notice-category">{notice.noticeCategory}</span>

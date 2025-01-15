@@ -70,7 +70,7 @@ const Notice = () => {
     return (
         <div className="notice-container">
             <div className="notice-header">
-                <h1 style={{ textAlign: 'center' }}>공지사항</h1>
+                <h1>공지사항</h1>
                 <button
                 onClick={Register}>
                      <FaPlus /> 작성하기</button>
@@ -90,18 +90,18 @@ const Notice = () => {
                                 <th>작성일/수정일</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="notice-tbody">
                             {currentNotices.map((notice, index) => (
                                 <tr key={notice.noticeId} onClick={() => noticeDetail(notice.noticeId)}>
                                     <td>{index + 1 + currentPage * noticesPerPage}</td>
                                     <td>{notice.noticeCategory}</td>
-                                    <td className="ellipsis">{notice.noticeTitle}</td>
-                                    <td className="ellipsis">
-                                        {notice.noticeContent.length > 10
-                                            ? `${notice.noticeContent.substring(0, 10)}...`
+                                    <td className="noticeTitle">{notice.noticeTitle}</td>
+                                    <td className="noticeContent">
+                                        {notice.noticeContent.length > 15
+                                            ? `${notice.noticeContent.substring(0, 30)}...`
                                             : notice.noticeContent}
                                     </td>
-                                    <td>{new Date(notice.updatedAt || notice.createdAt).toLocaleString()}</td>
+                                    <td className="notice-content-date">{new Date(notice.updatedAt || notice.createdAt).toLocaleString()}</td>
                                 </tr>
                             ))}
                         </tbody>

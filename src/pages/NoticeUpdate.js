@@ -93,7 +93,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
 
   return (
     <div className="notice-update-container">
-      <h1 className="notice-update-title">공지사항 수정</h1>
+      <h1>공지사항 수정</h1>
       <form onSubmit={handleSubmit} className="notice-update-form">
         <div className="form-group">
           <label htmlFor="noticeTitle" >제목</label>
