@@ -203,7 +203,7 @@ const Voting = () => {
 
     return (
         <>
-            <h1 className="title"> 학급 투표 
+            <h1 className="voting_title"> 학급 투표 
                 <br/>
                     </h1>
             <button className="voting_maker_icon" onClick={() => setNewVotingModal(true)}> <FontAwesomeIcon icon={faPenToSquare} /> </button>
@@ -237,7 +237,7 @@ const Voting = () => {
                     <div className="vote-status">
                         {!vote.vote ? (
                           <>
-                            <button onClick={deleteHandler} style={{ color: "gray" }}>투표 종료  <FontAwesomeIcon icon={faTrashCan} /></button>
+                            <button onClick={deleteHandler} className="votging-end-button">투표 종료  <FontAwesomeIcon icon={faTrashCan} /></button>
                             {nonStudentModalShow && (
                             <NonVotingModal
                                 setNonStudentModalShow={setNonStudentModalShow}

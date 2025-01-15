@@ -38,22 +38,22 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) 
                     borderRadius: 0,
                     border: "none",
                     padding: "42px",
-                    fontSize: "30px"
+                    fontSize: "16px"
                     // backgroundColor:"rgb(255,255,255,0.)"
                 },
             }}
         >
             {nonVoters.length > 0 ? (
                 <span className="non-voters">
-                    <strong>[ 미투표자 ]</strong>
+                    <strong>[ 미투표 학생 ]</strong>
                     <br/>
-                    <h4 style={{color:"red"}}> 투표 알림을 보낼 학생을 선택해주세요</h4>
+                    <h4 className="non-voting-modal-title" style={{color:"red"}}> 투표 알림을 보낼 학생을 선택해주세요</h4>
                     <br/>
                     {console.log(nonVoters)}
                     <div className="non-voting-students-grid">
                     {nonVoters.map(student => (
                     <div key={student.id} className="student-info-row">
-                        <div>{student.name}</div>
+                        <div className="student-info-row">{student.name}</div>
                         <button className="bell_icon"><FontAwesomeIcon icon={faBell} /></button>
                     </div>
                     ))}
