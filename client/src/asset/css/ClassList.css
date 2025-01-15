@@ -1,7 +1,15 @@
 .table {
     cursor: pointer;
-    width: 100%;
+    width: 90%;
     text-align: left;
+    border: 1px;
+}
+
+.classListTable {
+    cursor: pointer;
+    width: 90%;
+    text-align: left;
+    border-top: 1px solid gray;
 }
 
 .row {
@@ -109,3 +117,24 @@ td.cell {
 .button-cancel-icon:hover {
     color: red;
 }
+
+.button-create {
+    background-color: #fff;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    margin-left: 10px;
+    box-shadow: 1px 1px 3px gray;
+    font-size: 13px;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 80px;
+    height: 30px;
+}
+
+.button-create:hover {
+    background-color: #fff;
+    color: #205f22;
+    border: 2px solid #205f22;
+    font-weight: bold;
+}
+

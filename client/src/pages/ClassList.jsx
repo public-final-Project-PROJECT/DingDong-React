@@ -12,7 +12,7 @@ import { useAuth } from "../contexts/AuthContext";
 const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editIndex, newNickname, setNewNickname, handleUpdate, handleQRCode, switchClassId, handleDelete }) => 
 {
     return (
-        <table border="1" style={{ cursor: "pointer", width: "100%", textAlign: "left" }}>
+        <table className="classListTable">
             <thead>
                 <tr>
                     <th>#</th>
