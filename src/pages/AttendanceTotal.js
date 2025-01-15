@@ -143,7 +143,7 @@ function AttendanceTotal() {
                     <tr>
                         <th>출석 번호</th>
                         <th>이름</th>
-                        <th>
+                        <th className="inputDate">
                             날짜
                             <input
                                 type="date"
@@ -160,9 +160,9 @@ function AttendanceTotal() {
                 <tbody>
                     {students.length > 0 ? (
                         students.map((student, index) => (
-                            <tr key={student.studentId}>
-                                <td>{index + 1}</td> {/* 학번 대신 인덱스 */}
-                                <td onClick={() => studentDetail(student.studentId)}>
+                            <tr className="attedanceStudentId" key={student.studentId}>
+                                <td className="attendanceNo">{index + 1}</td> {/* 학번 대신 인덱스 */}
+                                <td className="click-studentDatail" onClick={() => studentDetail(student.studentId)}>
                                     {student.studentName || ""}
                                 </td>
                                 <td>

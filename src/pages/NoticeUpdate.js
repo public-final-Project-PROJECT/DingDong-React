@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {  useNavigate } from "react-router-dom";
-import "../asset/css/NoticeUpdate.css"; // CSS 파일 임포트
+import "../asset/css/NoticeUpdate.css";
+import notice from "./Notice"; // CSS 파일 임포트
 
 const NoticeUpdate = ({ closeModal, id, setNotices }) => {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     noticeContent: "",
     noticeImg: null,
     noticeFile: null,
+    noticeImgName: "",
+    noticeFileName: "",
   });
 
   const categories = ["가정통신문", "알림장", "학교생활"];
@@ -95,7 +98,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     <div className="notice-update-container">
       <h1>공지사항 수정</h1>
       <form onSubmit={handleSubmit} className="notice-update-form">
-        <div className="form-group">
+        <div className="formGroup-title">
           <label htmlFor="noticeTitle" >제목</label>
           <input
             type="text"
@@ -103,11 +106,9 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
             name="noticeTitle"
             value={updateNotice.noticeTitle}
             onChange={handleChange}
-            className="form-input"
-            style={{textAlign : "left"}}
           />
         </div>
-        <div className="form-group">
+        <div className="formGroup-category">
           <label htmlFor="noticeCategory">카테고리</label>
           <select
             id="noticeCategory"
@@ -123,7 +124,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
             ))}
           </select>
         </div>
-        <div className="form-group">
+        <div className="formGroup-content">
           <label htmlFor="noticeContent">내용</label>
           <textarea
             id="noticeContent"
@@ -133,25 +134,40 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
             className="form-textarea"
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="noticeImg">이미지</label>
+        <div className="formGroup-image">
           <input
-            type="file"
-            id="noticeImg"
-            name="noticeImg"
-            onChange={handleFileChange}
-            className="form-input"
+              type="text"
+              placeholder="수정할 이미지를 선택하세요."
+              value={notice.noticeImgName}
+              readOnly
+              className="image-update-name"
+          >
+          </input>
+          <input
+              type="file"
+              id="noticeImg"
+              name="noticeImg"
+              onChange={handleFileChange}
+              className="form-input"
           />
+          <label htmlFor="noticeImg" className="imageUpdateButton"> 이미지 </label>
         </div>
-        <div className="form-group">
-          <label htmlFor="noticeFile">파일</label>
+        <div className="formGroup-file">
           <input
-            type="file"
-            id="noticeFile"
-            name="noticeFile"
-            onChange={handleFileChange}
-            className="form-input"
+              type="text"
+              readOnly
+              placeholder="수정할 파일을 선택하세요"
+              value={notice.noticeFileName}
+              className="file-update-name"
           />
+          <input
+              type="file"
+              id="noticeFile"
+              name="noticeFile"
+              onChange={handleFileChange}
+              className="form-input"
+          />
+          <label htmlFor="noticeFile" className="fileUpdateButton">파 일</label>
         </div>
         <div className="button-group">
           <button type="submit" className="button-primary">수정하기</button>
