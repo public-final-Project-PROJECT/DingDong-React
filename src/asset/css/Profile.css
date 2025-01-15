@@ -10,7 +10,7 @@
 
 .teacher_profile button {
     background-color: #fff;
-    border-color: #4CAF50;
+    border: 2px solid #4CAF50 ;
     color: #4CAF50;
     margin-right: 10px;
     box-shadow: 1px 1px 3px gray;

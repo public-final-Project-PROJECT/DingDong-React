@@ -32,6 +32,7 @@ const NoticeInsert = ({ closeModal }) => {
     }));
   };
 
+
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setNotice((prevNotice) => ({
@@ -39,6 +40,7 @@ const NoticeInsert = ({ closeModal }) => {
       [name]: files[0],
     }));
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -138,9 +140,11 @@ const NoticeInsert = ({ closeModal }) => {
 
         <div className="noticeImg-group">
           <input 
-          type="text" placeholder="이미지를 선택하세요."
-          readOnly
-          className="image-upload-name"
+            type="text"
+            placeholder="이미지를 선택하세요."
+            readOnly
+            className="image-upload-name"
+            value={notice.noticeFile}
           />
           <input
             type="file"
@@ -160,6 +164,7 @@ const NoticeInsert = ({ closeModal }) => {
               placeholder="파일을 선택하세요"
               readOnly
               className="file-upload-name"
+              value={notice.noticeFile}
             />
             <input
               type="file"
@@ -172,6 +177,7 @@ const NoticeInsert = ({ closeModal }) => {
               파일 선택
             </label>
           </div>
+
 
         <div className="noticeButton-group">
           <button type="submit">
