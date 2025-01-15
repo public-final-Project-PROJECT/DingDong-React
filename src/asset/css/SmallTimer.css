@@ -1,6 +1,7 @@
 .small-timer {
     width: 110px;
     height: 90px;
+    color: #fff;
     background-color: green;
     border-radius: 20px;
     display: flex;
@@ -12,6 +13,12 @@
     z-index: 500;
 }
 
+.small-timer:hover {
+    background-color: #f2f2f2;
+    color: green;
+    border: 4px solid green;
+}
+
 .small-timer:active {
     cursor: grabbing;
     transform: scale(1.1);
@@ -20,5 +27,9 @@
 .timer-display {
     font-size: 30px;
     font-weight: bold;
-    color: white;
 }
+
+/*.timer-display:hover {*/
+/*    cursor: pointer;*/
+/*    transform: scale(1.1);*/
+/*}*/

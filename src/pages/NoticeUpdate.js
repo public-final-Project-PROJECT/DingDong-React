@@ -83,8 +83,8 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
           notice.noticeId === id ? { ...notice, ...updateNotice } : notice
         )
       );
-      closeModal(); // 모달 닫기
-      navigate(`/notice/${id}`); // 수정 후 상세 페이지로 이동
+      closeModal(); 
+      navigate(`/notice/${id}`); 
     } catch (error) {
       console.error("Error updating notice:", error);
       alert("수정에 실패했습니다.");
