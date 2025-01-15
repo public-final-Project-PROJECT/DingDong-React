@@ -1,17 +1,22 @@
 .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
+    /* padding: 20px; */
     border-radius: 8px;
 }
 
-.title {
-    font-size: 24px;
+.noticetitle {
+    font-size: 27px;
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 10px;
     color: #333;
+}
+
+.form {
+  width: 100%;
+  background-color: #fff;
 }
 
 /* form-group : 제목 작성 */
@@ -30,7 +35,7 @@
 }
 
 .form-group input {
-    background-color: #f9f9f9;
+    background-color: #fff;
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -42,6 +47,7 @@
 /* noticeCategory-group : 카테고리 선택 */
 .noticeCategory-group {
     margin-bottom: 15px;
+    font-size: 15px;
 }
 
 .noticeCategory-group label {
@@ -61,7 +67,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 13.5px;
     min-height: 100px;
 }
 
@@ -69,6 +75,7 @@
 /* noticeContent-group : 내용 작성란 */
 .noticeContent-group {
     margin-bottom: 10px;
+    font-size: 15px;
 }
 
 .noticeContent-group label {
@@ -90,11 +97,11 @@
     border-radius: 4px;
     font-size: 14px;
     min-height: 100px;
-    background-color: #f9f9f9;
+    background-color: #fff;
 }
 
 /* noticeImg-group : 이미지 선택 */
-.noticeImg-group {
+  .noticeImg-group {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
@@ -111,6 +118,12 @@
     background-color: #f9f9f9;
     border-radius: 4px;
   }
+
+  .noticeImg-group input {
+    width: 78%;
+    height: 35px;
+    font-size: 13px;
+  }
   
   .image-input {
     display: none; /* 파일 입력 필드는 숨김 처리 */
@@ -119,22 +132,22 @@
   .Image-upload-button {
     display: inline-block;
     padding: 10px 20px;
-    color: #333;
+    color: #fff;
     vertical-align: middle;
-    background-color: #ccc;
+    background-color: #535353;
     cursor: pointer;
-    height: 40px;
+    height: 39px;
     margin-left: 10px;
     border-radius: 4px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13.5px;
     line-height: 20px;
     box-shadow: 2px 2px 3px gray;
   }
   
   .Image-upload-button:hover {
-    background-color: #777777;
-    color: #fff;
+    background-color: #f6f6f6;
+    color: #535353;
   }
   
 
@@ -144,6 +157,13 @@
     align-items: center;
     margin-bottom: 1rem;
   }
+  
+.noticeFile-group input {
+  width: 78%;
+  height: 35px;
+  font-size: 13px;
+
+}
   
   .file-upload-name {
     display: inline-block;
@@ -164,75 +184,45 @@
   .file-upload-button {
     display: inline-block;
     padding: 10px 20px;
-    color: #333;
+    color: #fff;
     vertical-align: middle;
-    background-color: #ccc;
+    background-color: #535353;
     cursor: pointer;
-    height: 40px;
+    height: 39px;
     margin-left: 10px;
     border-radius: 4px;
-    text-align: center;
+    /* text-align: center; */
     font-size: 14px;
     line-height: 20px;
-        box-shadow: 2px 2px 3px gray;
+    box-shadow: 2px 2px 3px gray;
+    /* box-shadow: -1px -1px 2px #fff; */
   }
   
   .file-upload-button:hover {
-    background-color: #777777;
-    color: #fff;
+    background-color: #f6f6f6;
+    color: #535353;
   }
 
-/* 등록하기 버튼 */
-/* .button-primary {
-    background-color: #4CAF50;
-    color: white;
-    border: 2px solid #4CAF50;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    box-shadow: 2px 2px 3px grey;
-    height: 40px;
-}
+  .noticeButton-group {
+    text-align: center;
+  }
 
-
-.button-primary:hover {
-    background-color: #f9f9f9;
-    color: #076c07;
-
-} */
-
-/* 취소 버튼 */
-/* .button-secondary {
-    color: #4CAF50;
-    border: 2px solid #4CAF50;
-    border-radius: 4px;
-    padding: 10px 20px;
-    font-weight: bold;
-    height: 40px;
-    box-shadow: 2px 2px 3px gray;
-}
-
-.button-secondary:hover {
-    background-color: white;
-    color: #076c07;
-    border: 2px solid #076c07;
-
-} */
-
-.button-group button {
+.noticeButton-group button {
   background-color: #fff;
   color: #4CAF50;
-  border-color: #4CAF50;
+  border: 2px solid #4CAF50;
   border-radius: 5px;
-  font-size: 15px;
-  font-weight: bold;
-  width: 90px;
-  height: 40px;
-  box-shadow: 2px 2px 3px gray;
+  font-size: 14px;
+  font-weight: 500;
+  width: 80px;
+  height: 35px;
+  box-shadow: 2px 2px 3px #ccc;
+  margin: 5px;
 }
 
-.button-group button:hover {
-  background-color: #076c07;
-  color: #fff;
-  border: none;
+.noticeButton-group button:hover {
+  background-color: #fff;
+  color: #076c07;
+  border-color: #076c07;
+  font-weight: bold;
 }

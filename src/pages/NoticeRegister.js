@@ -93,7 +93,7 @@ const NoticeInsert = ({ closeModal }) => {
 
   return (
     <div className="container">
-      <h1 className="title">공지사항 작성</h1>
+      <h1 className="noticetitle">공지사항 작성</h1>
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
           <label htmlFor="noticeTitle">제목</label>
@@ -134,24 +134,7 @@ const NoticeInsert = ({ closeModal }) => {
             className="textarea"
           />
         </div>
-         
-        {/*
-          기존 코드
-          <div className="noticeImg-group">
-          <label htmlFor="noticeImg" className="custom-label">
-            이미지 업로드:
-          </label>
-          <label htmlFor="noticeImg" className="upload-button">
-            "파일 선택"
-          </label>
-          <input
-            type="file"
-            id="noticeImg"
-            name="noticeImg"
-            onChange={handleFileChange}
-            className="image-input"
-          />
-        </div> */}
+
 
         <div className="noticeImg-group">
           <input 
@@ -170,18 +153,6 @@ const NoticeInsert = ({ closeModal }) => {
             파일 선택
           </label>
         </div>
-
-        {/* 기존 코드 */}
-        {/* <div className="noticeFile-group">
-          <label htmlFor="noticeFile">파일 :</label>
-          <input
-            type="file"
-            id="noticeFile"
-            name="noticeFile"
-            onChange={handleFileChange}
-            // className="file-input"
-          />
-        </div> */}
 
           <div className="noticeFile-group">
             <input
@@ -202,7 +173,7 @@ const NoticeInsert = ({ closeModal }) => {
             </label>
           </div>
 
-        <div className="button-group">
+        <div className="noticeButton-group">
           <button type="submit">
             등록하기
           </button>
@@ -215,76 +186,5 @@ const NoticeInsert = ({ closeModal }) => {
   );
   
 };
-
-// const styles = {
-//   container: {
-//     maxWidth: "600px",
-//     margin: "0 auto",
-//     padding: "20px",
-//     backgroundColor: "#f9f9f9",
-//     borderRadius: "8px",
-//     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-//   },
-//   title: {
-//     fontSize: "24px",
-//     textAlign: "center",
-//     marginBottom: "20px",
-//     color: "#333",
-//   },
-//   form: {
-//     display: "flex",
-//     flexDirection: "column",
-//   },
-//   formGroup: {
-//     marginBottom: "15px",
-//   },
-//   input: {
-//     width: "100%",
-//     padding: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//   },
-//   select: {
-//     width: "100%",
-//     padding: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//   },
-//   textarea: {
-//     width: "100%",
-//     padding: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//     minHeight: "100px",
-//   },
-//   buttonGroup: {
-//     display: "flex",
-//     justifyContent: "flex-end",
-//     gap: "10px",
-//   },
-
-//   // 등록하기
-//   buttonPrimary: {
-//     backgroundColor: "#4CAF50",
-//     color: "white",
-//     border: "none",
-//     borderRadius: "4px",
-//     padding: "10px 20px",
-//     cursor: "pointer",
-//   },
-
-//   // 취소
-//   buttonSecondary: {
-//     backgroundColor: "white",
-//     color: "#4CAF50",
-//     border: "2px soild #4CAF50",
-//     borderRadius: "4px",
-//     padding: "10px 20px",
-//     cursor: "pointer",
-//   },
-// };
 
 export default NoticeInsert;
