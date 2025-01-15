@@ -11,6 +11,8 @@ const NoticeInsert = ({ closeModal }) => {
     noticeContent: "",
     noticeImg: null,
     noticeFile: null,
+    noticeImgName: "", 
+    noticeFileName: "",
   });
 
      const {
@@ -18,7 +20,6 @@ const NoticeInsert = ({ closeModal }) => {
               selectedClassId
           } = useUserData();
 
-  const classId = "1";
 
   const categories = ["가정통신문", "알림장", "학교생활"];
 
@@ -35,9 +36,11 @@ const NoticeInsert = ({ closeModal }) => {
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
+    const file = files[0];
     setNotice((prevNotice) => ({
       ...prevNotice,
-      [name]: files[0],
+      [name]: file,
+      [`${name}Name`]: file ? file.name : "", 
     }));
   };
 
@@ -69,7 +72,7 @@ const NoticeInsert = ({ closeModal }) => {
     }
 
     try {
-      await axios.post(
+      const response =  await axios.post(
         "http://localhost:3013/api/notice/insert",
         formData,
         {
@@ -78,14 +81,31 @@ const NoticeInsert = ({ closeModal }) => {
           },
         }
       );
-      alert("공지사항이 등록되었습니다.");
+      
+    const noticeId = response.data.noticeId;
+    alert(`공지사항이 등록되었습니다`);
+
+
+    const data = {
+    "alertCategory":"공지사항",
+    "noticeId" : noticeId,
+    "classId":selectedClassId
+    }
+    await axios.post(
+      "http://localhost:3013/api/alert/register",
+      data,
+    );
+    
       setNotice({
         noticeTitle: "",
         noticeCategory: "가정통신문",
         noticeContent: "",
         noticeImg: null,
         noticeFile: null,
+        noticeImgName: "",
+        noticeFileName: "",
       });
+
       closeModal();
     } catch (error) {
       console.error("등록 오류:", error);
@@ -106,7 +126,6 @@ const NoticeInsert = ({ closeModal }) => {
             placeholder="제목을 입력해주세요"
             value={notice.noticeTitle}
             onChange={handleChange}
-            // className="input"
           />
         </div>
         <div className="noticeCategory-group">
@@ -116,7 +135,6 @@ const NoticeInsert = ({ closeModal }) => {
             name="noticeCategory"
             value={notice.noticeCategory}
             onChange={handleChange}
-            // className="select"
           >
             {categories.map((category, index) => (
               <option  key={index} value={category}>
@@ -136,8 +154,6 @@ const NoticeInsert = ({ closeModal }) => {
             className="textarea"
           />
         </div>
-
-
         <div className="noticeImg-group">
           <input 
             type="text"
@@ -162,6 +178,7 @@ const NoticeInsert = ({ closeModal }) => {
             <input
               type="text"
               placeholder="파일을 선택하세요"
+              value={notice.noticeFileName}
               readOnly
               className="file-upload-name"
               value={notice.noticeFile}
