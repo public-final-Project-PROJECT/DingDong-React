@@ -11,6 +11,8 @@ const NoticeInsert = ({ closeModal }) => {
     noticeContent: "",
     noticeImg: null,
     noticeFile: null,
+    noticeImgName: "", 
+    noticeFileName: "",
   });
 
      const {
@@ -18,7 +20,6 @@ const NoticeInsert = ({ closeModal }) => {
               selectedClassId
           } = useUserData();
 
-  const classId = "1";
 
   const categories = ["가정통신문", "알림장", "학교생활"];
 
@@ -34,9 +35,11 @@ const NoticeInsert = ({ closeModal }) => {
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
+    const file = files[0];
     setNotice((prevNotice) => ({
       ...prevNotice,
-      [name]: files[0],
+      [name]: file,
+      [`${name}Name`]: file ? file.name : "", 
     }));
   };
 
@@ -67,7 +70,7 @@ const NoticeInsert = ({ closeModal }) => {
     }
 
     try {
-      await axios.post(
+      const response =  await axios.post(
         "http://localhost:3013/api/notice/insert",
         formData,
         {
@@ -76,14 +79,31 @@ const NoticeInsert = ({ closeModal }) => {
           },
         }
       );
-      alert("공지사항이 등록되었습니다.");
+      
+    const noticeId = response.data.noticeId;
+    alert(`공지사항이 등록되었습니다`);
+
+
+    const data = {
+    "alertCategory":"공지사항",
+    "noticeId" : noticeId,
+    "classId":selectedClassId
+    }
+    await axios.post(
+      "http://localhost:3013/api/alert/register",
+      data,
+    );
+    
       setNotice({
         noticeTitle: "",
         noticeCategory: "가정통신문",
         noticeContent: "",
         noticeImg: null,
         noticeFile: null,
+        noticeImgName: "",
+        noticeFileName: "",
       });
+
       closeModal();
     } catch (error) {
       console.error("등록 오류:", error);
@@ -104,7 +124,6 @@ const NoticeInsert = ({ closeModal }) => {
             placeholder="제목을 입력해주세요"
             value={notice.noticeTitle}
             onChange={handleChange}
-            // className="input"
           />
         </div>
         <div className="noticeCategory-group">
@@ -114,7 +133,6 @@ const NoticeInsert = ({ closeModal }) => {
             name="noticeCategory"
             value={notice.noticeCategory}
             onChange={handleChange}
-            // className="select"
           >
             {categories.map((category, index) => (
               <option  key={index} value={category}>
@@ -134,28 +152,10 @@ const NoticeInsert = ({ closeModal }) => {
             className="textarea"
           />
         </div>
-         
-        {/*
-          기존 코드
-          <div className="noticeImg-group">
-          <label htmlFor="noticeImg" className="custom-label">
-            이미지 업로드:
-          </label>
-          <label htmlFor="noticeImg" className="upload-button">
-            "파일 선택"
-          </label>
-          <input
-            type="file"
-            id="noticeImg"
-            name="noticeImg"
-            onChange={handleFileChange}
-            className="image-input"
-          />
-        </div> */}
-
         <div className="noticeImg-group">
           <input 
           type="text" placeholder="이미지를 선택하세요."
+          value={notice.noticeImgName}
           readOnly
           className="image-upload-name"
           />
@@ -171,22 +171,11 @@ const NoticeInsert = ({ closeModal }) => {
           </label>
         </div>
 
-        {/* 기존 코드 */}
-        {/* <div className="noticeFile-group">
-          <label htmlFor="noticeFile">파일 :</label>
-          <input
-            type="file"
-            id="noticeFile"
-            name="noticeFile"
-            onChange={handleFileChange}
-            // className="file-input"
-          />
-        </div> */}
-
           <div className="noticeFile-group">
             <input
               type="text"
               placeholder="파일을 선택하세요"
+              value={notice.noticeFileName}
               readOnly
               className="file-upload-name"
             />
@@ -216,75 +205,5 @@ const NoticeInsert = ({ closeModal }) => {
   
 };
 
-// const styles = {
-//   container: {
-//     maxWidth: "600px",
-//     margin: "0 auto",
-//     padding: "20px",
-//     backgroundColor: "#f9f9f9",
-//     borderRadius: "8px",
-//     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-//   },
-//   title: {
-//     fontSize: "24px",
-//     textAlign: "center",
-//     marginBottom: "20px",
-//     color: "#333",
-//   },
-//   form: {
-//     display: "flex",
-//     flexDirection: "column",
-//   },
-//   formGroup: {
-//     marginBottom: "15px",
-//   },
-//   input: {
-//     width: "100%",
-//     padding: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//   },
-//   select: {
-//     width: "100%",
-//     padding: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//   },
-//   textarea: {
-//     width: "100%",
-//     padding: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//     minHeight: "100px",
-//   },
-//   buttonGroup: {
-//     display: "flex",
-//     justifyContent: "flex-end",
-//     gap: "10px",
-//   },
-
-//   // 등록하기
-//   buttonPrimary: {
-//     backgroundColor: "#4CAF50",
-//     color: "white",
-//     border: "none",
-//     borderRadius: "4px",
-//     padding: "10px 20px",
-//     cursor: "pointer",
-//   },
-
-//   // 취소
-//   buttonSecondary: {
-//     backgroundColor: "white",
-//     color: "#4CAF50",
-//     border: "2px soild #4CAF50",
-//     borderRadius: "4px",
-//     padding: "10px 20px",
-//     cursor: "pointer",
-//   },
-// };
 
 export default NoticeInsert;

@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-import NoticeInsert from "./NoticeRegister"; // NoticeInsert 컴포넌트 import
-import "../asset/css/NoticeList.css"; // CSS 파일 임포트
+import NoticeInsert from "./NoticeRegister"; 
+import "../asset/css/NoticeList.css"; 
 import { useUserData } from "../hooks/useUserData";
 
 const Notice = () => {
     const [notices, setNotices] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
-    const [noticesPerPage] = useState(8); // 페이지당 표시할 게시물 수
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열기/닫기 상태
+    const [noticesPerPage] = useState(8); 
+    const [isModalOpen, setIsModalOpen] = useState(false); 
 
     const navigate = useNavigate();
-    const classId = 1; // 예시로 설정된 classId
+   
 
         const {
             schoolName,
@@ -33,7 +33,7 @@ const Notice = () => {
             });
     }, []);
 
-    // 현재 페이지에 표시할 데이터 계산
+
     const indexOfLastNotice = (currentPage + 1) * noticesPerPage;
     const indexOfFirstNotice = indexOfLastNotice - noticesPerPage;
     const currentNotices = notices.slice(indexOfFirstNotice, indexOfLastNotice);
@@ -54,7 +54,7 @@ const Notice = () => {
 
     const closeModal = () => {
         setIsModalOpen(false); // 모달 닫기
-        // Fetch notices again after submission
+  
         axios
             .get("http://localhost:3013/api/notice/view", {
                 params: { classId : selectedClassId},
@@ -124,14 +124,15 @@ const Notice = () => {
     </button>
 </div>
 
-            {/* 모달 */}
             {isModalOpen && (
-                <div className="notice-modal">
-                    <div className="notice-modal-content">
-                        <NoticeInsert closeModal={closeModal} />
-                    </div>
-                </div>
-            )}
+    <div className="notice-modal"onClick={closeModal} >
+        <div
+            className="notice-modal-content"
+            onClick={(e) => e.stopPropagation()} >
+            <NoticeInsert closeModal={closeModal} />
+        </div>
+    </div>
+)}
         </div>
     );
 };
