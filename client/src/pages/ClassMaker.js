@@ -31,6 +31,13 @@ const ClassMaker = () =>
     const handleSubmit = async () => 
     {
         if (!validateInputs()) return;
+        
+        const schoolData = await fetchSchoolInfo(schoolName);
+        if (!schoolData) 
+        {
+            alert("학교 정보를 가져올 수 없습니다.");
+            return;
+        }
 
         try {
             const nicknameToSubmit =
