@@ -11,15 +11,24 @@
     margin-bottom: 20px;
 }
 
+.notice-header h1 {
+    font-size: 33px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 공지사항 작성하기 버튼 */
 .notice-header button {
     background-color: white;
     border-radius: 10px;
     font-weight: bold;
-    font-size: 20px;
-    color: rgb(16, 179, 16);
-    padding: 10px 20px;
-    box-shadow: 2px 2px 3px gray;
+    font-size: 18px;
+    color: #4CAF50;
+    width: 120px;
+    height: 40px;
+    box-shadow: 1px 1px 2px gray;
     border: 2px solid rgb(16, 179, 16);
+    z-index: 50px;
 }
 
 .notice-header button:hover {
@@ -32,23 +41,48 @@
 .notice-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
 }
 
-.notice-table th, .notice-table td {
+.notice-table tr {
+    text-align: center;
+    /* border-top: 0.5px solid #ccc; */
+}
+
+.notice-table th {
+    background-color: rgba(88, 157, 45, 0.17);
+    padding: 10px;
+    border-bottom: 1px solid gray;
+}
+
+.notice-tbody td {
+    padding: 8px;
+    font-size: 15px;
+}
+
+.notice-content-date {
+    color: gray;
+}
+
+.noticeContent {
+    text-align: left;
+}
+
+/* .notice-table th, .notice-table td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
 
 .notice-table th {
-    background-color: rgba(88, 157, 45, 0.17); /* Applying 17% opacity */
+    background-color: rgba(88, 157, 45, 0.17);
     border-bottom: 2px solid #ddd;
 }
 
 .notice-table td {
     border-right: 1px solid #ddd;
-}
+} */
 
 .notice-table td:last-child {
     border-right: none;
@@ -60,11 +94,16 @@
     text-overflow: ellipsis;
 }
 
-/* 호버 효과 */
-.notice-table tr:hover {
-    background-color: #f1f1f1; /* 호버 시 배경색 변경 */
-    cursor: pointer; /* 마우스를 올리면 커서가 손 모양으로 바뀌도록 */
+.notice-tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
 }
+
+/* 호버 효과 */
+/* .notice-table tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+} */
 
 .page-navigation {
     text-align: center;
@@ -73,8 +112,10 @@
 
 .page-navigation button {
     padding: 5px 10px;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
+    border: 0.5px solid #ccc;
+    border-radius: 5px;
 }
 
 .page-navigation span {
