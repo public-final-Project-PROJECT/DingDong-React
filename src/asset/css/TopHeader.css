@@ -1,7 +1,7 @@
 
 /* 헤더 영역 스타일 */
 .top-header {
-  background-color: #5fa75b; /* 헤더 배경색 */
+  background-color: #88bb85; /* 헤더 배경색 */
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -27,37 +27,37 @@
 
 /* 헤더 메인 버튼 호버 시 효과 */
 .Main:hover {
-  color: white;
+  color: #076c07;
   font-weight: bold;
   font-size: 18px;
 }
 
 .Notice:hover {
-  color: white;
+  color: #076c07;
   font-weight: bold;
   font-size: 18px;
 }
 
 .Attendance:hover {
-  color: white;
+  color: #076c07;
   font-weight: bold;
   font-size: 18px;
 }
 
 .Students:hover {
-  color: white;
+  color: #076c07;
   font-weight: bold;
   font-size: 18px;
 }
 
 .Calendar:hover {
-  color: white;
+  color: #076c07;
   font-weight: bold;
   font-size: 18px;
 }
 
 .Convenience:hover {
-  color: white;
+  color: #076c07;
   font-weight: bold;
   font-size: 18px;
 }
