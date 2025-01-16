@@ -58,8 +58,8 @@ const Students = () => {
 
 
     return (
-        <>
-            <h1 style={{textAlign : "center"}}>학생 인적사항</h1>
+        <div className="studentCard">
+            <h1 className="studentDatail">학생 인적사항</h1>
             {students.length === 0 ? (
                 <p>학생이 없습니다.</p>
             ) : (
@@ -81,16 +81,16 @@ const Students = () => {
                                 key={student.studentId} 
                                 className="student-card" 
                                 onClick={() => studentDetail(student.studentId)}
-                            >
+                                >
                                 <h3>{index + 1}번 {student.studentName}</h3>
                                 <p>{student.grade}학년 {student.classNo}반</p>
-                                <p>전화번호: {student.studentPhone}</p>
+                                <p className="student-phone">전화번호: {student.studentPhone}</p>
                             </div>
                         ))}
                     </div>
                 </>
             )}
-        </>
+        </div>
     );
 };
 

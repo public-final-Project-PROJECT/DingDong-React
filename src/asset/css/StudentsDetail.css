@@ -1,24 +1,35 @@
 .student-info-card {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 10px;
     background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     margin: 20px auto;
+    padding-left: 20px;
 }
 
-.student_info{
-    text-align : center
+.student_info {
+    text-align : center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.mamaPhone {
+    font-size: 15px;
+    font-weight: bold;
+    border-right: 1px solid #d1d1d1;
+    min-width: 110px;
+    padding: 5px;
+    margin-left: 10px;
 }
 
 .data {
     text-align: left; /* 데이터 왼쪽 정렬 */
-    flex-grow: 1; 
-    padding-left: 40px; /* 왼쪽에 조금의 여백 추가 */
+    flex-grow: 1;
+    padding-left: 30px; /* 왼쪽에 조금의 여백 추가 */
 }
 
 /* 각 정보 항목 */
@@ -27,16 +38,24 @@
     justify-content: flex-start; /* 왼쪽 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
     margin-bottom: 10px;
-    padding: 10px 0;
+    margin-top: 6px;
+    padding: 5px 0;
+    font-size: 14px;
     border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
+
 
 /* 정보 레이블 (왼쪽에 고정) */
 .info-label {
     font-weight: bold;
+    font-size: 15px;
     color: #333;
-    min-width: 120px;
-    text-align: left; /* 왼쪽 정렬 */
+    min-width: 110px;
+    text-align: center;
+    border-right: 1px solid #d1d1d1;
+    margin-left: 10px;
+    padding: 5px;
 }
 
 /* DB에서 가져온 값 (가운데 정렬) */
@@ -44,17 +63,19 @@
 
 /* 메모 버튼 스타일 */
 .memo-button {
-    background-color: #0c0c0c;
-    color: white;
+    background-color: #fff;
+    color: #4CAF50;
     padding: 6px 12px;
     border: none;
     cursor: pointer;
     border-radius: 4px;
     font-size: 14px;
+    margin-left: 10px;
 }
 
 .memo-button:hover {
-    background-color: #989998;
+    background-color: #076c07;
+    color: #fff;
 }
 
 /* 모달 스타일 */
@@ -80,20 +101,21 @@
 .modal-title {
     font-size: 20px;
     margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .modal-textarea {
     width: 100%;
     height: 150px;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+    font-size: 15px;
+    border: 2px solid #ccc;
     border-radius: 4px;
 }
 
 .modal-button-group {
-    display: flex;
-    justify-content: space-between;
+    text-align: center;
 }
 
 .modal-save-button, .modal-close-button {
@@ -101,22 +123,49 @@
     font-size: 14px;
     cursor: pointer;
     border-radius: 4px;
+    margin: 5px;
 }
 
 .modal-save-button {
-    background-color: #007bff;
-    color: white;
+    /* background-color: #007bff;
+    color: white; */
+    background-color: #fff;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 70px;
+    height: 40px;
+    box-shadow: 2px 2px 3px #ccc;
+    margin: 5px;
 }
 
 .modal-close-button {
-    background-color: #ccc;
-    color: black;
+    /* background-color: #ccc;
+    color: black; */
+    background-color: #fff;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 70px;
+    height: 40px;
+    box-shadow: 2px 2px 3px #ccc;
+    margin: 5px;
 }
 
 .modal-save-button:hover {
-    background-color: #0056b3;
+    /* background-color: #0056b3; */
+    background-color: #f1f1f1;
+    color: #076c07;
+    border-color: #076c07;
+    font-weight: bold;
 }
 
 .modal-close-button:hover {
-    background-color: #aaa;
+    /* background-color: #aaa; */
+    background-color: #f1f1f1;
+    color: #076c07;
+    border-color: #076c07;
+    font-weight: bold;
 }
