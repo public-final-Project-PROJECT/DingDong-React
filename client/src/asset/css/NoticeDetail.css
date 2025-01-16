@@ -68,14 +68,19 @@
     margin-top: 20px;
 }
 
+.notice-file p {
+    font-size: 14px;
+}
+
 .notice-file-link {
-    color: #1a73e8; /* 파란색 */
-    font-weight: bold;
+    color: gray;
     text-decoration: none;
+    margin-left: 7px;
 }
 
 .notice-file-link:hover {
-    text-decoration: underline;
+    font-weight: bold;
+    border-bottom: 2px solid #afafaf;
 }
 
 /* 버튼 스타일 */
