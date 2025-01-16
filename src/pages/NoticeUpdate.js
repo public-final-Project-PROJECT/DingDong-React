@@ -12,6 +12,8 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     noticeContent: "",
     noticeImg: null,
     noticeFile: null,
+    noticeImgName: "", 
+    noticeFileName: "",
   });
 
   const categories = ["가정통신문", "알림장", "학교생활"];
@@ -25,7 +27,9 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
           noticeCategory,
           noticeContent,
           noticeImg,
-          noticeFile
+          noticeFile,
+          noticeImgName: extractFileName(noticeImg), 
+          noticeFileName: extractFileName(noticeFile),
         });
       })
       .catch(error => {
@@ -91,6 +95,10 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     }
   };
 
+  const extractFileName = (filePath) => {
+    return filePath?.substring(filePath.lastIndexOf('_') + 1) || "없음";
+  };
+
   return (
     <div className="notice-update-container">
       <h1>공지사항 수정</h1>
@@ -141,7 +149,10 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
             name="noticeImg"
             onChange={handleFileChange}
             className="form-input"
-          />
+          ></input>
+            {updateNotice.noticeImgName && (
+    <p className="existing-file">수정전 이미지: {updateNotice.noticeImgName}</p>
+  )}
         </div>
         <div className="form-group">
           <label htmlFor="noticeFile">파일</label>
@@ -152,6 +163,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
             onChange={handleFileChange}
             className="form-input"
           />
+                    {updateNotice.noticeImgName && (<p className="existing-file">수정전 파일: {updateNotice.noticeFileName}</p>)}
         </div>
         <div className="button-group">
           <button type="submit" className="button-primary">수정하기</button>
