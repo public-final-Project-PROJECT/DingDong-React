@@ -4,6 +4,10 @@
     padding: 20px;
 }
 
+.attendance-container button {
+    text-align: center;
+}
+
 .attedanceStudentId {
     text-align: left;
 }
@@ -49,9 +53,13 @@
     font-size: 14px;
 }
 
+/* .inputDate {
+    width: 20%;
+} */
 
 .inputDate input{
     margin-left: 5px;
+    width: 55%;
 }
 
 .attendance-table input {
@@ -94,19 +102,39 @@
 } */
 
 /* 출석부 '제출/수정' 버튼 디자인 변경 */
-.attendance-container button {
+/* .attendance-container button {
     background-color: white;
     border-radius: 4px;
     color: rgb(16, 179, 16);
     border: 2px solid rgb(16, 179, 16);
     box-shadow: 2px 2px 3px gray;
     font-size: 14px;
+} */
+
+.attendance-container button {
+    background-color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #4CAF50;
+    width: 120px;
+    height: 40px;
+    box-shadow: 1px 1px 2px gray;
+    border: 2px solid rgb(16, 179, 16);
+    text-align: center;
 }
 
-.attendance-submit-btn:hover {
+/* .attendance-submit-btn:hover {
     background-color: white;
     color: #076c07;
     border: 2px solid #076c07;
+    font-weight: bold;
+} */
+
+.attendance-container button:hover {
+    background-color: #fff;
+    color: #076c07;
+    border-color: #076c07;
     font-weight: bold;
 }
 
