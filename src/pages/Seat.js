@@ -6,8 +6,10 @@ import { faUserGroup, faDownload, faPrint,faRepeat, faCircleExclamation} from "@
 import { useReactToPrint } from 'react-to-print';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
+import useUserData from '../hooks/useUserData';
 
 const SeatArrangement = () => {
+    const { selectedClassId } = useUserData();
     const [modalShow, setModalShow] = useState(false);
     const [seats, setSeats] = useState(Array(60).fill(false));
     const [isDragging, setIsDragging] = useState(false);
@@ -122,7 +124,7 @@ const SeatArrangement = () => {
 
     const seatTable = async () => {
         try {
-            const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: 4 });
+            const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: selectedClassId });
             setLoadedSeats(response.data);
 
         } catch (error) {
@@ -134,7 +136,7 @@ const SeatArrangement = () => {
 
     const studentNameAPI = async () => {
         try {
-            const response = await axios.post('http://localhost:3013/api/seat/findName', { classId: 4 });
+            const response = await axios.post('http://localhost:3013/api/seat/findName', { classId: selectedClassId });
             setNameList(response.data.sort((a, b) => a.studentId - b.studentId));
         } catch (error) {
             console.error("학생 이름 조회 중 error:", error);

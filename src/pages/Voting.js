@@ -6,9 +6,11 @@ import { faCircleCheck, faTrashCan,faChevronDown,faUsersSlash, faBell, faCircle,
 import '../asset/css/Voting.css';
 import NonVotingModal from "../component/NonVotingModal";
 import ReactModal from "react-modal";
+import { useUserData } from "../hooks/useUserData";
 
 
 const Voting = () => {
+    const { selectedClassId } = useUserData();
     const [newVotingModal, setNewVotingModal] = useState(false); // 투표 만들기 모달
     const [idVoteState, setIdVoteState] = useState(false);
     const [votingData, setVotingData] = useState([]); // 투표 기본 정보 요청 response 담음
@@ -30,7 +32,7 @@ const Voting = () => {
         try {
             const response = await axios.post(
                 'http://localhost:3013/api/voting/findStudentsName',
-                { classId: 1 },
+                { classId: selectedClassId },
             );
             console.log(response.data);
             return response.data;
@@ -44,7 +46,7 @@ const Voting = () => {
         try {
             const response = await axios.post(
                 `http://localhost:3013/api/voting/VoteOptionUsers`,
-                { votingId: voteId, classId: 1 }
+                { votingId: voteId, classId: selectedClassId }
             );
             const voteDetails = response.data.reduce((acc, item) => {
                 const { contentsId, studentId } = item;
@@ -98,7 +100,7 @@ const Voting = () => {
         try {
             const response = await axios.post(
                 `http://localhost:3013/api/voting/findVoting`,
-                { classId: 2 }
+                { classId: selectedClassId }
             );
             console.log(response);
             setVotingData(response.data);

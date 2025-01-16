@@ -2,8 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../asset/css/StudentsDetail.css"; // CSS 파일 임포트
+import { useUserData } from "../hooks/useUserData";
 const StudentDetail = () => {
-    const classId = 1;
+    const { selectedClassId } = useUserData();
     const [student, setStudent] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
     const [memo, setMemo] = useState(""); // 메모 입력값 관리
@@ -27,7 +28,7 @@ const StudentDetail = () => {
     useEffect(() => {
         axios
             .get(`http://localhost:3013/api/students/viewClass/${id}`, {
-                params: { classId },
+                params: { selectedClassId },
             })
             .then((response) => {
                 setStudent(response.data);
@@ -68,7 +69,7 @@ const StudentDetail = () => {
 
             axios
             .get(`http://localhost:3013/api/students/view/${id}`, {
-                params: { classId },
+                params: { selectedClassId },
             })
             .then((response) => {
                 setStudent(response.data[0]); // 학생 데이터를 새로 설정
