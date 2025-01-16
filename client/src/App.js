@@ -1,9 +1,7 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import PostMappingTest from "./test/PostMappingTest";
 import Layout from "./layout/Layout";
 import Main from "./pages/Main";
 import Notice from "./pages/Notice";
-//import Attendance from "./pages/Attendance.js";
 import Calendar from "./pages/Calendar.jsx";
 import Students from "./pages/Students.js";
 import Timer from "./pages/Timer.js";
@@ -18,7 +16,6 @@ import ClassMaker from "./pages/ClassMaker.js";
 import NoticeInsert from "./pages/NoticeRegister.js";
 import NoticeUpdate from "./pages/NoticeUpdate.js";
 import StudentDetail from "./pages/StudentDetail.js";
-import AttendanceRegister from "./pages/AttendanceRegister.js";
 import AttendanceTotal from "./pages/AttendanceTotal.js";
 import { AuthProvider } from "./contexts/AuthContext.js";
 import DrawingApp from "./pages/DrawingApp.js";
@@ -33,9 +30,7 @@ function App()
                         <Route index element={<Login/>}/>
                     </Route>
 
-                    <Route path="/postmappingtest" element={<PostMappingTest />} />
                     <Route path="/classmaker" element={<ClassMaker />} />
-
                     <Route path="/" element={<Layout/>}>
                         <Route index element={<Main/>}/>                                            {/* 메인*/}
                         <Route path="notice" element={<Notice/>}/>    
@@ -43,7 +38,6 @@ function App()
                         <Route path="notice/update/:id" element={<NoticeUpdate/>} />
                         <Route path="notice/register" element={<NoticeInsert/>} />
                         <Route path="attendance" element={<AttendanceTotal />} />                   {/* 출석부 */}
-                        <Route path="attendance/insert" element={<AttendanceRegister />} /> 
                         <Route path="students" element={<Students/>}/>      
                         <Route path="students/:id" element={<StudentDetail/>}/>                     {/* 학생정보  */}    
                         <Route path="calendar" element={<Calendar/>}/>                              {/* 캘린더 */}
