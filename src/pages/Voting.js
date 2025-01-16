@@ -202,11 +202,13 @@ const Voting = () => {
     
 
     return (
-        <>
-            <h1 className="voting_title"> 학급 투표 
-                <br/>
-                    </h1>
-            <button className="voting_maker_icon" onClick={() => setNewVotingModal(true)}> <FontAwesomeIcon icon={faPenToSquare} /> </button>
+        <div className="voting-total-container">
+            <div className="voting-title-div">
+                <h1 className="voting_title"> 학급 투표 <br/>
+                </h1>
+                <button className="voting_maker_icon" onClick={() => setNewVotingModal(true)}> <FontAwesomeIcon icon={faPenToSquare} /> </button>
+            </div>
+
             {newVotingModal && <NewVoting setNewVotingModal={setNewVotingModal} newVotingModal={newVotingModal} />}
             {modalShow && (
                 <NewVoting
@@ -249,10 +251,10 @@ const Voting = () => {
                            
                             </>
                         ) : (
-                          <>
+                          <div className="voting-ing-horizontal-container">
                             <h6  style={{ color: "red" }}><FontAwesomeIcon icon={faCircle} /></h6>
-                            <h3 className="ing-voting">진행중</h3>
-                          </>
+                            <h3 className="voting-ing-gung">진행중</h3>
+                          </div>
                         )}
                          {vote.vote && !isEnded && (
                           <button className="end_voting_button" onClick={() => endHandler(vote.id)}> 투표 종료</button>
@@ -261,20 +263,20 @@ const Voting = () => {
                             {isEnded && daysRemaining === 0 ? (
                                 <p style={{ color: "red" }}><strong>오늘 마감되는 투표입니다 !</strong></p>
                             ) : (
-                                isEnded && <h5 className="end-time" style={{ color: "red" }}>
-                                      <FontAwesomeIcon icon={faHourglassStart} />  [ {new Date(vote.votingEnd).toLocaleString()} ]  에 자동으로 종료됩니다 !
+                                isEnded && <h5 className="end-time">
+                                      <FontAwesomeIcon icon={faHourglassStart} /> 종료일 :  {new Date(vote.votingEnd).toLocaleString()} 
                                    </h5>
                             )}
                         </div>
                     </div>
 
-                    <div className="button_div">
-                    <button className="two_button" onClick={() => setNonStudentModalShow(true)}><FontAwesomeIcon icon={faUsersSlash} /></button>
-                    <button className="two_button" onClick={bellClickHandler}><FontAwesomeIcon icon={faBell} /></button>
+                    <div className="voting_button_div">
+                    <button className="voting_two_button" onClick={() => setNonStudentModalShow(true)}><FontAwesomeIcon icon={faUsersSlash} /></button>
+                    <button className="voting_two_button" onClick={bellClickHandler}><FontAwesomeIcon icon={faBell} /></button>
                     </div>
 
                     <div className="voting-header">
-                        <p className="date">
+                        <p className="voting-date-createdAt">
                             {new Date(vote.createdAt).toLocaleDateString()}{" "}
                         
                         </p>
@@ -360,7 +362,7 @@ const Voting = () => {
         })}
 </div>
 
-        </>
+</div>
     );
 };
 
