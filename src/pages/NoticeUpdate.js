@@ -13,7 +13,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     noticeContent: "",
     noticeImg: null,
     noticeFile: null,
-    noticeImgName: "",
+    noticeImgName: "", 
     noticeFileName: "",
   });
 
@@ -28,7 +28,9 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
           noticeCategory,
           noticeContent,
           noticeImg,
-          noticeFile
+          noticeFile,
+          noticeImgName: extractFileName(noticeImg), 
+          noticeFileName: extractFileName(noticeFile),
         });
       })
       .catch(error => {
@@ -94,6 +96,10 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     }
   };
 
+  const extractFileName = (filePath) => {
+    return filePath?.substring(filePath.lastIndexOf('_') + 1) || "없음";
+  };
+
   return (
     <div className="notice-update-container">
       <h1>공지사항 수정</h1>
@@ -138,7 +144,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
           <input
               type="text"
               placeholder="수정할 이미지를 선택하세요."
-              value={notice.noticeImgName}
+              value={updateNotice.noticeImgName}
               readOnly
               className="image-update-name"
           >
@@ -157,7 +163,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
               type="text"
               readOnly
               placeholder="수정할 파일을 선택하세요"
-              value={notice.noticeFileName}
+              value={updateNotice.noticeFileName}
               className="file-update-name"
           />
           <input
