@@ -154,6 +154,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
               id="noticeImg"
               name="noticeImg"
               onChange={handleFileChange}
+              // value={updateNotice.noticeImgName}
               className="form-input"
           />
           <label htmlFor="noticeImg" className="imageUpdateButton"> 이미지 </label>

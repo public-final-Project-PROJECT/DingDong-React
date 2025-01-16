@@ -14,7 +14,7 @@ const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editI
     return (
         <table className="classListTable">
             <thead>
-                <tr>
+                <tr className="classListTable-th">
                     <th>#</th>
                     <th>학년도</th>
                     <th>학교 이름</th>
@@ -158,34 +158,31 @@ const DisplayNicknameCell = ({ nickname, onEdit }) => (
 
 const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) => (
     <tr>
-        <td colSpan="9" style={{ backgroundColor: "#f1f1f1", textAlign: "center" }}>
-            <button
+        <td className="expandedRowActions">
+            <button className="createQRcode"
                 onClick={(e) => 
                 {
                     e.stopPropagation(); 
                     onQRCode(classItem);
                 }}
-                style={{ backgroundColor: "#007bff", color: "#fff", marginRight: "10px", padding: "5px 10px", border: "none" }}
             >
                 QR 코드 생성
             </button>
-            <button
+            <button className="classSetting"
                 onClick={(e) => 
                 {
                     e.stopPropagation();
                     onClassSwitch();
                 }}
-                style={{ backgroundColor: "#007bff", color: "#fff", marginRight: "10px", padding: "5px 10px", border: "none" }}
             >
                 기본 학급으로 설정
             </button>
-            <button
+            <button className="classDelete-button"
                 onClick={(e) => 
                 {
                     e.stopPropagation();
                     onDelete();
                 }}
-                style={{ color: "red", border: "1px solid red", backgroundColor: "transparent", padding: "5px 10px" }}
             >
                 학급 삭제
             </button>
@@ -327,7 +324,7 @@ const ClassList = () =>
             {classList.length > 0 ? (
                 <>
                     <br/>
-                    학급 목록 (생성된 학급 수: {classCount}/2)
+                    <p>학급 목록 (생성된 학급 수: {classCount}/2)</p>
                     <button className="button-create" onClick={handleMake}>
                         학급 생성
                     </button>

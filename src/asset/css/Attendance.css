@@ -16,6 +16,10 @@
     cursor: pointer;
 }
 
+.click-studentDatail:hover {
+    background-color: #f1f1f1;
+}
+
 .attendanceNo {
     text-align: left;
     width: 7%;
