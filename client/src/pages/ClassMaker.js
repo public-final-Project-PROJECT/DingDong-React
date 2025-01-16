@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { googleLogout } from "@react-oauth/google";
 import { clearProfileFromStorage } from "../utils/localStorage";
 import '../asset/css/ClassMaker.css';
+import { fetchSchoolInfo } from "../utils/fetchSchoolInfo";
 
 const ClassMaker = () => 
 {

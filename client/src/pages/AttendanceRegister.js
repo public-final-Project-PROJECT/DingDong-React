@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useUserData } from "../hooks/useUserData";
 
 function AttendanceRegister() {
-    const classId = 1; // 클래스 ID
+    const { selectedClassId } = useUserData();
     const [students, setStudents] = useState([]);
     const [attendanceDate, setAttendanceDate] = useState(""); // 전체 날짜 상태
 
     useEffect(() => {
         axios
             .get("http://localhost:3013/api/students/view", {
-                params: { classId },
+                params: { selectedClassId },
             })
             .then((response) => {
                 console.log(response.data);
@@ -56,7 +57,7 @@ function AttendanceRegister() {
             attendanceDate,
             attendanceState: student.attendanceState,
             attendanceEtc: student.attendanceEtc,
-            classId, // 클래스 ID 포함
+            classId: selectedClassId, // 클래스 ID 포함
         }));
         axios
             .post("http://localhost:3013/api/attendance/register", dataToSend)

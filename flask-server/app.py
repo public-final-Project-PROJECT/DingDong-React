@@ -31,4 +31,4 @@ def recognize_faces():
     return jsonify({'faces': results})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
