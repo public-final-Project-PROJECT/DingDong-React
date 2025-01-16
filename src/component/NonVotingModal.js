@@ -21,6 +21,33 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) 
     // );
 
     // console.log(filteredNonVoters); 
+
+     const votingNonStudentAlert = async (studentId) => {
+         console.log(studentId);
+
+    //     try {
+    //         const response = await axios.post(
+    //           `http://localhost:3013/api/voting/newvoting`,
+    //           {
+    //             classId: selectedClassId,  // 학급 id
+    //             votingName: title, // 제목
+    //             detail: detail, // 설명
+    //             votingEnd:votingEnd? votingEnd : null, // 마감일자
+    //             contents: arr, // 투표 항목들 
+    //             anonymousVote: anonymousVote,  // 비밀 투표 여부
+    //             doubleVote: doubleVote // 중복 투표 가능 여부 
+    //           },
+       
+    //         );
+    //         return response;
+            
+    //       } catch (error) {
+    //         console.error("투표 생성 api error:", error.response || error.message);
+    //       }
+
+         }
+
+
     return (
         <ReactModal
             isOpen={nonVotingModal}
@@ -54,7 +81,7 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) 
                     {nonVoters.map(student => (
                     <div key={student.id} className="student-info-row">
                         <div className="student-info-row">{student.name}</div>
-                        <button className="bell_icon"><FontAwesomeIcon icon={faBell} /></button>
+                        <button className="bell_icon" onClick={() => votingNonStudentAlert(student.id)}><FontAwesomeIcon icon={faBell} /></button>
                     </div>
                     ))}
                     </div>

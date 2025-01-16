@@ -6,7 +6,8 @@ import { faUserGroup, faDownload, faPrint,faRepeat, faCircleExclamation} from "@
 import { useReactToPrint } from 'react-to-print';
 import axios from 'axios';
 import html2canvas from 'html2canvas';
-import useUserData from '../hooks/useUserData';
+import { useUserData } from "../hooks/useUserData";
+
 
 const SeatArrangement = () => {
     const { selectedClassId } = useUserData();
@@ -30,6 +31,10 @@ const SeatArrangement = () => {
     const [lastStudentsSeatList, setLastStudentsSeatList] = useState([]);
     const [newSeatPlusRandomState, setNewSeatPlusRandomState] = useState(false); 
     const [changedSeats, setChangedSeats] = useState([]); // 수정한 학생 좌석 담음
+    const [createdSeat, setCreatedSeat] = useState(false); 
+    const [isSpinning, setIsSpinning] = useState(false); 
+    const [isModified, setIsModified] = useState(false);
+    const [creSeatRandomChange, setCreSeatRandomChange] = useState(1);
     const contentRef = useRef();
 
     const downloadSeatsAsImage = async () => {
@@ -73,6 +78,7 @@ const SeatArrangement = () => {
     };
 
     const saveSeatHandler = () => {
+      setCreSeatRandomChange(2);
         saveStudentsAPI();
         setButtonsDisabled(false);
         setShowSaveButton(false);
@@ -81,11 +87,6 @@ const SeatArrangement = () => {
     };
 
     
-  //   const saveSeatHandler2 = () => {
-  //     saveStudentsAPI3();
-  //     setModifyButtonShow (false);
-  // };
-
     const resetRandomSpin = () => {
         setButtonsDisabled(false);
         setShowSaveButton(false);
@@ -97,33 +98,56 @@ const SeatArrangement = () => {
         studentNameAPI(); // 이름 불러오기
     }, []);
 
+
     useEffect(() => {
-        if (firstSeat && secondSeat) {
-            const updatedSeats = [...loadedSeats];
-            const firstSeatIndex = updatedSeats.findIndex(s => s.seatId === firstSeat.seatId);
-            const secondSeatIndex = updatedSeats.findIndex(s => s.seatId === secondSeat.seatId);
-
-            if (firstSeatIndex !== -1 && secondSeatIndex !== -1) {
-                const tempStudentName = updatedSeats[firstSeatIndex].studentName;
-                updatedSeats[firstSeatIndex].studentName = updatedSeats[secondSeatIndex].studentName;
-                updatedSeats[secondSeatIndex].studentName = tempStudentName;
-
-                const tempRowId = updatedSeats[firstSeatIndex].rowId;
-                const tempColumnId = updatedSeats[firstSeatIndex].columnId;
-                updatedSeats[firstSeatIndex].rowId = updatedSeats[secondSeatIndex].rowId;
-                updatedSeats[firstSeatIndex].columnId = updatedSeats[secondSeatIndex].columnId;
-                updatedSeats[secondSeatIndex].rowId = tempRowId;
-                updatedSeats[secondSeatIndex].columnId = tempColumnId;
-
-                setLoadedSeats(updatedSeats);
-            }
-            setFirstSeat(null);
-            setSecondSeat(null);
+      if (firstSeat && secondSeat) {
+          console.log(firstSeat);
+          console.log(secondSeat);
+  
+          const updatedLoadedSeats = [...loadedSeats];
+          const updatedCreatedSeats = [...createdSeats];
+  
+      
+          const firstLoadedSeatIndex = updatedLoadedSeats.findIndex(s => s.seatId === firstSeat.seatId);
+          const secondLoadedSeatIndex = updatedLoadedSeats.findIndex(s => s.seatId === secondSeat.seatId);
+  
+          const firstCreatedSeatIndex = updatedCreatedSeats.findIndex(s => s.id === firstSeat.id);
+          const secondCreatedSeatIndex = updatedCreatedSeats.findIndex(s => s.id === secondSeat.id);
+  
+          if (firstLoadedSeatIndex !== -1 && secondLoadedSeatIndex !== -1) {
+              const tempStudentName = updatedLoadedSeats[firstLoadedSeatIndex].studentName;
+              updatedLoadedSeats[firstLoadedSeatIndex].studentName = updatedLoadedSeats[secondLoadedSeatIndex].studentName;
+              updatedLoadedSeats[secondLoadedSeatIndex].studentName = tempStudentName;
+  
+              const tempRowId = updatedLoadedSeats[firstLoadedSeatIndex].rowId;
+              const tempColumnId = updatedLoadedSeats[firstLoadedSeatIndex].columnId;
+              updatedLoadedSeats[firstLoadedSeatIndex].rowId = updatedLoadedSeats[secondLoadedSeatIndex].rowId;
+              updatedLoadedSeats[firstLoadedSeatIndex].columnId = updatedLoadedSeats[secondLoadedSeatIndex].columnId;
+              updatedLoadedSeats[secondLoadedSeatIndex].rowId = tempRowId;
+              updatedLoadedSeats[secondLoadedSeatIndex].columnId = tempColumnId;
+  
+              setLoadedSeats(updatedLoadedSeats);
+          }
+  
+          if (firstCreatedSeatIndex !== -1 && secondCreatedSeatIndex !== -1) {
+            const tempStudentName = updatedCreatedSeats[firstCreatedSeatIndex].studentName;
+            updatedCreatedSeats[firstCreatedSeatIndex].studentName = updatedCreatedSeats[secondCreatedSeatIndex].studentName;
+            updatedCreatedSeats[secondCreatedSeatIndex].studentName = tempStudentName;
         }
-    }, [firstSeat, secondSeat, loadedSeats]);
+          setFirstSeat(null);
+          setSecondSeat(null);
+  
+          console.log('Updated Loaded Seats:', updatedLoadedSeats);
+          console.log('Updated Created Seats:', updatedCreatedSeats);
+      }
+  }, [firstSeat, secondSeat, loadedSeats, createdSeats, creSeatRandomChange]);
+  
+  
+  
 
     const seatTable = async () => {
         try {
+          console.log(selectedClassId);
             const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: selectedClassId });
             setLoadedSeats(response.data);
 
@@ -145,10 +169,11 @@ const SeatArrangement = () => {
 
 
     const saveStudentsAPI = async () => {
-      
-      console.log(randomedSeat);
 
- 
+      setCreSeatRandomChange(2);
+      setCreSeatRandomChange(3);
+
+      console.log(randomedSeat);
         try {
           lastStudentsSeatList = 
             await axios.post('http://localhost:3013/api/seat/saveSeat', { studentList: randomedSeat});
@@ -193,7 +218,9 @@ const SeatArrangement = () => {
 
     // 랜덤돌리기 handler
     const randomSeatHandler = () => {
+      setIsSpinning(true);
       const seatsToShuffle = createdSeats.length > 0 ? createdSeats : loadedSeats;
+      console.log(seatsToShuffle);
   
       if (seatsToShuffle.length === 0) {
           return;
@@ -207,6 +234,7 @@ const SeatArrangement = () => {
           const j = Math.floor(Math.random() * (i + 1));
           [shuffledStudentIds[i], shuffledStudentIds[j]] = [shuffledStudentIds[j], shuffledStudentIds[i]];
       }
+      setIsSpinning(false);
 
   
       const updatedSeats = seatsToShuffle.map((seat, index) => {
@@ -217,7 +245,7 @@ const SeatArrangement = () => {
               ...seat,
               studentId: shuffledStudentId,
               studentName: student ? student.studentName : null,
-              classId : 4
+              classId : selectedClassId
           };
       });
   
@@ -247,6 +275,8 @@ const SeatArrangement = () => {
             // 수정 모드 시작
             setModifyState(true);
             setModifyButtonShow(true);
+            setCreatedSeat(true);
+            setIsModified(true); // Seat has bee
             return;
         }
     
@@ -296,11 +326,7 @@ const SeatArrangement = () => {
     };
     
 
-  
-
     const saveStudentsAPI2 = async (updatedSeats) => {
-      
-      console.log("updatedSeats");
  
         if (!updatedSeats || !Array.isArray(updatedSeats)) {
             console.error("saveStudentsAPI2: updatedSeats가 유효하지 않습니다.", updatedSeats);
@@ -312,9 +338,9 @@ const SeatArrangement = () => {
                 studentId: seat.studentId,
                 rowId: seat.rowId,
                 columnId: seat.columnId,
-                classId: seat.classId || 4, // 기본값 설정
+                classId: selectedClassId, // 기본값 설정
             }));
-    console.log(dataToSave);
+                console.log(dataToSave);
             await axios.post('http://localhost:3013/api/seat/saveSeat', { studentList: dataToSave });
     
             console.log("저장된 데이터:", dataToSave);
@@ -324,14 +350,14 @@ const SeatArrangement = () => {
         }
     };
     
-  
-
-      // 좌석 클릭 시 첫 번째와 두 번째 좌석을 설정하여 변경할 수 있도록 수정
       const handleSeatClick = (seat, index, isCreatedSeat = false) => {
         if (modifyState) {
           if (!firstSeat) {
+            console.log(modifyState);
+            console.log(secondSeat);
             setFirstSeat({ ...seat, isCreatedSeat });
           } else if (!secondSeat) {
+            console.log(firstSeat);
             setSecondSeat({ ...seat, isCreatedSeat });
           }
         }
@@ -412,18 +438,24 @@ const SeatArrangement = () => {
                 // 랜덤돌리기로 저장한 좌석 저장
                 <button className="register-button red-button" onClick={saveSeatHandler}>저장</button>
               )}
-              <button className='modify_button' onClick={modifyHandler}>
+             
+               <button className='modify_button' onClick={modifyHandler}  disabled={createdSeat || isSpinning} >
               <FontAwesomeIcon icon={faUserGroup} />   <FontAwesomeIcon icon={faRepeat} />
               </button>
+              
               {modifyButtonShow && 
                 <>
                 {/* 클릭으로 변경한 좌석 저장 */}
+                
                 <h8 className="seatChange-modify"  style={{color:"grey"}}> <FontAwesomeIcon icon={faCircleExclamation} style={{color:"grey"}}/> 자리를 클릭하여 좌석을 변경하세요</h8>
-                <button className='modify-handler-button' onClick={() => saveStudentsAPI2([...loadedSeats])}>
+                {createdSeat  && isSpinning &&
+                  <button className='modify-handler-button' disabled={isSpinning} onClick={() => saveStudentsAPI2([...loadedSeats])}>
                       저장
                   </button>
 
-                <button className='modify-handler-button' onClick={() => setModifyButtonShow(false)}>취소</button>
+                }
+              
+                <button className='modify-handler-button' disabled={isSpinning} onClick={() => setModifyButtonShow(false)}>취소</button>
                 </>
                 }
 
@@ -489,21 +521,22 @@ const SeatArrangement = () => {
 
                     <div className="created-seats" style={calculateGridStyle()}>
                       {createdSeats.map((seat, index) => (
-                        <div
-                          key={`created-${seat.id}`}
-                          className={`seat created ${modifyState ? 'modifiable' : ''}`}
-                          style={{
-                            gridColumnStart: seat.columnId,
-                            gridRowStart: seat.rowId,
-                            border: modifyState && (firstSeat?.id === seat.id || secondSeat?.id === seat.id) ? "2px solid red" : "none",
-                          }}
-                          onClick={() => handleSeatClick(seat, index, true)} 
-                        >
-                          <h4>{seat.studentName || ''}</h4>
-                        </div>
+                          <div
+                              key={`created-${seat.id}`}
+                              className={`seat created ${modifyState ? 'modifiable' : ''}`}
+                              style={{
+                                  gridColumnStart: seat.columnId,
+                                  gridRowStart: seat.rowId,
+                                  border: modifyState && (firstSeat?.id === seat.id || secondSeat?.id === seat.id) ? "2px solid red" : "none",
+                              }}
+                              onClick={() => handleSeatClick(seat, index)}
+                          >
+                              <h4 className="table-seat-student-name">
+                                  {seat.studentName || ''}
+                              </h4>
+                          </div>
                       ))}
-                       </div>
-                
+                  </div>
               </div>
             </div>
           </div>

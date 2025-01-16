@@ -146,6 +146,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
         className='new_voting_modal'
       >
          <button
+         className="new-voting-close-button"
         onClick={cancelHandler}
       >
         <FontAwesomeIcon icon={faXmark} />
