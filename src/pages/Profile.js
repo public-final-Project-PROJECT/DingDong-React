@@ -143,7 +143,7 @@ const Profile = () =>
 
                 <div className="logButton">
                 <button onClick={handleLogout}>로그아웃</button>
-                <button onClick={withdrawAlert}>회원탈퇴</button>
+                <button className="MembershipWithdrawal" onClick={withdrawAlert}>회원탈퇴</button>
                 </div>
 
             </div>
