@@ -158,7 +158,7 @@ const DisplayNicknameCell = ({ nickname, onEdit }) => (
 
 const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) => (
     <tr>
-        <td className="expandedRowActions">
+        <td colSpan="9" className="expandedRowActions">
             <button className="createQRcode"
                 onClick={(e) => 
                 {
@@ -189,7 +189,6 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
         </td>
     </tr>
 );
-
 
 const ClassList = () => 
 {
