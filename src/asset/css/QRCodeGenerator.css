@@ -67,11 +67,12 @@
     cursor: pointer;
 }
 
-.deleteBlock:hover {
+.studentQRcode .deleteBlock:hover {
     background-color: #fafafa;
     font-weight: bold;
     color: red;
-    box-shadow: 1px 1px 2px #b5b5b5;
+    box-shadow: 1px 1px 2px #a5a5a5;
+    border: none;
 }
 
 .studentQRcode button {
@@ -85,7 +86,6 @@
     color: #4caf50;
     font-weight: bold;
     box-shadow: 2px 2px 2px #ccc;
-    text-align: center;
 }
 
 .studentQRcode button:hover {

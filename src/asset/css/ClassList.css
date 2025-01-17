@@ -65,14 +65,12 @@
     padding: 3px 10px;
     border-radius: 4px;
     font-size: 14px;
-    z-index: 1000px;
 }
 
 .createQRcode:hover {
     background-color: #fff;
     color: #28a745;
     border: 2px solid #28a745;
-    font-weight: bold;
 }
 
 .classSetting {

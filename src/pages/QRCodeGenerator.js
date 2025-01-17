@@ -139,7 +139,7 @@ const QRCodeGenerator = ({ classData }) =>
                 </div>
             ))}
             <button onClick={addStudent}>학생 추가</button>
-            <button onClick={handleGenerate}>코드 생성</button>
+            <button className="QRCodeCreateButton" onClick={handleGenerate}>코드 생성</button>
             <button onClick={handlePrint} disabled={students.every((student) => !student.qrCode)}>
                 코드 인쇄
             </button>
