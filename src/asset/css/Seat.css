@@ -36,38 +36,52 @@
   .teacher_table {
     padding: 10px 20px;
     background-color: rgb(95 167 91);
-    border-radius: 9px;
+    border-radius: 12px;
     color: white;
     border: none;
     font-size: 24px;
     width: 224px;
+    margin-top: 28px;
+    margin-bottom: 65px;
   }
   
-  .created-seats {
+  /* .created-seats {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 35px;
+        gap: 34px;
         width: 100%;
         padding: 20px;
         background-color: #f5f5f5;
         border: 1px solid #ddd;
         border-radius: 8px;
         row-gap: 64px;
+        max-width: 130%;
+  } */
+
+  .created-seats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* 최소 60px, 남는 공간 균등 분배 */
+    gap: 8px; /* 기본 간격 */
+    width: 102%; /* 부모 컨테이너의 너비에 맞춤 */
+    max-width: 200%; /* 경계를 벗어나지 않음 */
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden; /* 컨테이너 경계 밖으로 삐져나가지 않도록 */
   }
-  
-  .seat {
-    width: 80px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #e0e0e0;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    width: 130px;
-    height: 89px;
-  }
+.seat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden; /* 텍스트가 네모 밖으로 나가지 않도록 */
+}
   
   .seat.selected {
     background-color: #8bc34a;
@@ -88,6 +102,22 @@
     font-size: 14px;
     font-weight: bold;
   }
+
+  .seat.created {
+    width: 131px;
+    height: 102px;
+    background-color: #abeb92;
+    border: 1px solid #aaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 37px;
+}
+
+.created-seats > .seat {
+    margin: auto; /* 중앙 정렬 */
+}
   
   .seat.created.modifiable {
     border: 2px dashed #ff9800;
@@ -191,5 +221,45 @@
   .new_seat_modal_in_button {
     margin-left: 256px;
   }
+
+  .modify-handler-button{
+    border: none;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    height: 30px;
+  }
+
+  /* 크기 및 간격 동적 조정 */
+@media screen and (min-width: 400px) {
+  .seat {
+    width: 80px;
+    height: 80px;
+  }
+  .created-seats {
+    gap: 12px; /* 간격 넓히기 */
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .seat {
+    width: 100px;
+    height: 100px;
+  }
+  .created-seats {
+    gap: 16px; /* 더 넓은 간격 */
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .seat {
+    width: 120px;
+    height: 120px;
+  }
+  .created-seats {
+    gap: 20px; /* 더 여유로운 간격 */
+  }
+}
+
   
   
