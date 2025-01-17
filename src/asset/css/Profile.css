@@ -95,6 +95,21 @@
 .logButton {
     text-align: center;
 }
+
+.teacher_profile .MembershipWithdrawal {
+    background-color: red;
+    color: #fff;
+    border-color: red;
+    box-shadow: 2px 2px 2px gray;
+}
+
+.teacher_profile .MembershipWithdrawal:hover {
+    background-color: #fff;
+    color: red;
+    border-color: red;
+}
+
+
 /* .teacher_profile button {
     display: inline-block;
     margin: 5px 0;
