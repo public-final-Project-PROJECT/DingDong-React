@@ -21,6 +21,33 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) 
     // );
 
     // console.log(filteredNonVoters); 
+
+     const votingNonStudentAlert = async (studentId) => {
+         console.log(studentId);
+
+    //     try {
+    //         const response = await axios.post(
+    //           `http://localhost:3013/api/voting/newvoting`,
+    //           {
+    //             classId: selectedClassId,  // 학급 id
+    //             votingName: title, // 제목
+    //             detail: detail, // 설명
+    //             votingEnd:votingEnd? votingEnd : null, // 마감일자
+    //             contents: arr, // 투표 항목들 
+    //             anonymousVote: anonymousVote,  // 비밀 투표 여부
+    //             doubleVote: doubleVote // 중복 투표 가능 여부 
+    //           },
+       
+    //         );
+    //         return response;
+            
+    //       } catch (error) {
+    //         console.error("투표 생성 api error:", error.response || error.message);
+    //       }
+
+         }
+
+
     return (
         <ReactModal
             isOpen={nonVotingModal}
@@ -38,23 +65,23 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) 
                     borderRadius: 0,
                     border: "none",
                     padding: "42px",
-                    fontSize: "30px"
+                    fontSize: "16px"
                     // backgroundColor:"rgb(255,255,255,0.)"
                 },
             }}
         >
             {nonVoters.length > 0 ? (
                 <span className="non-voters">
-                    <strong>[ 미투표자 ]</strong>
+                    <strong>[ 미투표 학생 ]</strong>
                     <br/>
-                    <h4 style={{color:"red"}}> 투표 알림을 보낼 학생을 선택해주세요</h4>
+                    <h4 className="non-voting-modal-title" style={{color:"red"}}> 투표 알림을 보낼 학생을 선택해주세요</h4>
                     <br/>
                     {console.log(nonVoters)}
                     <div className="non-voting-students-grid">
                     {nonVoters.map(student => (
                     <div key={student.id} className="student-info-row">
-                        <div>{student.name}</div>
-                        <button className="bell_icon"><FontAwesomeIcon icon={faBell} /></button>
+                        <div className="student-info-row">{student.name}</div>
+                        <button className="bell_icon" onClick={() => votingNonStudentAlert(student.id)}><FontAwesomeIcon icon={faBell} /></button>
                     </div>
                     ))}
                     </div>

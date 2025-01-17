@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import NewVoting from "../component/NewVoting";
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faTrashCan,faChevronDown,faUsersSlash, faBell, faCircle, faPenToSquare,faUserCheck,faHourglassStart} from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck, faTrashCan,faPause,faUsersSlash, faBell, faCircle, faPenToSquare,faUserCheck,faHourglassStart} from "@fortawesome/free-solid-svg-icons";
 import '../asset/css/Voting.css';
 import NonVotingModal from "../component/NonVotingModal";
 import ReactModal from "react-modal";
@@ -204,11 +204,13 @@ const Voting = () => {
     
 
     return (
-        <>
-            <h1 className="title"> 학급 투표 
-                <br/>
-                    </h1>
-            <button className="voting_maker_icon" onClick={() => setNewVotingModal(true)}> <FontAwesomeIcon icon={faPenToSquare} /> </button>
+        <div className="voting-total-container">
+            <div className="voting-title-div">
+                <h1 className="voting_title"> 학급 투표 <br/>
+                </h1>
+                <button className="voting_maker_icon" onClick={() => setNewVotingModal(true)}> <FontAwesomeIcon icon={faPenToSquare} /> </button>
+            </div>
+
             {newVotingModal && <NewVoting setNewVotingModal={setNewVotingModal} newVotingModal={newVotingModal} />}
             {modalShow && (
                 <NewVoting
@@ -239,7 +241,11 @@ const Voting = () => {
                     <div className="vote-status">
                         {!vote.vote ? (
                           <>
-                            <button onClick={deleteHandler} style={{ color: "gray" }}>투표 종료  <FontAwesomeIcon icon={faTrashCan} /></button>
+                          <div className="voting-ing-horizontal-container">
+                            <h6  style={{ color: "grey" }}><FontAwesomeIcon icon={faCircle} /></h6>
+                            <h3 className="voting-ing-gung" style={{ color: "grey" }}>종료</h3>
+                          </div>
+                            <button onClick={deleteHandler} className="votging-end-button">투표 삭제  <FontAwesomeIcon icon={faTrashCan} /></button>
                             {nonStudentModalShow && (
                             <NonVotingModal
                                 setNonStudentModalShow={setNonStudentModalShow}
@@ -251,32 +257,32 @@ const Voting = () => {
                            
                             </>
                         ) : (
-                          <>
+                          <div className="voting-ing-horizontal-container">
                             <h6  style={{ color: "red" }}><FontAwesomeIcon icon={faCircle} /></h6>
-                            <h3 className="ing-voting">진행중</h3>
-                          </>
+                            <h3 className="voting-ing-gung" style={{ color: "red" }}>진행중</h3>
+                          </div>
                         )}
                          {vote.vote && !isEnded && (
-                          <button className="end_voting_button" onClick={() => endHandler(vote.id)}> 투표 종료</button>
+                          <button className="end_voting_button" onClick={() => endHandler(vote.id)}> 투표 종료 <FontAwesomeIcon icon={faPause} />  </button>
                         )}
                         <div className="vote-name-container">
                             {isEnded && daysRemaining === 0 ? (
                                 <p style={{ color: "red" }}><strong>오늘 마감되는 투표입니다 !</strong></p>
                             ) : (
-                                isEnded && <h5 className="end-time" style={{ color: "red" }}>
-                                      <FontAwesomeIcon icon={faHourglassStart} />  [ {new Date(vote.votingEnd).toLocaleString()} ]  에 자동으로 종료됩니다 !
+                                isEnded && <h5 className="end-time">
+                                      <FontAwesomeIcon icon={faHourglassStart} /> 종료일 :  {new Date(vote.votingEnd).toLocaleString()} 
                                    </h5>
                             )}
                         </div>
                     </div>
 
-                    <div className="button_div">
-                    <button className="two_button" onClick={() => setNonStudentModalShow(true)}><FontAwesomeIcon icon={faUsersSlash} /></button>
-                    <button className="two_button" onClick={bellClickHandler}><FontAwesomeIcon icon={faBell} /></button>
+                    <div className="voting_button_div">
+                    <button className="voting_two_button" onClick={() => setNonStudentModalShow(true)}><FontAwesomeIcon icon={faUsersSlash} /></button>
+                    <button className="voting_two_button" onClick={bellClickHandler}><FontAwesomeIcon icon={faBell} /></button>
                     </div>
 
                     <div className="voting-header">
-                        <p className="date">
+                        <p className="voting-date-createdAt">
                             {new Date(vote.createdAt).toLocaleDateString()}{" "}
                         
                         </p>
@@ -307,7 +313,7 @@ const Voting = () => {
                                         <div className ='contents_and_user_icons'>
                                         <p 
                                             className="vote-option" 
-                                            style={{ color: isMaxVoted ? "red" : "black" }} // 최대 투표 콘텐츠는 빨간색으로 표시
+                                            style={{ color: isMaxVoted && voters.length != "0"? "red" : "black" }} // 최대 투표 콘텐츠는 빨간색으로 표시
                                         >
                                             <FontAwesomeIcon icon={faCircleCheck} />   {content.votingContents} - {voters.length}명
                                         </p>
@@ -335,11 +341,11 @@ const Voting = () => {
                                                         <div key={studentId} className="student-info">
                                                         <img src={student.img} className="student-img" />
                                                         <span className="student-name">
-
                                                             {student.name}
                                                         </span>
                                                         </div>
-                                                    ) : null;
+                                                    ) : 
+                                                   null
                                                     })}
                                                     
                                                 </div>
@@ -362,7 +368,7 @@ const Voting = () => {
         })}
 </div>
 
-        </>
+</div>
     );
 };
 

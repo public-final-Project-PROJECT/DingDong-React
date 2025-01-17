@@ -13,7 +13,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     noticeContent: "",
     noticeImg: null,
     noticeFile: null,
-    noticeImgName: "", 
+    noticeImgName: "",
     noticeFileName: "",
   });
 
@@ -142,22 +142,15 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
         </div>
         <div className="formGroup-image">
           <input
-              type="text"
-              placeholder="수정할 이미지를 선택하세요."
-              value={updateNotice.noticeImgName}
-              readOnly
-              className="image-update-name"
-          >
-          </input>
-          <input
-              type="file"
-              id="noticeImg"
-              name="noticeImg"
-              onChange={handleFileChange}
-              // value={updateNotice.noticeImgName}
-              className="form-input"
-          />
-          <label htmlFor="noticeImg" className="imageUpdateButton"> 이미지 </label>
+            type="file"
+            id="noticeImg"
+            name="noticeImg"
+            onChange={handleFileChange}
+            className="form-input"
+          ></input>
+            {updateNotice.noticeImgName && (
+    <p className="existing-file">수정전 이미지: {updateNotice.noticeImgName}</p>
+  )}
         </div>
         <div className="formGroup-file">
           <input
@@ -167,14 +160,11 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
               value={updateNotice.noticeFileName}
               className="file-update-name"
           />
-          <input
-              type="file"
-              id="noticeFile"
-              name="noticeFile"
-              onChange={handleFileChange}
-              className="form-input"
-          />
-          <label htmlFor="noticeFile" className="fileUpdateButton">파 일</label>
+            {updateNotice.noticeImgName && (
+              <p className="existing-file">
+                수정전 파일: {updateNotice.noticeFileName}
+              </p>
+            )}
         </div>
         <div className="button-group">
           <button type="submit" className="button-primary">수정하기</button>
