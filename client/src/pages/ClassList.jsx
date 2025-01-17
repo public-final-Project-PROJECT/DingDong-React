@@ -141,7 +141,7 @@ const EditNicknameCell = ({ newNickname, setNewNickname, handleUpdate, onCancel 
 };
 
 const DisplayNicknameCell = ({ nickname, onEdit }) => (
-    <>
+    <div>
         <span>{nickname}</span>
         <button
             className="button-edit"
@@ -153,7 +153,7 @@ const DisplayNicknameCell = ({ nickname, onEdit }) => (
         >
             <FontAwesomeIcon icon={faPencilAlt} />
         </button>
-    </>
+    </div>
 );
 
 const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) => (
@@ -189,6 +189,7 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
         </td>
     </tr>
 );
+
 
 const ClassList = () => 
 {

@@ -1,0 +1,95 @@
+.studentQRcode {
+    width: 73%;
+    margin: 0 auto;
+}
+
+
+.studentQRcode h2 {
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+.studentQRcode p {
+    font-size: 14px;
+    /* text-align: start; */
+}
+
+.ClassData p {
+    font-style: initial;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.ClassData {
+    font-weight: bold;
+}
+
+.studentQRcode h3 {
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.studentNoInput {
+    width: 30%;
+    border-right: 1px solid #ccc;
+}
+
+.studentNoInput input {
+    margin-left: 5px;
+    font-size: 14px;
+    width: 80%;
+    height: 30px;
+    border: 1px solid #ccc;
+}
+
+.studentNameInput {
+    width: 30%;
+}
+
+.studentNameInput input {
+    margin-left: 5px;
+    font-size: 14px;
+    width: 80%;
+    height: 30px;
+    border: 1px solid #ccc;
+}
+
+
+.studentQRcode .deleteBlock {
+    background-color: red;
+    color: #fff;
+    font-size: 13px;
+    border: none;
+    margin-left: 5px;
+    width: 55px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.deleteBlock:hover {
+    background-color: #fafafa;
+    font-weight: bold;
+    color: red;
+    box-shadow: 1px 1px 2px #b5b5b5;
+}
+
+.studentQRcode button {
+    margin-right: 7px;
+    font-size: 13px;
+    width: 85px;
+    height: 30px;
+    border: 2px solid #4caf50;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #4caf50;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px #ccc;
+    text-align: center;
+}
+
+.studentQRcode button:hover {
+    border: 2px solid #205f22;
+    color: #205f22;
+    background-color: #fff;
+}
