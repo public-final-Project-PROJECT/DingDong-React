@@ -157,7 +157,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
               type="text"
               readOnly
               placeholder="수정할 파일을 선택하세요"
-              value={notice.noticeFileName}
+              value={updateNotice.noticeFileName}
               className="file-update-name"
           />
             {updateNotice.noticeImgName && (
