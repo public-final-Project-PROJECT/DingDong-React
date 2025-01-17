@@ -5,8 +5,10 @@ import {faXmark,faClockRotateLeft,faCalendar,faUser,faLock, faCheckDouble,faMinu
 import axios from "axios";
 import  '../asset/css/NewVoting.css';
 import html2canvas from "html2canvas";
+import { useUserData } from "../hooks/useUserData";
 
 const Voting = ({newVotingModal,setNewVotingModal}) => {
+  const { selectedClassId } = useUserData();
 
   const [dateShow, setDateShow] = useState(false); // 날짜 입력 창 show
   const nextID = useRef(1);
@@ -18,7 +20,6 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
   const [doubleVote, setDoubleVote] = useState(false); // 중복투표 가능 여부 
   const [votingEnd, setVotingEnd] = useState();// 입력받을 마감일
   const [inputItems, setInputItems] = useState([{ id: 0, voteOption: "" }]); // 투표 항목
-  const [classId, setClassId] = useState();  // 학급 id
   let arr = [];
 
 
@@ -58,7 +59,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
       const response = await axios.post(
         `http://localhost:3013/api/voting/newvoting`,
         {
-          classId: 2,  // 학급 id
+          classId: selectedClassId,  // 학급 id
           votingName: title, // 제목
           detail: detail, // 설명
           votingEnd:votingEnd? votingEnd : null, // 마감일자

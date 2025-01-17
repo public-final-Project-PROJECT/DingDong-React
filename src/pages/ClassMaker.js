@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { googleLogout } from "@react-oauth/google";
 import { clearProfileFromStorage } from "../utils/localStorage";
 import '../asset/css/ClassMaker.css';
+import { fetchSchoolInfo } from "../utils/fetchSchoolInfo";
 
 const ClassMaker = () => 
 {
@@ -31,6 +32,13 @@ const ClassMaker = () =>
     const handleSubmit = async () => 
     {
         if (!validateInputs()) return;
+        
+        const schoolData = await fetchSchoolInfo(schoolName);
+        if (!schoolData) 
+        {
+            alert("학교 정보를 가져올 수 없습니다.");
+            return;
+        }
 
         try {
             const nicknameToSubmit =
