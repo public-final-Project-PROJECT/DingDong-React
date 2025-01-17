@@ -1,122 +1,111 @@
-/* Container for the entire voting section */
+
+/* 전체 컨테이너 */
 .voting-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 voting containers per row */
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  gap: 20px; /* Space between cards */
   padding: 20px;
 }
 
-/* Style for each voting card */
+.votging-end-button{
+  background-color: white;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #4CAF50;
+  width: 130px;
+  height: 44px;
+  box-shadow: 1px 1px 2px gray;
+  border: 2px solid rgb(16, 179, 16);
+  margin-bottom: 8px;
+}
+
+.votging-end-button:hover {
+  background-color: grey;
+}
+
 .voting-card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  background-color: #e6ffe7;
+  border-radius: 15px;
+  border: 2px solid rgb(187 229 187);
+  width: 98%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
   display: flex;
+  margin-left: 53px;
   flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  height: 500px; /* Fixed height */
-  overflow-y: auto; /* Allows vertical scrolling if content overflows */
-  max-width: 100%; /* Full width within grid cell */
-  margin-bottom: 20px;
-  box-sizing: border-box;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Voting status section */
-.vote-status {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+
+.voting-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Voting name and detail */
-.vote-name-container {
-  margin-bottom: 20px;
-}
-
+/* 투표 제목 */
 .vote-name {
-  font-size: 1.5rem;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* 투표 상세 정보 */
+.vote-detail {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* 투표 항목들 */
+.voting_card_contents {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+  width: 100%;
+}
+
+/* 개별 투표 항목 */
+.vote-item {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 투표 옵션 텍스트 */
+.vote-option {
+  font-size: 14px;
   font-weight: bold;
 }
 
-.vote-detail {
-  font-size: 1rem;
-  color: #555;
-}
-
-/* Voting buttons */
-.button_div {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.two_button {
-  background-color: #f1f1f1;
-  border: none;
-  padding: 10px;
-  font-size: 1.2rem;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.two_button:hover {
-  background-color: #ddd;
-}
-
-/* Vote items (options) - Display horizontally */
-.voting_card_contents {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap; /* Wraps content to the next line when necessary */
-  gap: 10px;
-}
-
-.vote-item {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 5px;
-  width: 30%; /* Each vote item takes up 30% of the container's width */
-  box-sizing: border-box;
-}
-
-.contents_and_user_icons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.vote-option {
-  font-size: 1rem;
-  font-weight: 500;
-  margin-right: 10px;
-}
-
-.student-voters {
-  display: flex;
-  align-items: center;
-}
-
-/* Modal for student voters */
+/* 투표한 학생들 모달 */
 .student-voters-modal {
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px;
   margin-top: 10px;
-  background-color: #f1f1f1;
-  padding: 15px;
-  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 학생 정보 카드 */
 .student-info {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 학생 이미지 */
 .student-img {
   width: 30px;
   height: 30px;
@@ -124,47 +113,198 @@
   margin-right: 10px;
 }
 
-.student-name {
-  font-size: 1rem;
-  color: #333;
-}
 
-/* Buttons for ending voting and deleting */
-.end_voting_button, .voting_maker_icon {
-  background-color: #007bff;
+/* 버튼 디자인 */
+.voting_button_div{
   color: white;
-  padding: 10px;
-  font-size: 1.1rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  padding: 10px 15px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.end_voting_button:hover, .voting_maker_icon:hover {
-  background-color: #0056b3;
+.voting_two_button {
+  background-color: white;
+  color: #4CAF50;
+  border-radius: 7px;
+  box-shadow: 1px 1px 2px gray;
+  border: 2px solid rgb(16, 179, 16);
+  font-size: 17px;
+  align-items: center;
+  width: 50px;
+  height: 39px;
+  justify-content: space-between; 
+  gap: 10px;
 }
 
-/* Styling for red text when voting is active or near end */
-.ing-voting {
+/* .two_button:hover {
+  background-color: #e0e0e0;
+} */
+
+.end_voting_button {
+  background-color: white;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #4CAF50;
+  width: 130px;
+  height: 44px;
+  box-shadow: 1px 1px 2px gray;
+  border: 2px solid rgb(16, 179, 16);
+  margin-bottom: 8px;
+}
+
+
+.end_voting_button:hover {
+  background-color: #e63946;
+}
+
+/* 상태 표시 */
+.vote-status h3 {
   color: red;
-  font-size: 1.2rem;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.vote-status h6 {
+  color: #dc3545;
 }
 
 .end-time {
-  font-size: 1rem;
-  color: red;
+  background-color: #4caf50;
+  font-size: 16px;
+  color: white;
+  border-radius: 10px;
+  width: 300px;
+  align-items: center; 
+  justify-content: center;
+  display: flex;
+}
+
+.separator {
+  height: 1px;
+  background-color: #ddd;
+  margin: 15px 0;
+  width: 100%;
+}
+
+.non-voting-modal-title{
+  font-size: 15px;
+}
+
+.student-info-row {
+  display: flex; /* Enables flexbox layout */
+  justify-content: space-between; /* Distributes the items with space between */
+  align-items: center; /* Vertically aligns the items in the center */
+  padding: 10px; /* Optional: add padding for better spacing */
+}
+
+.student-name {
+  font-size: 14px;
   font-weight: bold;
 }
 
-/* Vote status icons */
-.vote-status h6 {
-  font-size: 1.5rem;
-  color: red;
+.bell_icon {
+  background: none; /* Removes background */
+  border: none; /* Removes border */
+  cursor: pointer; /* Optional: changes cursor to a pointer */
 }
 
-/* Tooltip-like modal for non-voting students */
-.student-voters-modal {
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+.voting-date-createdAt{
+  color: grey;
+  font-size: 14px;
 }
+/* 
+.voting_maker_icon{
+  background-color: #5fa75b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+} */
+
+.voting_check_students{
+  background-color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #4CAF50;
+    width: 50px;
+    height: 44px;
+    box-shadow: 1px 1px 2px gray;
+    border: 2px solid rgb(16, 179, 16);
+
+}
+
+.voting-ing-horizontal-container{
+  display: flex;
+  align-items: center;/* 수직 정렬 (중앙 정렬) */
+  justify-content: center;/* 가로 정렬 (중앙 정렬) */
+  gap: 10px;/* 요소 간 간격 */
+}
+
+.voting-ing-gung{
+  margin-top: 40px;
+}
+
+.voting-title-div{
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+}
+
+.voting_title{
+  font-size: 33px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.voting_maker_icon{
+  background-color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #4CAF50;
+  width: 103px;
+  height: 44px;
+  box-shadow: 1px 1px 2px gray;
+  border: 2px solid rgb(16, 179, 16);
+  margin-left: 1756px;
+  margin-top: -19px;
+}
+
+.submit_button{
+  margin-left: 10px;
+  background-color:  white;
+  color: #4CAF50;
+  border-radius: 7px;
+  box-shadow: 1px 1px 2px gray;
+  border: 2px solid rgb(16, 179, 16);
+  font-size: 17px;
+  align-items: center;
+  width: 72px;
+  height: 38px;
+}
+
+.new-voting-close-button{
+  margin-left: 592px;
+  background-color: white;
+  color: #4CAF50;
+  border-radius: 7px;
+  box-shadow: 1px 1px 2px gray;
+  border: 2px solid rgb(16, 179, 16);
+  font-size: 17px;
+  align-items: center;
+  width: 36px;
+  height: 34px;
+}
+
+
+
+
+
+

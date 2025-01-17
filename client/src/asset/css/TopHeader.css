@@ -7,7 +7,6 @@
   justify-content: space-between;
   align-items: center;
   position: relative; /* 하위 요소와 독립적으로 위치 지정 */
-  z-index: 10;
   margin-top: 2%;
 }
 

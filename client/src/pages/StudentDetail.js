@@ -132,7 +132,7 @@ const StudentDetail = () => {
                 <div className="info-row">
                     <span className="info-label">보호자</span>
                     <span className="data">{student.parentsName || "미기입"} </span>
-                    <span className="info-label">보호자 핸드폰</span>
+                    <span className="mamaPhone">보호자 핸드폰</span>
                     <span className="data">{student.parentsPhone || "미기입"}</span>
                 </div>
                 <div className="info-row">
