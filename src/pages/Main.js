@@ -5,6 +5,9 @@ import Neis from "@my-school.info/neis-api";
 import Calendar from "./Calendar";
 import "../asset/css/Calendar.css";
 import { useAuth } from "../contexts/AuthContext";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import "../asset/css/Main.css"
 
 const Main = () => {
     const { teacherId, classCount, schoolName } = useUserData();
@@ -61,27 +64,91 @@ const Main = () => {
         return mealData.DDISH_NM.replace(/<br\/>/g, ', ').replace(/[^가-힣a-zA-Z, ]/g, '');
       }
 
+
     return (
         <>
 
 
-            <div className="inner">
-            <div className="custom-calendar">
+            <div className="innerMain main-page">
+
                 {/* {meal.length > 0 && <pre>{JSON.stringify(meal[0], null, 4)}</pre>} */}
-                {meal.length > 0 && (
-                    <div>
-                        <p><strong>Date:</strong> {meal[0].MLSV_YMD}</p>
-                        <p><strong>Menu:</strong> {cleanMealData(meal[0])}</p>
-                        <p><strong>Calories:</strong> {meal[0].CAL_INFO}</p>
+                <div className="mainlunch">
+                    <div id="carouselExample" className="carousel slide" data-bs-ride="true">
+                        <div className="carousel-inner">
+                            <div className="carousel-item active" width="400" height="200">
+                                <img src="https://via.placeholder.com/400x200" className="d-block w-100"
+                                     alt="First slide" />
+                                <div className="carousel-caption d-none d-md-block">
+                                    {meal.length > 0 ? (
+                                        <>
+                                            <h2>오늘의 급식</h2>
+                                            <h5>{meal[0].MLSV_YMD}</h5>
+                                            <p>{cleanMealData(meal[0])}</p>
+                                            <p>Calories: {meal[0].CAL_INFO}</p>
+                                        </>
+                                    ) : (
+                                        <p>Loading...</p>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="carousel-item">
+                                <img src="https://via.placeholder.com/400x200" className="d-block w-100"
+                                     alt="Second slide" width="400" height="200"/>
+                                <div className="carousel-caption d-none d-md-block">
+                                    {meal.length > 0 ? (
+                                        <>
+                                            <h2>내일의 급식</h2>
+                                            <h5>{meal[1].MLSV_YMD}</h5>
+                                            <p>{cleanMealData(meal[1])}</p>
+                                            <p>Calories: {meal[1].CAL_INFO}</p>
+                                        </>
+                                    ) : (
+                                        <p>Loading...</p>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="carousel-item">
+                                <img src="https://via.placeholder.com/400x200" className="d-block w-100"
+                                     alt="Third slide" width="800" height="400"/>
+                                <div className="carousel-caption d-none d-md-block">
+                                    {meal.length > 0 ? (
+                                        <>
+                                            <h2>모래의 급식</h2>
+                                            <h5>{meal[2].MLSV_YMD}</h5>
+                                            <p>{cleanMealData(meal[2])}</p>
+                                            <p>Calories: {meal[2].CAL_INFO}</p>
+                                        </>
+                                    ) : (
+                                        <p>Loading...</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                                data-bs-slide="prev">
+                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span className="visually-hidden">Previous</span>
+                        </button>
+                        <button className="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                                data-bs-slide="next">
+                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span className="visually-hidden">Next</span>
+                        </button>
                     </div>
-                )}
-                <Calendar showControls={false}/>
-            </div>
+
+
+
+
+                </div>
+                <div className="custom-calendar">
+                    <Calendar showControls={false}/>
+                </div>
 
             </div>
 
         </>
     );
 };
+
 
 export default Main;
