@@ -1,5 +1,5 @@
 .notice-update-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     border-radius: 8px;
   }
@@ -95,6 +95,12 @@
     width: 80%;
   }
 
+  .existing-file {
+    font-size: 13px;
+    color: gray;
+    margin-left: 5px;
+  }
+
   .image-update-name {
     display: inline-block;
     height: 40px;
@@ -133,6 +139,7 @@
 
   .formGroup-file input {
     width: 80%;
+    margin-top: -10px;
   }
 
   .file-update-name {

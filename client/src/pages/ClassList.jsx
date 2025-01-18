@@ -29,13 +29,14 @@ const ClassListTable = ({ classList, selectedRow, onRowClick, onEditClick, editI
             <tbody>
                 {classList.map((classItem, index) => (
                     <React.Fragment key={classItem.classId}>
-                        <tr
+                        <tr className="classListRow"
                             onClick={() => onRowClick(index)}
                             style={{
-                                backgroundColor: selectedRow === index ? "#d1e7dd" : "#f9f9f9",
+                                backgroundColor: selectedRow === index ? "#fff" : "#f9f9f9",
+                                paddingBottom: "30px",
                             }}
                             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#e8e8e8")}
-                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = selectedRow === index ? "#d1e7dd" : "#f9f9f9")}
+                            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = selectedRow === index ? "#f8f8f8" : "#fff")}
                         >
                             <td>{index + 1}</td>
                             <td>{new Date(classItem.classCreated).getFullYear()}</td>

@@ -259,7 +259,7 @@ const Voting = () => {
                         ) : (
                           <div className="voting-ing-horizontal-container">
                             <h6  style={{ color: "red" }}><FontAwesomeIcon icon={faCircle} /></h6>
-                            <h3 className="voting-ing-gung" style={{ color: "red" }}>진행중</h3>
+                            <h3 className="voting-ing-gung">진행중</h3>
                           </div>
                         )}
                          {vote.vote && !isEnded && (
