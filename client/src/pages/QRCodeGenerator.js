@@ -124,7 +124,7 @@ const QRCodeGenerator = ({ classData }) =>
                             placeholder="학생의 번호를 입력해주세요."
                         />
                     </label>
-                    <label className="studentNameInput" style={{ marginLeft: '10px' }}>
+                    <label className="studentNameInput" style={{ marginLeft: '5px' }}>
                         학생 이름:
                         <input
                             type="text"

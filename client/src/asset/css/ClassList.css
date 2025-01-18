@@ -211,9 +211,9 @@
 }
 
 .button-save-icon:hover {
-    background-color: #205f22;
+    background-color: #fff;
     box-shadow: 0px 0px 0px 1px #205f22;
-    color: #fff;
+    color: #28a745;
 }
 
 .button-cancel-icon {

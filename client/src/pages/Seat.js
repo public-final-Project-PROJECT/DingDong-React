@@ -430,7 +430,7 @@ const SeatArrangement = () => {
                 disabled={randomSpinLabel !== "다시" && buttonsDisabled}
               >
                 {countdown !== null ? 
-                <h2 style={{color:"red"}}>{countdown}</h2>
+                <h2>{countdown}</h2>
                  : 
                 randomSpinLabel}
               </button>
@@ -447,7 +447,7 @@ const SeatArrangement = () => {
                 <>
                 {/* 클릭으로 변경한 좌석 저장 */}
                 
-                <h8 className="seatChange-modify"  style={{color:"grey"}}> <FontAwesomeIcon icon={faCircleExclamation} style={{color:"grey"}}/> 자리를 클릭하여 좌석을 변경하세요</h8>
+                <h8 style={{color:"grey"}}> <FontAwesomeIcon icon={faCircleExclamation}/> 자리를 클릭하여 좌석을 변경하세요</h8>
                 {createdSeat  && isSpinning &&
                   <button className='modify-handler-button' disabled={isSpinning} onClick={() => saveStudentsAPI2([...loadedSeats])}>
                       저장

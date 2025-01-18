@@ -51,29 +51,30 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) 
     return (
         <ReactModal
             isOpen={nonVotingModal}
+            className="non-voting-modal"
             contentLabel="nonVoting 학생 modal"
             appElement={document.getElementById("root")}
-            style={{
-                content: {
-                    top: "50%",
-                    left: "50%",
-                    right: "auto",
-                    bottom: "auto",
-                    marginRight: "-50%",
-                    transform: "translate(-50%, -50%)",
-                    width: 600,
-                    borderRadius: "5px",
-                    border: "none",
-                    padding: "42px",
-                    fontSize: "16px",
-                    boxShadow: "1px 1px 1px 2px #ccc"
-                },
-            }}
+            // style={{
+            //     content: {
+            //         top: "50%",
+            //         left: "50%",
+            //         right: "auto",
+            //         bottom: "auto",
+            //         marginRight: "-50%",
+            //         transform: "translate(-50%, -50%)",
+            //         width: 600,
+            //         borderRadius: "5px",
+            //         border: "none",
+            //         padding: "42px",
+            //         fontSize: "16px",
+            //         boxShadow: "1px 1px 1px 2px #ccc"
+            //     },
+            // }}
         >
             {nonVoters.length > 0 ? (
                 <span className="non-voters">
                     <strong className="nonVoting-title">[ 미투표 학생 ]</strong><br/><br/>
-                    <h4 className="non-voting-modal-title" style={{color:"red"}}> 투표 알림을 보낼 학생을 선택해주세요</h4><hr/>
+                    <h4 className="non-voting-modal-title"> 투표 알림을 보낼 학생을 선택해주세요</h4><hr/>
                     {console.log(nonVoters)}
                     <div className="non-voting-students-grid">
                     {nonVoters.map(student => (

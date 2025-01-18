@@ -117,7 +117,7 @@ const Profile = () =>
     };
 
     return (
-        <div>
+        <div><br/>
             <div className="teacher_profile">
                 <div className="google_profile">
                     <img src={profile?.picture} alt="profile_img" className="profile_img"/><br/>
