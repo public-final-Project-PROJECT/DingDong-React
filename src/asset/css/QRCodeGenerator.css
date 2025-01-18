@@ -16,7 +16,6 @@
 
 .ClassData p {
     font-style: initial;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 .ClassData {
@@ -32,12 +31,13 @@
 .studentNoInput {
     width: 30%;
     border-right: 1px solid #ccc;
+    margin-right: -10px;
 }
 
 .studentNoInput input {
     margin-left: 5px;
     font-size: 14px;
-    width: 80%;
+    width: 50%;
     height: 30px;
     border: 1px solid #ccc;
 }
@@ -49,7 +49,7 @@
 .studentNameInput input {
     margin-left: 5px;
     font-size: 14px;
-    width: 80%;
+    width: 50%;
     height: 30px;
     border: 1px solid #ccc;
 }
@@ -76,7 +76,7 @@
 }
 
 .studentQRcode button {
-    margin-right: 7px;
+    margin-right: 10px;
     font-size: 13px;
     width: 85px;
     height: 30px;

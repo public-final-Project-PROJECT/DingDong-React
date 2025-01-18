@@ -199,7 +199,7 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
           <div className="radio-group" >
             <br/><hr/>
             <label><FontAwesomeIcon icon={faClockRotateLeft} />   투표 마감일</label>
-            <div>
+            <div className="Voteclosing">
               <RadioGroup>
                 <Radio 
                 name="endDate" 
