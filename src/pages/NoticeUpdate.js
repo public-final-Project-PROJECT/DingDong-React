@@ -149,8 +149,8 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
             className="form-input"
           ></input>
             {updateNotice.noticeImgName && (
-    <p className="existing-file">수정전 이미지: {updateNotice.noticeImgName}</p>
-  )}
+              <p className="existing-file">수정전 이미지 - {updateNotice.noticeImgName}</p>
+            )}
         </div>
         <div className="formGroup-file">
           <input
@@ -162,7 +162,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
           />
             {updateNotice.noticeImgName && (
               <p className="existing-file">
-                수정전 파일: {updateNotice.noticeFileName}
+                수정전 파일 - {updateNotice.noticeFileName}
               </p>
             )}
         </div>

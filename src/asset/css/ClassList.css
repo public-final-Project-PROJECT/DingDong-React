@@ -24,6 +24,21 @@
     margin-top: 30px;
 }
 
+.classListTable tbody tr {
+    /* border-top: 1px solid #ccc; */
+    font-size: 14px;
+    background: none;
+}
+
+.classListTable-th {
+    background-color: rgba(88, 157, 45, 0.17);
+    font-size: 14px;
+}
+
+/* .classListTable tbody td {
+    background-color: green;
+} */
+
 .row {
     background-color: #444444;
 }
@@ -64,7 +79,7 @@
     margin-right: 10px;
     padding: 3px 10px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .createQRcode:hover {
@@ -80,7 +95,7 @@
     margin-right: 10px;
     padding: 3px 10px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .classSetting:hover {
@@ -96,7 +111,7 @@
     background-color: #fff;
     padding: 3px 10px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .classDelete-button:hover {
@@ -178,11 +193,11 @@
 
 .button-save-icon,
 .button-cancel-icon {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     padding: 0;
     border: none;
-    font-size: 16px;
+    font-size: 13px;
     cursor: pointer;
     border-radius: 4px;
     margin: 0px 2px;
@@ -202,13 +217,17 @@
 }
 
 .button-cancel-icon {
-    background-color: transparent;
+    /* background-color: transparent;
     box-shadow: 0px 0px 0px 1px;
-    color: #6c757d;
+    color: #6c757d; */
+    background-color: red;
+    color: #fff;
+    box-shadow: 0px 0px 0px 1px red;
 }
 
 .button-cancel-icon:hover {
     color: red;
+    background-color: #fff;
 }
 
 .button-create {
