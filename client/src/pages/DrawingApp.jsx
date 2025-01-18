@@ -5,7 +5,7 @@ const DrawingApp = () =>
 {
     const canvasRef = useRef(null);
     const [drawing, setDrawing] = useState(false);
-    const [shape, setShape] = useState({ color: "white", width: 3 });
+    const [shape, setShape] = useState({ color: "white", width: 5 });
     const [addingText, setAddingText] = useState(false);
     const [textBoxes, setTextBoxes] = useState([]);
     const [draggingBox, setDraggingBox] = useState(null);
@@ -18,6 +18,7 @@ const DrawingApp = () =>
         { value: "palevioletred", label: "빨간색" },
         { value: "yellow", label: "노란색" },
         { value: "skyblue", label: "파란색" },
+        { value: "#194038", label: "지우개" },
     ];
 
     useEffect(() => 
@@ -216,36 +217,60 @@ const DrawingApp = () =>
                     onFontSizeChange={handleFontSizeChange}
                 />
             ))}
-            <div>
+            <div style={{ marginLeft: "10px", display: "flex", alignItems: "center" }}>
                 <label>
-                    펜 색상:
-                    <select
-                        name="color"
-                        value={shape.color}
-                        onChange={handleShapeChange}
+                    <div
+                        style={{
+                            display: "flex",
+                            gap: "10px",
+                            alignItems: "center",
+                        }}
                     >
                         {colors.map(({ value, label }) => (
-                            <option key={value} value={value}>
-                                {label}
-                            </option>
+                            <button
+                                key={value}
+                                onClick={() => setShape((prev) => ({ ...prev, color: value }))}
+                                style={{
+                                    width: "50px",
+                                    height: "10px",
+                                    backgroundColor: value,
+                                    border: `2px solid ${
+                                        shape.color === value ? "black" : "transparent"
+                                    }`,
+                                    borderRadius: "2px",
+                                    boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+                                    cursor: "pointer",
+                                    outline: "none",
+                                    transform: shape.color === value ? "scale(1.1)" : "scale(1)",
+                                    transition: "transform 0.2s ease, border 0.2s ease",
+                                }}
+                                aria-label={label}
+                                title={label}
+                            ></button>
                         ))}
-                    </select>
+                        <input
+                            type="range"
+                            name="width"
+                            min="1"
+                            max="30"
+                            value={shape.width}
+                            onChange={(e) =>
+                                setShape((prev) => ({ ...prev, width: e.target.value }))
+                            }
+                            style={{
+                                border: "1px solid black",
+                                background: shape.color,
+                                borderRadius: "5px",
+                                height: "10px",
+                                appearance: "none",
+                            }}
+                        />
+                        <span>{shape.width} / 30</span>
+                    </div>
                 </label>
-                <label>
-                    펜 굵기:
-                    <select
-                        name="width"
-                        value={shape.width}
-                        onChange={handleShapeChange}
-                    >
-                        {Array.from({ length: 15 }, (_, i) => i + 1).map((width) => (
-                            <option key={width} value={width}>
-                                {width}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <button onClick={handleClear}>지우기</button>
+            </div>
+            <div>
+                <button onClick={handleClear}>전부 지우기</button>
                 <button onClick={() => setAddingText(true)}>텍스트 박스 추가</button>
                 <button onClick={saveCanvas}>저장</button>
             </div>
