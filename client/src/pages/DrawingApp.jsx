@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import { useResizeDetector } from "react-resize-detector";
 
 const DrawingApp = () => 
 {
@@ -9,9 +10,6 @@ const DrawingApp = () =>
     const [textBoxes, setTextBoxes] = useState([]);
     const [draggingBox, setDraggingBox] = useState(null);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-    const textRefs = useRef({}); 
-    const hiddenTextRefs = useRef({});
-
     const canvasWidth = 1910;
     const canvasHeight = 720;
 
@@ -29,26 +27,6 @@ const DrawingApp = () =>
         ctx.fillStyle = "#194038";
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     }, []);
-
-    useEffect(() => 
-    {
-        textBoxes.forEach(({ id, text }) => 
-        {
-            const textArea = textRefs.current[id];
-            const hiddenSpan = hiddenTextRefs.current[id];
-
-            if (textArea && hiddenSpan) 
-            {
-                hiddenSpan.textContent = text || " ";
-                
-                const newWidth = hiddenSpan.offsetWidth;
-                textArea.style.width = `${newWidth}px`;
-                
-                textArea.style.height = "auto";
-                textArea.style.height = `${textArea.scrollHeight}px`;
-            }
-        });
-    }, [textBoxes]);
 
     const getCanvasCoordinates = (event) => 
     {
@@ -72,9 +50,8 @@ const DrawingApp = () =>
         } 
         else 
         {
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext("2d");
             const { x, y } = getCanvasCoordinates(e);
+            const ctx = canvasRef.current.getContext("2d");
             ctx.beginPath();
             ctx.moveTo(x, y);
             setDrawing(true);
@@ -85,20 +62,15 @@ const DrawingApp = () =>
     {
         if (!drawing) return;
 
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
         const { x, y } = getCanvasCoordinates(e);
-
+        const ctx = canvasRef.current.getContext("2d");
         ctx.lineTo(x, y);
         ctx.strokeStyle = shape.color;
         ctx.lineWidth = shape.width;
         ctx.stroke();
     };
 
-    const handleMouseUp = () => 
-    {
-        setDrawing(false);
-    };
+    const handleMouseUp = () => setDrawing(false);
 
     const handleClear = () => 
     {
@@ -118,16 +90,14 @@ const DrawingApp = () =>
 
     const addTextBox = (x, y) => 
     {
-        const newTextBox = { x, y, text: "", id: Date.now() };
+        const newTextBox = { x, y, text: "", id: Date.now(), fontSize: 16 };
         setTextBoxes((prev) => [...prev, newTextBox]);
     };
 
     const handleTextChange = (id, newText) => 
     {
         setTextBoxes((prev) =>
-            prev.map((box) =>
-                box.id === id ? { ...box, text: newText } : box
-            )
+            prev.map((box) => (box.id === id ? { ...box, text: newText } : box))
         );
     };
 
@@ -142,24 +112,72 @@ const DrawingApp = () =>
 
     const handleDrag = (e) => 
     {
-        if (draggingBox !== null) {
-            const newX = e.clientX - dragOffset.x;
-            const newY = e.clientY - dragOffset.y;
-
+        if (draggingBox !== null) 
+        {
+            const canvas = canvasRef.current;
+            const rect = canvas.getBoundingClientRect();
+            const newX = Math.min(
+                Math.max(e.clientX - dragOffset.x, 0),
+                rect.width - 100 
+            );
+            const newY = Math.min(
+                Math.max(e.clientY - dragOffset.y, 0),
+                rect.height - 20
+            );
+    
             setTextBoxes((prev) =>
                 prev.map((box) =>
-                    box.id === draggingBox
-                        ? { ...box, x: newX, y: newY }
-                        : box
+                    box.id === draggingBox ? { ...box, x: newX, y: newY } : box
                 )
             );
         }
     };
-
-    const handleDragEnd = () => 
+    
+    const saveCanvas = () => 
     {
-        setDraggingBox(null);
+        const canvas = canvasRef.current;
+    
+        const offscreenCanvas = document.createElement("canvas");
+        offscreenCanvas.width = canvas.width;
+        offscreenCanvas.height = canvas.height;
+        const offscreenCtx = offscreenCanvas.getContext("2d");
+    
+        offscreenCtx.drawImage(canvas, 0, 0);
+    
+        textBoxes.forEach(({ x, y, text, fontSize }) => 
+        {
+            offscreenCtx.font = `${fontSize}px Arial`;
+            offscreenCtx.fillStyle = "white";
+            offscreenCtx.textBaseline = "top";
+    
+            const lines = text.split("\n");
+            lines.forEach((line, index) => 
+            {
+                const lineY = y + index * fontSize * 1.2;
+                if (lineY + fontSize <= canvas.height) 
+                {
+                    offscreenCtx.fillText(line, x, y + (index * fontSize));
+                }
+            });
+        });
+    
+        const image = offscreenCanvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.download = "drawing.png";
+        link.href = image;
+        link.click();
     };
+    
+    const handleFontSizeChange = (id, newFontSize) => 
+    {
+        setTextBoxes((prev) =>
+            prev.map((box) =>
+                box.id === id ? { ...box, fontSize: newFontSize } : box
+            )
+        );
+    };
+    
+    const handleDragEnd = () => setDraggingBox(null);
 
     return (
         <div
@@ -185,61 +203,18 @@ const DrawingApp = () =>
                     border: "1px solid black",
                 }}
             />
-            { textBoxes.map(({ x, y, text, id }) => (
-                <div
+            {textBoxes.map(({ x, y, text, id, fontSize }) => (
+                <ResizableDraggableTextarea
                     key={id}
-                    style={{
-                        position: "absolute",
-                        left: `${x}px`,
-                        top: `${y}px`,
-                    }}
-                >
-                    {/* Hidden span for measuring text */}
-                    <span
-                        ref={(el) => (hiddenTextRefs.current[id] = el)}
-                        style={{
-                            visibility: "hidden",
-                            whiteSpace: "pre",
-                            fontSize: "inherit",
-                            fontFamily: "inherit",
-                        }}
-                    />
-                    {/* Textarea for text entry */}
-                    <textarea
-                        ref={(el) => (textRefs.current[id] = el)}
-                        value={text}
-                        rows={1}
-                        onChange={(e) => handleTextChange(id, e.target.value)}
-                        style={{
-                            position: "absolute",
-                            left: 0, 
-                            top: 0,
-                            border: "none",
-                            backgroundColor: "transparent",
-                            resize: "none",
-                            color: "white",
-                            overflow: "hidden",
-                            fontSize: "inherit",
-                            fontFamily: "inherit",
-                            lineHeight: "inherit",
-                            textAlign: "start",
-                            minWidth: "100px",
-                            whiteSpace: "nowrap",
-                        }}
-                    />
-                    {/* Drag handle for moving the text box */}
-                    <div
-                        onMouseDown={(e) => handleDragStart(id, e)}
-                        style={{
-                            width: "10px",
-                            height: "10px",
-                            backgroundColor: "gray",
-                            cursor: "move",
-                            borderRadius: "50%",
-                            zIndex: 1, 
-                        }}
-                    />
-                </div>
+                    x={x}
+                    y={y}
+                    text={text}
+                    fontSize={fontSize}
+                    id={id}
+                    onTextChange={handleTextChange}
+                    onDragStart={handleDragStart}
+                    onFontSizeChange={handleFontSizeChange}
+                />
             ))}
             <div>
                 <label>
@@ -272,7 +247,83 @@ const DrawingApp = () =>
                 </label>
                 <button onClick={handleClear}>지우기</button>
                 <button onClick={() => setAddingText(true)}>텍스트 박스 추가</button>
+                <button onClick={saveCanvas}>저장</button>
             </div>
+        </div>
+    );
+};
+
+const ResizableDraggableTextarea = ({ x, y, text, fontSize, id, onTextChange, onDragStart, onFontSizeChange }) => 
+{
+    const { ref, width, height } = useResizeDetector({
+        onResize: () => {
+            if (textareaRef.current && width && height) {
+                const newFontSize = Math.max(12, Math.min(width / 10, height / 2));
+                onFontSizeChange(id, newFontSize);
+            }
+        },
+    });
+    
+    const textareaRef = useRef(null);
+
+    useEffect(() => 
+    {
+        if (textareaRef.current) 
+        {
+            textareaRef.current.style.height = "auto";
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+    }, [text]);
+
+    useEffect(() => 
+    {
+        if (width && height && textareaRef.current) 
+        {
+            const newFontSize = Math.max(12, Math.min(width / 10, height / 2));
+            textareaRef.current.style.fontSize = `${newFontSize}px`;
+        }
+    }, [width, height]);
+
+    return (
+        <div
+            style={{
+                position: "absolute",
+                left: x,
+                top: y,
+            }}
+        >
+            <textarea
+                ref={(el) => {
+                    textareaRef.current = el;
+                    ref(el);
+                }}
+                value={text}
+                onChange={(e) => onTextChange(id, e.target.value)}
+                style={{
+                    resize: "both",
+                    overflow: "hidden",
+                    color: "white",
+                    backgroundColor: "transparent",
+                    border: "none",
+                    minWidth: "100px",
+                    fontFamily: "inherit",
+                    fontSize: `${fontSize}px`,
+                    lineHeight: "1.2",
+                }}
+            />
+            <div
+                onMouseDown={(e) => onDragStart(id, e)}
+                style={{
+                    position: "absolute",
+                    left: -10,
+                    top: -10,
+                    width: "20px",
+                    height: "20px",
+                    backgroundColor: "gray",
+                    cursor: "move",
+                    borderRadius: "50%",
+                }}
+            />
         </div>
     );
 };
