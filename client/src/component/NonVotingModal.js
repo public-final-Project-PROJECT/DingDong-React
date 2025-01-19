@@ -3,15 +3,18 @@ import ReactModal from "react-modal";
 import '../asset/css/NonVotingModal.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { useUserData } from "../hooks/useUserData";
 
 const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
     const [nonVotingModal, setNonVotingModal] = useState(true); // 모달 on/off
+    const { selectedClassId } = useUserData();
 
     const closeModalHandler = () => {
         setNonStudentModalShow(false);
         setNonVotingModal(false);
         console.log(nonVoters)
-        console.log(votedStudentIds)
+        console.log(voteId)
         // console.log(filteredNonVoters)
     };
 
