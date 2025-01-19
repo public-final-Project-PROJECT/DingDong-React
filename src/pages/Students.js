@@ -67,9 +67,7 @@ const Students = () => {
                     {/* 학교 정보, 학년/반 */}
                     <div className="class-header">
                         {schoolName && grade && classNo && (
-                            <h2 style={{textAlign : "center"}}>
-                                {schoolName} - {grade}학년 {classNo}반
-                            </h2>
+                            <h2>{schoolName} - {grade}학년 {classNo}반</h2>
                         )}
                     </div>
 
@@ -84,7 +82,7 @@ const Students = () => {
                                 >
                                 <h3>{index + 1}번 {student.studentName}</h3>
                                 <p>{student.grade}학년 {student.classNo}반</p>
-                                <p className="student-phone">전화번호: {student.studentPhone}</p>
+                                <p>전화번호: {student.studentPhone}</p>
                             </div>
                         ))}
                     </div>
