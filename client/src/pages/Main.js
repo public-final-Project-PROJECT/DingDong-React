@@ -43,7 +43,7 @@ const Main = () => {
                     }
                 }
             }
-        }, 80);
+        }, 100);
 
         return () => clearTimeout(delayCheck);
     }, [profile, teacherId, classCount, navigate]);
