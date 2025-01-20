@@ -163,9 +163,9 @@ const DrawingApp = () => {
         const newTextBox = { x, y, text: "", id: Date.now(), fontSize: 16 };
         setTextBoxes((prev) => {
             const updatedTextBoxes = [...prev, newTextBox];
-            saveHistory();
             return updatedTextBoxes;
         });
+        saveHistory();
     };
 
     const handleTextChange = (id, newText) => {
@@ -209,6 +209,23 @@ const DrawingApp = () => {
 
         offscreenCtx.drawImage(canvas, 0, 0);
 
+        textBoxes.forEach(({ x, y, text, fontSize }) => 
+        {
+            offscreenCtx.font = `${fontSize}px Arial`;
+            offscreenCtx.fillStyle = "white";
+            offscreenCtx.textBaseline = "top";
+    
+            const lines = text.split("\n");
+            lines.forEach((line, index) => 
+            {
+                const lineY = y + index * fontSize * 1.2;
+                if (lineY + fontSize <= canvas.height) 
+                {
+                    offscreenCtx.fillText(line, x, y + (index * fontSize));
+                }
+            });
+        });
+
         const image = offscreenCanvas.toDataURL("image/png");
         const link = document.createElement("a");
         link.download = "drawing.png";
@@ -234,7 +251,8 @@ const DrawingApp = () => {
             <div style={styles.ironFrame}>
                 <div style={styles.chalkHolder}/>
             </div>
-            {textBoxes.map(({x, y, text, id, fontSize}) => (<ResizableDraggableTextarea
+            {textBoxes.map(({x, y, text, id, fontSize}) => (
+                <ResizableDraggableTextarea
                     key={id}
                     x={x}
                     y={y}
@@ -244,7 +262,8 @@ const DrawingApp = () => {
                     onTextChange={handleTextChange}
                     onDragStart={handleDragStart}
                     onFontSizeChange={handleFontSizeChange}
-                />))}
+                />
+            ))}
             <div style={styles.toolbar}>
                 <label>
                     <div style={styles.buttonContainer}>
@@ -490,8 +509,8 @@ const styles = {
         position: "absolute",
         left: -10,
         top: -10,
-        width: "20px",
-        height: "20px",
+        width: "10px",
+        height: "10px",
         backgroundColor: "gray",
         cursor: "move",
         borderRadius: "50%",
