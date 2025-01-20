@@ -274,6 +274,13 @@ const ClassList = () =>
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" }
                 });
+                await fetchFromAPI("/user/add/class", 
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: profile.email, latestClassId: 0 })
+                });
+                setSelectedClassId(0);
                 alert("학급이 삭제되었습니다.");
                 navigate(0);
             } catch (err) {
