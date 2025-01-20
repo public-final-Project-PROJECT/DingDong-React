@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {useResizeDetector} from "react-resize-detector";
+import React, { useEffect, useRef, useState } from "react";
+import { useResizeDetector } from "react-resize-detector";
 
 const DrawingApp = () => {
     const canvasRef = useRef(null);
