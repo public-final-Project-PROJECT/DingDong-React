@@ -18,8 +18,30 @@
 
 }
 .mainlunch {
-    width : 900px;
+    width : 800px;
 }
 .innerMain {
     display: flex;
+    max-width: 1600px; /* 최대 너비 설정 */
+    padding: 0 20px; /* 내부 패딩 */
+    margin: 0 auto;
+}
+.notice-containermain {
+    width: 100%;
+
+    margin: 0 auto;
+    padding: 20px;
+}
+.page-navigationmain {
+
+    text-align: center;
+    margin-top: 40px;
+}
+
+.page-navigationmain button {
+
+    font-size: 15px;
+    cursor: pointer;
+    border: 0.5px solid #ccc;
+    border-radius: 5px;
 }
