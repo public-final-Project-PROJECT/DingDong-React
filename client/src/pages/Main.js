@@ -152,7 +152,7 @@ const Main = () => {
                                     <div className="carousel-caption d-none d-md-block">
                                         {meal.length > 0 ? (
                                             <>
-                                                <h2>모래의 급식</h2>
+                                                <h2>모레의 급식</h2>
                                                 <h5>{meal[2].MLSV_YMD}</h5>
                                                 <p>{cleanMealData(meal[2])}</p>
                                                 <p>Calories: {meal[2].CAL_INFO}</p>
