@@ -3,7 +3,7 @@
     height: 800px;
     position: absolute;
     inset: 50% auto auto 50%;
-    background: rgb(255, 255, 255);
+    background: #fff;
     overflow: auto;
     border-radius: 0px;
     outline: none;
@@ -11,23 +11,127 @@
     margin-right: -50%;
     transform: translate(-50%, -50%);
     width: 716px;
+    box-shadow: 2px 2px 2px 2px #ccc;
   }
 
   .new-voting-title{
-    margin-top: 30pz;
+    font-size: 29px;
+    font-weight: bold;
+    margin-top: -40px;
   }
 
   .new-voting-first-input{
     margin-top: 29px;
+    font-size: 14px;
+    width: 500px;
+  }
+
+  .new-voting-second-input {
+    max-width: 100%;
+    font-size: 14px;
+    width: 500px;
+  }
+
+  .VotingCategory-input {
+    margin-left: 10px;
+    width: 300px;
+    font-size: 14px;
+  }
+
+  .VotingCategory-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .Voteclosing input {
+    font-size: 15px;
+    margin-left: 3px;
+  }
+
+  .plus_button {
+    margin-left: 7px;
+    border: 2px solid #4CAF50;
+    background-color: #fff;
+    color: #4CAF50;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  .plus_button:hover {
+    background-color: #fff;
+    color: #076c07;
+    border: 2px solid #076c07;
+  }
+
+  .minus_button {
+    background-color: #fff;
+    border: 2px solid red;
+    color: red;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-left: 7px;
+  }
+
+  .minus_button:hover {
+    background-color: #fff;
+    color: orange;
+    border-color: orange;
+    border: 2px solid orange;
+  }
+
+  .radio-group {
+    margin-top: -20px;
+  }
+
+  .radio-group label {
+    margin-bottom: -20px;
   }
 
   .contents_detail{
-    font-size: 14px;
+    font-size: 13px;
     color: gray;
     margin-top: 10px;
   }
 
   .radio-box-text{
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: 10px;
+  }
+
+  .newVoting-save-button {
+    background-color: #fff;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    margin-right: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    width: 65px;
+    height: 30px;
+    font-weight: bold;
+  }
+
+  .newVoting-save-button:hover {
+    font-weight: bold;
+    color: #fff;
+    border: 2px solid #4CAF50;
+    background-color: #4CAF50;
+  }
+
+  .newVoting-close-button {
+    background-color: #fff;
+    color: red;
+    border: 2px solid red;
+    margin-right: 5px;
+    font-size: 14px;
+    border-radius: 4px;
+    width: 65px;
+    height: 30px;
+    font-weight: bold;
+  }
+
+  .newVoting-close-button:hover {
+    font-weight: bold;
+    color: #fff;
+    background-color: red;
   }

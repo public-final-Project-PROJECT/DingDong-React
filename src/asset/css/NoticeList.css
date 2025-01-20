@@ -4,6 +4,10 @@
     padding: 20px;
 }
 
+.notice-container p {
+    font-size: 15px;
+}
+
 .notice-header {
     display: flex;
     justify-content: space-between;

@@ -5,31 +5,34 @@
   grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
   gap: 20px; /* Space between cards */
   padding: 20px;
+  max-width: 90%;
 }
 
 .votging-end-button{
   background-color: white;
-  border-radius: 20px;
+  border-radius: 5px;
   font-weight: bold;
   font-size: 18px;
-  color: #4CAF50;
+  color: gray;
   width: 130px;
   height: 44px;
   box-shadow: 1px 1px 2px gray;
-  border: 2px solid rgb(16, 179, 16);
+  border: 2px solid gray;
   margin-bottom: 8px;
 }
 
 .votging-end-button:hover {
-  background-color: grey;
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
 }
 
 .voting-card {
-  background-color: #e6ffe7;
-  border-radius: 15px;
-  border: 2px solid rgb(187 229 187);
-  width: 98%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f3fff4;
+  border-radius: 5px;
+  border: none;
+  width: 95%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   padding: 15px;
   display: flex;
   margin-left: 53px;
@@ -48,14 +51,14 @@
 .vote-name {
   font-size: 20px;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 7px 0;
 }
 
 /* 투표 상세 정보 */
 .vote-detail {
   font-size: 14px;
   color: #555;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 /* 투표 항목들 */
@@ -70,7 +73,7 @@
 .vote-item {
   background-color: #ffffff;
   border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  border-radius: 7px;
   padding: 10px;
   margin-bottom: 10px;
   display: flex;
@@ -87,11 +90,11 @@
 
 /* 투표한 학생들 모달 */
 .student-voters-modal {
-  background-color: #f0f0f0;
-  border-radius: 10px;
+  background-color: #ececec;
+  border-radius: 5px;
   padding: 10px;
   margin-top: 10px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
 }
 
 /* 학생 정보 카드 */
@@ -130,12 +133,19 @@
   border-radius: 7px;
   box-shadow: 1px 1px 2px gray;
   border: 2px solid rgb(16, 179, 16);
-  font-size: 17px;
+  font-size: 16px;
   align-items: center;
-  width: 50px;
-  height: 39px;
-  justify-content: space-between; 
+  width: 40px;
+  height: 35px;
+  justify-content: space-between;
   gap: 10px;
+  margin-right: 5px;
+}
+
+.voting_two_button:hover {
+  background-color: #fff;
+  color: #076c07;
+  border: 2px solid #076c07;
 }
 
 /* .two_button:hover {
@@ -144,20 +154,23 @@
 
 .end_voting_button {
   background-color: white;
-  border-radius: 20px;
+  border-radius: 5px;
   font-weight: bold;
   font-size: 18px;
-  color: #4CAF50;
+  color: #e63946;
   width: 130px;
   height: 44px;
   box-shadow: 1px 1px 2px gray;
-  border: 2px solid rgb(16, 179, 16);
-  margin-bottom: 8px;
+  border: 2px solid #e63946;
+  margin-bottom: 5px;
 }
 
 
 .end_voting_button:hover {
-  background-color: #e63946;
+  background-color: #fff;
+  color: #aea2a2;
+  border: 2px solid #aea2a2;
+
 }
 
 /* 상태 표시 */
@@ -177,7 +190,7 @@
   color: white;
   border-radius: 10px;
   width: 300px;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
   display: flex;
 }
@@ -191,6 +204,7 @@
 
 .non-voting-modal-title{
   font-size: 15px;
+  color: red;
 }
 
 .student-info-row {
@@ -211,11 +225,15 @@
   cursor: pointer; /* Optional: changes cursor to a pointer */
 }
 
+.bell_icon:hover {
+  color: orangered;
+}
+
 .voting-date-createdAt{
   color: grey;
   font-size: 14px;
 }
-/* 
+/*
 .voting_maker_icon{
   background-color: #5fa75b;
   color: white;
@@ -228,15 +246,21 @@
 
 .voting_check_students{
   background-color: white;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 18px;
-    color: #4CAF50;
-    width: 50px;
-    height: 44px;
-    box-shadow: 1px 1px 2px gray;
-    border: 2px solid rgb(16, 179, 16);
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #4CAF50;
+  width: 40px;
+  height: 40px;
+  box-shadow: 1px 1px 2px gray;
+  border: 2px solid rgb(16, 179, 16);
 
+}
+
+.voting_check_students:hover{
+  background-color: white;
+  color: #076c07;
+  border: 2px solid #076c07;
 }
 
 .voting-ing-horizontal-container{
@@ -248,33 +272,47 @@
 
 .voting-ing-gung{
   margin-top: 40px;
+  font-weight: bold;
 }
 
 .voting-title-div{
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-
 }
 
 .voting_title{
   font-size: 33px;
   font-weight: bold;
   text-align: center;
+  margin-top: 20px;
 }
 
-.voting_maker_icon{
+.voting-title-div button {
   background-color: white;
   border-radius: 10px;
   font-weight: bold;
   font-size: 18px;
   color: #4CAF50;
-  width: 103px;
+  width: 80px;
   height: 44px;
   box-shadow: 1px 1px 2px gray;
   border: 2px solid rgb(16, 179, 16);
   margin-left: 1756px;
   margin-top: -19px;
+}
+
+.voting-title-div button:hover {
+  background-color: white;
+  color: #076c07;
+  border: 2px solid #076c07;
+}
+
+
+.voting-maker-icon:hover{
+  background-color: #fff;
+  color: #e63946;
+  border: 2px solid #e63946;
 }
 
 .submit_button{
@@ -284,10 +322,17 @@
   border-radius: 7px;
   box-shadow: 1px 1px 2px gray;
   border: 2px solid rgb(16, 179, 16);
-  font-size: 17px;
+  font-size: 15px;
   align-items: center;
   width: 72px;
   height: 38px;
+}
+
+.submit_button:hover {
+  font-weight: bold;
+  border: 2px solid #076c07;
+  background-color: #fff;
+  color: #076c07;
 }
 
 .new-voting-close-button{
@@ -303,8 +348,11 @@
   height: 34px;
 }
 
+.new-voting-close-button:hover {
+  color: red;
+  border: 2px solid red;
+}
 
-
-
-
-
+.nonVoting-title {
+  margin-bottom: 15px;
+}

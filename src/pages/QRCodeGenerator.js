@@ -124,7 +124,7 @@ const QRCodeGenerator = ({ classData }) =>
                             placeholder="학생의 번호를 입력해주세요."
                         />
                     </label>
-                    <label className="studentNameInput" style={{ marginLeft: '10px' }}>
+                    <label className="studentNameInput" style={{ marginLeft: '5px' }}>
                         학생 이름:
                         <input
                             type="text"
@@ -139,7 +139,7 @@ const QRCodeGenerator = ({ classData }) =>
                 </div>
             ))}
             <button onClick={addStudent}>학생 추가</button>
-            <button onClick={handleGenerate}>코드 생성</button>
+            <button className="QRCodeCreateButton" onClick={handleGenerate}>코드 생성</button>
             <button onClick={handlePrint} disabled={students.every((student) => !student.qrCode)}>
                 코드 인쇄
             </button>

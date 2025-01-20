@@ -168,26 +168,28 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
             placeholder="투표에 관한 설명 입력 (옵션)"
             value={detail}
             onChange={(e) => setDetail(e.target.value)}
+            className="new-voting-second-input"
             required
           />
           <br />
           <br />
           {inputItems.map((item, index) => (
             <div key={index}>
-              <label>
+              <label className="VotingCategory-label">
                 항목 {index + 1}
                 <input
                   type="text"
                   value={item.voteOption}
+                  className="VotingCategory-input"
                   onChange={(e) => handleChange(e, index)}
                 />
                 {index === 0 && inputItems.length < 30 && (
-                  <button className="plus_minus_button" type="button" onClick={addInput}>
+                  <button className="plus_button" type="button" onClick={addInput}>
                    <FontAwesomeIcon icon={faPlus} />
                   </button>
                 )}
                 {index > 0 && (
-                  <button className="plus_minus_button" type="button" onClick={() => deleteInput(item.id)}>
+                  <button className="minus_button" type="button" onClick={() => deleteInput(item.id)}>
                     <FontAwesomeIcon icon={faMinus} />
                   </button>
                 )}
@@ -195,14 +197,10 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
             </div>
           ))}
           <div className="radio-group" >
-            <br/>
-            <br/>
+            <br/><hr/>
             <label><FontAwesomeIcon icon={faClockRotateLeft} />   투표 마감일</label>
-            <div>
-            <br/>
-
+            <div className="Voteclosing">
               <RadioGroup>
-                <br/>
                 <Radio 
                 name="endDate" 
                 value="true"
@@ -228,29 +226,24 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 <h5 className="contents_detail" >  선생님이 종료버튼을 눌러야 종료됩니다.</h5>
                 </Radio>
               </RadioGroup>
-              <br/>
-            
+              <hr/>
 
                 <label><FontAwesomeIcon icon={faLock} /> 비밀투표 여부</label>
 
                 <RadioGroup>
-                  <Radio name="anonymousVote" value="true" defaultChecked>
-                    
-                    공개투표
+                  <Radio name="anonymousVote" value="true" defaultChecked>&nbsp;공개투표 &emsp;
                   </Radio>
-                  <Radio name="anonymousVote" value="false">
-                    비밀투표
-                  </Radio>
+                  <Radio name="anonymousVote" value="false">&nbsp;비밀투표</Radio>
                 </RadioGroup>
 
                 <br/>
                 <label><FontAwesomeIcon icon={faCheckDouble} /> 중복투표 여부</label>
                 <RadioGroup>
                   <Radio name="doubleVoting" value="true" defaultChecked>
-                    단독투표
+                  &nbsp;단독투표 &emsp;
                   </Radio>
                   <Radio name="doubleVoting" value="false">
-                    중복투표
+                  &nbsp;중복투표
                   </Radio>
                 </RadioGroup>
                   </div>
@@ -258,8 +251,8 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 </div>
                 <br />
                 <br />
-                <button className="submit_button" type="submit">저장</button>
-                <button className="submit_button" onClick={cancelHandler}>닫기</button>
+                <button className="newVoting-save-button" type="submit">저장</button>
+                <button className="newVoting-close-button" onClick={cancelHandler}>닫기</button>
               </form>
               </div>
       </ReactModal>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import ReactModal from "react-modal";
-import '../asset/css/Voting.css';
+import '../asset/css/NonVotingModal.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell} from "@fortawesome/free-solid-svg-icons";
 
@@ -48,31 +48,30 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
     return (
         <ReactModal
             isOpen={nonVotingModal}
+            className="non-voting-modal"
             contentLabel="nonVoting 학생 modal"
             appElement={document.getElementById("root")}
-            style={{
-                content: {
-                    top: "50%",
-                    left: "50%",
-                    right: "auto",
-                    bottom: "auto",
-                    marginRight: "-50%",
-                    transform: "translate(-50%, -50%)",
-                    width: 600,
-                    borderRadius: 0,
-                    border: "none",
-                    padding: "42px",
-                    fontSize: "16px"
-                    // backgroundColor:"rgb(255,255,255,0.)"
-                },
-            }}
+            // style={{
+            //     content: {
+            //         top: "50%",
+            //         left: "50%",
+            //         right: "auto",
+            //         bottom: "auto",
+            //         marginRight: "-50%",
+            //         transform: "translate(-50%, -50%)",
+            //         width: 600,
+            //         borderRadius: "5px",
+            //         border: "none",
+            //         padding: "42px",
+            //         fontSize: "16px",
+            //         boxShadow: "1px 1px 1px 2px #ccc"
+            //     },
+            // }}
         >
             {nonVoters.length > 0 ? (
                 <span className="non-voters">
-                    <strong>[ 미투표 학생 ]</strong>
-                    <br/>
-                    <h4 className="non-voting-modal-title" style={{color:"red"}}> 투표 알림을 보낼 학생을 선택해주세요</h4>
-                    <br/>
+                    <strong className="nonVoting-title">[ 미투표 학생 ]</strong><br/><br/>
+                    <h4 className="non-voting-modal-title"> 투표 알림을 보낼 학생을 선택해주세요</h4><hr/>
                     {console.log(nonVoters)}
                     <div className="non-voting-students-grid">
                     {nonVoters.map(student => (
@@ -87,7 +86,7 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
             ) : (
                 <p style={{color:"red"}}>모든 학생이 투표를 완료했습니다.</p> 
             )}
-            <button onClick={closeModalHandler}>닫기</button>
+            <button className="NonVotingModal-close-button" onClick={closeModalHandler}>닫기</button>
         </ReactModal>
     );
 };

@@ -26,38 +26,38 @@
 }
 
 /* 헤더 메인 버튼 호버 시 효과 */
-.Main:hover {
-  /* color: #076c07; */
+.main:hover {
   color: #f2eded;
   font-weight: bold;
   font-size: 18px;
 }
 
-.Notice:hover {
+.notice:hover {
   color: #f2eded;
   font-weight: bold;
   font-size: 18px;
 }
 
-.Attendance:hover {
+.attendance:hover {
   color: #f2eded;
   font-weight: bold;
   font-size: 18px;
 }
 
-.Students:hover {
+.students:hover {
   color: #f2eded;
   font-weight: bold;
   font-size: 18px;
 }
 
-.Calendar:hover {
+.calendar:hover {
   color: #f2eded;
   font-weight: bold;
   font-size: 18px;
 }
 
-.Convenience:hover {
+
+.convenience-box:hover {
   color: #f2eded;
   font-weight: bold;
   font-size: 18px;
@@ -74,9 +74,14 @@
   top: 100%; /* 헤더 바로 아래로 위치 */
   width: 100%; /* 헤더와 동일한 너비 */
   z-index: 5; /* 헤더보다 낮은 z-index */
-  margin-left: 70%;
+  margin-left: 69%;
 }
 
+.convenience-buttons:hover {
+  color: #f2eded;
+  font-weight: bold;
+  font-size: 18px;
+}
 
 /* 개별 버튼 스타일 */
 .convenience-buttons button {
