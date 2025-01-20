@@ -9,7 +9,7 @@ import html2canvas from 'html2canvas';
 import { useUserData } from "../hooks/useUserData";
 
 
-const SeatArrangement = () => {
+const Seat = () => {
     const { selectedClassId } = useUserData();
     const [modalShow, setModalShow] = useState(false);
     const [seats, setSeats] = useState(Array(60).fill(false));
@@ -35,6 +35,10 @@ const SeatArrangement = () => {
     const [isSpinning, setIsSpinning] = useState(false); 
     const [isModified, setIsModified] = useState(false);
     const [creSeatRandomChange, setCreSeatRandomChange] = useState(1);
+    const [maxRow, setMaxRow] = useState();
+    const [maxColumn, setMaxColumn] =  useState();
+    const [modifyEmptySeats, setModifyEmptySeats] = useState(false);
+    const [hiddenSeats, setHiddenSeats] = useState([]); 
     const contentRef = useRef();
 
     const downloadSeatsAsImage = async () => {
@@ -49,7 +53,7 @@ const SeatArrangement = () => {
                 link.click();
                 document.body.removeChild(link);
             } catch (error) {
-                console.error('Error capturing seating arrangement as image:', error);
+                console.error('Error capturing seating arrangement as imag:', error);
             }
         }
     };
@@ -72,7 +76,7 @@ const SeatArrangement = () => {
                 setCountdown(null);
                 randomSeatHandler();
                 setShowSaveButton(true);
-                setRandomSpinLabel("다시");
+                setRandomSpinLabel("start !");
             }
         }, 1000);
     };
@@ -149,7 +153,12 @@ const SeatArrangement = () => {
         try {
           console.log(selectedClassId);
             const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: selectedClassId });
+
             setLoadedSeats(response.data);
+            console.log(response.data);
+
+            setMaxRow(Math.max(...loadedSeats.map(seat => seat.rowId)));
+            setMaxColumn(Math.max(...loadedSeats.map(seat => seat.columnId)));
 
         } catch (error) {
             // findByStudents();
@@ -257,7 +266,7 @@ const SeatArrangement = () => {
       
       setRandomedSeat(updatedSeats);
       setModifyState(true);
-      setRandomSpinLabel("다시");
+      setRandomSpinLabel("start !");
      
       
       console.log("Updated Seats:");
@@ -379,6 +388,16 @@ const SeatArrangement = () => {
         };
     };
 
+    const toggleModifyEmptySeats = () => {
+      setModifyEmptySeats(!modifyEmptySeats);
+    };
+  
+    const handleEmptySeatToggle = (seatId) => {
+      setHiddenSeats((prev) =>
+        prev.includes(seatId) ? prev.filter((id) => id !== seatId) : [...prev, seatId]
+      );
+    };
+
     return (
         <>
           <ReactModal 
@@ -439,9 +458,10 @@ const SeatArrangement = () => {
                 <button className="register-button red-button" onClick={saveSeatHandler}>저장</button>
               )}
              
-               <button className='modify_button' onClick={modifyHandler}  disabled={createdSeat || isSpinning} >
+             <button className='modify_button' onClick={modifyHandler}  disabled={createdSeat || isSpinning} >
               <FontAwesomeIcon icon={faUserGroup} />   <FontAwesomeIcon icon={faRepeat} />
               </button>
+              {/* /<button onClick={() => modifyEmptySeats ? setModifyEmptySeats(false):setModifyEmptySeats(true)}>빈좌석 수정</button> */}
               
               {modifyButtonShow && 
                 <>
@@ -478,25 +498,45 @@ const SeatArrangement = () => {
       
               <div className="created-seats" ref={contentRef}>
 
-              {loadedSeats.map((seat, index) => {
-                  const student = nameList.find(student => student.studentId === seat.studentId);
-                  const studentName = student ? student.studentName : '학생 없음';
-      
-                  return (
-                    <div
-                      key={`loaded-${seat.seatId}`}
-                      className={`seat created ${modifyState ? 'modifiable' : ''}`}
-                      style={{
-                        gridColumnStart: seat.columnId,
-                        gridRowStart: seat.rowId,
-                        border: modifyState && (firstSeat?.seatId === seat.seatId || secondSeat?.seatId === seat.seatId) ? "2px solid red" : "none",
-                      }}
-                      onClick={() => handleSeatClick(seat, index)}
-                    >
-                      <h4>{studentName}</h4>
-                    </div>
-                  );
-                })}
+
+              {Array.from({ length: maxRow }, (_, rowIndex) =>
+                  Array.from({ length: maxColumn }, (_, columnIndex) => {
+                    // Find the seat for the current position
+                    const seat = loadedSeats.find(
+                      (s) => s.rowId === rowIndex + 1 && s.columnId === columnIndex + 1
+                    );
+
+                    const student = seat ? nameList.find((student) => student.studentId === seat.studentId) : null;
+                    const studentName = student ? student.studentName : '';
+
+                    const isSelected =
+                      modifyState &&
+                      seat &&
+                      (firstSeat?.seatId === seat.seatId || secondSeat?.seatId === seat.seatId);
+
+                    return (
+                      <div
+                        key={`seat-${rowIndex + 1}-${columnIndex + 1}`}
+                        className={`seat ${seat ? 'created' : 'empty'} ${
+                          modifyState ? 'modifiable' : ''
+                        }`}
+                        style={{
+                          gridColumnStart: columnIndex + 1,
+                          gridRowStart: rowIndex + 1,
+                          border: isSelected
+                            ? '2px solid red'
+                            : seat
+                            ? '1px solid gray' 
+                            : '1px dashed lightgray', 
+                        }}
+                        onClick={() => seat && handleSeatClick(seat, seat.seatId)}
+                      >
+                        <h4>{studentName || ''}</h4>
+                      </div>
+                    );
+                  })
+                )}
+
 
                         {studentsTableData && studentsTableData.map((student, index) => {
                           const columnId = (index % 4) + 1; // 열  1-10
@@ -545,4 +585,26 @@ const SeatArrangement = () => {
       
 };
 
-export default SeatArrangement;
+export default Seat;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

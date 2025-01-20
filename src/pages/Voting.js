@@ -167,36 +167,41 @@ const Voting = () => {
 
     
     // 투표 결과 알림 handler
-    const bellClickHandler = () => {
+    const bellClickHandler = (voteId) => {
 
         let result = window.confirm(
             `모든 학생들에게 투표 결과 알림이 갑니다. \n 보내시겠습니까 ?` 
         );
-        // 공개로 보낼지 비공개로 보낼지 선택..? 하도록.. 해야될듯..?
+
         if(result){
             // 투표 결과 모든 학생들에게 알림 보내는 api
-        //     axios.post(
-        //         `http://localhost:3013/api/voting/endVotingAlram`,
-        //           { votingId: voteId }, // 투표 고유 id
-        //        ).then(function (response) {
-        //            alert("모든 학생에게 알림을 전송했습니다 !");
-        // })
+            
+            axios.post(
+                `http://localhost:3013/api/alert/votingResultAlert`,
+                  { votingId: voteId , classId : selectedClassId}, // 투표 고유 id
+               ).then(function (response) {
+                if(response.data) {
+                    alert("모든 학생에게 알림을 전송했습니다 !");
+                }
+        })
         }
     }
 
 
-    const deleteHandler = () => {
+    const deleteHandler = (voteId) => {
         let result = window.confirm(
             `투표 기록이 사라집니다. 정말 삭제하시겠습니까 ?` 
         );
         if(result){
             // 투표 delete api 요청
-        //     axios.post(
-        //         `http://localhost:3013/api/voting/deleteVoting`,
-        //           { votingId: voteId }, // 투표 고유 id
-        //        ).then(function (response) {
-        //            alert("투표가 삭제되었습니다 !");
-        // })
+            axios.post(
+                `http://localhost:3013/api/voting/deleteVoting`,
+                  { votingId: voteId }, // 투표 고유 id
+               ).then(function (response) {
+                if(response.data) {
+                   alert("투표가 삭제되었습니다 !");
+                }
+        })
             
         }
     }
@@ -245,7 +250,7 @@ const Voting = () => {
                             <h6  style={{ color: "grey" }}><FontAwesomeIcon icon={faCircle} /></h6>
                             <h3 className="voting-ing-gung" style={{ color: "grey" }}>종료</h3>
                           </div>
-                            <button onClick={deleteHandler} className="votging-end-button">투표 삭제  <FontAwesomeIcon icon={faTrashCan} /></button>
+                            <button onClick={() => deleteHandler(vote.id)} className="votging-end-button">투표 삭제  <FontAwesomeIcon icon={faTrashCan} /></button>
                             {nonStudentModalShow && (
                             <NonVotingModal
                                 setNonStudentModalShow={setNonStudentModalShow}
@@ -278,7 +283,7 @@ const Voting = () => {
 
                     <div className="voting_button_div">
                     <button className="voting_two_button" onClick={() => setNonStudentModalShow(true)}><FontAwesomeIcon icon={faUsersSlash} /></button>
-                    <button className="voting_two_button" onClick={bellClickHandler}><FontAwesomeIcon icon={faBell} /></button>
+                    <button className="voting_two_button" onClick={() => bellClickHandler(vote.id)}><FontAwesomeIcon icon={faBell} /></button>
                     </div>
 
                     <div className="voting-header">

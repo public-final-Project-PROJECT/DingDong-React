@@ -96,12 +96,18 @@
     gap: 29px;
   }
   
-  .seat.created {
-    background-color: #dbe77d;
-    color: #0c0101;
-    font-size: 14px;
-    font-weight: bold;
-  }
+
+  .seat.empty {
+    width: 131px;
+    height: 102px;
+    background-color: #abeb92;
+    border: 1px solid #aaa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    border-radius: 37px;
+}
 
   .seat.created {
     width: 131px;

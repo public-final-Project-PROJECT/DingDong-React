@@ -3,15 +3,18 @@ import ReactModal from "react-modal";
 import '../asset/css/Voting.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { useUserData } from "../hooks/useUserData";
 
-const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) => {
+
+const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
     const [nonVotingModal, setNonVotingModal] = useState(true); // 모달 on/off
+    const { selectedClassId } = useUserData();
 
     const closeModalHandler = () => {
         setNonStudentModalShow(false);
         setNonVotingModal(false);
         console.log(nonVoters)
-        console.log(votedStudentIds)
         // console.log(filteredNonVoters)
     };
 
@@ -22,28 +25,25 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, votedStudentIds }) 
 
     // console.log(filteredNonVoters); 
 
-     const votingNonStudentAlert = async (studentId) => {
-         console.log(studentId);
+     const votingNonStudentAlert = async (studentId, voteId) => {
 
-    //     try {
-    //         const response = await axios.post(
-    //           `http://localhost:3013/api/voting/newvoting`,
-    //           {
-    //             classId: selectedClassId,  // 학급 id
-    //             votingName: title, // 제목
-    //             detail: detail, // 설명
-    //             votingEnd:votingEnd? votingEnd : null, // 마감일자
-    //             contents: arr, // 투표 항목들 
-    //             anonymousVote: anonymousVote,  // 비밀 투표 여부
-    //             doubleVote: doubleVote // 중복 투표 가능 여부 
-    //           },
+        console.log(voteId);
+        try {
+            const response = await axios.post(
+              `http://localhost:3013/api/alert/votingUserAlertSave`,
+              {
+                classId: selectedClassId,  // 학급 id
+                studentId : studentId,
+                votingId : voteId
+              },
        
-    //         );
-    //         return response;
+            );
+            console.log(response.data);
+            return response.data;
             
-    //       } catch (error) {
-    //         console.error("투표 생성 api error:", error.response || error.message);
-    //       }
+          } catch (error) {
+            console.error("투표 생성 api error:", error.response || error.message);
+          }
 
          }
 
