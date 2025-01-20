@@ -1,0 +1,115 @@
+
+/* 헤더 영역 스타일 */
+.top-header {
+  background-color: #25af63;
+  /* background-color: #3CB371; */
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative; /* 하위 요소와 독립적으로 위치 지정 */
+  margin-top: 2%;
+}
+
+.main-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  align-items: center;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-size: 17px;
+  margin: -0.9%;
+}
+
+/* 헤더 메인 버튼 호버 시 효과 */
+.main:hover {
+  color: #f2eded;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.notice:hover {
+  color: #f2eded;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.attendance:hover {
+  color: #f2eded;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.students:hover {
+  color: #f2eded;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.calendar:hover {
+  color: #f2eded;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+
+.convenience-box:hover {
+  color: #f2eded;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* 편의 기능 버튼 컨테이너 */
+.convenience-buttons {
+  display: flex;
+  flex-direction: column; /* 편의 기능 세로 정렬 */
+  background-color: none; /* 편의 기능 배경 분리 */
+  padding: 5px 20px;
+  max-width: 200px;
+  position: absolute; /* 헤더와 독립된 위치 */
+  top: 100%; /* 헤더 바로 아래로 위치 */
+  width: 100%; /* 헤더와 동일한 너비 */
+  z-index: 5; /* 헤더보다 낮은 z-index */
+  margin-left: 69%;
+}
+
+.convenience-buttons:hover {
+  color: #f2eded;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* 개별 버튼 스타일 */
+.convenience-buttons button {
+  margin-right: 10px;
+  margin-bottom: 5px;
+  padding: 5px 50px;
+  border: 2px solid rgb(16, 179, 16);
+  background-color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 30px;
+  width: 60px;
+  font-size: 14px;
+  color: rgb(16, 179, 16);
+  font-weight: bold;
+  white-space: nowrap;
+  text-align: center;
+  overflow: hidden;
+  writing-mode: horizontal-tb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 2px 3px gray;
+}
+
+.convenience-buttons button:hover {
+  background-color: white;
+  color: #076c07;
+  font-weight: bold;
+  border: 2px solid #076c07;
+}

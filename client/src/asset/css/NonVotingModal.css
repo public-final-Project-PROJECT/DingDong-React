@@ -1,0 +1,38 @@
+.non-voting-modal {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin-top: 10%;
+    margin-left: 35%;
+    border-radius: 4px;
+    border: none;
+    padding: 42px;
+    font-size: 16px;
+    background-color: #fff;
+    box-shadow: 2px 2px 2px 2px #ccc;
+}
+
+.non-voting-modal button {
+    text-align: center;
+}
+
+.nonVoting-title {
+    margin-bottom: 400px;
+    font-size: 20px;
+}
+
+.NonVotingModal-close-button {
+    font-size: 14px;
+    border: 2px solid orangered;
+    border-radius: 4px;
+    background-color: orangered;
+    color: #fff;
+    width: 30%;
+    margin: 0 auto;
+}
+
+.NonVotingModal-close-button:hover {
+    background-color: #fff;
+    color: red;
+    font-weight: bold;
+}

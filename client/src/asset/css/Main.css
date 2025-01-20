@@ -1,0 +1,47 @@
+.main-page {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url('../images/mainback.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    color: white; /* 텍스트가 배경에서 잘 보이도록 설정 */
+  }
+.carousel-item img {
+    object-fit: cover; /* 이미지 비율 유지하며 영역 채우기 */
+    max-height: 400px; /* 최대 높이 제한 */
+    width: 100%; /* 전체 폭에 맞춤 */
+}
+.carousel-item img {
+    width: 100%;
+    height: auto; /* 높이를 자동으로 맞추되 비율 유지 */
+    object-fit: cover; /* 비율을 유지하며 크기 조정 */
+
+}
+.mainlunch {
+    width : 800px;
+}
+.innerMain {
+    display: flex;
+    max-width: 1600px; /* 최대 너비 설정 */
+    padding: 0 20px; /* 내부 패딩 */
+    margin: 0 auto;
+}
+.notice-containermain {
+    width: 100%;
+
+    margin: 0 auto;
+    padding: 20px;
+}
+.page-navigationmain {
+
+    text-align: center;
+    margin-top: 40px;
+}
+
+.page-navigationmain button {
+
+    font-size: 15px;
+    cursor: pointer;
+    border: 0.5px solid #ccc;
+    border-radius: 5px;
+}

@@ -1,0 +1,65 @@
+.studentDatail {
+    font-size: 33px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.studentCard p {
+    font-size: 15px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.student-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 90%; /* 전체 너비의 90%로 제한 */
+    margin: 0 auto; /* 좌우 가운데 정렬 */
+    margin-top: 50px;
+}
+
+.student-list h3 {
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+}
+
+
+/* 학생 카드 스타일 */
+.student-card {
+    padding: 20px;
+    background-color: #f4f4f9;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 3px gray;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.student-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.student-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.student-card p {
+    font-size: 16px;
+    color: #555;
+    text-align: left;
+    gap: 1px;
+}
+
+/* 학년, 반 제목 스타일 */
+.class-header h2 {
+    font-size: 21px;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}

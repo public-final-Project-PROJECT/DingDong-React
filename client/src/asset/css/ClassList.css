@@ -1,0 +1,252 @@
+.class-list-container p {
+    text-align: center;
+    margin-top: 10px;
+    /* margin-bottom: 60px; */
+}
+
+.class-list-container {
+    text-align: center;
+}
+
+.table {
+    cursor: pointer;
+    width: 90%;
+    border: 1px;
+}
+
+.classListTable {
+    cursor: pointer;
+    width: 73%;
+    text-align: center;
+    margin: 0 auto;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    margin-top: 30px;
+}
+
+.classListTable tbody tr {
+    /* border-top: 1px solid #ccc; */
+    font-size: 14px;
+    background: none;
+}
+
+.classListTable-th {
+    background-color: rgba(88, 157, 45, 0.17);
+    font-size: 14px;
+}
+
+/* .classListTable tbody td {
+    background-color: green;
+} */
+
+.row {
+    background-color: #444444;
+}
+
+/* .row:hover {
+    background-color: #e8e8e8;
+}
+
+.row-selected {
+    background-color: #d1e7dd;
+} */
+
+/* .expandedRowActions {
+    row-gap: 9;
+    background-color: #f1f1f1;
+    text-align: center;;
+} */
+
+/* .expandedRowActions button {
+    margin-left: 30%;
+} */
+
+/* .expandedRowActions {
+    text-align: center;
+} */
+
+/* .expandedRowActions button {
+    text-align: center;
+    position: absolute;
+    clear: both;
+    margin-top: 10px;
+} */
+
+.createQRcode {
+    background-color: #28a745;
+    color: #fff;
+    border: 2px solid #28a745;
+    margin-right: 10px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.createQRcode:hover {
+    background-color: #fff;
+    color: #28a745;
+    border: 2px solid #28a745;
+}
+
+.classSetting {
+    background-color: #28a745;
+    color: #fff;
+    border: 2px solid #28a745;
+    margin-right: 10px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.classSetting:hover {
+    background-color: #fff;
+    color: #28a745;
+    border: 2px solid #28a745;
+    font-weight: bold;
+}
+
+.classDelete-button {
+    color: red;
+    border: 2px solid red;
+    background-color: #fff;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.classDelete-button:hover {
+    background-color: red;
+    color: #fff;
+    border: 2px solid red;
+    font-weight: bold;
+}
+
+.td.cell {
+    padding: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.input-nickname {
+    flex: 1;
+    margin-right: 5px;
+    margin-left: 10px;
+    font-size: 13px;
+    height: 24px;
+    max-width: 90%;;
+}
+
+.button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.button-save {
+    background-color: #28a745;
+    color: white;
+    font-size: 12px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.button-cancel {
+    background-color: transparent;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+    font-size: 12px;
+    height: 24px;
+}
+
+.button-edit {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    /* display: inline-flex; */
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    margin-left: 4px;
+}
+
+.action-row {
+    background-color: #f1f1f1;
+    text-align: center;
+}
+
+.button-go {
+    background-color: #007bff;
+    color: white;
+    margin-right: 10px;
+}
+
+/* .button-delete {
+    color: red;
+    border: 1px solid red;
+    background-color: transparent;
+    border-radius: 4px;
+    font-size: 14px
+} */
+
+.button-save-icon,
+.button-cancel-icon {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 0px 2px;
+}
+
+.button-save-icon {
+    background-color: #28a745;
+    box-shadow: 0px 0px 0px 1px #28a745;
+    /* border: 2px solid #28a745; */
+    color: white;
+}
+
+.button-save-icon:hover {
+    background-color: #fff;
+    box-shadow: 0px 0px 0px 1px #205f22;
+    color: #28a745;
+}
+
+.button-cancel-icon {
+    /* background-color: transparent;
+    box-shadow: 0px 0px 0px 1px;
+    color: #6c757d; */
+    background-color: red;
+    color: #fff;
+    box-shadow: 0px 0px 0px 1px red;
+}
+
+.button-cancel-icon:hover {
+    color: red;
+    background-color: #fff;
+}
+
+.button-create {
+    background-color: #fff;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    box-shadow: 1px 1px 3px gray;
+    font-size: 13px;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 80px;
+    height: 30px;
+    /* margin-left: 10px; */
+}
+
+.button-create:hover {
+    background-color: #fff;
+    color: #205f22;
+    border: 2px solid #205f22;
+    font-weight: bold;
+}
+

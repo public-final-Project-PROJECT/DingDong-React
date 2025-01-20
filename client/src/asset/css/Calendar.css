@@ -1,0 +1,220 @@
+
+:root {
+    /*색상 정의*/
+    --black: #222;
+    --point: #FF7F27;
+    --borderColor: #DEE2E6;
+    --beige: #FAEFDD; /*rgb(250,239,221)*/
+    --darkGray: #343A40;
+    --gray: #6C757D;
+    --darkBorderColor: #495057;
+    --darkBgBlack: #212529;
+    --placeholder: #cdcdcd;
+    --fc-event-border-color: #fdc882;
+    
+    /*header*/
+    --headerHeight: 4rem;
+    /*footer*/
+    --footerHeight: 100px;
+}
+.ko_event {
+  pointer-events: none;
+  
+}
+.fc-daygrid-event-harness {
+  z-index: 9999;
+  
+  border: #FFDD57;
+  
+  
+  color: black !important;
+  font-weight: bold;
+}
+
+
+.fc-daygrid-day-top a {
+   color: #db9a3e;
+   text-decoration: none; 
+}
+.fc-scrollgrid-sync-inner a {
+  color: #db9a3e;
+   text-decoration: none; 
+}
+.body {
+    color: var(--black);
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.inner {
+
+    max-width: 1600px; /* 최대 너비 설정 */
+    padding: 0 20px; /* 내부 패딩 */
+    margin: 0 auto;
+}
+.full-calendar-container {
+    height: auto;
+    width: auto;
+    visibility: hidden;
+    
+    
+    display: flex;
+    
+  }
+  .fc-h-event .fc-event-main {
+    color: #252525;
+}
+  .fc {
+    height: 100%;
+    width: 100%;
+    
+    
+  }
+  .fc-h-event {
+    /* background-color: var(--fc-event-bg-color); */
+    border: 1px solid var(--fc-event-border-color);
+    display: block;
+}
+
+
+  .fc .fc-toolbar.fc-header-toolbar {
+    margin: 0;
+    padding: 0 40px;
+    background-color: #FFEFB0;
+    height: 63px;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 29px;
+    color: black;
+    border-radius: 20px 20px 0px 0px;
+  }
+  
+
+  .custom-calendar {
+   display: flex;
+   width: 900px;
+  }
+  .fc .fc-popover {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px;
+    position: absolute;
+    z-index: 5;
+}
+
+
+  
+
+
+  .fc .fc-button-primary {
+    background-color: transparent;
+    color: black;
+    border: none;
+  
+    span {
+      font-weight: 500;
+      font-size: 28px;
+    }
+    :active {
+        outline: 0;
+        box-shadow: none !important;
+    }
+    :focus {
+      border: none;
+      outline: none; /* 포커스 시 outline 제거 */
+      outline: 0 !important;
+      box-shadow: none !important;
+    }
+    :hover {
+      color: black;
+      background-color: transparent;
+    }
+  }
+  .fc-button:active, .fc-button:focus {
+    outline: 0;
+    box-shadow: none !important;
+  }
+  .fc-day-selected {
+    background-color: #f0ad4e !important; /* 선택된 날짜의 배경색을 강제로 변경 */
+    border-radius: 50px; /* 부드러운 경계선 */
+  }
+  .fc-theme-standard th {
+    height: 32px;
+    padding-top: 3.5px;
+    background: #e5edff;
+    border: 1px solid #dddee0;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #7b7b7b;
+  }
+  .fc-daygrid-day {
+    height: 100px; /* 각 셀의 높이를 고정 */
+    
+  }
+  .fc .fc-daygrid-day.fc-day-today {
+    background-color: #fff8bd;
+    color: #356eff;
+    
+  }
+  .fc .fc-daygrid-day-top {
+    flex-direction: row;
+    margin-bottom: 3px;
+  }
+  .fc .fc-daygrid-day-frame {
+    padding: 0px;
+    position: relative;
+    height: 115px;
+    overflow: visible; /* 스크롤 없이 넘침 허용 */
+    
+    
+  }
+  .fc-daygrid-day-events {
+    position: relative; /* 이벤트 배치를 고정 */
+    max-height: 100%; /* 부모 셀 높이에 맞춤 */
+    overflow: visible; /* 내부 콘텐츠는 자유롭게 표시 */
+    
+  }
+  
+  .fc-daygrid-event-harness {
+    position: absolute;
+    clip-path: inset(0 0 0 0); /* 셀 경계 밖은 숨김 */
+    max-height: 100px; /* 셀 높이 안에서 제한 */
+    overflow: hidden; /* 넘치는 콘텐츠 숨김 */
+    z-index: 1;
+  }
+  .fc-event {
+    
+    padding: 5px 8px;
+    margin-bottom: 5px;
+    border-radius: 40px;
+    font-weight: 500;
+    font-size: 10px;
+    background-color: transparent; /* 기본 배경 제거 */
+    outline: none; /* 기본 포커스 아웃라인 제거 */
+    white-space: nowrap; /* 이벤트 텍스트를 한 줄로 제한 */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+  }
+  .fc-event.ko_event {
+    
+    padding: 5px 8px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    
+    
+    font-weight: 500;
+    font-size: 10px;
+    background-color: transparent; /* 기본 배경 제거 */
+    outline: none; /* 기본 포커스 아웃라인 제거 */
+  }
+  
+  .fc-event:active {
+    background-color: transparent; /* 클릭 후 배경을 투명하게 설정 */
+  }
+  
+  .fc-event:focus {
+    background-color: transparent; /* 포커스 시 배경을 투명하게 설정 */
+  }
+
