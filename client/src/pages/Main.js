@@ -152,7 +152,7 @@ const Main = () => {
                                     <div className="carousel-caption d-none d-md-block">
                                         {meal.length > 0 ? (
                                             <>
-                                                <h2>모래의 급식</h2>
+                                                <h2>모레의 급식</h2>
                                                 <h5>{meal[2].MLSV_YMD}</h5>
                                                 <p>{cleanMealData(meal[2])}</p>
                                                 <p>Calories: {meal[2].CAL_INFO}</p>
@@ -216,13 +216,14 @@ const Main = () => {
                             )}
 
                             <div className="page-navigationmain">
-                                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
+                                <button className="noticeList-back-button" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
                                     이전
                                 </button>
                                 <span>
                                     {currentPage + 1} / {Math.ceil(notices.length / noticesPerPage)}
                                   </span>
                                 <button
+                                    className="noticeList-next-button"
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage >= Math.ceil(notices.length / noticesPerPage) - 1}
                                 >

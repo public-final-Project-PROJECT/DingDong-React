@@ -460,7 +460,7 @@ const Seat = () => {
              <button className='modify_button' onClick={modifyHandler}  disabled={createdSeat || isSpinning} >
               <FontAwesomeIcon icon={faUserGroup} />   <FontAwesomeIcon icon={faRepeat} />
               </button>
-              <button onClick={() => modifyEmptySeats ? setModifyEmptySeats(false):setModifyEmptySeats(true)}>빈좌석 수정</button>
+              <button className="empty-seat-update" onClick={() => modifyEmptySeats ? setModifyEmptySeats(false):setModifyEmptySeats(true)}>빈좌석 수정</button>
               
               {modifyButtonShow && 
                 <>

@@ -10,7 +10,7 @@
     --darkBorderColor: #495057;
     --darkBgBlack: #212529;
     --placeholder: #cdcdcd;
-    --fc-event-border-color: #fdc882;
+    --fc-event-border-color: #0d6932;
     
     /*header*/
     --headerHeight: 4rem;
@@ -49,11 +49,18 @@
 }
 
 .inner {
-
     max-width: 1600px; /* 최대 너비 설정 */
     padding: 0 20px; /* 내부 패딩 */
-    margin: 0 auto;
+    margin: 15px auto;
+    /* margin: 0 auto; */
 }
+
+.btn-warning:hover {
+  background-color: #fff;
+  border: #205736;
+  color: fff;
+}
+
 .full-calendar-container {
     height: auto;
     width: auto;
@@ -82,13 +89,14 @@
   .fc .fc-toolbar.fc-header-toolbar {
     margin: 0;
     padding: 0 40px;
-    background-color: #FFEFB0;
+    background-color: rgba(127, 224, 66, 0.411);
     height: 63px;
     font-weight: 600;
     font-size: 12px;
     line-height: 29px;
     color: black;
-    border-radius: 20px 20px 0px 0px;
+    /* border-radius: 20px 20px 0px 0px; */
+    border-radius: 3px;
   }
   
 
