@@ -54,22 +54,6 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
             className="non-voting-modal"
             contentLabel="nonVoting 학생 modal"
             appElement={document.getElementById("root")}
-            // style={{
-            //     content: {
-            //         top: "50%",
-            //         left: "50%",
-            //         right: "auto",
-            //         bottom: "auto",
-            //         marginRight: "-50%",
-            //         transform: "translate(-50%, -50%)",
-            //         width: 600,
-            //         borderRadius: "5px",
-            //         border: "none",
-            //         padding: "42px",
-            //         fontSize: "16px",
-            //         boxShadow: "1px 1px 1px 2px #ccc"
-            //     },
-            // }}
         >
             {nonVoters.length > 0 ? (
                 <span className="non-voters">

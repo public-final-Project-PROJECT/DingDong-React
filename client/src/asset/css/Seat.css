@@ -15,16 +15,6 @@
     z-index: 1;
     margin-top: 34px;
   }
-
-  .buttons-container h2 {
-    font-size: 22px;
-    font-weight: bold;
-    color: red;
-  }
-
-  .buttons-container h8 {
-    font-size: 14px;
-  }
   
   .icons_div {
     display: flex;
@@ -46,14 +36,13 @@
   .teacher_table {
     padding: 10px 20px;
     background-color: rgb(95 167 91);
+    border-radius: 12px;
     color: white;
     border: none;
-    font-size: 23px;
-    width: 225px;
+    font-size: 24px;
+    width: 224px;
     margin-top: 28px;
     margin-bottom: 65px;
-    border-bottom: 7px solid brown;
-
   }
   
   /* .created-seats {
@@ -108,28 +97,35 @@
   }
   
   .seat.created {
-    background-color: saddlebrown;
-    color: #000;
+    background-color: #dbe77d;
+    color: #0c0101;
     font-size: 14px;
     font-weight: bold;
   }
 
   .seat.created {
     width: 131px;
-    height: 85px;
-    background-color: #dd891d;
+    height: 102px;
+    background-color: #abeb92;
+    border: 1px solid #aaa;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 5px;
-    cursor: pointer;
+    font-size: 12px;
+    border-radius: 37px;
 }
 
-  .seat.created:hover {
-    background-color: saddlebrown;
-    color: #fff;
-    font-weight: bold;
-  }
+.seat.empty {
+  width: 131px;
+  height: 102px;
+  background-color: #abeb92;
+  border: 1px solid #aaa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  border-radius: 37px;
+}
 
 .created-seats > .seat {
     margin: auto; /* 중앙 정렬 */
@@ -140,43 +136,21 @@
   }
   
   .register-button {
-    padding: 5px 15px;
-    font-size: 16px;
-    background-color: #fff;
-    color: #4caf50;
-    border: 2px solid #4caf50;
+    padding: 10px 15px;
+    font-size: 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
     border-radius: 9px;
     margin-left: 6px;
-    width: 110px;
-    height: 40px;
-    box-shadow: 2px 2px 2px #ccc;
-    font-weight: bold;
-  }
-
-  .register-button:hover {
-    background-color: #fff;
-    color: #076c07;
-    border: 2px solid #076c07;
-    font-weight: bold;
-    padding: 5px 15px;
   }
   
   .register-button.red-button {
     background-color: #f44336;
-    color: #fff;
-    border: 2px solid #f44336;
-  }
-
-
-  .register-button.red-button:hover {
-    border: 2px solid #f44336;
-    color: #f44336;
-    background-color: #fff;
   }
   
   .register-button:disabled {
-    background-color: #fff;
-    border: 2px solid #4CAF50;
+    background-color: #9e9e9e;
     cursor: not-allowed;
   }
   
@@ -211,12 +185,11 @@
   }
 
   .new_seat_button {
-    padding: 5px 10px;
-    font-size: 15px;
-    font-weight: bold;
-    background-color: #fff;
-    color: #076c07;
-    border: 2px solid #076c07;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f0c040;
+    color: #000;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -224,9 +197,7 @@
   }
 
   .new_seat_button:hover {
-    background-color: #076c07;
-    color: #fff;
-    border: 2px solid #076c07;
+    background-color: #e0a030;
   }
 
 /* ReactModal 스타일 */
@@ -270,18 +241,10 @@
   }
 
   .modify_button {
-    border: 2px solid #076c07;
-    font-size: 20px;
-    color: #076c07;
+    border: none;
+    font-size: 23px;
     border-radius: 4px;
-    background-color: #fff;
-    box-shadow: 2px 2px 2px #ccc;
-    margin-left: 5px;
-  }
-
-  .modify_button:hover {
-    background-color: #076c07;
-    color: #fff;
+    background-color: #b6ecb7;
   }
 
   .new_seat_modal_in_button {
@@ -289,20 +252,11 @@
   }
 
   .modify-handler-button{
-    border: 2px solid red;
-    background-color: red;
+    border: none;
+    background-color: #4caf50;
     color: white;
     border-radius: 5px;
     height: 30px;
-    width: 50px;
-    font-size: 14px;
-    box-shadow: 2px 2px 2px #ccc;
-  }
-
-  .modify-handler-button:hover {
-    background-color: #fff;
-    color: red;
-    border: 2px solid red;
   }
 
   /* 크기 및 간격 동적 조정 */
@@ -334,6 +288,13 @@
   .created-seats {
     gap: 20px; /* 더 여유로운 간격 */
   }
+}
+
+.seat-save-and-close-button{
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 5px;
 }
 
   
