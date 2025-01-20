@@ -216,13 +216,14 @@ const Main = () => {
                             )}
 
                             <div className="page-navigationmain">
-                                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
+                                <button className="noticeList-back-button" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
                                     이전
                                 </button>
                                 <span>
                                     {currentPage + 1} / {Math.ceil(notices.length / noticesPerPage)}
                                   </span>
                                 <button
+                                    className="noticeList-next-button"
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage >= Math.ceil(notices.length / noticesPerPage) - 1}
                                 >
