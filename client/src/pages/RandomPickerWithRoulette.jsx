@@ -175,7 +175,6 @@ const RandomPickerWithRoulette = () =>
 
     return (
         <div style={containerStyle}>
-            <p>편의기능 &gt; 발표자 뽑기</p>
             <div style={{ position: "relative", width: "100%", height: "100%" }}>
                 <video
                     ref={videoRef}

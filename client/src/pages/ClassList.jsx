@@ -191,7 +191,6 @@ const ExpandedRowActions = ({ classItem, onQRCode, onClassSwitch, onDelete }) =>
     </tr>
 );
 
-
 const ClassList = () => 
 {
     const { classList, teacherId, classCount, setSelectedClassId } = useUserData();

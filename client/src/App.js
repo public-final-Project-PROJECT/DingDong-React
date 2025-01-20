@@ -18,7 +18,7 @@ import NoticeUpdate from "./pages/NoticeUpdate.js";
 import StudentDetail from "./pages/StudentDetail.js";
 import AttendanceTotal from "./pages/AttendanceTotal.js";
 import { AuthProvider } from "./contexts/AuthContext.js";
-import DrawingApp from "./pages/DrawingApp.js";
+import DrawingApp from "./pages/DrawingApp.jsx";
 
 function App() 
 {

@@ -47,7 +47,7 @@ const QRCodeGenerator = ({ classData }) =>
 
             const dataToEncrypt = 
             {
-                studentInfo: { studentNo: parseInt(student.no), studentName: student.name },
+                studentInfo: { schoolName: schoolName, studentNo: parseInt(student.no), studentName: student.name },
                 teacherId: parseInt(classData.id.id),
                 classId: parseInt(classData.classId),
                 year: parseInt(new Date(classData.classCreated).getFullYear())
@@ -170,7 +170,7 @@ const QRCodeGenerator = ({ classData }) =>
                                 <h5>Original Data QR Code</h5>
                                 <QRCodeCanvas value={student.originalQRCode} />
                             </div>
-                        )}  */}
+                        )} */}
                     </div>
                 ))}
             </div>

@@ -1,0 +1,7 @@
+cd C:\Users\msgpi\OneDrive\문서\GitHub\lastdance_r\flask-server
+python -m venv venv
+venv\Scripts\activate
+pip install "numpy<2"
+pip install whls\insightface-0.7.3-cp312-cp312-win_amd64.whl
+pip install flask flask-cors onnx onnxruntime
+python app.py

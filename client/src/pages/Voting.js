@@ -167,7 +167,7 @@ const Voting = () => {
 
     
     // 투표 결과 알림 handler
-    const bellClickHandler = () => {
+    const bellClickHandler = (voteId) => {
 
         let result = window.confirm(
             `모든 학생들에게 투표 결과 알림이 갑니다. \n 보내시겠습니까 ?` 
@@ -188,7 +188,7 @@ const Voting = () => {
     }
 
 
-    const deleteHandler = () => {
+    const deleteHandler = (voteId) => {
         let result = window.confirm(
             `투표 기록이 사라집니다. 정말 삭제하시겠습니까 ?` 
         );
