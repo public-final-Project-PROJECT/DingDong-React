@@ -426,8 +426,8 @@ const saveStudentsAPI2 = async (updatedSeats) => {
               {modifyButtonShow && 
                 <>
                 <h8 className="seatChange-modify">자리를 클릭하여 좌석을 변경하세요</h8>
-                <button className='seat-save-and-close-button' onClick={() => saveStudentsAPI2([...loadedSeats])}>저장</button>
-                <button  className='seat-save-and-close-button' onClick={() => setModifyButtonShow(false)}>취소</button>
+                <button className='seat-save-button' onClick={() => saveStudentsAPI2([...loadedSeats])}>저장</button>
+                <button  className='seat-close-button' onClick={() => setModifyButtonShow(false)}>취소</button>
                 </>
                 }
 

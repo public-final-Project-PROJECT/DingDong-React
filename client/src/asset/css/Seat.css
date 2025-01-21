@@ -102,7 +102,7 @@
   
   .seat.created {
     background-color: #dbe77d;
-    color: #0c0101;
+    color: #fff;
     font-size: 14px;
     font-weight: bold;
   }
@@ -110,13 +110,17 @@
   .seat.created {
     width: 131px;
     height: 102px;
-    background-color: #abeb92;
+    background-color: #b3642b;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
-    border-radius: 37px;
+    border-radius: 7px;
 }
+
+  .seat.created:hover {
+    background-color: saddlebrown;
+  }
 
 .seat.empty {
   width: 131px;
@@ -298,12 +302,28 @@
   }
 }
 
-.seat-save-and-close-button{
-  border: none;
+.seat-save-button {
   background-color: #4caf50;
   color: white;
   border-radius: 5px;
+  border: 2px solid #4CAF50;
 }
 
-  
-  
+.seat-save-button:hover {
+  background-color: #ffffff;
+  color: #0d6932;
+  border: 2px solid #0d6932;
+}
+
+.seat-close-button {
+  background-color: red;
+  color: #fff;
+  border-radius: 5px;
+  border: 2px solid red;
+}
+
+.seat-close-button:hover {
+  background-color: #fff;
+  color: red;
+  border: 2px solid red;
+}
