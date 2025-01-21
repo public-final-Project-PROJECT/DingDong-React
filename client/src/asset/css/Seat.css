@@ -44,6 +44,11 @@
     margin-top: 28px;
     margin-bottom: 65px;
   }
+
+  .teacher_table_div button {
+    background-color: #095009;
+    border-bottom: 5px solid brown;
+  }
   
   /* .created-seats {
         display: grid;
