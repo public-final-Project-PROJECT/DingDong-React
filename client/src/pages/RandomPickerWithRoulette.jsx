@@ -201,7 +201,7 @@ const RandomPickerWithRoulette = () =>
                 style={{
                     width: "100%",
                     maxWidth: "1920px",
-                    height: "155px",
+                    height: "167px",
                     backgroundColor: "#333",
                     color: "white",
                     border: "5px solid #FFD700",
