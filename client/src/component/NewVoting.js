@@ -237,15 +237,6 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 </RadioGroup>
 
                 <br/>
-                <label><FontAwesomeIcon icon={faCheckDouble} /> 중복투표 여부</label>
-                <RadioGroup>
-                  <Radio name="doubleVoting" value="true" defaultChecked>
-                  &nbsp;단독투표 &emsp;
-                  </Radio>
-                  <Radio name="doubleVoting" value="false">
-                  &nbsp;중복투표
-                  </Radio>
-                </RadioGroup>
                   </div>
 
                 </div>

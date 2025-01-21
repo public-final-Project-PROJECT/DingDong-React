@@ -107,7 +107,6 @@
     width: 131px;
     height: 102px;
     background-color: #abeb92;
-    border: 1px solid #aaa;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,7 +118,6 @@
   width: 131px;
   height: 102px;
   background-color: #abeb92;
-  border: 1px solid #aaa;
   display: flex;
   justify-content: center;
   align-items: center;

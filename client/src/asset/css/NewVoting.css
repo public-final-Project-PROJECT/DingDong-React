@@ -1,13 +1,13 @@
 
 .new_voting_modal{
-    height: 800px;
+    height: 722px;
     position: absolute;
     inset: 50% auto auto 50%;
     background: #fff;
     overflow: auto;
     border-radius: 0px;
     outline: none;
-    padding: 42px;
+    padding: 46px;
     margin-right: -50%;
     transform: translate(-50%, -50%);
     width: 716px;
