@@ -434,7 +434,7 @@ const styles = {
 
     ironFrame: {
         width: "100%",
-        height: "50px",
+        height: "60px",
         background: "linear-gradient(135deg, #e0e0e0, #b0b0b0, #e0e0e0)",
         borderTop: "5px solid #a0a0a0",
         borderRadius: "0 0 10px 10px",
@@ -450,7 +450,7 @@ const styles = {
         justifyContent: "space-around",
         alignItems: "center",
         width: "99%",
-        height: "30px",
+        height: "35px",
         background: "linear-gradient(135deg, #d8d8d8, #c0c0c0, #d8d8d8)",
         borderRadius: "15px",
         padding: "5px",
@@ -458,7 +458,7 @@ const styles = {
     },
 
     toolbar: {
-        marginTop: "-37px", marginLeft: "25px", display: "flex", alignItems: "center"
+        marginTop: "-42px", marginLeft: "25px", display: "flex", alignItems: "center"
     },
 
     buttonContainer: {
