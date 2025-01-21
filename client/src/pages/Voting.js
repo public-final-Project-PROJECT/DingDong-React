@@ -138,6 +138,7 @@ const Voting = () => {
          { votingId: voteId }, // 투표 고유 id
       ).then(function (response) {
           setIdVoteState(true);
+          newStateValue? setNewStateValue(false) : setNewStateValue(true)
           alert("투표가 종료되었습니다 !");
        
       });
