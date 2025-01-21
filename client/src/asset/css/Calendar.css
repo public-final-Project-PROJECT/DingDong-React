@@ -54,6 +54,13 @@
     margin: 15px auto;
     /* margin: 0 auto; */
 }
+
+.btn-warning:hover {
+  background-color: #fff;
+  border: #205736;
+  color: fff;
+}
+
 .full-calendar-container {
     height: auto;
     width: auto;

@@ -274,6 +274,7 @@ const ClassList = () =>
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" }
                 });
+                setSelectedClassId(0);                
                 alert("학급이 삭제되었습니다.");
                 navigate(0);
             } catch (err) {

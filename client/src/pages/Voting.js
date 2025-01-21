@@ -8,7 +8,7 @@ import NonVotingModal from "../component/NonVotingModal";
 import ReactModal from "react-modal";
 import { useUserData } from "../hooks/useUserData";
 
-
+//올라가라 
 const Voting = () => {
     const { selectedClassId } = useUserData();
     const [newVotingModal, setNewVotingModal] = useState(false); // 투표 만들기 모달
@@ -24,6 +24,7 @@ const Voting = () => {
     const [nonVotingModal, setNonVotingModal] = useState(true); // 모달 on/off
     const [voteStudentsShow, setVoteStudentsShow] = useState(false); // 투표 한 학생들 보기
     const [activeContent, setActiveContent] = useState({});
+    const [newStateValue, setNewStateValue] = useState();
 
     
 
@@ -34,7 +35,7 @@ const Voting = () => {
                 'http://localhost:3013/api/voting/findStudentsName',
                 { classId: selectedClassId },
             );
-            console.log(response.data);
+           
             return response.data;
         } catch (error) {
             console.error('findStudentsName 중 error : ', error);
@@ -92,7 +93,7 @@ const Voting = () => {
         };
 
         fetchInitialData();
-    }, []);
+    }, [idVoteState, newStateValue]);
 
 
     // 1. 투표 list 조회 요청
@@ -102,7 +103,7 @@ const Voting = () => {
                 `http://localhost:3013/api/voting/findVoting`,
                 { classId: selectedClassId }
             );
-            console.log(response);
+            
             setVotingData(response.data);
             return response.data;
         } catch (error) {
@@ -118,7 +119,7 @@ const Voting = () => {
                 `http://localhost:3013/api/voting/findContents`,
                 { votingId: votingId },
             );
-            console.log(response.data);
+
             return response.data;
         } catch (error) {
             console.error(`vote contents 데이터 오류  ${votingId}:`, error);
@@ -149,33 +150,31 @@ const Voting = () => {
     const findNonVoters = (votingId, totalStudents) => {
  
       const voteData = voteResults[votingId] || {};
-    
   
       const voters = Object.keys(voteData).reduce((acc, contentsId) => {
         acc.push(...voteData[contentsId].voters);
         return acc;
       }, []);
-    
-      console.log(`Voters for vote ID ${votingId}:`, voters);
-    
-     
+
       const nonVoters = totalStudents.filter(student => !voters.includes(student.id));
-      console.log(`Non-voters for vote ID ${votingId}:`, nonVoters);
     
       return nonVoters;
     };
 
     
     // 투표 결과 알림 handler
-    const bellClickHandler = (voteId) => {
+    const bellClickHandler = (voteId, isEnded) => {
 
+        if(isEnded){
+            alert("아직 진행중인 투표입니다. \n 종료 후에 알림을 보내주세요. ");
+            return;
+        }
         let result = window.confirm(
-            `모든 학생들에게 투표 결과 알림이 갑니다. \n 보내시겠습니까 ?` 
+            `모든 학생들에게 투표 종료 알림이 갑니다. \n 보내시겠습니까 ?` 
         );
 
         if(result){
             // 투표 결과 모든 학생들에게 알림 보내는 api
-            
             axios.post(
                 `http://localhost:3013/api/alert/votingResultAlert`,
                   { votingId: voteId , classId : selectedClassId}, // 투표 고유 id
@@ -199,8 +198,10 @@ const Voting = () => {
                   { votingId: voteId }, // 투표 고유 id
                ).then(function (response) {
                 if(response.data) {
-                   alert("투표가 삭제되었습니다 !");
+                    newStateValue? setNewStateValue(false) : setNewStateValue(true)
                 }
+                   alert("투표가 삭제되었습니다 !");
+                
         })
             
         }
@@ -235,7 +236,6 @@ const Voting = () => {
                     const daysRemaining = Math.ceil((endTime - today) / (1000 * 60 * 60 * 24));
                     // findNonVoters에서 studentId가 포함된 totalStudents를 넘겨줌
                     const nonVoters = findNonVoters(vote.id, Object.values(studentInfo)); 
-                    {console.log(nonVoters)}
                     const votedStudentIds = Object.keys(voteResults[vote.id] || {}).reduce((acc, contentsId) => {
                         acc.push(...voteResults[vote.id][contentsId].voters);
                         return acc;
@@ -250,7 +250,7 @@ const Voting = () => {
                             <h6  style={{ color: "grey" }}><FontAwesomeIcon icon={faCircle} /></h6>
                             <h3 className="voting-ing-gung" style={{ color: "grey" }}>종료</h3>
                           </div>
-                            <button onClick={deleteHandler} className="votging-end-button">투표 삭제  <FontAwesomeIcon icon={faTrashCan} /></button>
+                            <button onClick={() => deleteHandler(vote.id)} className="votging-end-button">투표 삭제  <FontAwesomeIcon icon={faTrashCan} /></button>
                             {nonStudentModalShow && (
                             <NonVotingModal
                                 setNonStudentModalShow={setNonStudentModalShow}
@@ -283,7 +283,7 @@ const Voting = () => {
 
                     <div className="voting_button_div">
                     <button className="voting_two_button" onClick={() => setNonStudentModalShow(true)}><FontAwesomeIcon icon={faUsersSlash} /></button>
-                    <button className="voting_two_button" onClick={bellClickHandler}><FontAwesomeIcon icon={faBell} /></button>
+                    <button className="voting_two_button" onClick={() => bellClickHandler(vote.id, isEnded)}><FontAwesomeIcon icon={faBell} /></button>
                     </div>
 
                     <div className="voting-header">

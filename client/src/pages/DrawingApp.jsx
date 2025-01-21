@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import {useResizeDetector} from "react-resize-detector";
+import React, { useEffect, useRef, useState } from "react";
+import { useResizeDetector } from "react-resize-detector";
 
 const DrawingApp = () => {
     const canvasRef = useRef(null);
@@ -15,7 +15,7 @@ const DrawingApp = () => {
     const [history, setHistory] = useState([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
 
-    const canvasWidth = 1910;
+    const canvasWidth = 1920;
     const canvasHeight = 820;
 
     const colors = [
@@ -163,9 +163,9 @@ const DrawingApp = () => {
         const newTextBox = { x, y, text: "", id: Date.now(), fontSize: 16 };
         setTextBoxes((prev) => {
             const updatedTextBoxes = [...prev, newTextBox];
-            saveHistory();
             return updatedTextBoxes;
         });
+        saveHistory();
     };
 
     const handleTextChange = (id, newText) => {
@@ -209,6 +209,23 @@ const DrawingApp = () => {
 
         offscreenCtx.drawImage(canvas, 0, 0);
 
+        textBoxes.forEach(({ x, y, text, fontSize }) => 
+        {
+            offscreenCtx.font = `${fontSize}px Arial`;
+            offscreenCtx.fillStyle = "white";
+            offscreenCtx.textBaseline = "top";
+    
+            const lines = text.split("\n");
+            lines.forEach((line, index) => 
+            {
+                const lineY = y + index * fontSize * 1.2;
+                if (lineY + fontSize <= canvas.height) 
+                {
+                    offscreenCtx.fillText(line, x, y + (index * fontSize));
+                }
+            });
+        });
+
         const image = offscreenCanvas.toDataURL("image/png");
         const link = document.createElement("a");
         link.download = "drawing.png";
@@ -234,7 +251,8 @@ const DrawingApp = () => {
             <div style={styles.ironFrame}>
                 <div style={styles.chalkHolder}/>
             </div>
-            {textBoxes.map(({x, y, text, id, fontSize}) => (<ResizableDraggableTextarea
+            {textBoxes.map(({x, y, text, id, fontSize}) => (
+                <ResizableDraggableTextarea
                     key={id}
                     x={x}
                     y={y}
@@ -244,7 +262,8 @@ const DrawingApp = () => {
                     onTextChange={handleTextChange}
                     onDragStart={handleDragStart}
                     onFontSizeChange={handleFontSizeChange}
-                />))}
+                />
+            ))}
             <div style={styles.toolbar}>
                 <label>
                     <div style={styles.buttonContainer}>
@@ -415,7 +434,7 @@ const styles = {
 
     ironFrame: {
         width: "100%",
-        height: "50px",
+        height: "55px",
         background: "linear-gradient(135deg, #e0e0e0, #b0b0b0, #e0e0e0)",
         borderTop: "5px solid #a0a0a0",
         borderRadius: "0 0 10px 10px",
@@ -439,7 +458,7 @@ const styles = {
     },
 
     toolbar: {
-        marginTop: "-37px", marginLeft: "25px", display: "flex", alignItems: "center"
+        marginTop: "-40px", marginLeft: "25px", display: "flex", alignItems: "center"
     },
 
     buttonContainer: {
@@ -490,8 +509,8 @@ const styles = {
         position: "absolute",
         left: -10,
         top: -10,
-        width: "20px",
-        height: "20px",
+        width: "10px",
+        height: "10px",
         backgroundColor: "gray",
         cursor: "move",
         borderRadius: "50%",

@@ -403,6 +403,7 @@ const Calendar = ({showControls = true}) => {
                                     backgroundColor: "#205736",
                                     border:"#205736",
                                     color: "#fff",
+
                                 }}
                             >
                                 생성

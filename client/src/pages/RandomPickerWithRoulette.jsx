@@ -19,9 +19,9 @@ const RandomPickerWithRoulette = () =>
             setContainerStyle({
                 position: "relative",
                 width: "100%",
-                maxWidth: "1910px",
+                maxWidth: "1920px",
                 height: window.innerWidth > 1280 ? "720px" : "auto",
-                margin: "0 auto",
+                margin: "0",
             });
         };
 
@@ -197,10 +197,77 @@ const RandomPickerWithRoulette = () =>
                     }}
                 />
             </div>
-            <button onClick={handleCapture} disabled={isRouletteRunning}>
-                {isRouletteRunning ? "진행 중..." : "뽑기"}
-            </button>
-            <button onClick={handleResetHighlight}>초기화</button>
+            <div
+                style={{
+                    width: "100%",
+                    maxWidth: "1920px",
+                    height: "167px",
+                    backgroundColor: "#333",
+                    color: "white",
+                    border: "5px solid #FFD700",
+                    borderRadius: "0px 0px 10px 10px",
+                    marginTop: window.innerWidth > 1280 ? "0px" : "-6px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    fontFamily: "Arial, sans-serif",
+                    textAlign: "center",
+                }}
+            />
+            <div style={{ display: "flex", justifyContent: "center", gap: "100px", marginTop: "-135px" }}>
+                <button
+                    onClick={handleCapture}
+                    disabled={isRouletteRunning}
+                    style={{
+                        width: "100px",
+                        height: "100px",
+                        background: isRouletteRunning
+                            ? "linear-gradient(to bottom, #FFD700, #C9A400)"
+                            : "linear-gradient(to bottom, #FF0000, #B20000)",
+                        color: "white",
+                        border: "2px solid #333",
+                        borderRadius: "50%",
+                        boxShadow: "0 4px #666",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        fontSize: "14px",
+                        textTransform: "uppercase",
+                        outline: "none",
+                        transition: "transform 0.1s ease",
+                        textAlign: "center",
+                        lineHeight: "80px",
+                    }}
+                    onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.9)")}
+                    onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                >
+                    {isRouletteRunning ? "진행 중" : "뽑기"}
+                </button>
+                <button
+                    onClick={handleResetHighlight}
+                    style={{
+                        width: "100px",
+                        height: "100px",
+                        background: "linear-gradient(to bottom, #444, #222)",
+                        color: "white",
+                        border: "2px solid #333",
+                        borderRadius: "50%",
+                        boxShadow: "0 4px #666",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        fontSize: "14px",
+                        textTransform: "uppercase",
+                        outline: "none",
+                        transition: "transform 0.1s ease",
+                        textAlign: "center",
+                        lineHeight: "80px",
+                    }}
+                    onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.9)")}
+                    onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                >
+                    초기화
+                </button>
+            </div>
         </div>
     );    
 };
