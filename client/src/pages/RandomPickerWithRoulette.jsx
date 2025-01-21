@@ -206,7 +206,7 @@ const RandomPickerWithRoulette = () =>
                     color: "white",
                     border: "5px solid #FFD700",
                     borderRadius: "0px 0px 10px 10px",
-                    margin: "0px auto 0 auto",
+                    marginTop: window.innerWidth > 1280 ? "0px" : "-6px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
