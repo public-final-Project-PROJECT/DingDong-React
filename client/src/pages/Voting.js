@@ -7,8 +7,9 @@ import '../asset/css/Voting.css';
 import NonVotingModal from "../component/NonVotingModal";
 import ReactModal from "react-modal";
 import { useUserData } from "../hooks/useUserData";
+import { useNavigate } from "react-router-dom";
 
-//올라가라 
+
 const Voting = () => {
     const { selectedClassId } = useUserData();
     const [newVotingModal, setNewVotingModal] = useState(false); // 투표 만들기 모달
@@ -25,12 +26,12 @@ const Voting = () => {
     const [voteStudentsShow, setVoteStudentsShow] = useState(false); // 투표 한 학생들 보기
     const [activeContent, setActiveContent] = useState({});
     const [newStateValue, setNewStateValue] = useState();
+    const navigate = useNavigate();
 
     
-
-    // 학생 정보 가져오기 (이름, 이미지)
     const findClassByStudentsName = async () => {
         try {
+            console.log(selectedClassId);
             const response = await axios.post(
                 'http://localhost:3013/api/voting/findStudentsName',
                 { classId: selectedClassId },
@@ -42,7 +43,7 @@ const Voting = () => {
         }
     };
 
-    // 투표 항목들에 대한 학생들의 투표 정보
+
     const optionSend = async (voteId) => {
         try {
             const response = await axios.post(
@@ -93,10 +94,9 @@ const Voting = () => {
         };
 
         fetchInitialData();
-    }, [idVoteState, newStateValue]);
+    }, [idVoteState, newStateValue, modalShow]);
 
 
-    // 1. 투표 list 조회 요청
     const Send = async () => {
         try {
             const response = await axios.post(
@@ -112,7 +112,6 @@ const Voting = () => {
     };
 
 
-    // 2. 투표들의 각각 항목 조회 요청
     const contentsSend = async (votingId) => {
         try {
             const response = await axios.post(
@@ -128,18 +127,17 @@ const Voting = () => {
     };
 
     
-    // 투표 종료 handler(idVote 값 false 로 변경)
     function endHandler(voteId){ 
       let result = window.confirm("투표를 종료하시겠습니까?");
       
       if(result){
       axios.post(
        `http://localhost:3013/api/voting/isVoteUpdate`,
-         { votingId: voteId }, // 투표 고유 id
+         { votingId: voteId }, 
       ).then(function (response) {
           setIdVoteState(true);
+          newStateValue? setNewStateValue(false) : setNewStateValue(true)
           alert("투표가 종료되었습니다 !");
-       
       });
       }else{
         return;
@@ -162,7 +160,6 @@ const Voting = () => {
     };
 
     
-    // 투표 결과 알림 handler
     const bellClickHandler = (voteId, isEnded) => {
 
         if(isEnded){
@@ -174,10 +171,9 @@ const Voting = () => {
         );
 
         if(result){
-            // 투표 결과 모든 학생들에게 알림 보내는 api
             axios.post(
                 `http://localhost:3013/api/alert/votingResultAlert`,
-                  { votingId: voteId , classId : selectedClassId}, // 투표 고유 id
+                  { votingId: voteId , classId : selectedClassId}, 
                ).then(function (response) {
                 if(response.data) {
                     alert("모든 학생에게 알림을 전송했습니다 !");
@@ -192,10 +188,10 @@ const Voting = () => {
             `투표 기록이 사라집니다. 정말 삭제하시겠습니까 ?` 
         );
         if(result){
-            // 투표 delete api 요청
+
             axios.post(
                 `http://localhost:3013/api/voting/deleteVoting`,
-                  { votingId: voteId }, // 투표 고유 id
+                  { votingId: voteId }, 
                ).then(function (response) {
                 if(response.data) {
                     newStateValue? setNewStateValue(false) : setNewStateValue(true)
@@ -224,17 +220,18 @@ const Voting = () => {
                     modalShow={modalShow}
                     setRere={setRere}
                     rere={rere}
+                    newStateValue={newStateValue}
+                    setNewStateValue = {setNewStateValue}
                 />
             )}
             <div className="voting-container">
              {Array.isArray(votingData) &&
                 votingData.map((vote) => {
                 
-                    const isEnded = !!vote.votingEnd; // 투표 종료 여부
+                    const isEnded = !!vote.votingEnd; 
                     const today = new Date();
                     const endTime = new Date(vote.votingEnd);
                     const daysRemaining = Math.ceil((endTime - today) / (1000 * 60 * 60 * 24));
-                    // findNonVoters에서 studentId가 포함된 totalStudents를 넘겨줌
                     const nonVoters = findNonVoters(vote.id, Object.values(studentInfo)); 
                     const votedStudentIds = Object.keys(voteResults[vote.id] || {}).reduce((acc, contentsId) => {
                         acc.push(...voteResults[vote.id][contentsId].voters);
@@ -254,8 +251,7 @@ const Voting = () => {
                             {nonStudentModalShow && (
                             <NonVotingModal
                                 setNonStudentModalShow={setNonStudentModalShow}
-                                nonVoters={nonVoters} // 필터링된 미투표자 전달
-                                // votedStudentIds={votedStudentIds} // 투표한 학생들 전달
+                                nonVoters={nonVoters}
                                 voteId={vote.id}
                             />
                         )}
@@ -301,16 +297,13 @@ const Voting = () => {
                     {Array.isArray(contentsData[vote.id]) && contentsData[vote.id].length > 0 ? (
                             contentsData[vote.id].map((content, idx) => {
                                 const voters = voteResults[vote.id]?.[content.contentsId]?.voters || [];
-                                
-                                // 각 투표 항목의 최대 투표 수 계산
+    
                                 const maxVotes = Math.max(
                                     ...contentsData[vote.id].map((c) => {
                                         const votersForContent = voteResults[vote.id]?.[c.contentsId]?.voters || [];
                                         return votersForContent.length;
                                     })
                                 );
-
-                                // 현재 콘텐츠가 최대 투표를 받은 콘텐츠인지 확인
                                 const isMaxVoted = voters.length === maxVotes;
                    
                                 return (
@@ -318,7 +311,7 @@ const Voting = () => {
                                         <div className ='contents_and_user_icons'>
                                         <p 
                                             className="vote-option" 
-                                            style={{ color: isMaxVoted && voters.length != "0"? "red" : "black" }} // 최대 투표 콘텐츠는 빨간색으로 표시
+                                            style={{ color: isMaxVoted && voters.length != "0"? "red" : "black" }}
                                         >
                                             <FontAwesomeIcon icon={faCircleCheck} />   {content.votingContents} - {voters.length}명
                                         </p>

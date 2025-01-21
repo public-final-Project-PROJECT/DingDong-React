@@ -22,12 +22,13 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
             const response = await axios.post(
               `http://localhost:3013/api/alert/votingUserAlertSave`,
               {
-                classId: selectedClassId,  // 학급 id
+                classId: selectedClassId, 
                 studentId : studentId,
                 votingId : voteId
               },
        
             );
+            alert("미 투표 학생에게 알림을 보냅니다 !");
             return response.data;
             
           } catch (error) {

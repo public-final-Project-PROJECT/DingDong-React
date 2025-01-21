@@ -443,7 +443,7 @@ const saveStudentsAPI2 = async (updatedSeats) => {
             
             <div className="teacher_table_and_students_table_div" ref={contentRef}>
               <div className="teacher_table_div"  >
-                <button className="teacher_table">교탁</button>
+                <button className="teacher_table">칠판</button>
               </div>
       
               <div className="created-seats">
