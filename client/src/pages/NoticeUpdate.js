@@ -154,10 +154,9 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
         </div>
         <div className="formGroup-file">
           <input
-              type="text"
+              type="file"
               readOnly
               placeholder="수정할 파일을 선택하세요"
-              value={updateNotice.noticeFileName}
               className="file-update-name"
           />
             {updateNotice.noticeImgName && (
