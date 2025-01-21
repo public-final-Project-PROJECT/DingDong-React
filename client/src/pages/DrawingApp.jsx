@@ -15,8 +15,8 @@ const DrawingApp = () => {
     const [history, setHistory] = useState([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
 
-    const canvasWidth = 1910;
-    const canvasHeight = 820;
+    const canvasWidth = 1920;
+    const canvasHeight = 810;
 
     const colors = [
         { value: "white", label: "하얀색" }, 
