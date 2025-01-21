@@ -250,7 +250,7 @@ const Voting = () => {
                             <h6  style={{ color: "grey" }}><FontAwesomeIcon icon={faCircle} /></h6>
                             <h3 className="voting-ing-gung" style={{ color: "grey" }}>종료</h3>
                           </div>
-                            <button onClick={deleteHandler} className="votging-end-button">투표 삭제  <FontAwesomeIcon icon={faTrashCan} /></button>
+                            <button onClick={() => deleteHandler(vote.id)} className="votging-end-button">투표 삭제  <FontAwesomeIcon icon={faTrashCan} /></button>
                             {nonStudentModalShow && (
                             <NonVotingModal
                                 setNonStudentModalShow={setNonStudentModalShow}
@@ -283,7 +283,7 @@ const Voting = () => {
 
                     <div className="voting_button_div">
                     <button className="voting_two_button" onClick={() => setNonStudentModalShow(true)}><FontAwesomeIcon icon={faUsersSlash} /></button>
-                    <button className="voting_two_button" onClick={bellClickHandler}><FontAwesomeIcon icon={faBell} /></button>
+                    <button className="voting_two_button" onClick={() => bellClickHandler(vote.id)}><FontAwesomeIcon icon={faBell} /></button>
                     </div>
 
                     <div className="voting-header">
