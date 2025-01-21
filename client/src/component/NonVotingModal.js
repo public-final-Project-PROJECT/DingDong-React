@@ -13,32 +13,22 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
     const closeModalHandler = () => {
         setNonStudentModalShow(false);
         setNonVotingModal(false);
-        console.log(nonVoters)
-        console.log(voteId)
-        // console.log(filteredNonVoters)
     };
 
 
-    // const filteredNonVoters = nonVoters.filter(student => 
-    //     !votedStudentIds.includes(student.studentId) 
-    // );
-
-    // console.log(filteredNonVoters); 
-
      const votingNonStudentAlert = async (studentId, voteId) => {
 
-        console.log(voteId);
         try {
             const response = await axios.post(
               `http://localhost:3013/api/alert/votingUserAlertSave`,
               {
-                classId: selectedClassId,  // 학급 id
+                classId: selectedClassId, 
                 studentId : studentId,
                 votingId : voteId
               },
        
             );
-            console.log(response.data);
+            alert("미 투표 학생에게 알림을 보냅니다 !");
             return response.data;
             
           } catch (error) {
@@ -59,12 +49,12 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
                 <span className="non-voters">
                     <strong className="nonVoting-title">[ 미투표 학생 ]</strong><br/><br/>
                     <h4 className="non-voting-modal-title"> 투표 알림을 보낼 학생을 선택해주세요</h4><hr/>
-                    {console.log(nonVoters)}
+                    
                     <div className="non-voting-students-grid">
                     {nonVoters.map(student => (
                     <div key={student.id} className="student-info-row">
                         <div className="student-info-row">{student.name}</div>
-                        <button className="bell_icon" onClick={() => votingNonStudentAlert(student.id)}><FontAwesomeIcon icon={faBell} /></button>
+                        <button className="bell_icon" onClick={() => votingNonStudentAlert(student.id, voteId)}>  <FontAwesomeIcon icon={faBell} /></button>
                     </div>
                     ))}
                     </div>

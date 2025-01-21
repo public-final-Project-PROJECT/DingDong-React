@@ -6,43 +6,44 @@ import axios from "axios";
 import  '../asset/css/NewVoting.css';
 import html2canvas from "html2canvas";
 import { useUserData } from "../hooks/useUserData";
+import { useNavigate } from "react-router-dom";
 
-const Voting = ({newVotingModal,setNewVotingModal}) => {
+const Voting = ({newVotingModal,setNewVotingModal, newStateValue, setNewStateValue}) => {
   const { selectedClassId } = useUserData();
 
-  const [dateShow, setDateShow] = useState(false); // 날짜 입력 창 show
+  const [dateShow, setDateShow] = useState(false);
   const nextID = useRef(1);
 
-  const [title, setTitle] = useState(""); // 투표 제목
-  const [detail, setDetail] = useState(""); // 투표 설명
-  const [selectedOption, setSelectedOption] = useState(null); // 투표 옵션
-  const [anonymousVote, setAnonymousVote] = useState(false); // 비밀투표 여부
-  const [doubleVote, setDoubleVote] = useState(false); // 중복투표 가능 여부 
-  const [votingEnd, setVotingEnd] = useState();// 입력받을 마감일
-  const [inputItems, setInputItems] = useState([{ id: 0, voteOption: "" }]); // 투표 항목
+  const [title, setTitle] = useState(""); 
+  const [detail, setDetail] = useState(""); 
+  const [selectedOption, setSelectedOption] = useState(null); 
+  const [anonymousVote, setAnonymousVote] = useState(false); 
+  const [doubleVote, setDoubleVote] = useState(false); 
+  const [votingEnd, setVotingEnd] = useState();
+  const [inputItems, setInputItems] = useState([{ id: 0, voteOption: "" }]);
+  const navigate = useNavigate();
   let arr = [];
 
 
-  // 투표 항목 추가
   const addInput = () => {
     const input = { id: nextID.current, voteOption: "" };
     setInputItems([...inputItems, input]);
     nextID.current += 1;
   };
 
-  // 투표 항목 삭제
+
   const deleteInput = (index) => {
     setInputItems(inputItems.filter((item) => item.id !== index));
   };
 
-  // 투표 항목 수정
+
   const handleChange = (e, index) => {
     const updatedItems = [...inputItems];
     updatedItems[index].voteOption = e.target.value;
     setInputItems(updatedItems);
   };
 
-  // 모달 초기화
+
   const resetModalState = () => {
     setTitle("");
     setDetail("");
@@ -52,23 +53,30 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
     setDateShow(false);
   };
 
-  // 투표 생성 API
+
   const send = async () => {
 
     try {
       const response = await axios.post(
         `http://localhost:3013/api/voting/newvoting`,
         {
-          classId: selectedClassId,  // 학급 id
-          votingName: title, // 제목
-          detail: detail, // 설명
-          votingEnd:votingEnd? votingEnd : null, // 마감일자
-          contents: arr, // 투표 항목들 
-          anonymousVote: anonymousVote,  // 비밀 투표 여부
-          doubleVote: doubleVote // 중복 투표 가능 여부 
+          classId: selectedClassId,  
+          votingName: title, 
+          detail: detail, 
+          votingEnd:votingEnd? votingEnd : null, 
+          contents: arr, 
+          anonymousVote: anonymousVote, 
+          doubleVote: doubleVote 
         },
  
       );
+      if(newStateValue == true){
+            setNewStateValue(false)
+      }else{
+            setNewStateValue(true)
+      }
+       
+      alert("투표가 생성되었습니다 !");
       return response;
       
     } catch (error) {
@@ -76,23 +84,23 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
     }
   };
 
-  // 투표 생성 처리
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setNewVotingModal(false);
     arr = inputItems.map((item) => item.voteOption);
    
     try {
-      await send(); // API 호출
-      resetModalState(); // 상태 초기화
-      // setModalShow(false); // 모달 닫기
+      await send(); 
+      resetModalState(); 
+      navigate("/voting");
       alert("투표가 생성되었습니다!");
     } catch (error) {
       console.error("투표 생성 중 error:", error);
     }
   };
 
-  // 모달 취소 처리
+
   const cancelHandler = () => {
     resetModalState();
     setNewVotingModal(false);
@@ -119,22 +127,6 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
       {children}
     </label>
   );
-
-  const onClickDownloadButton = () => {
-    const target = document.getElementById("download");
-    if (!target) {
-      return alert("사진 저장에 실패했습니다.");
-    }
-    html2canvas(target).then((canvas) => {
-      const link = document.createElement("a");
-      document.body.appendChild(link);
-      link.href = canvas.toDataURL("image/png");
-      link.download = "Haru4cut.png"; // 다운로드 이미지 파일 이름
-      link.click();
-      document.body.removeChild(link);
-    });
-  };
-  
 
   return (
     <>
@@ -237,15 +229,6 @@ const Voting = ({newVotingModal,setNewVotingModal}) => {
                 </RadioGroup>
 
                 <br/>
-                <label><FontAwesomeIcon icon={faCheckDouble} /> 중복투표 여부</label>
-                <RadioGroup>
-                  <Radio name="doubleVoting" value="true" defaultChecked>
-                  &nbsp;단독투표 &emsp;
-                  </Radio>
-                  <Radio name="doubleVoting" value="false">
-                  &nbsp;중복투표
-                  </Radio>
-                </RadioGroup>
                   </div>
 
                 </div>

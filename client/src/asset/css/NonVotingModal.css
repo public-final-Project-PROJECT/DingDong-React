@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     max-width: 600px;
+    max-height: 680px;
     margin-top: 10%;
     margin-left: 35%;
     border-radius: 4px;
@@ -10,6 +11,7 @@
     font-size: 16px;
     background-color: #fff;
     box-shadow: 2px 2px 2px 2px #ccc;
+    overflow-y: scroll;
 }
 
 .non-voting-modal button {
@@ -35,4 +37,18 @@
     background-color: #fff;
     color: red;
     font-weight: bold;
+}
+
+.newVoting-save-button {
+    background-color: #fff;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    margin-right: 13px;
+    font-size: 14px;
+    border-radius: 4px;
+    width: 65px;
+    height: 30px;
+    font-weight: bold;
+    margin-top: 19px;
+    margin-left: 235px;
 }
