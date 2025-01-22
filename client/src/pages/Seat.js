@@ -142,7 +142,6 @@ useEffect(() => {
 
 const seatTable = async () => {
     try {
-      console.log(selectedClassId);
         const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: selectedClassId });
 
         setLoadedSeats(response.data);
@@ -421,6 +420,7 @@ const saveStudentsAPI2 = async (updatedSeats) => {
               <button className='modify_button' onClick={modifyHandler}>
               <FontAwesomeIcon icon={faUserGroup} />   <FontAwesomeIcon icon={faRepeat} />
               </button>
+              
               {modifyButtonShow && 
                 <>
                 <h8 className="seatChange-modify">자리를 클릭하여 좌석을 변경하세요</h8>

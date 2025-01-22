@@ -7,7 +7,7 @@ import axios from "axios";
 import { useUserData } from "../hooks/useUserData";
 
 const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
-    const [nonVotingModal, setNonVotingModal] = useState(true); // 모달 on/off
+    const [nonVotingModal, setNonVotingModal] = useState(true); 
     const { selectedClassId } = useUserData();
 
     const closeModalHandler = () => {

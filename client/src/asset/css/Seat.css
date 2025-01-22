@@ -36,7 +36,6 @@
   .teacher_table {
     padding: 10px 20px;
     background-color: rgb(95 167 91);
-    border-radius: 12px;
     color: white;
     border: none;
     font-size: 24px;
@@ -143,9 +142,15 @@
     font-size: 20px;
     background-color: #4caf50;
     color: white;
-    border: none;
+    border: 2px solid #4CAF50;
     border-radius: 9px;
     margin-left: 6px;
+  }
+
+  .register-button:hover {
+    background-color: #fff;
+    color: #076c07;
+    border: 2px solid #076c07;
   }
   
   .register-button.red-button {
@@ -157,6 +162,23 @@
     cursor: not-allowed;
   }
   
+  .empty-seat-update {
+    background-color: #fff;
+    border: 2px solid #4CAF50;
+    color: #4CAF50;
+    font-size: 16px;
+    border-radius: 9px;
+    width: 110px;
+    height: 40px;
+    font-weight: bold;
+  }
+
+  .empty-seat-update:hover {
+    background-color: #fff;
+    color: #076c07;
+    border: 2px solid #076c07;
+  }
+
   .print_icon {
     font-size: 20px;
     color: #333;

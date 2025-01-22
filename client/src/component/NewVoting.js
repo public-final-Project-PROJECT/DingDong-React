@@ -9,7 +9,7 @@ import { useUserData } from "../hooks/useUserData";
 import { useNavigate } from "react-router-dom";
 
 
-const Voting = ({setModalShow,newVotingModal, setNewVotingModal, newStateValue, setNewStateValue}) => {
+const Voting = ({newVotingModal, setModalShow, setNewVotingModal, onVoteCreated, newStateValue, setNewStateValue}) => {
   const { selectedClassId } = useUserData();
 
   const [dateShow, setDateShow] = useState(false);
@@ -22,7 +22,6 @@ const Voting = ({setModalShow,newVotingModal, setNewVotingModal, newStateValue, 
   const [doubleVote, setDoubleVote] = useState(false); 
   const [votingEnd, setVotingEnd] = useState();
   const [inputItems, setInputItems] = useState([{ id: 0, voteOption: "" }]);
-  const navigate = useNavigate();
   let arr = [];
 
 
@@ -56,50 +55,43 @@ const Voting = ({setModalShow,newVotingModal, setNewVotingModal, newStateValue, 
 
 
   const send = async () => {
-
+    const arr = inputItems.map(item => item.voteOption).filter(option => option !== "");
     try {
-      const response = await axios.post(
-        `http://localhost:3013/api/voting/newvoting`,
-        {
-          classId: selectedClassId,  
-          votingName: title, 
-          detail: detail, 
-          votingEnd:votingEnd? votingEnd : null, 
-          contents: arr, 
-          anonymousVote: anonymousVote, 
-          doubleVote: doubleVote 
-        },
- 
-      );
-      if(newStateValue == true){
-            setNewStateValue(false)
-      }else{
-            setNewStateValue(true)
-      }
-       
-      alert("투표가 생성되었습니다 !");
-      return response;
-      
+        const response = await axios.post(`http://localhost:3013/api/voting/newvoting`, {
+            classId: selectedClassId,
+            votingName: title,
+            detail: detail,
+            votingEnd: votingEnd || null,
+            contents: arr,  
+            anonymousVote: anonymousVote,
+            doubleVote: doubleVote,
+        });
+        if (onVoteCreated) {
+            onVoteCreated();
+        }
+        return response;
     } catch (error) {
-      console.error("투표 생성 api error:", error.response || error.message);
+        console.error("투표 생성 api error:", error.response || error.message);
     }
-  };
+};
 
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await send(); 
+            alert("투표가 생성되었습니다!");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setNewVotingModal(false);
-    arr = inputItems.map((item) => item.voteOption);
-   
-    try {
-      await send(); 
-      resetModalState(); 
+            setModalShow && setModalShow(false);
+            setNewVotingModal && setNewVotingModal(false);
 
-      alert("투표가 생성되었습니다!");
-    } catch (error) {
-      console.error("투표 생성 중 error:", error);
-    }
-  };
+          
+            if (onVoteCreated) {
+                onVoteCreated();
+            }
+        } catch (error) {
+            console.error("투표 생성 중 error:", error);
+        }
+      };
 
 
   const cancelHandler = () => {
