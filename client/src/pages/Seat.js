@@ -142,7 +142,6 @@ useEffect(() => {
 
 const seatTable = async () => {
     try {
-      console.log(selectedClassId);
         const response = await axios.post('http://localhost:3013/api/seat/findAllSeat', { classId: selectedClassId });
 
         setLoadedSeats(response.data);
@@ -421,7 +420,6 @@ const saveStudentsAPI2 = async (updatedSeats) => {
               <button className='modify_button' onClick={modifyHandler}>
               <FontAwesomeIcon icon={faUserGroup} />   <FontAwesomeIcon icon={faRepeat} />
               </button>
-              <button className="empty-seat-update" onClick={() => modifyEmptySeats ? setModifyEmptySeats(false):setModifyEmptySeats(true)}>빈좌석 수정</button>
               
               {modifyButtonShow && 
                 <>

@@ -12,26 +12,26 @@ import { useNavigate } from "react-router-dom";
 
 const Voting = () => {
     const { selectedClassId } = useUserData();
-    const [newVotingModal, setNewVotingModal] = useState(false); // 투표 만들기 모달
+    const [newVotingModal, setNewVotingModal] = useState(false);
     const [idVoteState, setIdVoteState] = useState(false);
-    const [votingData, setVotingData] = useState([]); // 투표 기본 정보 요청 response 담음
+    const [votingData, setVotingData] = useState([]); 
     const [contentsData, setContentsData] = useState({});
     const [modalShow, setModalShow] = useState(false);
     const [rere, setRere] = useState(false);
-    const [voteResults, setVoteResults] = useState([{}]); // 투표 결과
-    const [studentInfo, setStudentInfo] = useState({}); // 학생 정보 담기
-    const [nonStudentModalShow, setNonStudentModalShow] = useState(false); // 투표 안한 학생 보기 모달
-    const [isMaxVoted, setIdMaxVoted] = useState(); // 가장 많은 득표수를 받은 투표
-    const [nonVotingModal, setNonVotingModal] = useState(true); // 모달 on/off
-    const [voteStudentsShow, setVoteStudentsShow] = useState(false); // 투표 한 학생들 보기
+    const [voteResults, setVoteResults] = useState([{}]); 
+    const [studentInfo, setStudentInfo] = useState({}); 
+    const [nonStudentModalShow, setNonStudentModalShow] = useState(false); 
+    const [isMaxVoted, setIdMaxVoted] = useState(); 
+    const [nonVotingModal, setNonVotingModal] = useState(true);
+    const [voteStudentsShow, setVoteStudentsShow] = useState(false); 
     const [activeContent, setActiveContent] = useState({});
-    const [newStateValue, setNewStateValue] = useState();
+    const [newStateValue, setNewStateValue] = useState(false);
+    const [oneMoreState, setOneMoreState] = useState();
     const navigate = useNavigate();
 
     
     const findClassByStudentsName = async () => {
         try {
-            console.log(selectedClassId);
             const response = await axios.post(
                 'http://localhost:3013/api/voting/findStudentsName',
                 { classId: selectedClassId },
@@ -67,34 +67,46 @@ const Voting = () => {
         }
     };
 
-    useEffect(() => {
-        const fetchInitialData = async () => {
-            try {
-                const votingResponse = await Send();
-                if (votingResponse && votingResponse.length > 0) {
-                    const allContents = {};
-  
-                    for (const vote of votingResponse) {
-                        const contents = await contentsSend(vote.id);
-                        allContents[vote.id] = contents;
-                        await optionSend(vote.id);
-                    }
-                    setContentsData(allContents);
+    const fetchInitialData = async () => {
+        try {
+            const votingResponse = await Send(); 
+            if (votingResponse && votingResponse.length > 0) {
+                const allContents = {};
+                for (const vote of votingResponse) {
+                    const contents = await contentsSend(vote.id); 
+                    allContents[vote.id] = contents; 
+                    await optionSend(vote.id); 
                 }
-
-                const studentData = await findClassByStudentsName();
-                const studentMap = studentData.reduce((map, student) => {
-                    map[student.studentId] = { id:student.studentId, name: student.studentName, img: student.studentImg };
-                    return map;
-                }, {}); 
-                setStudentInfo(studentMap);
-            } catch (error) {
-                console.error("useEffect Error :", error);
+                setContentsData(allContents); 
             }
-        };
+    
+            const studentData = await findClassByStudentsName();
+            const studentMap = studentData.reduce((map, student) => {
+                map[student.studentId] = {
+                    id: student.studentId,
+                    name: student.studentName,
+                    img: student.studentImg,
+                };
+                return map;
+            }, {});
+            setStudentInfo(studentMap); 
+        } catch (error) {
+            console.error("fetchInitialData Error:", error);
+        }
+    };
+    
 
+    useEffect(() => {
         fetchInitialData();
-    }, [idVoteState, newStateValue, modalShow]);
+    }, [idVoteState, newStateValue, modalShow]); 
+    
+    const handleVoteCreated = async () => {
+        try {
+            await fetchInitialData(); 
+        } catch (error) {
+            console.error("Error updating voting data:", error);
+        }
+    };
 
 
     const Send = async () => {
@@ -116,15 +128,16 @@ const Voting = () => {
         try {
             const response = await axios.post(
                 `http://localhost:3013/api/voting/findContents`,
-                { votingId: votingId },
+                { votingId: votingId }
             );
-
             return response.data;
         } catch (error) {
-            console.error(`vote contents 데이터 오류  ${votingId}:`, error);
+            console.error(`Error fetching contents for voting ID ${votingId}:`, error);
             return [];
+            
         }
     };
+    
 
     
     function endHandler(voteId){ 
@@ -214,17 +227,26 @@ const Voting = () => {
             </div>
 
             {newVotingModal && <NewVoting setNewVotingModal={setNewVotingModal} newVotingModal={newVotingModal} />}
-            {modalShow && (
-                <NewVoting
-                    setModalShow={setModalShow}
-                    modalShow={modalShow}
-                    setRere={setRere}
-                    rere={rere}
-                    newStateValue={newStateValue}
-                    setNewStateValue = {setNewStateValue}
-                />
-            )}
-            <div className="voting-container">
+
+            {newVotingModal && (
+                    <NewVoting
+                        setNewVotingModal={setNewVotingModal}
+                        newVotingModal={newVotingModal}
+                        onVoteCreated={handleVoteCreated} 
+                    />
+                )}
+                            {modalShow && (
+                        <NewVoting
+                            setModalShow={setModalShow}
+                            modalShow={modalShow}
+                            setRere={setRere}
+                            rere={rere}
+                            newStateValue={newStateValue}
+                            setNewStateValue={setNewStateValue} 
+                            onVoteCreated={handleVoteCreated}
+                        />
+                    )}
+                            <div className="voting-container">
              {Array.isArray(votingData) &&
                 votingData.map((vote) => {
                 
