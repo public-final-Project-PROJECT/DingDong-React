@@ -8,7 +8,8 @@ import html2canvas from "html2canvas";
 import { useUserData } from "../hooks/useUserData";
 import { useNavigate } from "react-router-dom";
 
-const Voting = ({newVotingModal,setNewVotingModal, newStateValue, setNewStateValue}) => {
+
+const Voting = ({setModalShow,newVotingModal, setNewVotingModal, newStateValue, setNewStateValue}) => {
   const { selectedClassId } = useUserData();
 
   const [dateShow, setDateShow] = useState(false);
@@ -93,7 +94,7 @@ const Voting = ({newVotingModal,setNewVotingModal, newStateValue, setNewStateVal
     try {
       await send(); 
       resetModalState(); 
-      navigate("/voting");
+
       alert("투표가 생성되었습니다!");
     } catch (error) {
       console.error("투표 생성 중 error:", error);

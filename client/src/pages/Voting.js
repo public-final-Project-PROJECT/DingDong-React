@@ -25,7 +25,8 @@ const Voting = () => {
     const [nonVotingModal, setNonVotingModal] = useState(true); // 모달 on/off
     const [voteStudentsShow, setVoteStudentsShow] = useState(false); // 투표 한 학생들 보기
     const [activeContent, setActiveContent] = useState({});
-    const [newStateValue, setNewStateValue] = useState();
+    const [newStateValue, setNewStateValue] = useState(false);
+    const [oneMoreState, setOneMoreState] = useState();
     const navigate = useNavigate();
 
     
@@ -94,7 +95,7 @@ const Voting = () => {
         };
 
         fetchInitialData();
-    }, [idVoteState, newStateValue, modalShow]);
+    }, [idVoteState, newStateValue, modalShow, setNewStateValue]);
 
 
     const Send = async () => {
