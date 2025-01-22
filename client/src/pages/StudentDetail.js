@@ -100,7 +100,7 @@ const StudentDetail = () => {
     <span className="data">
         {student.studentImg ? (
             <img
-                src={`http://localhost:3013${student.studentImg}`}
+                src="/1.webp"
                 alt="학생 프로필"
                 className="student-img"
             />

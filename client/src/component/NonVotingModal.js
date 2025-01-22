@@ -16,7 +16,7 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
     };
 
 
-     const votingNonStudentAlert = async (studentId, voteId) => {
+    const votingNonStudentAlert = async (studentId, voteId) => {
 
         try {
             const response = await axios.post(
@@ -35,36 +35,41 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
             console.error("투표 생성 api error:", error.response || error.message);
           }
 
-         }
-
+    }
 
     return (
         <ReactModal
-            isOpen={nonVotingModal}
-            className="non-voting-modal"
-            contentLabel="nonVoting 학생 modal"
-            appElement={document.getElementById("root")}
-        >
-            {nonVoters.length > 0 ? (
-                <span className="non-voters">
-                    <strong className="nonVoting-title">[ 미투표 학생 ]</strong><br/><br/>
-                    <h4 className="non-voting-modal-title"> 투표 알림을 보낼 학생을 선택해주세요</h4><hr/>
-                    
-                    <div className="non-voting-students-grid">
+        isOpen={nonVotingModal}
+        className="non-voting-modal"
+        contentLabel="nonVoting 학생 modal"
+        appElement={document.getElementById("root")}
+        overlayClassName="non-voting-modal-overlay" // overlay에 클래스 추가
+    >
+        {nonVoters.length > 0 ? (
+            <span className="non-voters">
+                <strong className="nonVoting-title">[ 미투표 학생 ]</strong>
+                <br />
+                <br />
+                <h4 className="non-voting-modal-title"> 투표 알림을 보낼 학생을 선택해주세요</h4>
+                <hr />
+                <div className="non-voting-students-grid">
                     {nonVoters.map(student => (
-                    <div key={student.id} className="student-info-row">
-                        <div className="student-info-row">{student.name}</div>
-                        <button className="bell_icon" onClick={() => votingNonStudentAlert(student.id, voteId)}>  <FontAwesomeIcon icon={faBell} /></button>
-                    </div>
+                        <div key={student.id} className="student-info-row">
+                            <div className="student-info-row">{student.name}</div>
+                            <button className="bell_icon" onClick={() => votingNonStudentAlert(student.id, voteId)}>
+                                <FontAwesomeIcon icon={faBell} />
+                            </button>
+                        </div>
                     ))}
-                    </div>
-                    <br />
-                </span>
-            ) : (
-                <p style={{color:"red"}}>모든 학생이 투표를 완료했습니다.</p> 
-            )}
-            <button className="NonVotingModal-close-button" onClick={closeModalHandler}>닫기</button>
-        </ReactModal>
+                </div>
+                <br />
+            </span>
+        ) : (
+            <p style={{ color: "red" }}>모든 학생이 투표를 완료했습니다.</p>
+        )}
+        <button className="NonVotingModal-close-button" onClick={closeModalHandler}>닫기</button>
+    </ReactModal>
+    
     );
 };
 
