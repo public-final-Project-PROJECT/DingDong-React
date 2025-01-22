@@ -166,28 +166,20 @@ const Calendar = ({showControls = true}) => {
 
     // 이벤트 생성 처리
     const handleCreateEvent = () => {
-        if (selectedRange.start) {
+        if (selectedRange.start ) {
             const newEvent = {
                 id: `${events.length + 1}`,
                 title: eventDescription,
 
-                start: new Date(selectedRange.start),
-                end: new Date(selectedRange.end),
+                start: selectedRange.start,
+                end: selectedRange.end,
                 className: ['user_event'],
 
             };
-            console.log('selectedRange.start:', selectedRange.start);
-            console.log('selectedRange.end:', selectedRange.end);
-
-            setSelectedEvent(newEvent);
-            setIsModalOpen(true);
             setEvents((prevEvents) => [...prevEvents, newEvent]);
 
-
             setEventDescription('');
-            setSelectedRange({start: null, end: null, color: ''});
-
-
+            setSelectedRange({ start: null, end: null, color: '' });
         }
     };
 
