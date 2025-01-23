@@ -152,13 +152,14 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
               <p className="existing-file">수정전 이미지 - {updateNotice.noticeImgName}</p>
             )}
         </div>
+
         <div className="formGroup-file">
           <input
-              type="text"
+              type="file"
               readOnly
               placeholder="수정할 파일을 선택하세요"
-              value={updateNotice.noticeFileName}
               className="file-update-name"
+              
           />
             {updateNotice.noticeImgName && (
               <p className="existing-file">
@@ -166,6 +167,8 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
               </p>
             )}
         </div>
+
+      
         <div className="button-group">
           <button type="submit" className="button-primary">수정하기</button>
           <button type="button" className="button-secondary" onClick={() => { closeModal(); navigate(`/notice/${id}`); }}>

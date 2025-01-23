@@ -80,7 +80,6 @@ const NoticeInsert = ({ closeModal }) => {
                 }
             );
 
-            
             const noticeId = response.data.noticeId;
             alert(`공지사항이 등록되었습니다`);
 
@@ -108,7 +107,7 @@ const NoticeInsert = ({ closeModal }) => {
             closeModal();
         } catch (error) {
             console.error("등록 오류:", error);
-            //alert("등록에 실패했습니다.");
+            alert("등록에 실패했습니다.");
         }
     };
 

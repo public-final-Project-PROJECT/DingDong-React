@@ -32,6 +32,17 @@
     padding-left: 30px; /* 왼쪽에 조금의 여백 추가 */
 }
 
+.data img {
+    width: 100px;
+    height: 100px;
+    margin-left: 35%;
+}
+
+.info-row data img {
+    width: 50px;
+    height: 50px;
+}
+
 /* 각 정보 항목 */
 .info-row {
     display: flex;
@@ -45,6 +56,18 @@
     border-top: 1px solid #ddd;
 }
 
+.info-label-profile {
+    font-weight: bold;
+    font-size: 15px;
+    color: #333;
+    min-width: 110px;
+    text-align: center;
+    border-right: 1px solid #d1d1d1;
+    margin-left: 10px;
+    /* padding: 5px; */
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
 
 /* 정보 레이블 (왼쪽에 고정) */
 .info-label {

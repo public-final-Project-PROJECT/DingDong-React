@@ -96,7 +96,7 @@ const StudentDetail = () => {
                     <h1 className="student_info">학생 정보</h1>
             <div className="student-info-card">
             <div className="info-row">
-    <span className="info-label">프로필</span>
+    <span className="info-label-profile">프로필</span>
     <span className="data">
         {student.studentImg ? (
             <img
