@@ -12,8 +12,6 @@ import mainback from '../asset/images/all.jpg';
 import mainback2 from '../asset/images/byong.jpg';
 import mainback3 from '../asset/images/dark.jpg';
 import axios from "axios";
-import {FaPlus} from "react-icons/fa";
-import NoticeInsert from "./NoticeRegister";
 
 const Main = () => {
     const {teacherId, classCount, schoolName, selectedClassId} = useUserData();
@@ -22,16 +20,15 @@ const Main = () => {
     const [error, setError] = useState(null);
     const [date, setDate] = useState("20241130");
     const [meal, setMeal] = useState([]);
-    const navigate = useNavigate();
-
     const [notices, setNotices] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [noticesPerPage] = useState(4);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const API_KEY = process.env.REACT_APP_FETCH_NEIS_KEY;
     const indexOfLastNotice = (currentPage + 1) * noticesPerPage;
     const indexOfFirstNotice = indexOfLastNotice - noticesPerPage;
     const currentNotices = notices.slice(indexOfFirstNotice, indexOfLastNotice);
+    const navigate = useNavigate();
+
     useEffect(() => {
         const delayCheck = setTimeout(() => {
             if (profile) {
@@ -40,12 +37,17 @@ const Main = () => {
                         alert("학급 정보가 존재하지 않아 생성 페이지로 이동합니다.");
                         navigate("/classmaker");
                     }
+                    else if (selectedClassId === 0) {
+                        alert("학급이 설정되어 있지 않습니다. 프로필로 이동합니다.");
+                        navigate("/profile");
+                    }
                 }
             }
-        }, 80);
+        }, 100);
 
         return () => clearTimeout(delayCheck);
     }, [profile, teacherId, classCount, navigate]);
+
     useEffect(() => {
         axios
             .get("http://localhost:3013/api/notice/view", {
@@ -57,8 +59,7 @@ const Main = () => {
             .catch((error) => {
                 console.error("Error fetching notices:", error);
             });
-    }, []);
-
+    }, [selectedClassId]);
 
     useEffect(() => {
         const neis = new Neis({
@@ -102,14 +103,9 @@ const Main = () => {
 
     return (
         <>
-
             <div className="">
                 <div className="innerMain">
-
-                    {/* {meal.length > 0 && <pre>{JSON.stringify(meal[0], null, 4)}</pre>} */}
                     <div className="mainlunch">
-
-
                         <div id="carouselExample" className="carousel slide" data-bs-ride="true">
                             <div className="carousel-inner">
                                 <div className="carousel-item active" width="400" height="200">
@@ -152,7 +148,7 @@ const Main = () => {
                                     <div className="carousel-caption d-none d-md-block">
                                         {meal.length > 0 ? (
                                             <>
-                                                <h2>모래의 급식</h2>
+                                                <h2>모레의 급식</h2>
                                                 <h5>{meal[2].MLSV_YMD}</h5>
                                                 <p>{cleanMealData(meal[2])}</p>
                                                 <p>Calories: {meal[2].CAL_INFO}</p>
@@ -174,14 +170,10 @@ const Main = () => {
                                 <span className="visually-hidden">Next</span>
                             </button>
                         </div>
-
-
                         <div className="notice-containermain">
                             <div className="notice-header">
                                 <h1>공지사항</h1>
-
                             </div>
-
                             {currentNotices.length === 0 ? (
                                 <p>공지사항이 없습니다.</p>
                             ) : (
@@ -189,11 +181,11 @@ const Main = () => {
                                     <table className="notice-table">
                                         <thead>
                                         <tr>
-                                            <th>번호</th>
+                                            <th>#</th>
                                             <th>카테고리</th>
                                             <th>제목</th>
                                             <th>내용</th>
-                                            <th>작성일/수정일</th>
+                                            <th>작성일</th>
                                         </tr>
                                         </thead>
                                         <tbody className="notice-tbody">
@@ -203,8 +195,8 @@ const Main = () => {
                                                 <td>{notice.noticeCategory}</td>
                                                 <td className="noticeTitle">{notice.noticeTitle}</td>
                                                 <td className="noticeContent">
-                                                    {notice.noticeContent.length > 15
-                                                        ? `${notice.noticeContent.substring(0, 30)}...`
+                                                    {notice.noticeContent.length > 10
+                                                        ? `${notice.noticeContent.substring(0, 11)}...`
                                                         : notice.noticeContent}
                                                 </td>
                                                 <td className="notice-content-date">{new Date(notice.updatedAt || notice.createdAt).toLocaleString()}</td>
@@ -214,36 +206,30 @@ const Main = () => {
                                     </table>
                                 </div>
                             )}
-
                             <div className="page-navigationmain">
-                                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
+                                <button className="noticeList-back-button" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0}>
                                     이전
                                 </button>
                                 <span>
                                     {currentPage + 1} / {Math.ceil(notices.length / noticesPerPage)}
                                   </span>
                                 <button
+                                    className="noticeList-next-button"
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage >= Math.ceil(notices.length / noticesPerPage) - 1}
                                 >
                                     다음
                                 </button>
                             </div>
-
-
                         </div>
-
-
                     </div>
                     <div className="custom-calendar">
                         <Calendar showControls={false}/>
                     </div>
-
                 </div>
             </div>
         </>
     );
 };
-
 
 export default Main;

@@ -1,7 +1,19 @@
+/* 모달 배경을 투명하게 설정 */
+.non-voting-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.2); /* 배경색을 흐리게 처리 */
+    position: fixed; /* 모달 배경을 화면 전체에 고정 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* 모달 자체의 스타일 */
 .non-voting-modal {
     display: flex;
     flex-direction: column;
     max-width: 600px;
+    max-height: 680px;
     margin-top: 10%;
     margin-left: 35%;
     border-radius: 4px;
@@ -10,11 +22,9 @@
     font-size: 16px;
     background-color: #fff;
     box-shadow: 2px 2px 2px 2px #ccc;
+    overflow-y: scroll;
 }
 
-.non-voting-modal button {
-    text-align: center;
-}
 
 .nonVoting-title {
     margin-bottom: 400px;
@@ -25,7 +35,7 @@
     font-size: 14px;
     border: 2px solid orangered;
     border-radius: 4px;
-    background-color: orangered;
+    background-color: orangered !important;
     color: #fff;
     width: 30%;
     margin: 0 auto;
@@ -35,4 +45,18 @@
     background-color: #fff;
     color: red;
     font-weight: bold;
+}
+
+.newVoting-save-button {
+    background-color: #fff;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    margin-right: 13px;
+    font-size: 14px;
+    border-radius: 4px;
+    width: 65px;
+    height: 30px;
+    font-weight: bold;
+    margin-top: 19px;
+    margin-left: 235px;
 }

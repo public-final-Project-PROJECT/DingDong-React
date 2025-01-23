@@ -68,7 +68,7 @@ const NoticeDetail = () => {
             {notice.noticeImg && (
               <div className="notice-image">
                 <img
-                  src={`http://localhost:3013${notice.noticeImg}`}
+                  src={`http://112.221.66.174:6892${notice.noticeImg}`}
                   alt="공지사항 이미지"
                   className="notice-img"
                 />
@@ -79,7 +79,7 @@ const NoticeDetail = () => {
                 <p>
                   첨부 파일{" "}
                   <a
-                    href={`http://localhost:3013${notice.noticeFile}`}
+                    href={`http://112.221.66.174:6892${notice.noticeFile}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="notice-file-link"

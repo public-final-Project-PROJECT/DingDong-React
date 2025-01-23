@@ -41,8 +41,8 @@ const Calendar = ({showControls = true}) => {
                 {
                     googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com",
                     className: "ko_event",
-                    color: "#FFDD57",
-                    textColor: "black",
+                    color: "rgb(86, 204, 86)",
+                    textColor: "white",
                 },
             ];
 
@@ -154,7 +154,7 @@ const Calendar = ({showControls = true}) => {
             prev.start === startDate ? {start: null, end: null, color: ''} : {
                 start: startDate,
                 end: endDate,
-                color: '#f0ad4e'
+                color: 'rgba(88, 157, 45, 0.17)'
             }
         );
     };
@@ -166,28 +166,20 @@ const Calendar = ({showControls = true}) => {
 
     // 이벤트 생성 처리
     const handleCreateEvent = () => {
-        if (selectedRange.start) {
+        if (selectedRange.start ) {
             const newEvent = {
                 id: `${events.length + 1}`,
                 title: eventDescription,
 
-                start: new Date(selectedRange.start),
-                end: new Date(selectedRange.end),
+                start: selectedRange.start,
+                end: selectedRange.end,
                 className: ['user_event'],
 
             };
-            console.log('selectedRange.start:', selectedRange.start);
-            console.log('selectedRange.end:', selectedRange.end);
-
-            setSelectedEvent(newEvent);
-            setIsModalOpen(true);
             setEvents((prevEvents) => [...prevEvents, newEvent]);
 
-
             setEventDescription('');
-            setSelectedRange({start: null, end: null, color: ''});
-
-
+            setSelectedRange({ start: null, end: null, color: '' });
         }
     };
 
@@ -358,6 +350,7 @@ const Calendar = ({showControls = true}) => {
                             left: 'prev,today',
                             center: 'title',
                             right: 'next',
+                            // backgroundColor: "rgba(88, 157, 45, 0.17)",
                         }}
 
                         eventContent={(arg) => {
@@ -367,13 +360,14 @@ const Calendar = ({showControls = true}) => {
                                         display: 'flex',
                                         alignItems: 'center',
                                         overflow: "hidden",
-                                        textOverflow: "ellipsis"
+                                        textOverflow: "ellipsis",
+                                        borderColor: "#205736",
                                     }}>
                     <span
                         style={{
                             width: '8px',
                             height: '8px',
-                            backgroundColor: arg.event.backgroundColor || '#000',
+                            backgroundColor: arg.event.backgroundColor || '#205736',
                             borderRadius: '50%',
                             marginRight: '5px'
 
@@ -396,8 +390,12 @@ const Calendar = ({showControls = true}) => {
                                 onClick={handleCreateEvent}
                                 style={{
                                     position: 'absolute',
-                                    top: '90px',
+                                    top: '107px',
                                     right: '480px',
+                                    backgroundColor: "#205736",
+                                    border:"#205736",
+                                    color: "#fff",
+
                                 }}
                             >
                                 생성
@@ -408,8 +406,11 @@ const Calendar = ({showControls = true}) => {
                                 onClick={handleUpdate}
                                 style={{
                                     position: 'absolute',
-                                    top: '90px',
+                                    top: '107px',
                                     right: '400px',
+                                    backgroundColor: "#205736",
+                                    color: "#fff",
+                                    border: "#205736",
                                 }}
                             >
                                 저장

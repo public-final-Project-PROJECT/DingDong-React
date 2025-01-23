@@ -77,7 +77,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     formData.append("noticeFile", updateNotice.noticeFile);
 
     try {
-      await axios.post(`http://localhost:3013/api/notice/update/${id}`, formData, {
+      await axios.post(`http://112.221.66.174:6892/api/notice/update/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -146,7 +146,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
             id="noticeImg"
             name="noticeImg"
             onChange={handleFileChange}
-            className="form-input"
+            className="image-update-name"
           ></input>
             {updateNotice.noticeImgName && (
               <p className="existing-file">수정전 이미지 - {updateNotice.noticeImgName}</p>

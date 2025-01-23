@@ -1,0 +1,72 @@
+{
+  "name": "lastdance_r",
+  "version": "0.1.1",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/google-calendar": "^6.1.15",
+    "@fullcalendar/interaction": "^6.1.15",
+    "@fullcalendar/react": "^6.1.15",
+    "@mui/material": "^6.2.1",
+    "@my-school.info/neis-api": "^1.0.0",
+    "@react-oauth/google": "^0.12.1",
+    "axios": "^1.7.9",
+    "bootstrap": "^5.3.3",
+    "cra-template": "1.2.0",
+    "crypto-js": "^4.2.0",
+    "date-fns": "^4.1.0",
+    "html2canvas": "^1.4.1",
+    "http-proxy-middleware": "^3.0.3",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
+    "mkcert": "^3.2.0",
+    "modal": "^0.2.0",
+    "neis": "^0.5.1",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.0.0",
+    "react-bootstrap": "^2.10.7",
+    "react-day-picker": "^9.5.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.4.0",
+    "react-modal": "^3.16.3",
+    "react-router-dom": "^7.1.0",
+    "react-scripts": "^5.0.1",
+    "react-to-print": "^3.0.2"
+  },
+  "scripts": {
+    "start": "cross-env PORT=1557 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "cross-env": "^7.0.3"
+  }
+}

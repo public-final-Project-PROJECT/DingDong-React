@@ -21,7 +21,8 @@ const Login = () =>
 
     return (
         <div>
-            <h1 className="logo">대충 이 쯤에<br/>로고가 있으면<br/>좋을 것 같다.<br/>아님 말고...</h1>
+            <img src="/logo.png" className="logo" alt="logo" />
+            {/* <span className="message">교사와 초등학생을 위한 학급 관리 시스템</span> */}
             <div className="Login">
             <GoogleOAuthProvider clientId={clientId}>
                 <GoogleLoginButton />

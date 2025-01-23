@@ -15,7 +15,7 @@ const DrawingApp = () => {
     const [history, setHistory] = useState([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
 
-    const canvasWidth = 1910;
+    const canvasWidth = 1920;
     const canvasHeight = 820;
 
     const colors = [
@@ -434,7 +434,7 @@ const styles = {
 
     ironFrame: {
         width: "100%",
-        height: "50px",
+        height: "55px",
         background: "linear-gradient(135deg, #e0e0e0, #b0b0b0, #e0e0e0)",
         borderTop: "5px solid #a0a0a0",
         borderRadius: "0 0 10px 10px",
@@ -458,7 +458,7 @@ const styles = {
     },
 
     toolbar: {
-        marginTop: "-37px", marginLeft: "25px", display: "flex", alignItems: "center"
+        marginTop: "-40px", marginLeft: "25px", display: "flex", alignItems: "center"
     },
 
     buttonContainer: {
