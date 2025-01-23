@@ -59,7 +59,7 @@ const Main = () => {
             .catch((error) => {
                 console.error("Error fetching notices:", error);
             });
-    }, []);
+    }, [selectedClassId]);
 
     useEffect(() => {
         const neis = new Neis({
@@ -181,11 +181,11 @@ const Main = () => {
                                     <table className="notice-table">
                                         <thead>
                                         <tr>
-                                            <th>번호</th>
+                                            <th>#</th>
                                             <th>카테고리</th>
                                             <th>제목</th>
                                             <th>내용</th>
-                                            <th>작성일/수정일</th>
+                                            <th>작성일</th>
                                         </tr>
                                         </thead>
                                         <tbody className="notice-tbody">
@@ -195,8 +195,8 @@ const Main = () => {
                                                 <td>{notice.noticeCategory}</td>
                                                 <td className="noticeTitle">{notice.noticeTitle}</td>
                                                 <td className="noticeContent">
-                                                    {notice.noticeContent.length > 15
-                                                        ? `${notice.noticeContent.substring(0, 30)}...`
+                                                    {notice.noticeContent.length > 10
+                                                        ? `${notice.noticeContent.substring(0, 11)}...`
                                                         : notice.noticeContent}
                                                 </td>
                                                 <td className="notice-content-date">{new Date(notice.updatedAt || notice.createdAt).toLocaleString()}</td>

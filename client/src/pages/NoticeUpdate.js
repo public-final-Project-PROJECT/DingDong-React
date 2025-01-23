@@ -77,7 +77,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     formData.append("noticeFile", updateNotice.noticeFile);
 
     try {
-      await axios.post(`http://localhost:3013/api/notice/update/${id}`, formData, {
+      await axios.post(`http://112.221.66.174:6892/api/notice/update/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

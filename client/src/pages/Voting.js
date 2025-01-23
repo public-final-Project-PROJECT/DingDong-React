@@ -366,7 +366,7 @@ const Voting = () => {
                                                     const student = studentInfo[studentId];
                                                     return student ? (
                                                         <div key={studentId} className="student-info">
-                                                        <img src={student.img} className="student-img" />
+                                                        <img src={`http://112.221.66.174:6892${student.img}`} className="student-img" />
                                                         <span className="student-name">
                                                             {student.name}
                                                         </span>
