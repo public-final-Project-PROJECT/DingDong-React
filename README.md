@@ -11,6 +11,7 @@
 5. [개발 기간](#createDate)
 6. [화면 구성](#screen)
 7. [기술 스택](#stack)
+8. [개발 환경](#environment)
 <br/>
 
 ## 👨‍🏫 1. <span id="intro"> 프로젝트 소개  </span>
@@ -43,7 +44,7 @@
 
 <br/>
 
-## 📌 3.  <span id="funtion">레포지토리별 기능</span>
+## 📌 3.  <span id="function">레포지토리별 기능</span>
 
 📁 공지사항 : 
 <br/><tap/> ㄴ 📁 공지사항 작성 시 파일, 이미지 첨부 (첨부 파일명 보이게)
@@ -125,5 +126,15 @@ DataBase : Mysql, JPQL
 
 <br/>
 
+## <span id ="environment"> 💻 개발환경
 
+Version : Java 17
+
+IDE : IntelliJ
+
+Framework : SpringBoot 3.3.5
+
+ORM : JPA
+
+<br/>
 <br/>
