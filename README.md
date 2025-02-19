@@ -134,6 +134,12 @@ IDE : IntelliJ
 
 Framework : SpringBoot 3.3.5
 
+✒️ API
+---
+API 상세설명 및 WBS등 : https://docs.google.com/spreadsheets/d/1mn9WMDfLo1vYvy9EA5zeIRNXa2lYa9IOh1YfLuJMpbo/edit?gid=0#gid=0
+
+<br/>
+
 ORM : JPA
 
 <br/>
