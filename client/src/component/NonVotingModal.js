@@ -43,7 +43,6 @@ const NonVotingModal = ({ setNonStudentModalShow, nonVoters, voteId }) => {
             isOpen={nonVotingModal}
             className="non-voting-modal"
             contentLabel="nonVoting 학생 modal"
-            appElement={document.getElementById("root")}
         >
             {nonVoters.length > 0 ? (
                 <span className="non-voters">

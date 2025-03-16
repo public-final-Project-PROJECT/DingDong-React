@@ -161,7 +161,7 @@ function AttendanceTotal() {
                     {students.length > 0 ? (
                         students.map((student, index) => (
                             <tr className="attedanceStudentId" key={student.studentId}>
-                                <td className="attendanceNo">{index + 1}</td> {/* 학번 대신 인덱스 */}
+                                <td className="attendanceNo">{student.studentNo}</td> {/* 학번 대신 인덱스 */}
                                 <td className="click-studentDatail" onClick={() => studentDetail(student.studentId)}>
                                     {student.studentName || ""}
                                 </td>
