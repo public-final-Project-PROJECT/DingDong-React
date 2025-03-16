@@ -32,6 +32,12 @@
     padding-left: 30px; /* 왼쪽에 조금의 여백 추가 */
 }
 
+.data img {
+    width: 100px;
+    height: 100px;
+    margin-left: 35%;
+}
+
 /* 각 정보 항목 */
 .info-row {
     display: flex;

@@ -71,7 +71,7 @@ const NoticeInsert = ({ closeModal }) => {
 
         try {
             const response =  await axios.post(
-                "http://localhost:3013/api/notice/insert",
+                "http://112.221.66.174:6892/api/notice/insert",
                 formData,
                 {
                     headers: {

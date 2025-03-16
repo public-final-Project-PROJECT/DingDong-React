@@ -283,6 +283,13 @@ const Voting = () => {
                           <div className="voting-ing-horizontal-container">
                             <h6  style={{ color: "red" }}><FontAwesomeIcon icon={faCircle} /></h6>
                             <h3 className="voting-ing-gung">진행중</h3>
+                            {nonStudentModalShow && (
+                            <NonVotingModal
+                                setNonStudentModalShow={setNonStudentModalShow}
+                                nonVoters={nonVoters}
+                                voteId={vote.id}
+                            />
+                        )}
                           </div>
                         )}
                          {vote.vote && !isEnded && (
@@ -359,7 +366,7 @@ const Voting = () => {
                                                     const student = studentInfo[studentId];
                                                     return student ? (
                                                         <div key={studentId} className="student-info">
-                                                        <img src={student.img} className="student-img" />
+                                                        <img src={`http://112.221.66.174:6892${student.img}`} className="student-img" />
                                                         <span className="student-name">
                                                             {student.name}
                                                         </span>

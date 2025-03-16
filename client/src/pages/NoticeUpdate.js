@@ -77,7 +77,7 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
     formData.append("noticeFile", updateNotice.noticeFile);
 
     try {
-      await axios.post(`http://localhost:3013/api/notice/update/${id}`, formData, {
+      await axios.post(`http://112.221.66.174:6892/api/notice/update/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -142,51 +142,32 @@ const NoticeUpdate = ({ closeModal, id, setNotices }) => {
         </div>
         <div className="formGroup-image">
           <input
-              type="text" placeholder="이미지를 선택하세요."
-              value={notice.noticeImgName}
-              readOnly
-              className="image-upload-name"
-          />
-          <input
-              type="file"
-              id="noticeImg"
-              name="noticeImg"
-              onChange={handleFileChange}
-              className="image-input"
-          />
-          <label htmlFor="noticeImg" className="Image-upload-button">파일 선택</label>
-          {updateNotice.noticeImgName && (
+            type="file"
+            id="noticeImg"
+            name="noticeImg"
+            onChange={handleFileChange}
+            className="image-update-name"
+          ></input>
+            {updateNotice.noticeImgName && (
               <p className="existing-file">수정전 이미지 - {updateNotice.noticeImgName}</p>
-          )}
+            )}
         </div>
         <div className="formGroup-file">
           <input
-              type="text"
-              placeholder="파일을 선택하세요"
-              value={notice.noticeFileName}
-              readOnly
-              className="file-upload-name"
-          />
-          <input
               type="file"
-              id="noticeFile"
-              name="noticeFile"
-              onChange={handleFileChange}
-              className="file-input"
+              readOnly
+              placeholder="수정할 파일을 선택하세요"
+              className="file-update-name"
           />
-          <label htmlFor="noticeFile" className="Image-upload-button">파일 선택</label>
-          {updateNotice.noticeFileName && (
+            {updateNotice.noticeImgName && (
               <p className="existing-file">
                 수정전 파일 - {updateNotice.noticeFileName}
               </p>
-          )}
+            )}
         </div>
         <div className="button-group">
           <button type="submit" className="button-primary">수정하기</button>
-          <button type="button" className="button-secondary" onClick={() => {
-            closeModal();
-            navigate(`/notice/${id}`);
-          }}>
+          <button type="button" className="button-secondary" onClick={() => { closeModal(); navigate(`/notice/${id}`); }}>
             취소
           </button>
         </div>
