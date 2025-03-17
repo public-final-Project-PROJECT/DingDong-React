@@ -33,6 +33,19 @@ const DrawingApp = () => {
         saveHistory();
     }, []);
 
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.ctrlKey && e.key === 'z') {
+                undo();
+            } else if (e.ctrlKey && e.key === 'y') {
+                redo();
+            }
+        };
+    
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [history, historyIndex]);
+
     const getCanvasCoordinates = (event) => {
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
