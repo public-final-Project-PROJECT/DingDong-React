@@ -314,14 +314,14 @@ const DrawingApp = () => {
                                 onClick={undo} 
                                 style={styles.iconButton}
                                 disabled={historyIndex <= 0}>
-                                <i className="fas fa-undo" title="되돌리기"/>
+                                <i className="fas fa-undo" title="되돌리기 (Ctrl + Z)"/>
                             </button>
                             <button 
                                 type="button"
                                 onClick={redo} 
                                 style={styles.iconButton}
                                 disabled={historyIndex >= history.length - 1}>
-                                <i className="fas fa-redo" title="다시 실행"/>
+                                <i className="fas fa-redo" title="다시 실행 (Ctrl + Y)"/>
                             </button>
                             <button
                                 onClick={toggleEraser}
